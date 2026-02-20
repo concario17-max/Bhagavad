@@ -5,7 +5,8 @@
   --color-nisha-bg: #0d1117;
   --color-prakash-primary: #854d0e;
   --color-nisha-primary: #fbbf24;
-  --font-crimson: "Crimson Pro", serif;
+  --font-crimson: "Crimson Pro", "Noto Serif", serif;
+  --font-noto: "Noto Serif", serif;
   --font-inter: "Inter", sans-serif;
 }
 
@@ -18,7 +19,7 @@ body {
 }
 
 .sanskrit-verse {
-  @apply font-serif text-2xl leading-loose text-prakash-primary dark:text-nisha-primary;
+  @apply font-serif text-xl leading-loose text-prakash-primary dark:text-nisha-primary;
 }
 
 /* Custom Scrollbar for a premium feel */

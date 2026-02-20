@@ -20,15 +20,39 @@ const VerseView = () => {
                     setAllChapters(data);
                     const chapter = data[chapterNum];
                     if (chapter) {
-                        const verse = chapter.verses.find(v => v.verse === parseInt(verseNum));
-                        setVerseData(verse);
+                        const targetVerseNum = parseInt(verseNum);
+                        // Find the verse that covers the requested number
+                        // Because some verses are grouped (e.g., 4, 5, 6 might all be under verse 4)
+                        const verseIndex = chapter.verses.findIndex((v, i, arr) => {
+                            const nextV = arr[i + 1];
+                            if (nextV) {
+                                return v.verse <= targetVerseNum && targetVerseNum < nextV.verse;
+                            }
+                            // For the last verse, it matches if target is >= verse.verse
+                            // But usually we just care about exact or within known range.
+                            // Let's just say if it's >= last verse start, it's the last verse.
+                            return v.verse <= targetVerseNum;
+                        });
+
+                        if (verseIndex !== -1) {
+                            const foundVerse = chapter.verses[verseIndex];
+                            setVerseData(foundVerse);
+
+                            // If the URL verse number is different from the canonical verse number (e.g. visited 5, found 4),
+                            // replace URL to canonical 4.
+                            if (foundVerse.verse !== targetVerseNum) {
+                                navigate(`/chapter/${chapterNum}/verse/${foundVerse.verse}`, { replace: true });
+                            }
+                        } else {
+                            console.warn(`Verse ${verseNum} not found in Chapter ${chapterNum}`);
+                        }
                     } else {
                         console.warn(`Chapter ${chapterNum} not found`);
                     }
                 }
             })
             .catch(err => console.error('Failed to load verse data:', err));
-    }, [chapterNum, verseNum]);
+    }, [chapterNum, verseNum, navigate]);
 
     useEffect(() => {
         // Reset audio state when verse changes
@@ -39,7 +63,7 @@ const VerseView = () => {
             audioRef.current.pause();
             audioRef.current.currentTime = 0;
         }
-    }, [chapterNum, verseNum]);
+    }, [chapterNum, verseNum]); // Keep this simple, it reacts to URL changes
 
     const getAudioSrc = (remoteUrl) => {
         if (!remoteUrl) return null;
@@ -83,29 +107,40 @@ const VerseView = () => {
     };
 
     const handlePrev = () => {
-        const currentV = parseInt(verseNum);
-        const currentC = parseInt(chapterNum);
+        if (!allChapters || !verseData) return;
 
-        if (currentV > 1) {
-            navigate(`/chapter/${currentC}/verse/${currentV - 1}`);
+        const currentC = parseInt(chapterNum);
+        const currentChapter = allChapters[currentC];
+        const currentIndex = currentChapter.verses.findIndex(v => v.verse === verseData.verse);
+
+        if (currentIndex > 0) {
+            // Go to previous verse in the same chapter
+            const prevVerse = currentChapter.verses[currentIndex - 1];
+            navigate(`/chapter/${currentC}/verse/${prevVerse.verse}`);
         } else if (currentC > 1) {
             // Go to previous chapter's last verse
             const prevChapter = allChapters[currentC - 1];
-            const lastVerseNum = prevChapter.verses.length;
-            navigate(`/chapter/${currentC - 1}/verse/${lastVerseNum}`);
+            const lastVerse = prevChapter.verses[prevChapter.verses.length - 1];
+            navigate(`/chapter/${currentC - 1}/verse/${lastVerse.verse}`);
         }
     };
 
     const handleNext = () => {
-        const currentV = parseInt(verseNum);
+        if (!allChapters || !verseData) return;
+
         const currentC = parseInt(chapterNum);
         const currentChapter = allChapters[currentC];
+        const currentIndex = currentChapter.verses.findIndex(v => v.verse === verseData.verse);
 
-        if (currentV < currentChapter.verses.length) {
-            navigate(`/chapter/${currentC}/verse/${currentV + 1}`);
+        if (currentIndex < currentChapter.verses.length - 1) {
+            // Go to next verse in the same chapter
+            const nextVerse = currentChapter.verses[currentIndex + 1];
+            navigate(`/chapter/${currentC}/verse/${nextVerse.verse}`);
         } else if (currentC < Object.keys(allChapters).length) {
             // Go to next chapter's first verse
-            navigate(`/chapter/${currentC + 1}/verse/1`);
+            const nextChapter = allChapters[currentC + 1];
+            const firstVerse = nextChapter.verses[0];
+            navigate(`/chapter/${currentC + 1}/verse/${firstVerse.verse}`);
         }
     };
 
@@ -127,23 +162,18 @@ const VerseView = () => {
                     <span className="text-gray-900 dark:text-gray-100 font-medium">Verse {verseNum}</span>
                 </nav>
 
-                {/* Header */}
-                <div className="rounded-lg bg-gray-100 dark:bg-gray-800 px-6 py-4 text-center mb-8 transition-colors">
-                    <h1 className="text-base font-medium uppercase tracking-wider text-gray-600 dark:text-gray-400">
-                        Bhagavad Gita: Chapter {chapterNum}, Verse {verseNum}
-                    </h1>
-                </div>
+
 
                 {/* Sanskrit */}
                 <section className="mb-8 text-center text-prakash-primary dark:text-nisha-primary">
-                    <p className="sanskrit-verse whitespace-pre-line text-2xl leading-loose font-medium">
+                    <p className="sanskrit-verse whitespace-pre-line leading-loose font-medium">
                         {verseData.sanskrit}
                     </p>
                 </section>
 
                 {/* Transliteration */}
                 <section className="mb-8 text-center text-gray-600 dark:text-gray-400">
-                    <p className="italic text-base leading-relaxed">
+                    <p className="font-noto italic text-base leading-relaxed whitespace-pre-line">
                         {verseData.iast}
                     </p>
                 </section>
@@ -210,7 +240,7 @@ const VerseView = () => {
                         <span className="text-gray-300 dark:text-gray-700 tracking-[6px] text-xs">•••</span>
                     </div>
                     <h2 className="mb-5 text-sm font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400">Translation</h2>
-                    <p className="text-lg leading-loose text-gray-800 dark:text-gray-200 font-inter">{verseData.translation_en}</p>
+                    <p className="text-lg leading-loose text-gray-800 dark:text-gray-200 font-inter min-h-[1.5em]"></p>
                 </section>
 
                 {/* Commentary */}
@@ -219,10 +249,7 @@ const VerseView = () => {
                         <span className="text-gray-300 dark:text-gray-700 tracking-[6px] text-xs">•••</span>
                     </div>
                     <h2 className="mb-5 text-sm font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400">Commentary</h2>
-                    <div className="text-lg leading-loose text-gray-700 dark:text-gray-300 space-y-4 font-inter">
-                        {verseData.commentary_en && verseData.commentary_en.split('\n').map((para, i) => (
-                            <p key={i}>{para}</p>
-                        ))}
+                    <div className="text-lg leading-loose text-gray-700 dark:text-gray-300 space-y-4 font-inter min-h-[1.5em]">
                     </div>
                 </section>
 
