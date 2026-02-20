@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { CHAPTER_DATA } from '../constants';
 
 const ChapterList = () => {
     const [chapters, setChapters] = useState([]);
@@ -30,32 +31,38 @@ const ChapterList = () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {chapters.map((ch) => (
-                    <Link
-                        key={ch.chapter}
-                        to={`/chapter/${ch.chapter}/verse/1`}
-                        className="group relative overflow-hidden p-6 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-prakash-primary dark:hover:border-nisha-primary shadow-sm hover:shadow-md transition-all duration-300"
-                    >
-                        <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                            <span className="text-6xl font-crimson font-bold text-gray-900 dark:text-white">
-                                {ch.chapter}
-                            </span>
-                        </div>
+                {chapters.map((ch) => {
+                    const chapterInfo = CHAPTER_DATA[ch.chapter];
+                    return (
+                        <Link
+                            key={ch.chapter}
+                            to={`/chapter/${ch.chapter}/verse/1`}
+                            className="group relative overflow-hidden p-6 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-prakash-primary dark:hover:border-nisha-primary shadow-sm hover:shadow-md transition-all duration-300"
+                        >
+                            <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                                <span className="text-6xl font-crimson font-bold text-gray-900 dark:text-white">
+                                    {ch.chapter}
+                                </span>
+                            </div>
 
-                        <div className="relative z-10">
-                            <span className="inline-block px-2 py-1 mb-3 text-xs font-semibold tracking-wider uppercase bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded">
-                                Chapter {ch.chapter}
-                            </span>
-                            <h2 className="text-xl font-bold mb-2 group-hover:text-prakash-primary dark:group-hover:text-nisha-primary transition-colors font-crimson">
-                                {ch.summary ? ch.name_translated : `Chapter ${ch.chapter}`}
-                            </h2>
-                            <p className="text-sm text-gray-500 dark:text-gray-400 font-inter flex items-center gap-2">
-                                <span className="w-1.5 h-1.5 rounded-full bg-prakash-primary dark:bg-nisha-primary"></span>
-                                {ch.verses.length} Verses
-                            </p>
-                        </div>
-                    </Link>
-                ))}
+                            <div className="relative z-10">
+                                <span className="inline-block px-2 py-1 mb-3 text-xs font-semibold tracking-wider uppercase bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded">
+                                    Chapter {ch.chapter}
+                                </span>
+                                <h2 className="text-xl font-bold mb-2 group-hover:text-prakash-primary dark:group-hover:text-nisha-primary transition-colors font-crimson">
+                                    {chapterInfo?.name || ch.name_translated}
+                                </h2>
+                                <p className="text-sm text-gray-500 dark:text-gray-400 font-inter mb-4 line-clamp-3">
+                                    {chapterInfo?.description}
+                                </p>
+                                <p className="text-xs text-gray-400 dark:text-gray-500 font-inter flex items-center gap-2">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-prakash-primary dark:bg-nisha-primary"></span>
+                                    {ch.verses.length} Verses
+                                </p>
+                            </div>
+                        </Link>
+                    );
+                })}
             </div>
         </div>
     );

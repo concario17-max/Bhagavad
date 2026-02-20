@@ -148,6 +148,18 @@ const VerseView = () => {
 
     const currentChapter = allChapters[chapterNum];
     const totalVerses = currentChapter.verses.length;
+
+    // Calculate display verse range (e.g., 4-6)
+    const getVerseRange = () => {
+        const idx = currentChapter.verses.findIndex(v => v.verse === verseData.verse);
+        const nextV = currentChapter.verses[idx + 1];
+        if (nextV && nextV.verse > verseData.verse + 1) {
+            return `${verseData.verse}-${nextV.verse - 1}`;
+        }
+        return verseData.verse;
+    };
+
+    const verseRange = getVerseRange();
     const progressPercent = duration ? (currentTime / duration) * 100 : 0;
 
     return (
@@ -159,7 +171,7 @@ const VerseView = () => {
                     <span>›</span>
                     <Link to={`/chapter/${chapterNum}/verse/1`} className="hover:text-prakash-primary dark:hover:text-nisha-primary transition-colors">Chapter {chapterNum}</Link>
                     <span>›</span>
-                    <span className="text-gray-900 dark:text-gray-100 font-medium">Verse {verseNum}</span>
+                    <span className="text-gray-900 dark:text-gray-100 font-medium">Verse {verseRange}</span>
                 </nav>
 
 
@@ -177,6 +189,15 @@ const VerseView = () => {
                         {verseData.iast}
                     </p>
                 </section>
+
+                {/* Korean Pronunciation */}
+                {verseData.korean_pronunciation && (
+                    <section className="mb-10 text-center text-gray-800 dark:text-gray-200">
+                        <p className="text-xl leading-relaxed whitespace-pre-line font-noto-kr font-medium tracking-wide">
+                            {verseData.korean_pronunciation}
+                        </p>
+                    </section>
+                )}
 
                 {/* Audio Player */}
                 <div className="mb-12 flex justify-center">
@@ -197,7 +218,7 @@ const VerseView = () => {
                             {isPlaying ? <Pause className="w-5 h-5 fill-current" /> : <Play className="w-5 h-5 fill-current" />}
                         </button>
 
-                        <div className="relative w-32 h-1 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden cursor-pointer"
+                        <div className="relative w-48 sm:w-80 h-1 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden cursor-pointer"
                             onClick={(e) => {
                                 if (!audioRef.current) return;
                                 const rect = e.currentTarget.getBoundingClientRect();
@@ -222,17 +243,21 @@ const VerseView = () => {
                     <div className="flex items-center justify-center mb-6">
                         <span className="text-gray-300 dark:text-gray-700 tracking-[6px] text-xs">•••</span>
                     </div>
-                    <h2 className="mb-5 text-sm font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400">Word Meanings</h2>
-                    <div className="grid grid-cols-1 gap-y-2 md:grid-cols-2 md:gap-x-8">
+                    <h2 className="mb-5 text-sm font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 text-center">Word Meanings</h2>
+                    <div className="grid grid-cols-1 gap-y-2 md:grid-cols-2 md:gap-x-8 max-w-2xl mx-auto px-4">
                         {verseData.words?.map((word, i) => (
-                            <div key={i} className="flex items-baseline gap-2 text-[15px] leading-relaxed">
-                                <span className="min-w-[120px] italic text-amber-800 dark:text-amber-500 font-crimson">{word.s}</span>
+                            <div key={i} className="flex items-baseline gap-2 text-[15px] leading-relaxed border-b border-gray-100 dark:border-gray-800/50 pb-1">
+                                <span className="min-w-[100px] italic text-amber-800 dark:text-amber-500 font-crimson font-medium">{word.s}</span>
                                 <span className="text-gray-300 dark:text-gray-700 shrink-0">—</span>
                                 <span className="flex-1 text-gray-700 dark:text-gray-300 font-inter">{word.m}</span>
                             </div>
                         ))}
                     </div>
                 </section>
+
+
+
+
 
                 {/* Translation */}
                 <section className="mb-10">
@@ -266,7 +291,7 @@ const VerseView = () => {
                         </button>
 
                         <span className="text-xs text-gray-400 dark:text-gray-500 font-medium">
-                            {verseNum} / {totalVerses}
+                            {verseRange} / {totalVerses}
                         </span>
 
                         <button

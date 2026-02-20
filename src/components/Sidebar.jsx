@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 import { ChevronDown, ChevronRight, BookOpen } from 'lucide-react';
+import { CHAPTER_DATA } from '../constants';
 
 const Sidebar = () => {
     const { chapterNum, verseNum } = useParams();
@@ -50,8 +51,8 @@ const Sidebar = () => {
                                 key={ch.chapter}
                                 onClick={() => toggleChapter(ch.chapter)}
                                 className={`w-full flex items-center justify-between px-4 py-3 text-left transition-colors ${isExpanded
-                                        ? 'bg-orange-100 dark:bg-gray-800 text-prakash-primary dark:text-nisha-primary font-bold'
-                                        : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+                                    ? 'bg-orange-100 dark:bg-gray-800 text-prakash-primary dark:text-nisha-primary font-bold'
+                                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
                                     }`}
                             >
                                 <div className="flex items-center gap-3">
@@ -59,7 +60,7 @@ const Sidebar = () => {
                                         {ch.chapter}.
                                     </span>
                                     <span className="text-sm truncate">
-                                        {ch.name_translated}
+                                        {CHAPTER_DATA[ch.chapter]?.name || ch.name_translated}
                                     </span>
                                 </div>
                                 <span className={`text-xs font-medium ${isExpanded ? 'text-prakash-primary dark:text-nisha-primary' : 'text-gray-400'}`}>
@@ -80,7 +81,21 @@ const Sidebar = () => {
                 </div>
                 <div className="py-2">
                     {currentChapter ? (
-                        currentChapter.verses.map((v) => {
+                        currentChapter.verses.map((v, idx) => {
+                            // Find the end verse if it's a range
+                            const nextV = currentChapter.verses[idx + 1];
+                            let displayVerse = `${currentChapter.chapter}.${v.verse}`;
+
+                            // Check for gap
+                            if (nextV && nextV.verse > v.verse + 1) {
+                                displayVerse = `${currentChapter.chapter}.${v.verse}-${nextV.verse - 1}`;
+                            } else if (!nextV) {
+                                // For the last verse, we might need to know the total count if given, 
+                                // but our JSON structure usually marks the end in the next verse's start.
+                                // If this is a grouped verse, it might have internal markers or we can handle it specially.
+                                // Based on gita.json, the last verses are rarely grouped at the end.
+                            }
+
                             // Verse text preview - taking first few words of IAST
                             const verseText = v.iast ? v.iast.split('\n')[0].substring(0, 40) + '...' : `Verse ${v.verse}`;
 
@@ -95,7 +110,7 @@ const Sidebar = () => {
                                         }`
                                     }
                                 >
-                                    <span className="min-w-[24px] font-medium text-xs opacity-70 mt-0.5">{currentChapter.chapter}.{v.verse}</span>
+                                    <span className="min-w-[40px] font-medium text-xs opacity-70 mt-0.5 whitespace-nowrap">{displayVerse}</span>
                                     <span className="truncate opacity-90 text-xs leading-relaxed font-crimson italic">
                                         {verseText}
                                     </span>
