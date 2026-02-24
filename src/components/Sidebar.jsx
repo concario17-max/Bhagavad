@@ -76,9 +76,6 @@ const Sidebar = () => {
                                         }`}
                                 >
                                     <div className="flex items-center gap-3">
-                                        <span className={`text-xl font-serif leading-none ${isExpanded ? 'text-gold-primary' : 'text-gold-primary/50'}`}>
-                                            ֍
-                                        </span>
                                         <span className="text-sm truncate font-inter font-bold">
                                             {ch.chapter}. {CHAPTER_DATA[ch.chapter]?.name_korean || ch.name_translated}
                                         </span>
