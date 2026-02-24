@@ -71,12 +71,12 @@ const Header = () => {
                 {isVerseView && (
                     <div className="flex items-center gap-3">
                         {chapters[chapterNum] && (
-                            <div className="hidden sm:flex items-center gap-2 rounded-lg bg-white/50 dark:bg-dark-surface border border-gold-border dark:border-dark-border px-3 py-1.5 shadow-sm text-xs font-inter uppercase tracking-wider text-text-secondary">
-                                <span className="opacity-50">I</span>
-                                <ChevronDown className="w-3 h-3 text-gold-primary" />
-                                <div className="w-px h-3 bg-gold-border mx-1"></div>
-                                <span className="opacity-50">Sutra</span>
-                                <ChevronDown className="w-3 h-3 text-gold-primary" />
+                            <div className="hidden sm:flex items-center gap-3 rounded-full bg-[#FDFBF7] dark:bg-[#111] border border-[#E5E0D8] dark:border-[#333] px-4 py-1.5 shadow-sm text-[13px] font-inter font-medium tracking-widest text-[#8FA0AD] dark:text-dark-text-secondary cursor-pointer hover:border-[#D5CDBF] dark:hover:border-[#444] transition-colors">
+                                <span className="text-[#A68B5C] font-bold">{romanize(parseInt(chapterNum))}</span>
+                                <ChevronDown className="w-3.5 h-3.5 text-[#A68B5C]" strokeWidth={2.5} />
+                                <div className="w-[1px] h-3.5 bg-[#E5E0D8] dark:bg-[#333] mx-1"></div>
+                                <span className="opacity-80">SUTRA</span>
+                                <ChevronDown className="w-3.5 h-3.5 opacity-60" strokeWidth={2.5} />
                             </div>
                         )}
 
