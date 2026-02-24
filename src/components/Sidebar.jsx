@@ -70,17 +70,17 @@ const Sidebar = () => {
                                 <button
                                     key={ch.chapter}
                                     onClick={() => toggleChapter(ch.chapter)}
-                                    className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-left transition-colors ${isExpanded
+                                    className={`w-full flex items-start justify-between gap-2 px-3 py-2.5 rounded-lg text-left transition-colors ${isExpanded
                                         ? 'bg-gold-surface dark:bg-[#222] text-text-primary dark:text-gold-light font-medium'
                                         : 'text-text-secondary dark:text-dark-text-secondary hover:bg-gold-surface/50 dark:hover:bg-[#1a1a1a]'
                                         }`}
                                 >
-                                    <div className="flex items-center gap-3">
-                                        <span className="text-sm truncate font-inter font-bold">
+                                    <div className="flex-1 pr-2">
+                                        <span className="text-sm leading-snug font-inter font-bold break-keep">
                                             {ch.chapter}. {CHAPTER_DATA[ch.chapter]?.name_korean || ch.name_translated}
                                         </span>
                                     </div>
-                                    <span className={`text-[#A68B5C] bg-[#F5EFE6] dark:bg-[#222] px-2 py-0.5 rounded text-xs font-bold ${isExpanded ? 'opacity-100' : 'opacity-70'}`}>
+                                    <span className={`shrink-0 mt-0.5 text-[#A68B5C] bg-[#F5EFE6] dark:bg-[#222] px-2 py-0.5 rounded text-xs font-bold ${isExpanded ? 'opacity-100' : 'opacity-70'}`}>
                                         {ch.verses.length}
                                     </span>
                                 </button>
