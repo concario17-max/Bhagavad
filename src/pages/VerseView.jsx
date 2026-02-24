@@ -184,14 +184,14 @@ const VerseView = () => {
 
                 {/* Sanskrit */}
                 <section className="mb-6 text-center px-2 sm:px-0">
-                    <p className="font-noto text-[#1F2937] dark:text-[#E5E7EB] text-xl sm:text-2xl leading-relaxed whitespace-pre-line tracking-wide font-medium drop-shadow-sm">
+                    <p className="font-noto text-[#1F2937] dark:text-[#E5E7EB] text-xl sm:text-2xl leading-relaxed whitespace-pre-line tracking-wide font-bold drop-shadow-sm">
                         {verseData.sanskrit}
                     </p>
                 </section>
 
                 {/* Transliteration */}
                 <section className="mb-6 text-center text-text-secondary/80 dark:text-dark-text-secondary/80 flex flex-col items-center">
-                    <p className="font-noto italic text-xl sm:text-2xl leading-relaxed whitespace-pre-line tracking-wide mb-2">
+                    <p className="font-noto italic text-[15px] leading-relaxed whitespace-pre-line tracking-wide mb-2">
                         {verseData.iast}
                     </p>
                     <div className="w-8 h-[1px] bg-gold-border/60 my-2"></div>
@@ -256,12 +256,12 @@ const VerseView = () => {
 
                 {/* Word Meanings (Card Grid Style) */}
                 <section className="mb-16">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 w-full max-w-4xl mx-auto px-2 sm:px-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 w-full max-w-4xl mx-auto px-2 sm:px-4">
                         {verseData.words?.map((word, i) => {
                             const cleanMeaning = word.m.replace(/^—\s*/, '').trim();
                             return (
-                                <div key={i} className="flex flex-col p-4 rounded-xl bg-white/40 dark:bg-[#1a1a1a]/40 border border-gold-border/30 dark:border-[#222]">
-                                    <span className="font-bold text-text-primary dark:text-dark-text-primary text-[15px] font-crimson mb-1">{word.s}</span>
+                                <div key={i} className="flex flex-col px-3 py-2 rounded-xl bg-white/40 dark:bg-[#1a1a1a]/40 border border-gold-border/30 dark:border-[#222]">
+                                    <span className="font-bold text-text-primary dark:text-dark-text-primary text-[15px] font-crimson mb-0.5">{word.s}</span>
                                     <span className="text-text-secondary dark:text-dark-text-secondary text-[13px] font-inter leading-relaxed break-keep">{cleanMeaning}</span>
                                 </div>
                             );
