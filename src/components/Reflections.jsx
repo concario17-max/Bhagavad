@@ -82,7 +82,7 @@ const Reflections = () => {
                     onClick={() => setIsReflectionsOpen(false)}
                 />
             )}
-            <aside className={`fixed inset-y-0 right-0 z-50 w-[90vw] sm:w-[400px] bg-white dark:bg-[#111] border-l border-gold-border/40 dark:border-[#222] h-full lg:h-[calc(100vh-64px)] lg:sticky lg:top-16 transform transition-transform duration-300 lg:translate-x-0 ${isReflectionsOpen ? 'translate-x-0 overflow-hidden shadow-2xl lg:shadow-none' : 'translate-x-full'} flex flex-col font-inter`}>
+            <aside className={`fixed inset-y-0 right-0 z-50 w-[90vw] sm:w-[400px] bg-[#F5EFE6] dark:bg-[#111] border-l border-gold-border/40 dark:border-[#222] h-full lg:h-[calc(100vh-64px)] lg:sticky lg:top-16 transform transition-transform duration-300 lg:translate-x-0 ${isReflectionsOpen ? 'translate-x-0 overflow-hidden shadow-2xl lg:shadow-none' : 'translate-x-full'} flex flex-col font-inter`}>
 
                 {/* Mobile Close Button */}
                 <div className="lg:hidden absolute top-4 right-4 z-50">
@@ -93,12 +93,12 @@ const Reflections = () => {
 
                 <div className="p-6 relative flex flex-col h-full min-h-0">
                     <div className="flex items-center gap-2 mb-6 shrink-0 border-b border-gold-border/30 pb-4">
-                        <Edit3 className="w-4 h-4 text-gold-primary dark:text-gold-light" />
-                        <h2 className="text-sm font-bold text-text-primary dark:text-dark-text-primary">성찰 노트</h2>
+                        <Edit3 className="w-5 h-5 text-[#A68B5C] dark:text-gold-light" />
+                        <h2 className="text-sm font-bold text-[#1C2B36] dark:text-dark-text-primary tracking-wide">성찰 노트</h2>
                     </div>
 
                     <div className="mb-4 flex-1 flex flex-col min-h-0 space-y-2">
-                        <div className="text-xs font-bold text-gold-primary/80">
+                        <div className="text-xs font-bold text-[#8FA0AD] tracking-wider">
                             {chapterNum}.{verseNum}
                         </div>
 
@@ -114,7 +114,7 @@ const Reflections = () => {
                         <div className="flex-1 relative">
                             <button
                                 onClick={() => setShowExportMenu(!showExportMenu)}
-                                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border border-gold-border/50 dark:border-[#333] text-text-secondary dark:text-dark-text-secondary hover:bg-gold-surface/50 dark:hover:bg-[#222] transition-all text-xs font-bold bg-white dark:bg-[#111] shadow-sm"
+                                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border border-gold-border/50 dark:border-[#333] text-[#5B7282] dark:text-dark-text-secondary hover:bg-gold-surface/50 dark:hover:bg-[#222] transition-all text-xs font-bold bg-white dark:bg-[#111] shadow-sm tracking-wide"
                             >
                                 <Download className="w-3.5 h-3.5" />
                                 Export
