@@ -46,7 +46,7 @@ const Header = () => {
     };
 
     return (
-        <header className="sticky top-0 z-50 w-full border-b border-gold-border/60 dark:border-dark-border bg-gold-bg/90 dark:bg-dark-bg/90 backdrop-blur-md transition-colors duration-500 shadow-[0_2px_10px_rgba(184,134,11,0.02)]">
+        <header className="sticky top-0 z-50 w-full border-b border-gold-primary/20 dark:border-dark-border/60 bg-white/60 dark:bg-[#070707]/60 backdrop-blur-xl transition-colors duration-500 shadow-sm">
             <div className={`container mx-auto flex h-16 items-center px-4 ${isVerseView ? 'justify-between max-w-[1400px]' : 'justify-center max-w-7xl'}`}>
 
                 {/* Left Side: Logo (Only visible in Verse View to match Yoga Sutras) */}
@@ -71,7 +71,7 @@ const Header = () => {
                 {isVerseView && (
                     <div className="flex items-center gap-3">
                         {chapters[chapterNum] && (
-                            <div className="hidden sm:flex items-center gap-3 rounded-full bg-[#FDFBF7] dark:bg-[#111] border border-[#E5E0D8] dark:border-[#333] px-4 py-1.5 shadow-sm text-[13px] font-inter font-medium tracking-widest text-[#8FA0AD] dark:text-dark-text-secondary transition-colors relative">
+                            <div className="hidden sm:flex items-center gap-3 rounded-full bg-white/50 dark:bg-dark-surface/50 backdrop-blur-md border border-gold-primary/20 dark:border-dark-border/50 px-4 py-1.5 shadow-sm text-[13px] font-inter font-medium tracking-widest text-text-secondary dark:text-dark-text-secondary transition-all hover:shadow-md relative">
                                 {/* Chapter Select */}
                                 <div className="relative flex items-center gap-1 group">
                                     <span className="text-[#A68B5C] font-bold">CHAPTER {chapterNum}</span>
@@ -87,7 +87,7 @@ const Header = () => {
                                     </select>
                                 </div>
 
-                                <div className="w-[1px] h-3.5 bg-[#E5E0D8] dark:bg-[#333] mx-1"></div>
+                                <div className="w-[1px] h-3.5 bg-gold-primary/30 dark:bg-dark-border/80 mx-1"></div>
 
                                 {/* Verse Select */}
                                 <div className="relative flex items-center gap-1 group">

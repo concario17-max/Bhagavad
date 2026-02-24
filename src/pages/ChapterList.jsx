@@ -74,8 +74,8 @@ const ChapterList = () => {
                 </div>
 
                 {/* Functional Selector box */}
-                <div className="bg-white dark:bg-dark-surface backdrop-blur-sm border border-gold-primary/30 rounded-2xl shadow-xl shadow-gold-primary/10 dark:shadow-[0_8px_30px_-5px_rgba(0,0,0,0.5)] p-5 sm:p-6 mb-16 relative z-10 w-full max-w-3xl mx-auto flex items-center justify-between">
-                    <div className="flex-1 flex flex-col items-start px-2 sm:px-6 border-r border-gold-border/40">
+                <div className="bg-white dark:bg-dark-surface backdrop-blur-sm border border-gold-primary/30 rounded-2xl shadow-xl shadow-gold-primary/10 dark:shadow-[0_8px_30px_-5px_rgba(0,0,0,0.5)] p-5 sm:p-6 mb-16 relative z-10 w-full max-w-3xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-0">
+                    <div className="flex-1 w-full flex flex-col items-start px-2 sm:px-6 border-b sm:border-b-0 sm:border-r border-gold-border/40 pb-4 sm:pb-0">
                         <span className="text-[11px] font-black text-gold-primary tracking-[0.25em] uppercase mb-2 drop-shadow-sm">CHAPTER</span>
                         <select
                             className="text-base sm:text-lg font-crimson font-medium text-text-primary bg-transparent outline-none w-full cursor-pointer appearance-none dark:text-dark-text-primary transition-colors focus:text-gold-primary"
@@ -93,7 +93,7 @@ const ChapterList = () => {
                         </select>
                     </div>
 
-                    <div className="flex-1 flex flex-col items-start px-4 sm:px-8">
+                    <div className="flex-1 w-full flex flex-col items-start px-2 sm:px-8 pt-2 sm:pt-0">
                         <span className="text-[11px] font-black text-gold-primary tracking-[0.25em] uppercase mb-2 drop-shadow-sm">VERSE</span>
                         <select
                             className="text-base sm:text-lg font-crimson font-medium text-text-primary bg-transparent outline-none w-full cursor-pointer appearance-none dark:text-dark-text-primary transition-colors focus:text-gold-primary disabled:opacity-50"
@@ -123,7 +123,7 @@ const ChapterList = () => {
                         <Link
                             key={ch.chapter}
                             to={`/chapter/${ch.chapter}/verse/1`}
-                            className="group relative flex flex-col items-center justify-start text-center p-8 pt-12 sm:pt-16 bg-white/50 dark:bg-[#161616]/70 backdrop-blur-md border border-gold-border/50 hover:border-gold-primary/70 rounded-2xl shadow-xl shadow-black/5 hover:shadow-2xl hover:shadow-gold-primary/20 dark:shadow-none dark:hover:shadow-[0_8px_30px_-5px_rgba(0,0,0,0.6)] transition-all duration-700 min-h-[340px] overflow-hidden"
+                            className="group relative flex flex-col items-center justify-start text-center p-6 sm:p-8 pt-10 sm:pt-16 bg-white/50 dark:bg-[#161616]/70 backdrop-blur-md border border-gold-border/50 hover:border-gold-primary/70 rounded-2xl shadow-xl shadow-black/5 hover:shadow-2xl hover:shadow-gold-primary/20 dark:shadow-none dark:hover:shadow-[0_8px_30px_-5px_rgba(0,0,0,0.6)] transition-all duration-700 min-h-[280px] sm:min-h-[340px] overflow-hidden"
                         >
                             {/* Inner Hover Gradient Spotlight */}
                             <div className="absolute inset-0 bg-gradient-to-b from-white/60 to-transparent dark:from-white/[0.03] dark:to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-0 pointer-events-none"></div>
