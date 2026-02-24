@@ -182,9 +182,9 @@ const VerseView = () => {
                     </div>
                 </div>
 
-                {/* Sanskrit (Large, Dark, Bold) */}
+                {/* Sanskrit */}
                 <section className="mb-6 text-center px-2 sm:px-0">
-                    <p className="font-serif text-[#1F2937] dark:text-[#E5E7EB] text-4xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-wide drop-shadow-sm">
+                    <p className="font-noto text-[#1F2937] dark:text-[#E5E7EB] text-xl sm:text-2xl leading-relaxed whitespace-pre-line tracking-wide font-medium drop-shadow-sm">
                         {verseData.sanskrit}
                     </p>
                 </section>

@@ -79,8 +79,8 @@ const Sidebar = () => {
                                         <span className={`text-xl font-serif leading-none ${isExpanded ? 'text-gold-primary' : 'text-gold-primary/50'}`}>
                                             ֍
                                         </span>
-                                        <span className="text-sm truncate font-inter">
-                                            {CHAPTER_DATA[ch.chapter]?.name || ch.name_translated}
+                                        <span className="text-sm truncate font-inter font-bold">
+                                            {ch.chapter}. {CHAPTER_DATA[ch.chapter]?.name_korean || ch.name_translated}
                                         </span>
                                     </div>
                                     <span className={`text-[#A68B5C] bg-[#F5EFE6] dark:bg-[#222] px-2 py-0.5 rounded text-xs font-bold ${isExpanded ? 'opacity-100' : 'opacity-70'}`}>

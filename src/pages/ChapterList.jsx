@@ -80,8 +80,8 @@ const ChapterList = () => {
                                 <span className="block mb-2 text-[10px] font-bold tracking-[0.3em] uppercase text-gold-primary/70 dark:text-gold-light/70">
                                     CHAPTER {ch.chapter}
                                 </span>
-                                <h2 className="text-lg sm:text-xl md:text-2xl font-normal tracking-wide mb-3 text-text-primary dark:text-dark-text-primary font-crimson uppercase">
-                                    {chapterInfo?.name || ch.name_translated}
+                                <h2 className="text-lg sm:text-xl md:text-2xl font-bold tracking-wide mb-3 text-text-primary dark:text-dark-text-primary font-noto-kr">
+                                    {chapterInfo?.name_korean || chapterInfo?.name || ch.name_translated}
                                 </h2>
                                 <div className="w-8 h-[1px] bg-gold-border/80 mx-auto my-3 group-hover:w-16 transition-all duration-500"></div>
                                 <p className="text-[13px] text-text-secondary dark:text-dark-text-secondary font-crimson italic max-w-[200px] mx-auto">
