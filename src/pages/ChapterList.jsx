@@ -74,11 +74,11 @@ const ChapterList = () => {
                 </div>
 
                 {/* Functional Selector box */}
-                <div className="bg-white/80 dark:bg-dark-surface/80 backdrop-blur-sm border border-gold-border/60 rounded-xl shadow-[0_4px_25px_-5px_rgba(184,134,11,0.06)] dark:shadow-[0_4px_25px_-5px_rgba(0,0,0,0.3)] p-4 w-full max-w-2xl mx-auto flex items-center justify-between mb-16 relative z-10">
-                    <div className="flex-1 flex flex-col items-start px-4 border-r border-gold-border/30">
-                        <span className="text-[10px] font-bold text-gold-primary/60 tracking-[0.2em] uppercase mb-1">CHAPTER</span>
+                <div className="bg-white dark:bg-dark-surface backdrop-blur-sm border border-gold-primary/30 rounded-2xl shadow-xl shadow-gold-primary/10 dark:shadow-[0_8px_30px_-5px_rgba(0,0,0,0.5)] p-5 sm:p-6 mb-16 relative z-10 w-full max-w-3xl mx-auto flex items-center justify-between">
+                    <div className="flex-1 flex flex-col items-start px-2 sm:px-6 border-r border-gold-border/40">
+                        <span className="text-[11px] font-black text-gold-primary tracking-[0.25em] uppercase mb-2 drop-shadow-sm">CHAPTER</span>
                         <select
-                            className="text-sm font-crimson font-medium text-text-primary bg-transparent outline-none w-full cursor-pointer appearance-none dark:text-dark-text-primary"
+                            className="text-base sm:text-lg font-crimson font-medium text-text-primary bg-transparent outline-none w-full cursor-pointer appearance-none dark:text-dark-text-primary transition-colors focus:text-gold-primary"
                             value={selectedChapter}
                             onChange={(e) => {
                                 const ch = e.target.value;
@@ -88,15 +88,15 @@ const ChapterList = () => {
                         >
                             <option value="">Select a Chapter</option>
                             {chapters.map(ch => (
-                                <option key={ch.chapter} value={ch.chapter}>Chapter {ch.chapter}</option>
+                                <option key={ch.chapter} value={ch.chapter} className="text-base">Chapter {ch.chapter}</option>
                             ))}
                         </select>
                     </div>
 
-                    <div className="flex-1 flex flex-col items-start px-4">
-                        <span className="text-[10px] font-bold text-gold-primary/60 tracking-[0.2em] uppercase mb-1">VERSE</span>
+                    <div className="flex-1 flex flex-col items-start px-4 sm:px-8">
+                        <span className="text-[11px] font-black text-gold-primary tracking-[0.25em] uppercase mb-2 drop-shadow-sm">VERSE</span>
                         <select
-                            className="text-sm font-crimson font-medium text-text-primary bg-transparent outline-none w-full cursor-pointer appearance-none dark:text-dark-text-primary"
+                            className="text-base sm:text-lg font-crimson font-medium text-text-primary bg-transparent outline-none w-full cursor-pointer appearance-none dark:text-dark-text-primary transition-colors focus:text-gold-primary disabled:opacity-50"
                             value={selectedVerse}
                             disabled={!selectedChapter}
                             onChange={(e) => {
@@ -109,7 +109,7 @@ const ChapterList = () => {
                         >
                             <option value="">{selectedChapter ? "Select a Verse" : "Select Chapter First"}</option>
                             {selectedChapter && chapters.find(c => c.chapter === parseInt(selectedChapter))?.verses.map(v => (
-                                <option key={v.verse} value={v.verse}>Verse {v.verse}</option>
+                                <option key={v.verse} value={v.verse} className="text-base">Verse {v.verse}</option>
                             ))}
                         </select>
                     </div>
