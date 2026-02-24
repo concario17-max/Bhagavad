@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate, useLocation } from 'react-router-dom';
-import { Moon, Sun, ChevronDown } from 'lucide-react';
+import { Moon, Sun, ChevronDown, Menu, Edit3 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
+import { useUI } from '../context/UIContext';
 
 const Header = () => {
     const { theme, toggleTheme } = useTheme();
+    const { toggleSidebar, toggleReflections } = useUI();
     const { chapterNum, verseNum } = useParams();
     const navigate = useNavigate();
     const location = useLocation();
@@ -44,51 +46,56 @@ const Header = () => {
     };
 
     return (
-        <header className="sticky top-0 z-50 w-full border-b border-gray-200 dark:border-gray-800 bg-white/80 dark:bg-nisha-bg/80 backdrop-blur-sm transition-colors duration-300">
-            <div className="container mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
-                <div className="flex items-center gap-6">
-                    <Link to="/" className="flex items-center gap-2.5 group">
-                        <span className="font-bold text-xl text-prakash-primary dark:text-nisha-primary transition-colors group-hover:opacity-80">Bhagavad Gita</span>
-                    </Link>
-                </div>
-                <div className="flex items-center gap-4">
-                    {isVerseView && chapters[chapterNum] && (
-                        <div className="flex items-center gap-1.5 p-1 px-2 rounded-lg bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700/50 scale-90 sm:scale-100 mr-2">
-                            <div className="relative flex items-center">
-                                <select
-                                    value={chapterNum}
-                                    onChange={handleChapterChange}
-                                    className="appearance-none bg-transparent pl-2 pr-6 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 focus:outline-none cursor-pointer"
-                                >
-                                    {Object.keys(chapters).map(ch => (
-                                        <option key={ch} value={ch}>{romanize(parseInt(ch))}</option>
-                                    ))}
-                                </select>
-                                <ChevronDown className="w-3 h-3 absolute right-1.5 pointer-events-none text-gray-400" />
+        <header className="sticky top-0 z-50 w-full border-b border-gold-border/60 dark:border-dark-border bg-gold-bg/90 dark:bg-dark-bg/90 backdrop-blur-md transition-colors duration-500 shadow-[0_2px_10px_rgba(184,134,11,0.02)]">
+            <div className={`container mx-auto flex h-16 items-center px-4 ${isVerseView ? 'justify-between max-w-[1400px]' : 'justify-center max-w-7xl'}`}>
+
+                {/* Left Side: Logo (Only visible in Verse View to match Yoga Sutras) */}
+                {isVerseView && (
+                    <div className="flex items-center gap-2 sm:gap-4">
+                        <button
+                            onClick={toggleSidebar}
+                            className="lg:hidden p-2 -ml-2 rounded-lg hover:bg-gold-surface dark:hover:bg-dark-surface text-gold-primary dark:text-gold-light transition-colors"
+                        >
+                            <Menu className="w-5 h-5" />
+                        </button>
+                        <Link to="/" className="flex items-center gap-2.5 group">
+                            <span className="text-xl font-serif text-gold-primary leading-none opacity-80 group-hover:scale-110 transition-transform">֍</span>
+                            <span className="font-bold text-lg text-text-primary dark:text-dark-text-primary transition-colors font-crimson uppercase tracking-widest">
+                                Bhagavad Gita
+                            </span>
+                        </Link>
+                    </div>
+                )}
+
+                {/* Right Side: Selectors & Theme Toggle (Visible in Verse View) */}
+                {isVerseView && (
+                    <div className="flex items-center gap-3">
+                        {chapters[chapterNum] && (
+                            <div className="hidden sm:flex items-center gap-2 rounded-lg bg-white/50 dark:bg-dark-surface border border-gold-border dark:border-dark-border px-3 py-1.5 shadow-sm text-xs font-inter uppercase tracking-wider text-text-secondary">
+                                <span className="opacity-50">I</span>
+                                <ChevronDown className="w-3 h-3 text-gold-primary" />
+                                <div className="w-px h-3 bg-gold-border mx-1"></div>
+                                <span className="opacity-50">Sutra</span>
+                                <ChevronDown className="w-3 h-3 text-gold-primary" />
                             </div>
-                            <div className="w-px h-4 bg-gray-200 dark:bg-gray-700 mx-1"></div>
-                            <div className="relative flex items-center">
-                                <select
-                                    value={verseNum}
-                                    onChange={handleVerseChange}
-                                    className="appearance-none bg-transparent pl-2 pr-6 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 focus:outline-none cursor-pointer"
-                                >
-                                    {chapters[chapterNum].verses.map(v => (
-                                        <option key={v.verse} value={v.verse}>Sutra {v.verse}</option>
-                                    ))}
-                                </select>
-                                <ChevronDown className="w-3 h-3 absolute right-1.5 pointer-events-none text-gray-400" />
-                            </div>
-                        </div>
-                    )}
-                    <button
-                        onClick={toggleTheme}
-                        className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 transition-colors"
-                        aria-label="Toggle theme"
-                    >
-                        {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-                    </button>
-                </div>
+                        )}
+
+                        <button
+                            onClick={toggleReflections}
+                            className="lg:hidden p-2 rounded-lg hover:bg-gold-surface dark:hover:bg-dark-surface text-gold-primary dark:text-gold-light transition-colors"
+                        >
+                            <Edit3 className="w-5 h-5" />
+                        </button>
+
+                        <button
+                            onClick={toggleTheme}
+                            className="p-2 ml-2 rounded-full hover:bg-gold-surface dark:hover:bg-dark-surface text-gold-primary transition-all duration-300"
+                            aria-label="Toggle theme"
+                        >
+                            {theme === 'dark' ? <Sun className="w-4 h-4 sm:w-5 sm:h-5 opacity-80" /> : <Moon className="w-4 h-4 sm:w-5 sm:h-5 opacity-80" />}
+                        </button>
+                    </div>
+                )}
             </div>
         </header>
     );

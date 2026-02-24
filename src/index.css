@@ -1,31 +1,53 @@
 @import "tailwindcss";
 
 @theme {
-  --color-prakash-bg: #fdfaf7;
-  --color-nisha-bg: #0d1117;
-  --color-prakash-primary: #854d0e;
-  --color-nisha-primary: #fbbf24;
+  /* Surface Colors - Matching Yoga Sutras Light Cream */
+  --color-gold-bg: #FAF9F6;
+  --color-gold-surface: #F5EFE6;
+  --color-gold-border: #E8DDCA;
+
+  --color-dark-bg: #0A0A0A;
+  --color-dark-surface: #141414;
+  --color-dark-border: #262626;
+
+  /* Primary Gold Accents - Softer, elegant gold */
+  --color-gold-primary: #A68B5C;
+  --color-gold-light: #C2A878;
+  --color-gold-muted: #8E793E;
+  --color-gold-glow: rgba(166, 139, 92, 0.15);
+
+  /* Text Colors - Darker charcoal/navy mimic for primary text */
+  --color-text-primary: #1C2B36;
+  --color-text-secondary: #5A6268;
+
+  --color-dark-text-primary: #F0EAD6;
+  --color-dark-text-secondary: #A39B8A;
+
+  /* Fonts */
   --font-crimson: "Crimson Pro", "Noto Serif", serif;
   --font-noto: "Noto Serif", serif;
   --font-noto-kr: "Noto Serif KR", serif;
   --font-inter: "Inter", sans-serif;
 }
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 body {
-  @apply bg-prakash-bg text-gray-900 font-inter antialiased transition-colors duration-300;
+  @apply bg-gold-bg text-text-primary font-inter antialiased transition-colors duration-500;
 }
 
 .dark body {
-  @apply bg-nisha-bg text-gray-100;
+  @apply bg-dark-bg text-dark-text-primary;
 }
 
 .sanskrit-verse {
-  @apply font-serif text-xl leading-loose text-prakash-primary dark:text-nisha-primary;
+  @apply font-serif text-xl leading-loose text-gold-primary dark:text-gold-light;
 }
 
 /* Custom Scrollbar for a premium feel */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -33,9 +55,9 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-gray-300 dark:bg-gray-700 rounded-full;
+  @apply bg-gold-border dark:bg-dark-border rounded-full border border-solid border-transparent bg-clip-padding;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-gray-400 dark:bg-gray-600;
+  @apply bg-gold-primary/50 dark:bg-gold-light/50;
 }

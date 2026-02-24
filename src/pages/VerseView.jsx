@@ -55,6 +55,9 @@ const VerseView = () => {
     }, [chapterNum, verseNum, navigate]);
 
     useEffect(() => {
+        // Scroll to top of the page when navigating to a new verse
+        window.scrollTo(0, 0);
+
         // Reset audio state when verse changes
         setIsPlaying(false);
         setCurrentTime(0);
@@ -144,7 +147,7 @@ const VerseView = () => {
         }
     };
 
-    if (!verseData || !allChapters) return <div className="min-h-screen flex items-center justify-center bg-prakash-bg dark:bg-nisha-bg"><div className="w-8 h-8 border-4 border-prakash-primary border-t-transparent rounded-full animate-spin"></div></div>;
+    if (!verseData || !allChapters) return <div className="min-h-screen flex items-center justify-center bg-gold-bg dark:bg-dark-bg"><div className="w-8 h-8 border-4 border-gold-primary border-t-transparent rounded-full animate-spin"></div></div>;
 
     const currentChapter = allChapters[chapterNum];
     const totalVerses = currentChapter.verses.length;
@@ -163,44 +166,48 @@ const VerseView = () => {
     const progressPercent = duration ? (currentTime / duration) * 100 : 0;
 
     return (
-        <div className="min-h-screen bg-prakash-bg font-crimson dark:bg-nisha-bg text-gray-900 dark:text-gray-100 transition-colors duration-300">
-            <div className="mx-auto max-w-[680px] px-4 pb-24 pt-6 sm:px-6">
-                {/* Breadcrumbs */}
-                <nav className="mb-6 flex items-center gap-2 text-[13px] text-gray-500 dark:text-gray-400">
-                    <Link to="/" className="hover:text-prakash-primary dark:hover:text-nisha-primary transition-colors">Chapters</Link>
-                    <span>›</span>
-                    <Link to={`/chapter/${chapterNum}/verse/1`} className="hover:text-prakash-primary dark:hover:text-nisha-primary transition-colors">Chapter {chapterNum}</Link>
-                    <span>›</span>
-                    <span className="text-gray-900 dark:text-gray-100 font-medium">Verse {verseRange}</span>
-                </nav>
+        <div className="min-h-screen bg-gold-bg font-crimson dark:bg-dark-bg text-text-primary dark:text-dark-text-primary transition-colors duration-500">
+            <div className="mx-auto max-w-[1000px] px-4 pb-24 pt-6 sm:px-6">
+                {/* Verse Heading / Breadcrumbs (Centered) */}
+                <div className="flex flex-col items-center justify-center mb-10 pt-4">
+                    <nav className="flex items-center gap-2 text-[13px] text-text-secondary dark:text-dark-text-secondary font-inter mb-8">
+                        <Link to="/" className="hover:text-gold-primary dark:hover:text-gold-light transition-colors">Chapter {chapterNum}</Link>
+                        <span>›</span>
+                        <span className="text-text-primary dark:text-dark-text-primary font-bold">Sutra {verseRange}</span>
+                    </nav>
 
+                    {/* Top small icon above Sanskrit */}
+                    <div className="w-8 h-8 rounded-full bg-gold-border/20 flex items-center justify-center mb-6 text-gold-primary">
+                        <span className="font-serif leading-none">֍</span>
+                    </div>
+                </div>
 
-
-                {/* Sanskrit */}
-                <section className="mb-8 text-center text-prakash-primary dark:text-nisha-primary">
-                    <p className="sanskrit-verse whitespace-pre-line leading-loose font-medium">
+                {/* Sanskrit (Large, Dark, Bold) */}
+                <section className="mb-6 text-center px-2 sm:px-0">
+                    <p className="font-serif text-[#1F2937] dark:text-[#E5E7EB] text-4xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-wide drop-shadow-sm">
                         {verseData.sanskrit}
                     </p>
                 </section>
 
                 {/* Transliteration */}
-                <section className="mb-8 text-center text-gray-600 dark:text-gray-400">
-                    <p className="font-noto italic text-base leading-relaxed whitespace-pre-line">
+                <section className="mb-6 text-center text-text-secondary/80 dark:text-dark-text-secondary/80 flex flex-col items-center">
+                    <p className="font-noto italic text-xl sm:text-2xl leading-relaxed whitespace-pre-line tracking-wide mb-2">
                         {verseData.iast}
                     </p>
+                    <div className="w-8 h-[1px] bg-gold-border/60 my-2"></div>
                 </section>
 
                 {/* Korean Pronunciation */}
                 {verseData.korean_pronunciation && (
-                    <section className="mb-10 text-center text-gray-800 dark:text-gray-200">
-                        <p className="text-xl leading-relaxed whitespace-pre-line font-noto-kr font-medium tracking-wide">
+                    <section className="mb-12 text-center text-text-secondary/60 dark:text-dark-text-secondary/60">
+                        <p className="font-noto-kr italic text-[15px] leading-relaxed whitespace-pre-line tracking-[0.1em]">
                             {verseData.korean_pronunciation}
                         </p>
                     </section>
                 )}
 
-                {/* Audio Player */}
-                <div className="mb-12 flex justify-center">
+                {/* Clean Pill Audio Player */}
+                <div className="mb-16 flex justify-center">
                     <audio
                         ref={audioRef}
                         src={getAudioSrc(verseData.audio)}
@@ -209,16 +216,20 @@ const VerseView = () => {
                         onEnded={handleAudioEnded}
                         className="hidden"
                     />
-                    <div className="inline-flex items-center gap-3 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 px-5 py-2.5 shadow-sm transition-colors">
+                    <div className="flex items-center justify-between w-full max-w-[400px] rounded-full border border-gold-border/60 dark:border-[#333] bg-white dark:bg-[#111] px-5 py-2.5 shadow-sm transition-all hover:border-gold-primary/30">
                         <button
                             onClick={togglePlay}
                             disabled={!verseData.audio}
-                            className={`text-gray-600 dark:text-gray-300 hover:text-prakash-primary dark:hover:text-nisha-primary transition-colors ${!verseData.audio ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            className={`text-gold-primary dark:text-gold-light hover:scale-110 transition-transform ${!verseData.audio ? 'opacity-30 cursor-not-allowed hidden' : ''}`}
                         >
-                            {isPlaying ? <Pause className="w-5 h-5 fill-current" /> : <Play className="w-5 h-5 fill-current" />}
+                            {isPlaying ? <Pause className="w-4 h-4 fill-current" /> : <Play className="w-4 h-4 fill-current ml-0.5" />}
                         </button>
 
-                        <div className="relative w-48 sm:w-80 h-1 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden cursor-pointer"
+                        <span className="text-[10px] text-text-secondary/50 font-inter font-bold tracking-widest tabular-nums ml-4">
+                            {formatTime(currentTime)}
+                        </span>
+
+                        <div className="relative flex-1 mx-4 h-[2px] bg-gold-border/30 dark:bg-dark-border rounded-full cursor-pointer group"
                             onClick={(e) => {
                                 if (!audioRef.current) return;
                                 const rect = e.currentTarget.getBoundingClientRect();
@@ -227,31 +238,34 @@ const VerseView = () => {
                                 audioRef.current.currentTime = percentage * duration;
                             }}>
                             <div
-                                className="absolute top-0 left-0 h-full bg-prakash-primary dark:bg-nisha-primary transition-all duration-100"
+                                className="absolute top-0 left-0 h-full bg-[#A68B5C] transition-all"
                                 style={{ width: `${progressPercent}%` }}
+                            ></div>
+                            {/* Dragger circle that appears on hover */}
+                            <div
+                                className="absolute top-1/2 -translate-y-1/2 w-2 h-2 bg-[#A68B5C] rounded-full shadow-sm opacity-0 group-hover:opacity-100 transition-opacity"
+                                style={{ left: `calc(${progressPercent}% - 4px)` }}
                             ></div>
                         </div>
 
-                        <span className="text-xs text-gray-500 font-medium min-w-[60px] text-right">
-                            {formatTime(currentTime)} / {formatTime(duration)}
+                        <span className="text-[10px] text-text-secondary/50 font-inter font-bold tracking-widest tabular-nums">
+                            {formatTime(duration)}
                         </span>
                     </div>
                 </div>
 
-                {/* Word Meanings */}
-                <section className="mb-10">
-                    <div className="flex items-center justify-center mb-6">
-                        <span className="text-gray-300 dark:text-gray-700 tracking-[6px] text-xs">•••</span>
-                    </div>
-                    <h2 className="mb-5 text-sm font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400 text-center">Word Meanings</h2>
-                    <div className="grid grid-cols-1 gap-y-2 md:grid-cols-2 md:gap-x-8 max-w-2xl mx-auto px-4">
-                        {verseData.words?.map((word, i) => (
-                            <div key={i} className="flex items-baseline gap-2 text-[15px] leading-relaxed border-b border-gray-100 dark:border-gray-800/50 pb-1">
-                                <span className="min-w-[100px] italic text-amber-800 dark:text-amber-500 font-crimson font-medium">{word.s}</span>
-                                <span className="text-gray-300 dark:text-gray-700 shrink-0">—</span>
-                                <span className="flex-1 text-gray-700 dark:text-gray-300 font-inter">{word.m}</span>
-                            </div>
-                        ))}
+                {/* Word Meanings (Card Grid Style) */}
+                <section className="mb-16">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 w-full max-w-4xl mx-auto px-2 sm:px-4">
+                        {verseData.words?.map((word, i) => {
+                            const cleanMeaning = word.m.replace(/^—\s*/, '').trim();
+                            return (
+                                <div key={i} className="flex flex-col p-4 rounded-xl bg-white/40 dark:bg-[#1a1a1a]/40 border border-gold-border/30 dark:border-[#222]">
+                                    <span className="font-bold text-text-primary dark:text-dark-text-primary text-[15px] font-crimson mb-1">{word.s}</span>
+                                    <span className="text-text-secondary dark:text-dark-text-secondary text-[13px] font-inter leading-relaxed break-keep">{cleanMeaning}</span>
+                                </div>
+                            );
+                        })}
                     </div>
                 </section>
 
@@ -262,42 +276,68 @@ const VerseView = () => {
                 {/* Translation */}
                 <section className="mb-10">
                     <div className="flex items-center justify-center mb-6">
-                        <span className="text-gray-300 dark:text-gray-700 tracking-[6px] text-xs">•••</span>
+                        <span className="text-gold-muted/40 dark:text-gold-muted/30 tracking-[8px] text-xs">•••</span>
                     </div>
-                    <h2 className="mb-5 text-sm font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400">Translation</h2>
-                    <p className="text-lg leading-loose text-gray-800 dark:text-gray-200 font-inter min-h-[1.5em]"></p>
+                    <h2 className="mb-5 text-sm font-semibold uppercase tracking-[0.2em] text-gold-muted dark:text-gold-muted text-center font-inter">Translation</h2>
+
+                    {verseData.translation_en && (
+                        <div className="mb-8">
+                            <h3 className="text-xs font-semibold uppercase tracking-widest text-gold-primary/70 dark:text-gold-light/60 text-center mb-3 font-inter">English</h3>
+                            <p className="text-base sm:text-lg leading-loose text-text-primary dark:text-dark-text-primary font-inter min-h-[1.5em] text-center max-w-2xl mx-auto px-2 sm:px-0 whitespace-pre-wrap">
+                                {verseData.translation_en}
+                            </p>
+                        </div>
+                    )}
+
+                    {verseData.translation_ham && (
+                        <div className="mb-8">
+                            <h3 className="text-xs font-semibold uppercase tracking-widest text-gold-primary/70 dark:text-gold-light/60 text-center mb-3 font-inter">함석헌 역</h3>
+                            <p className="font-noto-kr text-base sm:text-lg leading-loose text-text-primary dark:text-dark-text-primary min-h-[1.5em] text-center max-w-2xl mx-auto px-2 sm:px-0 whitespace-pre-wrap">
+                                {verseData.translation_ham}
+                            </p>
+                        </div>
+                    )}
+
+                    {verseData.translation_gil && (
+                        <div className="mb-4">
+                            <h3 className="text-xs font-semibold uppercase tracking-widest text-gold-primary/70 dark:text-gold-light/60 text-center mb-3 font-inter">길희성 역</h3>
+                            <p className="font-noto-kr text-base sm:text-lg leading-loose text-text-primary dark:text-dark-text-primary min-h-[1.5em] text-center max-w-2xl mx-auto px-2 sm:px-0 whitespace-pre-wrap">
+                                {verseData.translation_gil}
+                            </p>
+                        </div>
+                    )}
                 </section>
 
                 {/* Commentary */}
                 <section className="mb-12">
                     <div className="flex items-center justify-center mb-6">
-                        <span className="text-gray-300 dark:text-gray-700 tracking-[6px] text-xs">•••</span>
+                        <span className="text-gold-muted/40 dark:text-gold-muted/30 tracking-[8px] text-xs">•••</span>
                     </div>
-                    <h2 className="mb-5 text-sm font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400">Commentary</h2>
-                    <div className="text-lg leading-loose text-gray-700 dark:text-gray-300 space-y-4 font-inter min-h-[1.5em]">
+                    <h2 className="mb-5 text-sm font-semibold uppercase tracking-[0.2em] text-gold-muted dark:text-gold-muted text-center font-inter">Commentary</h2>
+                    <div className="text-base sm:text-lg leading-loose text-text-secondary dark:text-dark-text-secondary space-y-4 font-inter min-h-[1.5em] max-w-2xl mx-auto px-2 sm:px-0">
                     </div>
                 </section>
 
                 {/* Navigation */}
-                <div className="border-t border-gray-200 dark:border-gray-800 pt-8 mt-12">
+                <div className="border-t border-gold-border dark:border-dark-border pt-10 mt-16 font-inter">
                     <div className="flex items-center justify-between">
                         <button
                             onClick={handlePrev}
                             disabled={parseInt(chapterNum) === 1 && parseInt(verseNum) === 1}
-                            className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors disabled:opacity-30 disabled:cursor-not-allowed group text-sm font-medium"
+                            className="flex items-center gap-2 px-5 py-2.5 rounded-full hover:bg-gold-surface dark:hover:bg-dark-surface border border-transparent hover:border-gold-border dark:hover:border-dark-border transition-all disabled:opacity-30 disabled:cursor-not-allowed group text-sm font-medium"
                         >
-                            <ChevronLeft className="w-4 h-4 text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white transition-colors" />
-                            <span className="text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">Previous</span>
+                            <ChevronLeft className="w-4 h-4 text-text-secondary dark:text-dark-text-secondary group-hover:text-gold-primary dark:group-hover:text-gold-light transition-colors" />
+                            <span className="text-text-primary dark:text-dark-text-primary group-hover:text-gold-primary dark:group-hover:text-gold-light transition-colors">Previous</span>
                         </button>
 
-                        <span className="text-xs text-gray-400 dark:text-gray-500 font-medium">
+                        <span className="text-xs text-text-secondary dark:text-dark-text-secondary font-medium tracking-widest uppercase">
                             {verseRange} / {totalVerses}
                         </span>
 
                         <button
                             onClick={handleNext}
                             disabled={parseInt(chapterNum) === 18 && parseInt(verseNum) === 78}
-                            className="flex items-center gap-2 px-6 py-3 bg-prakash-primary dark:bg-nisha-primary text-white dark:text-gray-900 rounded-md shadow-sm hover:opacity-90 transition-all text-sm font-medium"
+                            className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-gold-muted to-gold-primary dark:from-gold-muted dark:to-gold-light text-white dark:text-gray-900 rounded-full shadow-[0_4px_15px_-3px_rgba(184,134,11,0.3)] hover:shadow-[0_6px_20px_-3px_rgba(184,134,11,0.4)] hover:brightness-110 transition-all text-sm font-bold"
                         >
                             <span>Next</span>
                             <ChevronRight className="w-4 h-4" />
