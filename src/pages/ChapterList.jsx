@@ -116,7 +116,7 @@ const ChapterList = () => {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-[1px] bg-gold-border/30 dark:bg-dark-border max-w-4xl mx-auto rounded-none overflow-hidden border border-gold-border/40">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-[1px] bg-gold-border/30 dark:bg-dark-border max-w-6xl mx-auto rounded-none overflow-hidden border border-gold-border/40">
                 {chapters.map((ch) => {
                     const chapterInfo = CHAPTER_DATA[ch.chapter];
                     return (
@@ -134,11 +134,25 @@ const ChapterList = () => {
                                 <span className="block mb-2 text-[10px] font-bold tracking-[0.3em] uppercase text-gold-primary/70 dark:text-gold-light/70">
                                     CHAPTER {ch.chapter}
                                 </span>
-                                <h2 className="text-lg sm:text-xl md:text-2xl font-bold tracking-wide mb-3 text-text-primary dark:text-dark-text-primary font-noto-kr">
-                                    {chapterInfo?.name_korean || chapterInfo?.name || ch.name_translated}
+                                <h2 className="font-bold tracking-wide mb-3 text-text-primary dark:text-dark-text-primary font-noto-kr flex flex-col gap-1">
+                                    {(() => {
+                                        const title = chapterInfo?.name_korean || chapterInfo?.name || ch.name_translated || "";
+                                        const match = title.match(/^(.*?)\s*\((.*?)\)$/);
+                                        if (match) {
+                                            return (
+                                                <>
+                                                    <span className="text-lg sm:text-xl md:text-2xl">{match[1].trim()}</span>
+                                                    <span className="text-sm sm:text-base text-text-secondary dark:text-dark-text-secondary font-medium mt-1">
+                                                        ({match[2].trim()})
+                                                    </span>
+                                                </>
+                                            );
+                                        }
+                                        return <span className="text-lg sm:text-xl md:text-2xl">{title}</span>;
+                                    })()}
                                 </h2>
                                 <div className="w-8 h-[1px] bg-gold-border/80 mx-auto my-3 group-hover:w-16 transition-all duration-500"></div>
-                                <p className="text-[13px] text-text-secondary dark:text-dark-text-secondary font-crimson italic max-w-[200px] mx-auto">
+                                <p className="text-[12px] text-text-secondary dark:text-dark-text-secondary font-crimson italic max-w-[200px] mx-auto opacity-90">
                                     {chapterInfo?.description || "Read verses of this chapter."}
                                 </p>
                             </div>
