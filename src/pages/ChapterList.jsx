@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { CHAPTER_DATA } from '../constants';
+import CompendiumModal from '../components/CompendiumModal';
 
 const ChapterList = () => {
     const [chapters, setChapters] = useState([]);
+    const [isCompendiumOpen, setIsCompendiumOpen] = useState(false);
 
     useEffect(() => {
         fetch('/gita.json')
@@ -33,9 +35,13 @@ const ChapterList = () => {
                     The Song of God
                 </p>
 
-                {/* Navigation Links mimicking "COMPENDIUM Lexicon COMMENTARIES" */}
                 <div className="flex items-center gap-4 sm:gap-8 text-xs sm:text-sm font-crimson tracking-widest text-text-secondary uppercase mb-12">
-                    <span className="hover:text-gold-primary cursor-pointer transition-colors italic">Compendium</span>
+                    <span
+                        onClick={() => setIsCompendiumOpen(true)}
+                        className="hover:text-gold-primary cursor-pointer transition-colors italic"
+                    >
+                        Compendium
+                    </span>
                     <div className="w-1.5 h-1.5 rotate-45 bg-gold-border/50"></div>
                     <span className="hover:text-gold-primary cursor-pointer transition-colors italic">Lexicon</span>
                     <div className="w-1.5 h-1.5 rotate-45 bg-gold-border/50"></div>
@@ -92,6 +98,12 @@ const ChapterList = () => {
                     );
                 })}
             </div>
+
+            {/* Compendium Modal */}
+            <CompendiumModal
+                isOpen={isCompendiumOpen}
+                onClose={() => setIsCompendiumOpen(false)}
+            />
         </div>
     );
 };
