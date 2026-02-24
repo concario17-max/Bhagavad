@@ -1,15 +1,19 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { CHAPTER_DATA } from '../constants';
 import CompendiumModal from '../components/CompendiumModal';
 import LexiconModal from '../components/LexiconModal';
 import ReflectionsModal from '../components/ReflectionsModal';
 
 const ChapterList = () => {
+    const navigate = useNavigate();
     const [chapters, setChapters] = useState([]);
     const [isCompendiumOpen, setIsCompendiumOpen] = useState(false);
     const [isLexiconOpen, setIsLexiconOpen] = useState(false);
     const [isReflectionsOpen, setIsReflectionsOpen] = useState(false);
+
+    const [selectedChapter, setSelectedChapter] = useState('');
+    const [selectedVerse, setSelectedVerse] = useState('');
 
     useEffect(() => {
         fetch('/gita.json')
@@ -69,15 +73,45 @@ const ChapterList = () => {
                     <div className="flex-1 h-px bg-gold-border"></div>
                 </div>
 
-                {/* Simple Selector box (Visual imitation of Yoga Sutras selector) */}
+                {/* Functional Selector box */}
                 <div className="bg-white/80 dark:bg-dark-surface/80 backdrop-blur-sm border border-gold-border/60 rounded-xl shadow-[0_4px_25px_-5px_rgba(184,134,11,0.06)] dark:shadow-[0_4px_25px_-5px_rgba(0,0,0,0.3)] p-4 w-full max-w-2xl mx-auto flex items-center justify-between mb-16 relative z-10">
                     <div className="flex-1 flex flex-col items-start px-4 border-r border-gold-border/30">
                         <span className="text-[10px] font-bold text-gold-primary/60 tracking-[0.2em] uppercase mb-1">CHAPTER</span>
-                        <div className="text-sm font-crimson font-medium text-text-primary w-full text-left">Select a Chapter</div>
+                        <select
+                            className="text-sm font-crimson font-medium text-text-primary bg-transparent outline-none w-full cursor-pointer appearance-none dark:text-dark-text-primary"
+                            value={selectedChapter}
+                            onChange={(e) => {
+                                const ch = e.target.value;
+                                setSelectedChapter(ch);
+                                setSelectedVerse(''); // Reset verse when chapter changes
+                            }}
+                        >
+                            <option value="">Select a Chapter</option>
+                            {chapters.map(ch => (
+                                <option key={ch.chapter} value={ch.chapter}>Chapter {ch.chapter}</option>
+                            ))}
+                        </select>
                     </div>
+
                     <div className="flex-1 flex flex-col items-start px-4">
                         <span className="text-[10px] font-bold text-gold-primary/60 tracking-[0.2em] uppercase mb-1">VERSE</span>
-                        <div className="text-sm font-crimson font-medium text-text-primary w-full text-left">Select a Verse</div>
+                        <select
+                            className="text-sm font-crimson font-medium text-text-primary bg-transparent outline-none w-full cursor-pointer appearance-none dark:text-dark-text-primary"
+                            value={selectedVerse}
+                            disabled={!selectedChapter}
+                            onChange={(e) => {
+                                const v = e.target.value;
+                                setSelectedVerse(v);
+                                if (selectedChapter && v) {
+                                    navigate(`/chapter/${selectedChapter}/verse/${v}`);
+                                }
+                            }}
+                        >
+                            <option value="">{selectedChapter ? "Select a Verse" : "Select Chapter First"}</option>
+                            {selectedChapter && chapters.find(c => c.chapter === parseInt(selectedChapter))?.verses.map(v => (
+                                <option key={v.verse} value={v.verse}>Verse {v.verse}</option>
+                            ))}
+                        </select>
                     </div>
                 </div>
             </div>
