@@ -1,27 +1,27 @@
 @import "tailwindcss";
 
 @theme {
-  /* Surface Colors - Matching Yoga Sutras Light Cream */
-  --color-gold-bg: #FAF9F6;
-  --color-gold-surface: #F5EFE6;
-  --color-gold-border: #E8DDCA;
+  /* Surface Colors - Premium Hotel Soft Beige/Cream */
+  --color-gold-bg: #F3EFE7;
+  --color-gold-surface: #EAE3D5;
+  --color-gold-border: #D1C5B0;
 
-  --color-dark-bg: #0A0A0A;
-  --color-dark-surface: #141414;
-  --color-dark-border: #262626;
+  --color-dark-bg: #070707;
+  --color-dark-surface: #111111;
+  --color-dark-border: #222222;
 
-  /* Primary Gold Accents - Softer, elegant gold */
-  --color-gold-primary: #A68B5C;
+  /* Primary Gold Accents - Saturated but elegant */
+  --color-gold-primary: #A38454;
   --color-gold-light: #C2A878;
   --color-gold-muted: #8E793E;
-  --color-gold-glow: rgba(166, 139, 92, 0.15);
+  --color-gold-glow: rgba(163, 132, 84, 0.15);
 
-  /* Text Colors - Darker charcoal/navy mimic for primary text */
-  --color-text-primary: #1C2B36;
-  --color-text-secondary: #5A6268;
+  /* Text Colors */
+  --color-text-primary: #182229;
+  --color-text-secondary: #5B636A;
 
-  --color-dark-text-primary: #F0EAD6;
-  --color-dark-text-secondary: #A39B8A;
+  --color-dark-text-primary: #EDE8DB;
+  --color-dark-text-secondary: #9E9685;
 
   /* Fonts */
   --font-crimson: "Crimson Pro", "Noto Serif", serif;

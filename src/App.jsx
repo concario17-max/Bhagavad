@@ -13,16 +13,21 @@ const MainLayout = () => {
     const isVerseView = location.pathname.includes('/chapter/') && location.pathname.includes('/verse/');
 
     return (
-        <div className="min-h-screen flex flex-col bg-gold-bg dark:bg-dark-bg transition-colors duration-500">
-            <Header />
-            <div className="flex flex-1 relative">
-                {isVerseView && <Sidebar />}
-                <main className="flex-1 min-w-0">
-                    <Outlet />
-                </main>
-                {isVerseView && <Reflections />}
+        <div className="min-h-screen flex flex-col bg-gold-bg dark:bg-dark-bg transition-colors duration-500 relative selection:bg-gold-primary/20 selection:text-text-primary dark:selection:text-dark-text-primary">
+            {/* Ambient luxury spotlight overlay */}
+            <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(255,255,255,0.65)_0%,_transparent_80%)] dark:bg-[radial-gradient(ellipse_at_top,_rgba(255,255,255,0.04)_0%,_transparent_80%)] z-0"></div>
+
+            <div className="relative z-10 flex flex-col flex-1 min-h-screen">
+                <Header />
+                <div className="flex flex-1 relative">
+                    {isVerseView && <Sidebar />}
+                    <main className="flex-1 min-w-0">
+                        <Outlet />
+                    </main>
+                    {isVerseView && <Reflections />}
+                </div>
+                {!isVerseView && <Footer />}
             </div>
-            {!isVerseView && <Footer />}
         </div>
     );
 };

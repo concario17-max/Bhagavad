@@ -36,7 +36,7 @@ const ChapterList = () => {
                 <div className="w-12 h-12 flex items-center justify-center rounded-full bg-gold-surface/50 dark:bg-dark-surface border border-gold-border dark:border-dark-border mb-6">
                     <img src="/gita_header_icon.png" alt="Icon" className="w-6 h-6 object-contain opacity-80" />
                 </div>
-                <h1 className="text-3xl sm:text-4xl md:text-[44px] tracking-[0.15em] font-crimson text-text-primary dark:text-dark-text-primary mb-3">
+                <h1 className="text-4xl sm:text-5xl md:text-[56px] tracking-[0.2em] font-crimson text-text-primary dark:text-dark-text-primary mb-5 drop-shadow-sm font-light">
                     BHAGAVAD GITA
                 </h1>
                 <p className="text-sm sm:text-base text-gold-primary dark:text-gold-light italic font-crimson tracking-wide mb-8">
@@ -116,25 +116,28 @@ const ChapterList = () => {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-[1px] bg-gold-border/30 dark:bg-dark-border max-w-6xl mx-auto rounded-none overflow-hidden border border-gold-border/40">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-7xl mx-auto px-4 relative z-10 pb-20">
                 {chapters.map((ch) => {
                     const chapterInfo = CHAPTER_DATA[ch.chapter];
                     return (
                         <Link
                             key={ch.chapter}
                             to={`/chapter/${ch.chapter}/verse/1`}
-                            className="group relative flex flex-col items-center justify-start text-center p-8 pt-12 sm:pt-16 bg-white/40 dark:bg-dark-bg/40 backdrop-blur-sm hover:bg-gold-surface/40 dark:hover:bg-dark-surface transition-all duration-500 min-h-[320px]"
+                            className="group relative flex flex-col items-center justify-start text-center p-8 pt-12 sm:pt-16 bg-white/50 dark:bg-[#161616]/70 backdrop-blur-md border border-gold-border/50 hover:border-gold-primary/70 rounded-2xl shadow-xl shadow-black/5 hover:shadow-2xl hover:shadow-gold-primary/20 dark:shadow-none dark:hover:shadow-[0_8px_30px_-5px_rgba(0,0,0,0.6)] transition-all duration-700 min-h-[340px] overflow-hidden"
                         >
+                            {/* Inner Hover Gradient Spotlight */}
+                            <div className="absolute inset-0 bg-gradient-to-b from-white/60 to-transparent dark:from-white/[0.03] dark:to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-0 pointer-events-none"></div>
+
                             {/* Icon Placeholder (Sun/Lotus/Mind) */}
-                            <div className="w-8 h-8 flex items-center justify-center text-gold-primary/50 mb-4 group-hover:scale-110 transition-transform">
-                                <span className="text-2xl font-serif leading-none opacity-80">֍</span>
+                            <div className="w-8 h-8 flex items-center justify-center text-gold-primary/60 mb-6 group-hover:scale-110 transition-transform relative z-10">
+                                <span className="text-2xl font-serif leading-none opacity-90">֍</span>
                             </div>
 
                             <div className="relative z-10 w-full mb-auto flex flex-col items-center">
-                                <span className="block mb-3 text-[11px] font-black tracking-[0.35em] uppercase text-gold-primary/80 dark:text-gold-light/80 drop-shadow-sm">
+                                <span className="block mb-3 text-[11px] font-black tracking-[0.35em] uppercase text-gold-primary/90 dark:text-gold-light/90 drop-shadow-sm">
                                     CHAPTER {ch.chapter}
                                 </span>
-                                <h2 className="font-bold tracking-wide mb-4 text-text-primary dark:text-dark-text-primary font-noto-kr flex flex-col gap-1.5 mt-1">
+                                <h2 className="font-bold tracking-wide mb-5 text-text-primary dark:text-dark-text-primary font-noto-kr flex flex-col gap-1.5 mt-1">
                                     {(() => {
                                         const title = chapterInfo?.name_korean || chapterInfo?.name || ch.name_translated || "";
                                         const match = title.match(/^(.*?)\s*\((.*?)\)$/);
