@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { NavLink, useParams } from 'react-router-dom';
+import { NavLink, useParams, useNavigate } from 'react-router-dom';
 import { ChevronDown, ChevronRight, BookOpen, X } from 'lucide-react';
 import { CHAPTER_DATA } from '../constants';
 import { useUI } from '../context/UIContext';
@@ -9,6 +9,7 @@ const Sidebar = () => {
     const { isSidebarOpen, setIsSidebarOpen } = useUI();
     const [chapters, setChapters] = useState([]);
     const [expandedChapter, setExpandedChapter] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetch('/gita.json')
@@ -31,6 +32,7 @@ const Sidebar = () => {
 
     const toggleChapter = (chNum) => {
         setExpandedChapter(chNum);
+        navigate(`/chapter/${chNum}/verse/1`);
     };
 
     const currentChapter = chapters.find(ch => ch.chapter === expandedChapter);
@@ -75,22 +77,22 @@ const Sidebar = () => {
                                 <button
                                     key={ch.chapter}
                                     onClick={() => toggleChapter(ch.chapter)}
-                                    className={`w-full flex items-start justify-between gap-2 px-3 py-2.5 rounded-lg text-left transition-colors ${isExpanded
-                                        ? 'bg-gold-surface dark:bg-[#222] text-text-primary dark:text-gold-light font-medium'
-                                        : 'text-text-secondary dark:text-dark-text-secondary hover:bg-gold-surface/50 dark:hover:bg-[#1a1a1a]'
+                                    className={`w-full flex items-start justify-between gap-2 px-3 py-3 rounded-xl text-left transition-colors ${isExpanded
+                                        ? 'bg-[#F5EFE6] dark:bg-[#222] text-[#1C2B36] dark:text-gold-light'
+                                        : 'text-[#5B7282] dark:text-dark-text-secondary hover:bg-gold-surface/50 dark:hover:bg-[#1a1a1a]'
                                         }`}
                                 >
                                     <div className="flex-1 pr-2 flex flex-col gap-0.5">
-                                        <span className="text-sm leading-snug font-inter font-bold break-keep">
+                                        <span className={`text-[15px] leading-snug font-inter break-keep ${isExpanded ? 'font-bold text-[#1C2B36]' : 'font-bold'}`}>
                                             {ch.chapter}. {mainTitle}
                                         </span>
                                         {subTitle && (
-                                            <span className="text-xs font-inter font-medium opacity-60 break-keep mt-0.5">
+                                            <span className={`text-[13px] font-inter break-keep mt-0.5 ${isExpanded ? 'opacity-50 text-[#1C2B36] font-medium' : 'opacity-60 font-medium'}`}>
                                                 {subTitle}
                                             </span>
                                         )}
                                     </div>
-                                    <span className={`shrink-0 mt-0.5 text-[#A68B5C] bg-[#F5EFE6] dark:bg-[#222] px-2 py-0.5 rounded text-xs font-bold ${isExpanded ? 'opacity-100' : 'opacity-70'}`}>
+                                    <span className={`shrink-0 mt-0.5 text-[#A68B5C] px-2 py-0.5 rounded text-xs font-bold ${isExpanded ? 'opacity-100' : 'opacity-70'}`}>
                                         {ch.verses.length}
                                     </span>
                                 </button>
