@@ -283,7 +283,7 @@ const VerseView = () => {
                     {verseData.translation_en && (
                         <div className="mb-8">
                             <h3 className="text-xs font-semibold uppercase tracking-widest text-gold-primary/70 dark:text-gold-light/60 text-center mb-3 font-inter">English</h3>
-                            <p className="text-base sm:text-lg leading-loose text-text-primary dark:text-dark-text-primary font-inter min-h-[1.5em] text-center max-w-2xl mx-auto px-2 sm:px-0 whitespace-pre-wrap">
+                            <p className="text-base sm:text-lg leading-loose text-text-primary dark:text-dark-text-primary font-inter min-h-[1.5em] text-center max-w-3xl mx-auto px-2 sm:px-0 whitespace-pre-line break-keep">
                                 {verseData.translation_en}
                             </p>
                         </div>
@@ -292,7 +292,7 @@ const VerseView = () => {
                     {verseData.translation_ham && (
                         <div className="mb-8">
                             <h3 className="text-xs font-semibold uppercase tracking-widest text-gold-primary/70 dark:text-gold-light/60 text-center mb-3 font-inter">함석헌 역</h3>
-                            <p className="font-noto-kr text-base sm:text-lg leading-loose text-text-primary dark:text-dark-text-primary min-h-[1.5em] text-center max-w-2xl mx-auto px-2 sm:px-0 whitespace-pre-wrap">
+                            <p className="font-noto-kr text-base sm:text-lg leading-loose text-text-primary dark:text-dark-text-primary min-h-[1.5em] text-center max-w-3xl mx-auto px-2 sm:px-0 whitespace-pre-line break-keep">
                                 {verseData.translation_ham}
                             </p>
                         </div>
@@ -301,7 +301,7 @@ const VerseView = () => {
                     {verseData.translation_gil && (
                         <div className="mb-4">
                             <h3 className="text-xs font-semibold uppercase tracking-widest text-gold-primary/70 dark:text-gold-light/60 text-center mb-3 font-inter">길희성 역</h3>
-                            <p className="font-noto-kr text-base sm:text-lg leading-loose text-text-primary dark:text-dark-text-primary min-h-[1.5em] text-center max-w-2xl mx-auto px-2 sm:px-0 whitespace-pre-wrap">
+                            <p className="font-noto-kr text-base sm:text-lg leading-loose text-text-primary dark:text-dark-text-primary min-h-[1.5em] text-center max-w-3xl mx-auto px-2 sm:px-0 whitespace-pre-line break-keep">
                                 {verseData.translation_gil}
                             </p>
                         </div>
