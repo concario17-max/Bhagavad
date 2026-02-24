@@ -82,7 +82,7 @@ const Reflections = () => {
                     onClick={() => setIsReflectionsOpen(false)}
                 />
             )}
-            <aside className={`fixed inset-y-0 right-0 z-50 w-[90vw] sm:w-[400px] bg-[#F5EFE6] dark:bg-[#111] border-l border-gold-border/40 dark:border-[#222] h-full lg:h-[calc(100vh-64px)] lg:sticky lg:top-16 transform transition-transform duration-300 lg:translate-x-0 ${isReflectionsOpen ? 'translate-x-0 overflow-hidden shadow-2xl lg:shadow-none' : 'translate-x-full'} flex flex-col font-inter`}>
+            <aside className={`fixed inset-y-0 right-0 z-50 w-[90vw] sm:w-[400px] bg-white/40 dark:bg-dark-surface/40 backdrop-blur-md border-l border-gold-primary/20 dark:border-dark-border/50 h-full lg:h-[calc(100vh-64px)] lg:sticky lg:top-16 transform transition-transform duration-300 lg:translate-x-0 ${isReflectionsOpen ? 'translate-x-0 overflow-hidden shadow-2xl lg:shadow-none' : 'translate-x-full'} flex flex-col font-inter`}>
 
                 {/* Mobile Close Button */}
                 <div className="lg:hidden absolute top-4 right-4 z-50">
@@ -106,7 +106,7 @@ const Reflections = () => {
                             value={note}
                             onChange={(e) => setNote(e.target.value)}
                             placeholder="이 수트라에 대한 나만의 단상이나 해석을 기록해보세요..."
-                            className="flex-1 w-full p-4 rounded-xl border border-gold-border/50 dark:border-[#333] bg-white dark:bg-[#1a1a1a] text-text-primary dark:text-dark-text-primary focus:outline-none focus:border-gold-primary/50 focus:ring-1 focus:ring-gold-primary/20 shadow-sm transition-all resize-none font-inter text-[13px] leading-relaxed custom-scrollbar placeholder:text-text-secondary/40 dark:placeholder:text-dark-text-secondary/40"
+                            className="flex-1 w-full p-5 rounded-2xl border border-gold-primary/20 dark:border-dark-border/60 bg-white/70 dark:bg-dark-bg/60 text-text-primary dark:text-dark-text-primary focus:outline-none focus:border-gold-primary/50 focus:ring-1 focus:ring-gold-primary/20 shadow-inner backdrop-blur-sm transition-all resize-none font-inter text-[14px] leading-relaxed custom-scrollbar placeholder:text-text-secondary/40 dark:placeholder:text-dark-text-secondary/40"
                         />
                     </div>
 
@@ -114,7 +114,7 @@ const Reflections = () => {
                         <div className="flex-1 relative">
                             <button
                                 onClick={() => setShowExportMenu(!showExportMenu)}
-                                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border border-gold-border/50 dark:border-[#333] text-[#5B7282] dark:text-dark-text-secondary hover:bg-gold-surface/50 dark:hover:bg-[#222] transition-all text-xs font-bold bg-white dark:bg-[#111] shadow-sm tracking-wide"
+                                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-gold-primary/20 dark:border-dark-border/60 text-text-secondary dark:text-dark-text-secondary hover:bg-gold-surface/60 dark:hover:bg-dark-bg transition-all text-xs font-bold bg-white/60 dark:bg-dark-surface/60 backdrop-blur-sm shadow-sm tracking-wide"
                             >
                                 <Download className="w-3.5 h-3.5" />
                                 Export
@@ -141,7 +141,7 @@ const Reflections = () => {
                         <button
                             onClick={handleSave}
                             disabled={isSaving}
-                            className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-[#A68B5C] hover:bg-[#8E793E] text-white transition-all text-xs font-bold shadow-sm active:scale-95 disabled:opacity-70"
+                            className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gold-primary hover:bg-gold-muted text-white transition-all text-xs font-bold shadow-md hover:shadow-lg hover:shadow-gold-primary/20 active:scale-95 disabled:opacity-70"
                         >
                             {isSaving ? 'Saving...' : 'Save Note'}
                         </button>

@@ -166,7 +166,7 @@ const VerseView = () => {
     const progressPercent = duration ? (currentTime / duration) * 100 : 0;
 
     return (
-        <div className="min-h-screen bg-gold-bg font-crimson dark:bg-dark-bg text-text-primary dark:text-dark-text-primary transition-colors duration-500">
+        <div className="min-h-screen bg-transparent font-crimson text-text-primary dark:text-dark-text-primary transition-colors duration-500">
             <div className="mx-auto max-w-[1000px] px-4 pb-24 pt-6 sm:px-6">
                 {/* Verse Heading / Breadcrumbs (Centered) */}
                 <div className="flex flex-col items-center justify-center mb-2 pt-4">
@@ -216,7 +216,7 @@ const VerseView = () => {
                         onEnded={handleAudioEnded}
                         className="hidden"
                     />
-                    <div className="flex items-center justify-between w-full max-w-[400px] rounded-full border border-gold-border/60 dark:border-[#333] bg-white dark:bg-[#111] px-5 py-2.5 shadow-sm transition-all hover:border-gold-primary/30">
+                    <div className="flex items-center justify-between w-full max-w-[400px] rounded-full border border-gold-primary/20 dark:border-dark-border/50 bg-white/40 dark:bg-[#111]/40 backdrop-blur-md px-5 py-2.5 shadow-sm hover:shadow-md transition-all hover:border-gold-primary/40">
                         <button
                             onClick={togglePlay}
                             disabled={!verseData.audio}
@@ -260,7 +260,8 @@ const VerseView = () => {
                         {verseData.words?.map((word, i) => {
                             const cleanMeaning = word.m.replace(/^—\s*/, '').trim();
                             return (
-                                <div key={i} className="flex flex-col px-3 py-2 rounded-xl bg-white/40 dark:bg-[#1a1a1a]/40 border border-gold-border/30 dark:border-[#222]">
+                                <div key={i} className="flex flex-col px-3 py-2 rounded-xl bg-white/30 dark:bg-dark-bg/40 backdrop-blur-sm border border-gold-primary/10 dark:border-dark-border/50 shadow-sm relative overflow-hidden group">
+                                    <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-transparent dark:from-white/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
                                     <span className="font-bold text-text-primary dark:text-dark-text-primary text-[15px] font-crimson mb-0.5">{word.s}</span>
                                     <span className="text-text-secondary dark:text-dark-text-secondary text-[13px] font-inter leading-relaxed break-keep">{cleanMeaning}</span>
                                 </div>
@@ -320,7 +321,7 @@ const VerseView = () => {
 
                 {/* Navigation (Floating Pill Style) */}
                 <div className="mt-16 pb-8 flex justify-center font-inter">
-                    <div className="flex items-center justify-between bg-[#FDFBF7] dark:bg-[#111] border border-gold-border/40 dark:border-[#333] rounded-full px-3 py-1.5 shadow-sm min-w-[180px]">
+                    <div className="flex items-center justify-between bg-white/40 dark:bg-dark-surface/40 backdrop-blur-md border border-gold-primary/20 dark:border-dark-border/50 rounded-full px-3 py-1.5 shadow-sm min-w-[180px] hover:shadow-md transition-shadow">
                         <button
                             onClick={handlePrev}
                             disabled={parseInt(chapterNum) === 1 && parseInt(verseNum) === 1}

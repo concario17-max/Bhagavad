@@ -47,7 +47,7 @@ const Sidebar = () => {
                 />
             )}
 
-            <aside className={`fixed inset-y-0 left-0 z-50 w-80 bg-gold-bg/95 dark:bg-[#111] border-r border-gold-border/40 dark:border-[#222] h-full lg:h-[calc(100vh-64px)] lg:sticky lg:top-16 transform transition-transform duration-300 lg:translate-x-0 ${isSidebarOpen ? 'translate-x-0 overflow-hidden' : '-translate-x-full'} flex flex-col font-inter`}>
+            <aside className={`fixed inset-y-0 left-0 z-50 w-80 bg-white/40 dark:bg-dark-surface/40 backdrop-blur-md border-r border-gold-primary/20 dark:border-dark-border/50 h-full lg:h-[calc(100vh-64px)] lg:sticky lg:top-16 transform transition-transform duration-300 lg:translate-x-0 ${isSidebarOpen ? 'translate-x-0 overflow-hidden shadow-2xl lg:shadow-none' : '-translate-x-full'} flex flex-col font-inter`}>
 
                 {/* Mobile Close Button & Header */}
                 <div className="lg:hidden flex items-center justify-between p-4 border-b border-gold-border/30 dark:border-[#333] shrink-0">
@@ -78,8 +78,8 @@ const Sidebar = () => {
                                     key={ch.chapter}
                                     onClick={() => toggleChapter(ch.chapter)}
                                     className={`w-full flex items-start justify-between gap-2 px-3 py-3 rounded-xl text-left transition-colors ${isExpanded
-                                        ? 'bg-[#F5EFE6] dark:bg-[#222] text-[#1C2B36] dark:text-gold-light'
-                                        : 'text-[#5B7282] dark:text-dark-text-secondary hover:bg-gold-surface/50 dark:hover:bg-[#1a1a1a]'
+                                        ? 'bg-white/60 dark:bg-dark-bg/60 shadow-sm border border-gold-primary/20 text-[#1C2B36] dark:text-gold-light'
+                                        : 'text-[#5B7282] dark:text-dark-text-secondary hover:bg-gold-surface/40 dark:hover:bg-dark-bg/40 border border-transparent'
                                         }`}
                                 >
                                     <div className="flex-1 pr-2 flex flex-col gap-0.5">
@@ -126,8 +126,8 @@ const Sidebar = () => {
                                         to={`/chapter/${currentChapter.chapter}/verse/${v.verse}`}
                                         className={({ isActive }) =>
                                             `flex items-start gap-3 px-3 py-2.5 rounded-lg text-sm transition-all ${isActive
-                                                ? 'bg-gold-surface border border-gold-border/50 text-text-primary font-medium shadow-sm dark:bg-[#222] dark:border-[#333] dark:text-gold-light'
-                                                : 'border border-transparent text-text-secondary dark:text-dark-text-secondary hover:text-text-primary hover:bg-gold-surface/30 dark:hover:bg-[#1a1a1a]'
+                                                ? 'bg-white/60 border border-gold-primary/30 text-text-primary font-medium shadow-sm dark:bg-dark-bg/60 dark:border-gold-primary/20 dark:text-gold-light'
+                                                : 'border border-transparent text-text-secondary dark:text-dark-text-secondary hover:text-text-primary hover:bg-gold-surface/30 dark:hover:bg-dark-bg/40'
                                             }`
                                         }
                                     >
