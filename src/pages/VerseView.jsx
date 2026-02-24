@@ -183,15 +183,15 @@ const VerseView = () => {
                 </div>
 
                 {/* Sanskrit */}
-                <section className="mb-6 text-center px-2 sm:px-0">
-                    <p className="font-noto text-[#1F2937] dark:text-[#E5E7EB] text-xl sm:text-2xl leading-relaxed whitespace-pre-line tracking-wide font-bold drop-shadow-sm">
+                <section className="mb-4 text-center px-2 sm:px-0">
+                    <p className="font-noto text-[#1F2937] dark:text-[#E5E7EB] text-xl sm:text-2xl leading-normal whitespace-pre-line tracking-wide font-bold drop-shadow-sm">
                         {verseData.sanskrit}
                     </p>
                 </section>
 
                 {/* Transliteration */}
-                <section className="mb-6 text-center text-text-secondary/80 dark:text-dark-text-secondary/80 flex flex-col items-center">
-                    <p className="font-noto italic text-[15px] leading-relaxed whitespace-pre-line tracking-wide mb-2">
+                <section className="mb-5 text-center text-text-secondary/80 dark:text-dark-text-secondary/80 flex flex-col items-center">
+                    <p className="font-noto italic text-[15px] leading-snug whitespace-pre-line tracking-wide mb-2">
                         {verseData.iast}
                     </p>
                     <div className="w-8 h-[1px] bg-gold-border/60 my-2"></div>
