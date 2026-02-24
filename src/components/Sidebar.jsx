@@ -119,7 +119,7 @@ const Sidebar = () => {
                                             }`
                                         }
                                     >
-                                        <span className={`min-w-[35px] font-bold text-xs mt-[3px] ${v.chapter === parseInt(chapterNum) && v.verse === parseInt(verseNum) ? 'text-gold-primary' : 'text-text-secondary/60 dark:text-dark-text-secondary/60'}`}>{displayVerse}</span>
+                                        <span className={`min-w-[55px] whitespace-nowrap font-bold text-xs mt-[3px] ${v.chapter === parseInt(chapterNum) && v.verse === parseInt(verseNum) ? 'text-gold-primary' : 'text-text-secondary/60 dark:text-dark-text-secondary/60'}`}>{displayVerse}</span>
                                         <span className="truncate opacity-90 text-[13px] leading-relaxed font-inter">
                                             {verseText}
                                         </span>
