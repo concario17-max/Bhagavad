@@ -169,15 +169,15 @@ const VerseView = () => {
         <div className="min-h-screen bg-gold-bg font-crimson dark:bg-dark-bg text-text-primary dark:text-dark-text-primary transition-colors duration-500">
             <div className="mx-auto max-w-[1000px] px-4 pb-24 pt-6 sm:px-6">
                 {/* Verse Heading / Breadcrumbs (Centered) */}
-                <div className="flex flex-col items-center justify-center mb-10 pt-4">
-                    <nav className="flex items-center gap-2 text-[13px] text-text-secondary dark:text-dark-text-secondary font-inter mb-8">
+                <div className="flex flex-col items-center justify-center mb-2 pt-4">
+                    <nav className="flex items-center gap-2 text-[13px] text-text-secondary dark:text-dark-text-secondary font-inter mb-6">
                         <Link to="/" className="hover:text-gold-primary dark:hover:text-gold-light transition-colors">Chapter {chapterNum}</Link>
                         <span>›</span>
                         <span className="text-text-primary dark:text-dark-text-primary font-bold">Sutra {verseRange}</span>
                     </nav>
 
                     {/* Top small icon above Sanskrit */}
-                    <div className="w-8 h-8 rounded-full bg-gold-border/20 flex items-center justify-center mb-6 text-gold-primary">
+                    <div className="w-8 h-8 rounded-full bg-gold-border/20 flex items-center justify-center mb-2 text-gold-primary">
                         <span className="font-serif leading-none">֍</span>
                     </div>
                 </div>
