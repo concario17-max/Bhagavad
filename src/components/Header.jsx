@@ -71,12 +71,38 @@ const Header = () => {
                 {isVerseView && (
                     <div className="flex items-center gap-3">
                         {chapters[chapterNum] && (
-                            <div className="hidden sm:flex items-center gap-3 rounded-full bg-[#FDFBF7] dark:bg-[#111] border border-[#E5E0D8] dark:border-[#333] px-4 py-1.5 shadow-sm text-[13px] font-inter font-medium tracking-widest text-[#8FA0AD] dark:text-dark-text-secondary cursor-pointer hover:border-[#D5CDBF] dark:hover:border-[#444] transition-colors">
-                                <span className="text-[#A68B5C] font-bold">{romanize(parseInt(chapterNum))}</span>
-                                <ChevronDown className="w-3.5 h-3.5 text-[#A68B5C]" strokeWidth={2.5} />
+                            <div className="hidden sm:flex items-center gap-3 rounded-full bg-[#FDFBF7] dark:bg-[#111] border border-[#E5E0D8] dark:border-[#333] px-4 py-1.5 shadow-sm text-[13px] font-inter font-medium tracking-widest text-[#8FA0AD] dark:text-dark-text-secondary transition-colors relative">
+                                {/* Chapter Select */}
+                                <div className="relative flex items-center gap-1 group">
+                                    <span className="text-[#A68B5C] font-bold">CHAPTER {chapterNum}</span>
+                                    <ChevronDown className="w-3.5 h-3.5 text-[#A68B5C]" strokeWidth={2.5} />
+                                    <select
+                                        value={chapterNum}
+                                        onChange={handleChapterChange}
+                                        className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+                                    >
+                                        {Object.keys(chapters).map(ch => (
+                                            <option key={ch} value={ch}>Chapter {ch}</option>
+                                        ))}
+                                    </select>
+                                </div>
+
                                 <div className="w-[1px] h-3.5 bg-[#E5E0D8] dark:bg-[#333] mx-1"></div>
-                                <span className="opacity-80">SUTRA</span>
-                                <ChevronDown className="w-3.5 h-3.5 opacity-60" strokeWidth={2.5} />
+
+                                {/* Verse Select */}
+                                <div className="relative flex items-center gap-1 group">
+                                    <span className="opacity-80">SUTRA {verseNum}</span>
+                                    <ChevronDown className="w-3.5 h-3.5 opacity-60" strokeWidth={2.5} />
+                                    <select
+                                        value={verseNum}
+                                        onChange={handleVerseChange}
+                                        className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+                                    >
+                                        {chapters[chapterNum].verses.map((v) => (
+                                            <option key={v.verse} value={v.verse}>Sutra {v.verse}</option>
+                                        ))}
+                                    </select>
+                                </div>
                             </div>
                         )}
 
