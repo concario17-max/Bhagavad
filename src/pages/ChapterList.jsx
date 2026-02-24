@@ -3,11 +3,13 @@ import { Link } from 'react-router-dom';
 import { CHAPTER_DATA } from '../constants';
 import CompendiumModal from '../components/CompendiumModal';
 import LexiconModal from '../components/LexiconModal';
+import ReflectionsModal from '../components/ReflectionsModal';
 
 const ChapterList = () => {
     const [chapters, setChapters] = useState([]);
     const [isCompendiumOpen, setIsCompendiumOpen] = useState(false);
     const [isLexiconOpen, setIsLexiconOpen] = useState(false);
+    const [isReflectionsOpen, setIsReflectionsOpen] = useState(false);
 
     useEffect(() => {
         fetch('/gita.json')
@@ -52,7 +54,12 @@ const ChapterList = () => {
                         Lexicon
                     </span>
                     <div className="w-1.5 h-1.5 rotate-45 bg-gold-border/50"></div>
-                    <span className="hover:text-gold-primary cursor-pointer transition-colors italic">Commentaries</span>
+                    <span
+                        onClick={() => setIsReflectionsOpen(true)}
+                        className="hover:text-gold-primary cursor-pointer transition-colors italic"
+                    >
+                        Commentaries
+                    </span>
                 </div>
 
                 {/* Subtitle Divider with Flower/Lotus */}
@@ -116,6 +123,12 @@ const ChapterList = () => {
             <LexiconModal
                 isOpen={isLexiconOpen}
                 onClose={() => setIsLexiconOpen(false)}
+            />
+
+            {/* Reflections Modal */}
+            <ReflectionsModal
+                isOpen={isReflectionsOpen}
+                onClose={() => setIsReflectionsOpen(false)}
             />
         </div>
     );
