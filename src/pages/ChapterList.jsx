@@ -2,10 +2,12 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { CHAPTER_DATA } from '../constants';
 import CompendiumModal from '../components/CompendiumModal';
+import LexiconModal from '../components/LexiconModal';
 
 const ChapterList = () => {
     const [chapters, setChapters] = useState([]);
     const [isCompendiumOpen, setIsCompendiumOpen] = useState(false);
+    const [isLexiconOpen, setIsLexiconOpen] = useState(false);
 
     useEffect(() => {
         fetch('/gita.json')
@@ -43,7 +45,12 @@ const ChapterList = () => {
                         Compendium
                     </span>
                     <div className="w-1.5 h-1.5 rotate-45 bg-gold-border/50"></div>
-                    <span className="hover:text-gold-primary cursor-pointer transition-colors italic">Lexicon</span>
+                    <span
+                        onClick={() => setIsLexiconOpen(true)}
+                        className="hover:text-gold-primary cursor-pointer transition-colors italic"
+                    >
+                        Lexicon
+                    </span>
                     <div className="w-1.5 h-1.5 rotate-45 bg-gold-border/50"></div>
                     <span className="hover:text-gold-primary cursor-pointer transition-colors italic">Commentaries</span>
                 </div>
@@ -103,6 +110,12 @@ const ChapterList = () => {
             <CompendiumModal
                 isOpen={isCompendiumOpen}
                 onClose={() => setIsCompendiumOpen(false)}
+            />
+
+            {/* Lexicon Modal */}
+            <LexiconModal
+                isOpen={isLexiconOpen}
+                onClose={() => setIsLexiconOpen(false)}
             />
         </div>
     );
