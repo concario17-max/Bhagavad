@@ -318,29 +318,27 @@ const VerseView = () => {
                     </div>
                 </section>
 
-                {/* Navigation */}
-                <div className="border-t border-gold-border dark:border-dark-border pt-10 mt-16 font-inter">
-                    <div className="flex items-center justify-between">
+                {/* Navigation (Floating Pill Style) */}
+                <div className="mt-16 pb-8 flex justify-center font-inter">
+                    <div className="flex items-center justify-between bg-[#FDFBF7] dark:bg-[#111] border border-gold-border/40 dark:border-[#333] rounded-full px-3 py-1.5 shadow-sm min-w-[180px]">
                         <button
                             onClick={handlePrev}
                             disabled={parseInt(chapterNum) === 1 && parseInt(verseNum) === 1}
-                            className="flex items-center gap-2 px-5 py-2.5 rounded-full hover:bg-gold-surface dark:hover:bg-dark-surface border border-transparent hover:border-gold-border dark:hover:border-dark-border transition-all disabled:opacity-30 disabled:cursor-not-allowed group text-sm font-medium"
+                            className="p-2 rounded-full hover:bg-gold-surface/50 dark:hover:bg-[#222] transition-colors disabled:opacity-30 disabled:cursor-not-allowed group text-[#5B7282] dark:text-dark-text-secondary"
                         >
-                            <ChevronLeft className="w-4 h-4 text-text-secondary dark:text-dark-text-secondary group-hover:text-gold-primary dark:group-hover:text-gold-light transition-colors" />
-                            <span className="text-text-primary dark:text-dark-text-primary group-hover:text-gold-primary dark:group-hover:text-gold-light transition-colors">Previous</span>
+                            <ChevronLeft className="w-5 h-5 group-hover:scale-110 transition-transform stroke-[1.5]" />
                         </button>
 
-                        <span className="text-xs text-text-secondary dark:text-dark-text-secondary font-medium tracking-widest uppercase">
-                            {verseRange} / {totalVerses}
+                        <span className="text-[15px] font-bold text-[#1C2B36] dark:text-dark-text-primary tracking-wide px-4">
+                            {chapterNum}.{verseRange}
                         </span>
 
                         <button
                             onClick={handleNext}
                             disabled={parseInt(chapterNum) === 18 && parseInt(verseNum) === 78}
-                            className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-gold-muted to-gold-primary dark:from-gold-muted dark:to-gold-light text-white dark:text-gray-900 rounded-full shadow-[0_4px_15px_-3px_rgba(184,134,11,0.3)] hover:shadow-[0_6px_20px_-3px_rgba(184,134,11,0.4)] hover:brightness-110 transition-all text-sm font-bold"
+                            className="p-2 rounded-full hover:bg-gold-surface/50 dark:hover:bg-[#222] transition-colors disabled:opacity-30 disabled:cursor-not-allowed group text-[#5B7282] dark:text-dark-text-secondary"
                         >
-                            <span>Next</span>
-                            <ChevronRight className="w-4 h-4" />
+                            <ChevronRight className="w-5 h-5 group-hover:scale-110 transition-transform stroke-[1.5]" />
                         </button>
                     </div>
                 </div>
