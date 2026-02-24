@@ -123,18 +123,18 @@ const ChapterList = () => {
                         <Link
                             key={ch.chapter}
                             to={`/chapter/${ch.chapter}/verse/1`}
-                            className="group relative flex flex-col items-center justify-center text-center p-12 bg-white/40 dark:bg-dark-bg/40 backdrop-blur-sm hover:bg-gold-surface/40 dark:hover:bg-dark-surface transition-all duration-500 min-h-[220px]"
+                            className="group relative flex flex-col items-center justify-start text-center p-8 pt-12 sm:pt-16 bg-white/40 dark:bg-dark-bg/40 backdrop-blur-sm hover:bg-gold-surface/40 dark:hover:bg-dark-surface transition-all duration-500 min-h-[320px]"
                         >
                             {/* Icon Placeholder (Sun/Lotus/Mind) */}
                             <div className="w-8 h-8 flex items-center justify-center text-gold-primary/50 mb-4 group-hover:scale-110 transition-transform">
                                 <span className="text-2xl font-serif leading-none opacity-80">֍</span>
                             </div>
 
-                            <div className="relative z-10 w-full">
-                                <span className="block mb-2 text-[10px] font-bold tracking-[0.3em] uppercase text-gold-primary/70 dark:text-gold-light/70">
+                            <div className="relative z-10 w-full mb-auto flex flex-col items-center">
+                                <span className="block mb-3 text-[11px] font-black tracking-[0.35em] uppercase text-gold-primary/80 dark:text-gold-light/80 drop-shadow-sm">
                                     CHAPTER {ch.chapter}
                                 </span>
-                                <h2 className="font-bold tracking-wide mb-3 text-text-primary dark:text-dark-text-primary font-noto-kr flex flex-col gap-1">
+                                <h2 className="font-bold tracking-wide mb-4 text-text-primary dark:text-dark-text-primary font-noto-kr flex flex-col gap-1.5 mt-1">
                                     {(() => {
                                         const title = chapterInfo?.name_korean || chapterInfo?.name || ch.name_translated || "";
                                         const match = title.match(/^(.*?)\s*\((.*?)\)$/);
