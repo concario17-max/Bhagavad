@@ -65,6 +65,11 @@ const Sidebar = () => {
                     <div className="py-2 px-3 space-y-1">
                         {chapters.map((ch) => {
                             const isExpanded = expandedChapter === ch.chapter;
+                            const title = CHAPTER_DATA[ch.chapter]?.name_korean || ch.name_translated || "";
+
+                            const hasSub = title.includes('(');
+                            const mainTitle = hasSub ? title.substring(0, title.indexOf('(')).trim() : title;
+                            const subTitle = hasSub ? title.substring(title.indexOf('(')).trim() : "";
 
                             return (
                                 <button
@@ -75,10 +80,15 @@ const Sidebar = () => {
                                         : 'text-text-secondary dark:text-dark-text-secondary hover:bg-gold-surface/50 dark:hover:bg-[#1a1a1a]'
                                         }`}
                                 >
-                                    <div className="flex-1 pr-2">
+                                    <div className="flex-1 pr-2 flex flex-col gap-0.5">
                                         <span className="text-sm leading-snug font-inter font-bold break-keep">
-                                            {ch.chapter}. {CHAPTER_DATA[ch.chapter]?.name_korean || ch.name_translated}
+                                            {ch.chapter}. {mainTitle}
                                         </span>
+                                        {subTitle && (
+                                            <span className="text-xs font-inter font-medium opacity-60 break-keep mt-0.5">
+                                                {subTitle}
+                                            </span>
+                                        )}
                                     </div>
                                     <span className={`shrink-0 mt-0.5 text-[#A68B5C] bg-[#F5EFE6] dark:bg-[#222] px-2 py-0.5 rounded text-xs font-bold ${isExpanded ? 'opacity-100' : 'opacity-70'}`}>
                                         {ch.verses.length}
