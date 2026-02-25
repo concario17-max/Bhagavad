@@ -4,19 +4,17 @@ const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
     const [theme, setTheme] = useState(() => {
-        // Check local storage or system preference
+        // Check local storage (default to 'light' to prevent forced mobile dark mode)
         try {
             if (typeof window !== 'undefined') {
                 const savedTheme = localStorage.getItem('theme');
                 if (savedTheme) {
                     return savedTheme;
                 }
-                if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                    return 'dark';
-                }
             }
         } catch (e) {
-            console.warn('Unable to access localStorage or matchMedia:', e);
+            // Error access localStorage
+            console.warn('Unable to access localStorage:', e);
         }
         return 'light';
     });

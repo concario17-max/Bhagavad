@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Lock, PenLine } from 'lucide-react';
+import ThemeToggle from './ThemeToggle';
 
 const PasswordGateway = ({ onAuthenticate }) => {
     const [password, setPassword] = useState('');
@@ -19,6 +20,9 @@ const PasswordGateway = ({ onAuthenticate }) => {
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gold-bg/95 backdrop-blur-sm transition-opacity duration-700 font-crimson">
+            <div className="absolute top-4 right-4 sm:top-6 sm:right-6">
+                <ThemeToggle />
+            </div>
             <div className="w-full max-w-sm px-6 py-12 flex flex-col items-center animate-fade-in-up">
 
                 {/* Lock Icon */}
