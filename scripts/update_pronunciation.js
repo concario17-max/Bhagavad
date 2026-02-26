@@ -28,7 +28,7 @@ async function updatePronunciation() {
             }
 
             // Verse marker: N.M or N.M-K
-            const vMatch = line.match(/^(\d+)\.(\d+)(?:-(\d+))?/);
+            const vMatch = line.match(/^(\d+)\.(\d+(?:-\d+)?)(.*)/);
             if (vMatch) {
                 // Save previous
                 if (currentVerseKey) {
@@ -36,14 +36,17 @@ async function updatePronunciation() {
                 }
 
                 const chId = parseInt(vMatch[1]);
-                const vStart = parseInt(vMatch[2]);
-                // We use the start verse as the key to match gita.json structure
+                const versePart = vMatch[2]; // e.g. "1" or "4-6"
+                const restOfLine = vMatch[3].trim();
+                
+                const vStart = parseInt(versePart.split('-')[0]);
+                
                 currentVerseKey = `${chId}.${vStart}`;
                 currentText = [];
                 
-                // If there's content after the marker on the same line, though usually it's just name
-                // In your file, 1.1 has "드리타라쉬트라 우바차" which is not pronunciation
-                // The actual pronunciation follows on the next line
+                if (restOfLine) {
+                    currentText.push(restOfLine);
+                }
                 continue;
             }
 
