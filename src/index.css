@@ -2,19 +2,19 @@
 
 @theme {
   /* Surface Colors - Premium Hotel Soft Beige/Cream */
-  --color-gold-bg: #F3EFE7;
-  --color-gold-surface: #EAE3D5;
-  --color-gold-border: #D1C5B0;
+  --color-gold-bg: #FDFBF7;
+  --color-gold-surface: #F5EFE6;
+  --color-gold-border: #E5E0D8;
 
-  --color-dark-bg: #070707;
-  --color-dark-surface: #111111;
-  --color-dark-border: #222222;
+  --color-dark-bg: #0A0A0A;
+  --color-dark-surface: #141414;
+  --color-dark-border: #2A2A2A;
 
   /* Primary Gold Accents - Saturated but elegant */
-  --color-gold-primary: #A38454;
-  --color-gold-light: #C2A878;
-  --color-gold-muted: #8E793E;
-  --color-gold-glow: rgba(163, 132, 84, 0.15);
+  --color-gold-primary: #A68B5C;
+  --color-gold-light: #C5AE87;
+  --color-gold-muted: #846F4B;
+  --color-gold-glow: rgba(166, 139, 92, 0.15);
 
   /* Text Colors */
   --color-text-primary: #182229;

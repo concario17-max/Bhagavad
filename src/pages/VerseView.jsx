@@ -310,14 +310,17 @@ const VerseView = () => {
                 </section>
 
                 {/* Commentary */}
-                <section className="mb-12">
-                    <div className="flex items-center justify-center mb-6">
-                        <span className="text-gold-muted/40 dark:text-gold-muted/30 tracking-[8px] text-xs">•••</span>
-                    </div>
-                    <h2 className="mb-5 text-sm font-semibold uppercase tracking-[0.2em] text-gold-muted dark:text-gold-muted text-center font-inter">Commentary</h2>
-                    <div className="text-base sm:text-lg leading-loose text-text-secondary dark:text-dark-text-secondary space-y-4 font-inter min-h-[1.5em] max-w-2xl mx-auto px-2 sm:px-0">
-                    </div>
-                </section>
+                {verseData.commentary_en && (
+                    <section className="mb-12">
+                        <div className="flex items-center justify-center mb-6">
+                            <span className="text-gold-muted/40 dark:text-gold-muted/30 tracking-[8px] text-xs">•••</span>
+                        </div>
+                        <h2 className="mb-5 text-sm font-semibold uppercase tracking-[0.2em] text-gold-muted dark:text-gold-muted text-center font-inter">Commentary</h2>
+                        <div className="text-base sm:text-lg leading-loose text-text-secondary dark:text-dark-text-secondary space-y-4 font-inter min-h-[1.5em] max-w-2xl mx-auto px-2 sm:px-0 whitespace-pre-line break-keep">
+                            {verseData.commentary_en}
+                        </div>
+                    </section>
+                )}
 
                 {/* Navigation (Floating Pill Style) */}
                 <div className="mt-16 pb-8 flex justify-center font-inter">
