@@ -310,7 +310,7 @@ const VerseView = () => {
                 </section>
 
                 {/* Commentary */}
-                {verseData.commentary_en && (
+                {verseData.commentary_en && !verseData.commentary_en.startsWith('$') && (
                     <section className="mb-12">
                         <div className="flex items-center justify-center mb-6">
                             <span className="text-gold-muted/40 dark:text-gold-muted/30 tracking-[8px] text-xs">•••</span>
