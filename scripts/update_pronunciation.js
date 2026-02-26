@@ -39,6 +39,8 @@ async function updatePronunciation() {
                 const versePart = vMatch[2]; // e.g. "1" or "4-6"
                 const restOfLine = vMatch[3].trim();
                 
+                // If it's a range like "4-6", we want to map it to each verse in the range
+                // gita.json for 1.4-6 just has 1.4, so we map to the start verse.
                 const vStart = parseInt(versePart.split('-')[0]);
                 
                 currentVerseKey = `${chId}.${vStart}`;
