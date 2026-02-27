@@ -103,7 +103,6 @@ We have heard, O Janardana, that those men in whose families the religious pract
 Alas! We are involved in a great sin, for we are prepared to kill our kinsmen, out of greed for the pleasures of a kingdom. If the sons of Dhritarashtra, with weapons in hand, should slay me in battle, unresisting and unarmed, that would be better for me.
 
 ## [1.47]
-संजय बोले - ऐसा कहकर शोकाकुल मनवाले अर्जुन बाणसहित धनुष का त्याग करके युद्धभूमि में रथके मध्यभाग में बैठ गये।
 
 ## [2.1]
 Sanjaya said: To him, who was thus overcome with pity, despondent, with eyes full of tears and agitated, Madhusudana (the destroyer of Madhu) or Krishna spoke these words.
@@ -316,7 +315,6 @@ He attains peace into whom all desires enter, just as waters enter the ocean whi
 That person attains peace who, abandoning all desires, moves about without longing, without the sense of ownership, and without egoism.
 
 ## [2.72]
-हे पृथानन्दन ! यह ब्राह्मी स्थिति है। इसको प्राप्त होकर कभी कोई मोहित नहीं होता। इस स्थितिमें यदि अन्तकालमें भी स्थित हो जाय, तो निर्वाण (शान्त) ब्रह्मकी प्राप्ति हो जाती है।
 
 ## [3.1]
 Arjuna said: If Thou thinkest that knowledge is superior to action, O Krishna, why then, O Kesava, doest Thou ask me to engage in this terrible action? With this seemingly perplexing speech, you seem to be confusing my understanding; therefore, tell me one certain way by which I may attain bliss.
@@ -439,7 +437,6 @@ Therefore, O best of the Bharatas, control your senses first and then kill this 
 They say that the senses are superior to the body; the mind is superior to the senses; the intellect is superior to the mind; and He (the Self) is superior even to the intellect.
 
 ## [3.43]
---  इन्द्रियोंको (स्थूलशरीरसे) पर (श्रेष्ठ, सबल, प्रकाशक, व्यापक तथा सूक्ष्म) कहते हैं। इन्द्रियोंसे पर मन है, मनसे भी पर बुद्धि है औऱ जो बुद्धिसे भी पर है वह (काम) है। इस तरह बुद्धिसे पर - (काम-) को जानकर अपने द्वारा अपने-आपको वशमें करके हे महाबाहो ! तू इस कामरूप दुर्जय शत्रुको मार डाल।
 
 ## [4.1]
 The Blessed Lord said, "I taught this imperishable Yoga to Vivasvan; he then told it to Manu; Manu proclaimed it to Ikshvaku.
@@ -562,7 +559,6 @@ The ignorant, the faithless, and the doubting self go to destruction; there is n
 He who has renounced actions through Yoga, whose doubts have been dispelled by knowledge, and who is self-possessed—such a one is not bound by actions, O Arjuna.
 
 ## [4.42]
-इसलिये हे भरतवंशी अर्जुन ! हृदयमें स्थित इस अज्ञानसे उत्पन्न अपने संशयका ज्ञानरूप तलवारसे छेदन करके योग -(समता-) में स्थित हो जा, (और युद्धके लिये) खड़ा हो जा।
 
 ## [5.1]
 Arjuna said, "O Krishna, you praise renunciation of actions and also yoga. Please tell me conclusively which is better of the two."
@@ -643,7 +639,6 @@ Absolute freedom exists on all sides for those self-controlled ascetics who are 
 Shutting out all external contacts and fixing the gaze between the eyebrows, realizing the outgoing and incoming breaths moving within the nostrils. With the senses, mind, and intellect ever controlled, having liberation as their supreme goal, free from desire, fear, and anger, the sage is truly liberated forever.
 
 ## [5.29]
-भक्त मुझे सब यज्ञों और तपोंका भोक्ता, सम्पूर्ण लोकोंका महान् ईश्वर तथा सम्पूर्ण प्राणियोंका सुहृद् (स्वार्थरहित दयालु और प्रेमी) जानकर शान्तिको प्राप्त हो जाता है।
 
 ## [6.1]
 The Blessed Lord said: He who performs his bounden duty without depending on the fruits of his actions—he is a sannyasi and a yogi, not he who is without fire and without action.
@@ -775,7 +770,6 @@ But the Yogi who strives assiduously, purified of sins and perfected gradually o
 The yogi is thought to be superior to the ascetics, even superior to those who have knowledge obtained through the study of scriptures; he is also superior to men of action; therefore, be thou a yogi, O Arjuna.
 
 ## [6.47]
-सम्पूर्ण योगियोंमें भी जो श्रद्धावान् भक्त मुझमें तल्लीन हुए मनसे मेरा भजन करता है, वह मेरे मतमें सर्वश्रेष्ठ योगी है।
 
 ## [7.1]
 The Blessed Lord said, "O Arjuna, hear how you shall, without doubt, know Me fully, with your mind intent on Me, practicing Yoga and taking refuge in Me."
@@ -865,7 +859,6 @@ But those men of virtuous deeds, whose sins have come to an end and who are free
 Those who strive for liberation from old age and death, taking refuge in Me, realize in full that Brahman, the whole knowledge of the Self, and all action.
 
 ## [7.30]
-जो मनुष्य अधिभूत, अधिदैव और अधियज्ञके सहित मुझे जानते हैं, वे युक्तचेता मनुष्य अन्तकालमें भी मुझे ही जानते हैं अर्थात् प्राप्त होते हैं।
 
 ## [8.1]
 Arjuna said, "What is Brahman? What is Adhyatma? What is action, O best among men? What is Adhibhuta declared to be? And, what is Adhidaiva said to be?" Who and how is Adhiyajna here in this body, O destroyer of Madhu? And how, at the time of death, are You to be known by the self-controlled?
@@ -928,13 +921,11 @@ What is known as the Unmanifested and the Imperishable, That is said to be the h
 That highest Purusha, O Arjuna, is attainable by unswerving devotion to Him alone, within Whom all beings dwell and by Whom all this is pervaded.
 
 ## [8.23]
-$15
 
 ## [8.27]
 Knowing these paths, O Arjuna, no yogi is deluded; therefore, at all times, be steadfast in yoga.
 
 ## [8.28]
-योगी इसको (शुक्ल और कृष्णमार्गके रहस्यको) जानकर वेदोंमें, यज्ञोंमें, तपोंमें तथा दानमें जो-जो पुण्यफल कहे गये हैं, उन सभी पुण्यफलोंका अतिक्रमण कर जाता है और आदिस्थान परमात्माको प्राप्त हो जाता है।
 
 ## [9.1]
 The Blessed Lord said, "I shall now declare to thee, who does not cavil, the greatest secret—the knowledge combined with experience (Self-realisation). Having known this, thou shalt be free from evil."
@@ -1030,7 +1021,6 @@ For, taking refuge in Me, they who, O Arjuna, may be of a sinful birth—women, 
 How much more easily, then, do Brahmins and devoted royal saints attain the goal? Having come to this impermanent and unhappy world, do thou worship Me.
 
 ## [9.34]
-तू मेरा भक्त हो जा, मेरेमें मनवाला हो जा, मेरा पूजन करनेवाला हो जा और मेरेको नमस्कार कर। इस प्रकार मेरे साथ अपने-आपको लगाकर, मेरे परायण हुआ तू मेरेको ही प्राप्त होगा।
 
 ,
 
@@ -1149,7 +1139,6 @@ There is no end to My divine glories, O Arjuna, but this is a brief statement by
 Whatever being there is glorious, prosperous, or powerful, know that to be a manifestation of a part of My splendor.
 
 ## [10.42]
-अथवा हे अर्जुन ! तुम्हें इस प्रकार बहुत-सी बातें जाननेकी क्या आवश्यकता है?  मैं अपने किसी एक अंशसे  सम्पूर्ण जगत् को व्याप्त करके स्थित हूँ।
 
 ## [11.1]
 Arjuna said, By this explanation of the highest secret concerning the Self which Thou hast spoken, for the sake of blessing me, my delusion has been dispelled.
@@ -1299,7 +1288,6 @@ The Blessed Lord said, "It is very hard indeed to see this form of Mine which th
 But by single-minded devotion, I can be known, seen, and entered into in reality, O Arjuna.
 
 ## [11.55]
-हे पाण्डवन ! जो मेरे लिये ही कर्म करनेवाला, मेरे ही परायण और मेरा ही भक्त है तथा सर्वथा आसक्तिरहित और प्राणिमात्रके साथ निर्वैर है, वह भक्त मेरेको प्राप्त होता है।
 
 ## [12.1]
 Arjuna said, "Which of them are better versed in Yoga—those who steadfastly worship You, or those who worship the imperishable and the unmanifested?"
@@ -1347,7 +1335,6 @@ He who neither rejoices nor hates, nor grieves nor desires, renouncing both good
 He who is the same to foe and friend, and also in honor and dishonor, who is the same in cold and heat, in pleasure and pain, and who is free from attachment. He to whom censure and praise are equal, who is silent, content with anything, homeless, of a steady mind, and full of devotion; that man is dear to me.
 
 ## [12.20]
-जो मेरेमें श्रद्धा रखनेवाले और मेरे परायण हुए भक्त पहले कहे हुए इस धर्ममय अमृतका अच्छी तरहसे सेवन करते हैं, वे मुझे अत्यन्त प्रिय हैं।
 
 ## [13.1]
 Arjuna said, "I wish to learn about Nature and the Spirit, the field and the knower of the field, knowledge and that which ought to be known, O Kesava."
@@ -1503,7 +1490,6 @@ Who is the same in pleasure and pain, who dwells in the Self, to whom a clod of 
 And he who serves Me with unwavering devotion, he, crossing beyond the dualities, is fit for becoming Brahman.
 
 ## [14.27]
-क्योंकि ब्रह्म, अविनाशी अमृत, शाश्वत धर्म और ऐकान्तिक सुखका आश्रय मैं ही हूँ।
 
 ## [15.1]
 The Blessed Lord said: They (the wise) speak of the indestructible peepul tree, with its roots above and branches below, whose leaves are the meters or hymns; he who knows it is a knower of the Vedas.
@@ -1560,7 +1546,6 @@ As I transcend the perishable and am even higher than the imperishable, I am dec
 He who, undeluded, knows Me as the highest Purusha, he, knowing all, worships Me with his whole being (heart), O Arjuna.
 
 ## [15.20]
-हे निष्पाप अर्जुन ! इस प्रकार यह अत्यन्त गोपनीय शास्त्र मेरे द्वारा कहा गया है। हे भरतवंशी अर्जुन ! इसको जानकर मनुष्य ज्ञानवान् (तथा प्राप्त-प्राप्तव्य) और कृतकृत्य हो जाता है।
 
 ## [16.1]
 The Blessed Lord said: Fearlessness, purity of heart, steadfastness in knowledge and yoga, almsgiving, control of the senses, sacrifice, study of scriptures, austerity, and straightforwardness. Harmlessness, truth, absence of anger, renunciation, peacefulness, absence of crookedness, compassion for beings, non-covetousness, gentleness, modesty, and absence of fickleness. Vigor, forgiveness, fortitude, purity, absence of hatred, absence of pride—these belong to one born for a divine state, O Arjuna.
@@ -1617,7 +1602,6 @@ A person who is liberated from these three gates of darkness, O Arjuna, practice
 He who, having cast aside the ordinances of the scriptures, acts under the impulse of desire, does not attain perfection, nor happiness, nor the Supreme Goal.
 
 ## [16.24]
-अतः तेरे लिये कर्तव्य-अकर्तव्यकी व्यवस्थामें शास्त्र ही प्रमाण है -- ऐसा जानकर तू इस लोकमें शास्त्र-विधिसे नियत कर्तव्य कर्म करनेयोग्य है।
 
 ## [17.1]
 Arjuna said, "What is the condition of those who, disregarding the injunctions of the scriptures, perform sacrifice with faith—is it Sattva, Rajas, or Tamas, O Krishna?"
@@ -1695,7 +1679,6 @@ Uttering "Tat," without aiming for the fruits, are the acts of sacrifice, auster
 The word "Sat" is used to refer to reality and goodness; likewise, O Arjuna, the word "Sat" is used to refer to an auspicious act. Steadfastness in sacrifice, austerity, and gift is also called 'Sat', and action in connection with these, or for the sake of the Supreme, is also called 'Sat'.
 
 ## [17.28]
-हे पार्थ ! अश्रद्धासे किया हुआ हवन, दिया हुआ दान और तपा हुआ तप तथा और भी जो,कुछ किया जाय, वह सब 'असत्' -- ऐसा कहा जाता है। उसका फल न यहाँ होता है, न मरनेके बाद ही होता है अर्थात् उसका कहीं भी सत् फल नहीं होता।
 
 ## [18.1]
 Arjuna said, "O mighty-armed Hrishikesa, I desire to know the essence or truth of renunciation and abandonment severally, O slayer of Kesi."
@@ -1845,7 +1828,6 @@ He whose intellect is unattached everywhere, who has subdued his self, from whom
 Learn from Me, O Arjuna, in brief how one who has attained perfection reaches Brahman—the Eternal, that supreme state of knowledge.
 
 ## [18.51]
-$15
 
 ## [18.54]
 Becoming Brahman, serene in the Self, he neither grieves nor desires; he is the same to all beings, and obtains supreme devotion to Me.
