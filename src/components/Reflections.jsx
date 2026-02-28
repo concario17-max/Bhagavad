@@ -94,7 +94,7 @@ const Reflections = () => {
                 <div className="p-6 relative flex flex-col h-full min-h-0">
                     <div className="flex items-center gap-2 mb-6 shrink-0 border-b border-gold-border/30 pb-4">
                         <Edit3 className="w-5 h-5 text-[#A68B5C] dark:text-gold-light" />
-                        <h2 className="text-sm font-bold text-[#1C2B36] dark:text-dark-text-primary tracking-wide">성찰 노트</h2>
+                        <h2 className="text-sm font-bold text-[#1C2B36] dark:text-dark-text-primary tracking-wide">통찰 기록 (Reflections)</h2>
                     </div>
 
                     <div className="mb-4 flex-1 flex flex-col min-h-0 space-y-2">
@@ -105,7 +105,7 @@ const Reflections = () => {
                         <textarea
                             value={note}
                             onChange={(e) => setNote(e.target.value)}
-                            placeholder="이 수트라에 대한 나만의 단상이나 해석을 기록해보세요..."
+                            placeholder="수트라 관점. 개인적 통찰 및 논리 압축 기록 요망."
                             className="flex-1 w-full p-5 rounded-2xl border border-gold-primary/20 dark:border-dark-border/60 bg-white/70 dark:bg-dark-bg/60 text-text-primary dark:text-dark-text-primary focus:outline-none focus:border-gold-primary/50 focus:ring-1 focus:ring-gold-primary/20 shadow-inner backdrop-blur-sm transition-all resize-none font-inter text-[14px] leading-relaxed custom-scrollbar placeholder:text-text-secondary/40 dark:placeholder:text-dark-text-secondary/40"
                         />
                     </div>

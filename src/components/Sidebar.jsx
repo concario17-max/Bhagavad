@@ -51,7 +51,7 @@ const Sidebar = () => {
 
                 {/* Mobile Close Button & Header */}
                 <div className="lg:hidden flex items-center justify-between p-4 border-b border-gold-border/30 dark:border-[#333] shrink-0">
-                    <span className="font-crimson font-bold text-lg text-text-primary dark:text-dark-text-primary">챕터 (파다)</span>
+                    <span className="font-crimson font-bold text-lg text-text-primary dark:text-dark-text-primary">장 (Chapter)</span>
                     <button onClick={() => setIsSidebarOpen(false)} className="p-2 -mr-2 rounded-full hover:bg-gold-surface dark:hover:bg-dark-surface text-text-secondary dark:text-dark-text-secondary transition-colors">
                         <X className="w-5 h-5" />
                     </button>
@@ -61,7 +61,7 @@ const Sidebar = () => {
                 <div className="flex-1 overflow-y-auto border-b border-gold-border/40 dark:border-[#222] custom-scrollbar min-h-0">
                     <div className="p-4 bg-transparent sticky top-0 z-10 backdrop-blur-sm hidden lg:block">
                         <h2 className="text-xs font-bold text-text-primary/70 dark:text-dark-text-primary/70">
-                            챕터 (파다)
+                            장 (Chapter)
                         </h2>
                     </div>
                     <div className="py-2 px-3 space-y-1">

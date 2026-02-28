@@ -3,7 +3,7 @@ import { useTheme } from '../context/ThemeContext';
 
 /**
  * 전역 테마 토글 컴포넌트
- * 단일 책임 원칙(Zero Monolith)에 따라 분리됨
+ * 단일 책임 원칙(Zero Monolith) 적용.
  */
 const ThemeToggle = ({ className = "" }) => {
     const { theme, toggleTheme } = useTheme();

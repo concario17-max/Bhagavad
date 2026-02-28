@@ -1,6 +1,6 @@
 import React from 'react';
 
-// 알파벳 필터 버튼들을 렌더링하는 컴포넌트
+// 알파벳 필터 렌더링 컴포넌트.
 const LexiconAlphabet = ({ alphabet, lexiconData, onLetterClick }) => {
     return (
         <div className="flex flex-wrap gap-2 mb-12">

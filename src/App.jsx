@@ -14,7 +14,7 @@ const MainLayout = () => {
 
     return (
         <div className="min-h-screen flex flex-col bg-gold-bg dark:bg-dark-bg transition-colors duration-500 relative selection:bg-gold-primary/20 selection:text-text-primary dark:selection:text-dark-text-primary">
-            {/* Ambient luxury spotlight overlay - 앰비언트 럭셔리 스포트라이트 오버레이임. */}
+            {/* Ambient luxury spotlight overlay. */}
             <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(255,255,255,0.65)_0%,_transparent_80%)] dark:bg-[radial-gradient(ellipse_at_top,_rgba(255,255,255,0.04)_0%,_transparent_80%)] z-0"></div>
 
             <div className="relative z-10 flex flex-col flex-1 min-h-screen">
@@ -37,14 +37,14 @@ function App() {
     const [isChecking, setIsChecking] = useState(true);
 
     useEffect(() => {
-        // 로컬 스토리지에서 인증 상태 로드함.
+        // 인증 상태 로컬 스토리지 로드.
         const authStat = localStorage.getItem('gita_authenticated') === 'true';
         setIsAuthenticated(authStat);
         setIsChecking(false);
     }, []);
 
     const handleAuthenticate = () => {
-        // 인증 상태 로컬 스토리지 저장 및 상태 업데이트함.
+        // 인증 상태 로컬 스토리지 저장 및 업데이트.
         localStorage.setItem('gita_authenticated', 'true');
         setIsAuthenticated(true);
     };

@@ -1,6 +1,6 @@
 import React from 'react';
 
-// 로그인 폼의 입력 필드를 관리하는 컴포넌트
+// 로그인 폼 입력 필드 관리 컴포넌트.
 const GatewayInput = ({ value, onChange, error }) => {
     return (
         <div className="w-full relative group">
