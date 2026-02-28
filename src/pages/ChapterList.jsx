@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { CHAPTER_DATA } from '../constants';
 import { fetchGitaData } from '../utils/dataFetcher';
