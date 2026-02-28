@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, Outlet } from 'react-router-dom';
-import ChapterList from './pages/ChapterList';
-import VerseView from './pages/VerseView';
+
+const ChapterList = lazy(() => import('./pages/ChapterList'));
+const VerseView = lazy(() => import('./pages/VerseView'));
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -22,7 +23,9 @@ const MainLayout = () => {
                 <div className="flex flex-1 relative">
                     {isVerseView && <Sidebar />}
                     <main className="flex-1 min-w-0">
-                        <Outlet />
+                        <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-gold-bg dark:bg-dark-bg"><div className="w-8 h-8 border-4 border-gold-primary border-t-transparent rounded-full animate-spin"></div></div>}>
+                            <Outlet />
+                        </Suspense>
                     </main>
                     {isVerseView && <Reflections />}
                 </div>

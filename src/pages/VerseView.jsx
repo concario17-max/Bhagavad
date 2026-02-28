@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Play, Pause, ChevronRight, ChevronLeft } from 'lucide-react';
+import { fetchGitaData } from '../utils/dataFetcher';
 
 const VerseView = () => {
     const { chapterNum, verseNum } = useParams();
@@ -13,8 +14,7 @@ const VerseView = () => {
     const audioRef = useRef(null);
 
     useEffect(() => {
-        fetch('/gita.json')
-            .then(res => res.json())
+        fetchGitaData()
             .then(data => {
                 if (data) {
                     setAllChapters(data);

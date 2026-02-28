@@ -3,6 +3,7 @@ import { NavLink, useParams, useNavigate } from 'react-router-dom';
 import { ChevronDown, ChevronRight, BookOpen, X } from 'lucide-react';
 import { CHAPTER_DATA } from '../constants';
 import { useUI } from '../context/UIContext';
+import { fetchGitaData } from '../utils/dataFetcher';
 
 const Sidebar = () => {
     const { chapterNum, verseNum } = useParams();
@@ -12,8 +13,7 @@ const Sidebar = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch('/gita.json')
-            .then(res => res.json())
+        fetchGitaData()
             .then(data => {
                 if (data && typeof data === 'object') {
                     const chapterArray = Object.values(data);

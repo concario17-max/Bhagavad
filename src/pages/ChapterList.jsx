@@ -1,9 +1,11 @@
-import { useState, useEffect } from 'react';
+import { lazy, Suspense } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { CHAPTER_DATA } from '../constants';
-import CompendiumModal from '../components/CompendiumModal';
-import LexiconModal from '../components/LexiconModal';
-import ReflectionsModal from '../components/ReflectionsModal';
+import { fetchGitaData } from '../utils/dataFetcher';
+
+const CompendiumModal = lazy(() => import('../components/CompendiumModal'));
+const LexiconModal = lazy(() => import('../components/LexiconModal'));
+const ReflectionsModal = lazy(() => import('../components/ReflectionsModal'));
 
 const ChapterList = () => {
     const navigate = useNavigate();
@@ -16,8 +18,7 @@ const ChapterList = () => {
     const [selectedVerse, setSelectedVerse] = useState('');
 
     useEffect(() => {
-        fetch('/gita.json')
-            .then(res => res.json())
+        fetchGitaData()
             .then(data => {
                 if (data && typeof data === 'object') {
                     const chapterArray = Object.values(data);
@@ -164,23 +165,27 @@ const ChapterList = () => {
                 })}
             </div>
 
-            {/* Compendium Modal */}
-            <CompendiumModal
-                isOpen={isCompendiumOpen}
-                onClose={() => setIsCompendiumOpen(false)}
-            />
-
-            {/* Lexicon Modal */}
-            <LexiconModal
-                isOpen={isLexiconOpen}
-                onClose={() => setIsLexiconOpen(false)}
-            />
-
-            {/* Reflections Modal */}
-            <ReflectionsModal
-                isOpen={isReflectionsOpen}
-                onClose={() => setIsReflectionsOpen(false)}
-            />
+            {/* Lazy Loaded Modals */}
+            <Suspense fallback={null}>
+                {isCompendiumOpen && (
+                    <CompendiumModal
+                        isOpen={isCompendiumOpen}
+                        onClose={() => setIsCompendiumOpen(false)}
+                    />
+                )}
+                {isLexiconOpen && (
+                    <LexiconModal
+                        isOpen={isLexiconOpen}
+                        onClose={() => setIsLexiconOpen(false)}
+                    />
+                )}
+                {isReflectionsOpen && (
+                    <ReflectionsModal
+                        isOpen={isReflectionsOpen}
+                        onClose={() => setIsReflectionsOpen(false)}
+                    />
+                )}
+            </Suspense>
         </div>
     );
 };
