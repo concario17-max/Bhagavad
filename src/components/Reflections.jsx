@@ -5,6 +5,7 @@ import { useUI } from '../context/UIContext';
 
 const Reflections = () => {
     const { chapterNum, verseNum } = useParams();
+    const [note, setNote] = useState('');
     const [isSaving, setIsSaving] = useState(false);
     const [showExportMenu, setShowExportMenu] = useState(false);
     const { isReflectionsOpen, setIsReflectionsOpen, isDesktopReflectionsOpen } = useUI();
