@@ -203,11 +203,10 @@ const VerseView = () => {
                 </section>
 
                 {/* Transliteration */}
-                <section className="mb-5 text-center text-text-secondary/80 dark:text-dark-text-secondary/80 flex flex-col items-center">
-                    <p className="font-noto italic text-[15px] leading-snug whitespace-pre-line tracking-wide mb-2">
+                <section className="mb-2 text-center text-text-secondary/80 dark:text-dark-text-secondary/80 flex flex-col items-center">
+                    <p className="font-noto italic text-[15px] leading-snug whitespace-pre-line tracking-wide mb-1">
                         {verseData.iast}
                     </p>
-                    <div className="w-8 h-[1px] bg-gold-border/60 my-2"></div>
                 </section>
 
                 {/* Korean Pronunciation */}
