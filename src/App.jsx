@@ -14,16 +14,16 @@ const MainLayout = () => {
     const isVerseView = location.pathname.includes('/chapter/') && location.pathname.includes('/verse/');
 
     return (
-        <div className="min-h-screen flex flex-col bg-gold-bg dark:bg-dark-bg transition-colors duration-500 relative selection:bg-gold-primary/20 selection:text-text-primary dark:selection:text-dark-text-primary">
+        <div className="h-[100dvh] flex flex-col bg-gold-bg dark:bg-dark-bg transition-colors duration-500 relative selection:bg-gold-primary/20 selection:text-text-primary dark:selection:text-dark-text-primary overflow-hidden">
             {/* Ambient luxury spotlight overlay. */}
             <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(255,255,255,0.65)_0%,_transparent_80%)] dark:bg-[radial-gradient(ellipse_at_top,_rgba(255,255,255,0.04)_0%,_transparent_80%)] z-0"></div>
 
-            <div className="relative z-10 flex flex-col flex-1 min-h-screen">
+            <div className="relative z-10 flex flex-col flex-1 h-full overflow-hidden">
                 <Header />
-                <div className="flex flex-1 relative">
+                <div className="flex flex-1 relative overflow-hidden">
                     {isVerseView && <Sidebar />}
-                    <main className="flex-1 min-w-0">
-                        <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-gold-bg dark:bg-dark-bg"><div className="w-8 h-8 border-4 border-gold-primary border-t-transparent rounded-full animate-spin"></div></div>}>
+                    <main className="flex-1 min-w-0 overflow-y-auto custom-scrollbar">
+                        <Suspense fallback={<div className="h-full flex items-center justify-center bg-transparent"><div className="w-8 h-8 border-4 border-gold-primary border-t-transparent rounded-full animate-spin"></div></div>}>
                             <Outlet />
                         </Suspense>
                     </main>
