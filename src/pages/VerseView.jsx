@@ -197,22 +197,22 @@ const VerseView = () => {
 
                 {/* Sanskrit */}
                 <section className="mb-4 text-center px-2 sm:px-0">
-                    <p className="font-noto text-[#1F2937] dark:text-[#E5E7EB] text-xl sm:text-2xl leading-normal whitespace-pre-line tracking-wide font-bold drop-shadow-sm">
+                    <p className="font-noto text-[#8C3A3A] dark:text-[#E8A586] text-xl sm:text-2xl leading-normal whitespace-pre-line tracking-wide font-bold drop-shadow-sm">
                         {verseData.sanskrit}
                     </p>
                 </section>
 
                 {/* Transliteration */}
-                <section className="mb-2 text-center text-text-secondary/80 dark:text-dark-text-secondary/80 flex flex-col items-center">
-                    <p className="font-noto italic text-[15px] leading-snug whitespace-pre-line tracking-wide mb-1">
+                <section className="mb-2 text-center flex flex-col items-center">
+                    <p className="font-noto italic text-[#B0A084] dark:text-[#D4C3A3] text-[14px] leading-snug whitespace-pre-line tracking-[0.15em] uppercase mb-1 drop-shadow-sm">
                         {verseData.iast}
                     </p>
                 </section>
 
                 {/* Korean Pronunciation */}
                 {verseData.korean_pronunciation && (
-                    <section className="mb-12 text-center text-text-secondary/60 dark:text-dark-text-secondary/60">
-                        <p className="font-noto-kr italic text-[15px] leading-relaxed whitespace-pre-line tracking-[0.1em]">
+                    <section className="mb-12 text-center">
+                        <p className="font-noto-kr italic text-[#B0A084] dark:text-[#D4C3A3] text-[14px] leading-relaxed whitespace-pre-line tracking-[0.15em] drop-shadow-sm">
                             {verseData.korean_pronunciation}
                         </p>
                     </section>
