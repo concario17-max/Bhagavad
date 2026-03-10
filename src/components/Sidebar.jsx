@@ -64,7 +64,7 @@ const Sidebar = () => {
                             장 (Chapter)
                         </h2>
                     </div>
-                    <div className="py-2 px-3 space-y-1">
+                    <div className="py-1 px-2 space-y-0.5">
                         {chapters.map((ch) => {
                             const isExpanded = expandedChapter === ch.chapter;
                             const title = CHAPTER_DATA[ch.chapter]?.name_korean || ch.name_translated || "";
@@ -77,22 +77,22 @@ const Sidebar = () => {
                                 <button
                                     key={ch.chapter}
                                     onClick={() => toggleChapter(ch.chapter)}
-                                    className={`w-full flex items-start justify-between gap-2 px-3 py-2.5 sm:px-2 sm:py-2 rounded-xl text-left transition-colors ${isExpanded
+                                    className={`w-full flex items-start justify-between gap-1.5 px-2 py-1.5 sm:px-1.5 sm:py-1 rounded-lg text-left transition-colors ${isExpanded
                                         ? 'bg-white/60 dark:bg-dark-bg/60 shadow-sm border border-gold-primary/20 text-[#1C2B36] dark:text-gold-light'
                                         : 'text-[#5B7282] dark:text-dark-text-secondary hover:bg-gold-surface/40 dark:hover:bg-dark-bg/40 border border-transparent'
                                         }`}
                                 >
-                                    <div className="flex-1 pr-2 flex flex-col pt-0.5">
+                                    <div className="flex-1 pr-1 flex flex-col pt-0">
                                         <span className={`text-[14px] sm:text-[13px] leading-snug font-inter break-keep ${isExpanded ? 'font-bold text-[#1C2B36]' : 'font-bold'}`}>
                                             {ch.chapter}. {mainTitle}
                                         </span>
                                         {subTitle && (
-                                            <span className={`text-[12px] sm:text-[11.5px] font-inter break-keep mt-0.5 ${isExpanded ? 'opacity-50 text-[#1C2B36] font-medium' : 'opacity-60 font-medium'}`}>
+                                            <span className={`text-[12px] sm:text-[11.5px] font-inter break-keep mt-0 ${isExpanded ? 'opacity-50 text-[#1C2B36] font-medium' : 'opacity-60 font-medium'}`}>
                                                 {subTitle}
                                             </span>
                                         )}
                                     </div>
-                                    <span className={`shrink-0 mt-0.5 text-[#A68B5C] px-2 py-0.5 rounded text-xs font-bold ${isExpanded ? 'opacity-100' : 'opacity-70'}`}>
+                                    <span className={`shrink-0 mt-0 text-[#A68B5C] px-1.5 py-0.5 rounded text-[11px] font-bold ${isExpanded ? 'opacity-100' : 'opacity-70'}`}>
                                         {ch.verses.length}
                                     </span>
                                 </button>
@@ -103,7 +103,7 @@ const Sidebar = () => {
 
                 {/* Bottom Half: Verses */}
                 <div className="flex-1 overflow-y-auto bg-transparent custom-scrollbar overscroll-contain">
-                    <div className="py-2 px-3 space-y-0.5">
+                    <div className="py-1 px-2 space-y-0">
                         {currentChapter ? (
                             currentChapter.verses.map((v, idx) => {
                                 // Find the end verse if it's a range
@@ -126,13 +126,13 @@ const Sidebar = () => {
                                         to={`/chapter/${currentChapter.chapter}/verse/${v.verse}`}
                                         onClick={() => setIsSidebarOpen(false)}
                                         className={({ isActive }) =>
-                                            `flex items-start gap-3 px-4 py-3.5 sm:px-3 sm:py-2.5 rounded-lg text-sm transition-all ${isActive
+                                            `flex items-start gap-2 px-3 py-2 sm:px-2 sm:py-1.5 rounded-lg text-sm transition-all ${isActive
                                                 ? 'bg-white/60 border border-gold-primary/30 text-text-primary font-medium shadow-sm dark:bg-dark-bg/60 dark:border-gold-primary/20 dark:text-gold-light'
                                                 : 'border border-transparent text-text-secondary dark:text-dark-text-secondary hover:text-text-primary hover:bg-gold-surface/30 dark:hover:bg-dark-bg/40'
                                             }`
                                         }
                                     >
-                                        <span className={`min-w-[55px] whitespace-nowrap font-bold text-xs sm:text-[13px] mt-[3px] ${v.chapter === parseInt(chapterNum) && v.verse === parseInt(verseNum) ? 'text-gold-primary' : 'text-text-secondary/60 dark:text-dark-text-secondary/60'}`}>{displayVerse}</span>
+                                        <span className={`min-w-[45px] whitespace-nowrap font-bold text-xs sm:text-[13px] mt-[2px] ${v.chapter === parseInt(chapterNum) && v.verse === parseInt(verseNum) ? 'text-gold-primary' : 'text-text-secondary/60 dark:text-dark-text-secondary/60'}`}>{displayVerse}</span>
                                         <span className="truncate opacity-90 text-[14px] sm:text-[13px] leading-relaxed font-inter">
                                             {verseText}
                                         </span>
