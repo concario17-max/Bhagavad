@@ -42,12 +42,12 @@ const Sidebar = () => {
             {/* Mobile Backdrop */}
             {isSidebarOpen && (
                 <div
-                    className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm lg:hidden transition-opacity duration-300 opacity-100"
+                    className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm lg:hidden transition-opacity duration-300 opacity-100 touch-none"
                     onClick={() => setIsSidebarOpen(false)}
                 />
             )}
 
-            <aside className={`fixed inset-y-0 left-0 z-50 w-80 bg-white/40 dark:bg-dark-surface/40 backdrop-blur-md border-r border-gold-primary/20 dark:border-dark-border/50 h-full lg:h-[calc(100vh-64px)] lg:sticky lg:top-16 transform transition-transform duration-300 lg:translate-x-0 ${isSidebarOpen ? 'translate-x-0 overflow-hidden shadow-2xl lg:shadow-none' : '-translate-x-full'} flex flex-col font-inter`}>
+            <aside className={`fixed inset-y-0 left-0 z-50 w-80 bg-white/40 dark:bg-dark-surface/40 backdrop-blur-md border-r border-gold-primary/20 dark:border-dark-border/50 h-[100dvh] lg:h-[calc(100vh-64px)] lg:sticky lg:top-16 transform transition-transform duration-300 lg:translate-x-0 ${isSidebarOpen ? 'translate-x-0 overflow-hidden shadow-2xl lg:shadow-none' : '-translate-x-full'} flex flex-col font-inter overscroll-contain`}>
 
                 {/* Mobile Close Button & Header */}
                 <div className="lg:hidden flex items-center justify-between p-4 border-b border-gold-border/30 dark:border-[#333] shrink-0">
@@ -58,7 +58,7 @@ const Sidebar = () => {
                 </div>
 
                 {/* Top Half: Chapters */}
-                <div className="flex-1 overflow-y-auto border-b border-gold-border/40 dark:border-[#222] custom-scrollbar min-h-0">
+                <div className="flex-1 overflow-y-auto border-b border-gold-border/40 dark:border-[#222] custom-scrollbar min-h-0 overscroll-contain">
                     <div className="p-4 bg-transparent sticky top-0 z-10 backdrop-blur-sm hidden lg:block">
                         <h2 className="text-xs font-bold text-text-primary/70 dark:text-dark-text-primary/70">
                             장 (Chapter)
@@ -102,7 +102,7 @@ const Sidebar = () => {
                 </div>
 
                 {/* Bottom Half: Verses */}
-                <div className="flex-1 overflow-y-auto bg-transparent custom-scrollbar">
+                <div className="flex-1 overflow-y-auto bg-transparent custom-scrollbar overscroll-contain">
                     <div className="py-2 px-3 space-y-0.5">
                         {currentChapter ? (
                             currentChapter.verses.map((v, idx) => {

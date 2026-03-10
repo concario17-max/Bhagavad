@@ -8,10 +8,12 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import Reflections from './components/Reflections';
 import PasswordGateway from './components/PasswordGateway';
+import { useUI } from './context/UIContext';
 
 const MainLayout = () => {
     const location = useLocation();
     const isVerseView = location.pathname.includes('/chapter/') && location.pathname.includes('/verse/');
+    const { isSidebarOpen } = useUI();
 
     return (
         <div className="h-[100dvh] flex flex-col bg-gold-bg dark:bg-dark-bg transition-colors duration-500 relative selection:bg-gold-primary/20 selection:text-text-primary dark:selection:text-dark-text-primary overflow-hidden">
@@ -22,7 +24,7 @@ const MainLayout = () => {
                 <Header />
                 <div className="flex flex-1 relative overflow-hidden">
                     {isVerseView && <Sidebar />}
-                    <main className="flex-1 min-w-0 overflow-y-auto custom-scrollbar">
+                    <main className={`flex-1 min-w-0 custom-scrollbar ${isSidebarOpen ? 'overflow-hidden touch-none' : 'overflow-y-auto'}`}>
                         <Suspense fallback={<div className="h-full flex items-center justify-center bg-transparent"><div className="w-8 h-8 border-4 border-gold-primary border-t-transparent rounded-full animate-spin"></div></div>}>
                             <Outlet />
                         </Suspense>
