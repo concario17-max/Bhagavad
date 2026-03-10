@@ -77,17 +77,17 @@ const Sidebar = () => {
                                 <button
                                     key={ch.chapter}
                                     onClick={() => toggleChapter(ch.chapter)}
-                                    className={`w-full flex items-start justify-between gap-2 px-4 py-4 sm:px-3 sm:py-3 rounded-xl text-left transition-colors ${isExpanded
+                                    className={`w-full flex items-start justify-between gap-2 px-3 py-2.5 sm:px-2 sm:py-2 rounded-xl text-left transition-colors ${isExpanded
                                         ? 'bg-white/60 dark:bg-dark-bg/60 shadow-sm border border-gold-primary/20 text-[#1C2B36] dark:text-gold-light'
                                         : 'text-[#5B7282] dark:text-dark-text-secondary hover:bg-gold-surface/40 dark:hover:bg-dark-bg/40 border border-transparent'
                                         }`}
                                 >
-                                    <div className="flex-1 pr-2 flex flex-col gap-0.5">
-                                        <span className={`text-[16px] sm:text-[15px] leading-snug font-inter break-keep ${isExpanded ? 'font-bold text-[#1C2B36]' : 'font-bold'}`}>
+                                    <div className="flex-1 pr-2 flex flex-col pt-0.5">
+                                        <span className={`text-[14px] sm:text-[13px] leading-snug font-inter break-keep ${isExpanded ? 'font-bold text-[#1C2B36]' : 'font-bold'}`}>
                                             {ch.chapter}. {mainTitle}
                                         </span>
                                         {subTitle && (
-                                            <span className={`text-[14px] sm:text-[13px] font-inter break-keep mt-0.5 ${isExpanded ? 'opacity-50 text-[#1C2B36] font-medium' : 'opacity-60 font-medium'}`}>
+                                            <span className={`text-[12px] sm:text-[11.5px] font-inter break-keep mt-0.5 ${isExpanded ? 'opacity-50 text-[#1C2B36] font-medium' : 'opacity-60 font-medium'}`}>
                                                 {subTitle}
                                             </span>
                                         )}

@@ -23,11 +23,11 @@
   --color-dark-text-primary: #EDE8DB;
   --color-dark-text-secondary: #9E9685;
 
-  /* Fonts */
-  --font-crimson: "Crimson Pro", "Noto Serif", serif;
-  --font-noto: "Noto Serif", serif;
-  --font-noto-kr: "Noto Serif KR", serif;
-  --font-inter: "Inter", sans-serif;
+  /* Fonts with robust system fallbacks to prevent layout shift */
+  --font-crimson: "Crimson Pro", "Garamond", "Georgia", "Times New Roman", serif;
+  --font-noto: "Noto Serif", "Georgia", "Times New Roman", serif;
+  --font-noto-kr: "Noto Serif KR", "Malgun Gothic", "Apple SD Gothic Neo", serif;
+  --font-inter: "Inter", "Helvetica Neue", "Arial", sans-serif;
 }
 
 @custom-variant dark (&:where(.dark, .dark *));
