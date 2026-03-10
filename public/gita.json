@@ -197,8 +197,8 @@
         "id": "1.4",
         "chapter": 1,
         "verse": 4,
-        "sanskrit": "अत्र शूरा महेष्वासा भीमार्जुनसमा युधि\nयुयुधानो विराटश्च द्रुपदश्च महारथः\nधृष्टकेतुश्चेकितानः काशिराजश्च वीर्यवान्\nपुरुजित्कुन्तिभोजश्च शैब्यश्च नरपुङ्गवः\nयुधामन्युश्च विक्रान्त उत्तमौजाश्च वीर्यवान्\nसौभद्रो द्रौपदेयाश्च सर्व एव महारथाः",
-        "iast": "atra śhūrā maheṣhvāsā bhīmārjuna-samā yudhi\nyuyudhāno virāṭaśhcha drupadaśhcha mahā-rathaḥ\ndhṛiṣhṭaketuśhchekitānaḥ kāśhirājaśhcha vīryavān\npurujit kuntibhojaśhcha śhaibyaśhcha nara-puṅgavaḥ\nyudhāmanyuśhcha vikrānta uttamaujāśhcha vīryavān\nsaubhadro draupadeyāśhcha sarva eva mahā-rathāḥ",
+        "sanskrit": "अत्र शूरा महेष्वासा भीमार्जुनसमा युधि युयुधानो विराटश्च द्रुपदश्च महारथः\nधृष्टकेतुश्चेकितानः काशिराजश्च वीर्यवान् पुरुजित्कुन्तिभोजश्च शैब्यश्च नरपुङ्गवः\nयुधामन्युश्च विक्रान्त उत्तमौजाश्च वीर्यवान् सौभद्रो द्रौपदेयाश्च सर्व एव महारथाः",
+        "iast": "atra śhūrā maheṣhvāsā bhīmārjuna-samā yudhi yuyudhāno virāṭaśhcha drupadaśhcha mahā-rathaḥ\ndhṛiṣhṭaketuśhchekitānaḥ kāśhirājaśhcha vīryavān purujit kuntibhojaśhcha śhaibyaśhcha nara-puṅgavaḥ\nyudhāmanyuśhcha vikrānta uttamaujāśhcha vīryavān saubhadro draupadeyāśhcha sarva eva mahā-rathāḥ",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/001_004-006.mp3",
         "words": [
           {
@@ -943,8 +943,8 @@
         "id": "1.16",
         "chapter": 1,
         "verse": 16,
-        "sanskrit": "अनन्तविजयं राजा कुन्तीपुत्रो युधिष्ठिरः\nनकुलः सहदेवश्च सुघोषमणिपुष्पकौ\nकाश्यश्च परमेष्वासः शिखण्डी च महारथः\nधृष्टद्युम्नो विराटश्च सात्यकिश्चापराजितः\nद्रुपदो द्रौपदेयाश्च सर्वशः पृथिवीपते\nसौभद्रश्च महाबाहुः शङ्खान्दध्मुः पृथक्पृथक्",
-        "iast": "anantavijayaṁ rājā kuntī-putro yudhiṣhṭhiraḥ\nnakulaḥ sahadevaśhcha sughoṣha-maṇipuṣhpakau\nkāśhyaśhcha parameṣhvāsaḥ śhikhaṇḍī cha mahā-rathaḥ\ndhṛiṣhṭadyumno virāṭaśhcha sātyakiśh chāparājitaḥ\ndrupado draupadeyāśhcha sarvaśhaḥ pṛithivī-pate\nsaubhadraśhcha mahā-bāhuḥ śhaṅkhāndadhmuḥ pṛithak pṛithak",
+        "sanskrit": "अनन्तविजयं राजा कुन्तीपुत्रो युधिष्ठिरः नकुलः सहदेवश्च सुघोषमणिपुष्पकौ\nकाश्यश्च परमेष्वासः शिखण्डी च महारथः धृष्टद्युम्नो विराटश्च सात्यकिश्चापराजितः\nद्रुपदो द्रौपदेयाश्च सर्वशः पृथिवीपते सौभद्रश्च महाबाहुः शङ्खान्दध्मुः पृथक्पृथक्",
+        "iast": "anantavijayaṁ rājā kuntī-putro yudhiṣhṭhiraḥ nakulaḥ sahadevaśhcha sughoṣha-maṇipuṣhpakau\nkāśhyaśhcha parameṣhvāsaḥ śhikhaṇḍī cha mahā-rathaḥ dhṛiṣhṭadyumno virāṭaśhcha sātyakiśh chāparājitaḥ\ndrupado draupadeyāśhcha sarvaśhaḥ pṛithivī-pate saubhadraśhcha mahā-bāhuḥ śhaṅkhāndadhmuḥ pṛithak pṛithak",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/001_016-018.mp3",
         "words": [
           {
@@ -1231,7 +1231,7 @@
         "chapter": 1,
         "verse": 21,
         "sanskrit": "अर्जुन उवाच\nहृषीकेशं तदा वाक्यमिदमाह महीपते\nसेनयोरुभयोर्मध्ये रथं स्थापय मेऽच्युत\nयावदेतान्निरीक्षेऽहं योद्धुकामानवस्थितान्\nकैर्मया सह योद्धव्यमस्मिन्रणसमुद्यमे",
-        "iast": "arjuna uvācha\nsenayor ubhayor madhye rathaṁ sthāpaya me ’chyuta\nyāvadetān nirīkṣhe ’haṁ yoddhu-kāmān avasthitān\nkairmayā saha yoddhavyam asmin raṇa-samudyame",
+        "iast": "arjuna uvācha senayor ubhayor madhye rathaṁ sthāpaya me ’chyuta\nyāvadetān nirīkṣhe ’haṁ yoddhu-kāmān avasthitān kairmayā saha yoddhavyam asmin raṇa-samudyame",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/001_021-022.mp3",
         "words": [
           {
@@ -1729,8 +1729,8 @@
         "id": "1.29",
         "chapter": 1,
         "verse": 29,
-        "sanskrit": "सीदन्ति मम गात्राणि मुखं च परिशुष्यति\nवेपथुश्च शरीरे मे रोमहर्षश्च जायते\nगाण्डीवं स्रंसते हस्तात्त्वक्चैव परिदह्यते\nन च शक्नोम्यवस्थातुं भ्रमतीव च मे मनः\nनिमित्तानि च पश्यामि विपरीतानि केशव\nन च श्रेयोऽनुपश्यामि हत्वा स्वजनमाहवे",
-        "iast": "sīdanti mama gātrāṇi mukhaṁ cha pariśhuṣhyati\nvepathuśh cha śharīre me roma-harṣhaśh cha jāyate\ngāṇḍīvaṁ sraṁsate hastāt tvak chaiva paridahyate\nna cha śhaknomy avasthātuṁ bhramatīva cha me manaḥ\nnimittāni cha paśhyāmi viparītāni keśhava\nna cha śhreyo ’nupaśhyāmi hatvā sva-janam āhave",
+        "sanskrit": "सीदन्ति मम गात्राणि मुखं च परिशुष्यति वेपथुश्च शरीरे मे रोमहर्षश्च जायते\nगाण्डीवं स्रंसते हस्तात्त्वक्चैव परिदह्यते न च शक्नोम्यवस्थातुं भ्रमतीव च मे मनः\nनिमित्तानि च पश्यामि विपरीतानि केशव न च श्रेयोऽनुपश्यामि हत्वा स्वजनमाहवे",
+        "iast": "sīdanti mama gātrāṇi mukhaṁ cha pariśhuṣhyati vepathuśh cha śharīre me roma-harṣhaśh cha jāyate\ngāṇḍīvaṁ sraṁsate hastāt tvak chaiva paridahyate na cha śhaknomy avasthātuṁ bhramatīva cha me manaḥ\nnimittāni cha paśhyāmi viparītāni keśhava na cha śhreyo ’nupaśhyāmi hatvā sva-janam āhave",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/001_029-031.mp3",
         "words": [
           {
@@ -1902,8 +1902,8 @@
         "id": "1.32",
         "chapter": 1,
         "verse": 32,
-        "sanskrit": "न काङ्क्षे विजयं कृष्ण न च राज्यं सुखानि च\nकिं नो राज्येन गोविन्द किं भोगैर्जीवितेन वा\nयेषामर्थे काङ्क्षितं नो राज्यं भोगाः सुखानि च\nत इमेऽवस्थिता युद्धे प्राणांस्त्यक्त्वा धनानि च",
-        "iast": "na kāṅkṣhe vijayaṁ kṛiṣhṇa na cha rājyaṁ sukhāni cha\nkiṁ no rājyena govinda kiṁ bhogair jīvitena vā\nyeṣhām arthe kāṅkṣhitaṁ no rājyaṁ bhogāḥ sukhāni cha\nta ime ’vasthitā yuddhe prāṇāṁs tyaktvā dhanāni cha",
+        "sanskrit": "न काङ्क्षे विजयं कृष्ण न च राज्यं सुखानि च किं नो राज्येन गोविन्द किं भोगैर्जीवितेन वा\nयेषामर्थे काङ्क्षितं नो राज्यं भोगाः सुखानि च त इमेऽवस्थिता युद्धे प्राणांस्त्यक्त्वा धनानि च",
+        "iast": "na kāṅkṣhe vijayaṁ kṛiṣhṇa na cha rājyaṁ sukhāni cha kiṁ no rājyena govinda kiṁ bhogair jīvitena vā\nyeṣhām arthe kāṅkṣhitaṁ no rājyaṁ bhogāḥ sukhāni cha ta ime ’vasthitā yuddhe prāṇāṁs tyaktvā dhanāni cha",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/001_032-033.mp3",
         "words": [
           {
@@ -2051,8 +2051,8 @@
         "id": "1.34",
         "chapter": 1,
         "verse": 34,
-        "sanskrit": "आचार्याः पितरः पुत्रास्तथैव च पितामहाः\nमातुलाः श्चशुराः पौत्राः श्यालाः सम्बन्धिनस्तथा\nएतान्न हन्तुमिच्छामि घ्नतोऽपि मधुसूदन\nअपि त्रैलोक्यराज्यस्य हेतोः किं नु महीकृते",
-        "iast": "āchāryāḥ pitaraḥ putrās tathaiva cha pitāmahāḥ\nmātulāḥ śhvaśhurāḥ pautrāḥ śhyālāḥ sambandhinas tathā\netān na hantum ichchhāmi ghnato ’pi madhusūdana\napi trailokya-rājyasya hetoḥ kiṁ nu mahī-kṛite",
+        "sanskrit": "आचार्याः पितरः पुत्रास्तथैव च पितामहाः मातुलाः श्चशुराः पौत्राः श्यालाः सम्बन्धिनस्तथा\nएतान्न हन्तुमिच्छामि घ्नतोऽपि मधुसूदन अपि त्रैलोक्यराज्यस्य हेतोः किं नु महीकृते",
+        "iast": "āchāryāḥ pitaraḥ putrās tathaiva cha pitāmahāḥ mātulāḥ śhvaśhurāḥ pautrāḥ śhyālāḥ sambandhinas tathā\netān na hantum ichchhāmi ghnato ’pi madhusūdana api trailokya-rājyasya hetoḥ kiṁ nu mahī-kṛite",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/001_034-035.mp3",
         "words": [
           {
@@ -2168,8 +2168,8 @@
         "id": "1.36",
         "chapter": 1,
         "verse": 36,
-        "sanskrit": "निहत्य धार्तराष्ट्रान्नः का प्रीतिः स्याज्जनार्दन\nपापमेवाश्रयेदस्मान्हत्वैतानाततायिनः\nतस्मान्नार्हा वयं हन्तुं धार्तराष्ट्रान्स्वबान्धवान्\nस्वजनं हि कथं हत्वा सुखिनः स्याम माधव",
-        "iast": "nihatya dhārtarāṣhṭrān naḥ kā prītiḥ syāj janārdana\npāpam evāśhrayed asmān hatvaitān ātatāyinaḥ\ntasmān nārhā vayaṁ hantuṁ dhārtarāṣhṭrān sa-bāndhavān \nsva-janaṁ hi kathaṁ hatvā sukhinaḥ syāma mādhava",
+        "sanskrit": "निहत्य धार्तराष्ट्रान्नः का प्रीतिः स्याज्जनार्दन पापमेवाश्रयेदस्मान्हत्वैतानाततायिनः\nतस्मान्नार्हा वयं हन्तुं धार्तराष्ट्रान्स्वबान्धवान् स्वजनं हि कथं हत्वा सुखिनः स्याम माधव",
+        "iast": "nihatya dhārtarāṣhṭrān naḥ kā prītiḥ syāj janārdana pāpam evāśhrayed asmān hatvaitān ātatāyinaḥ\ntasmān nārhā vayaṁ hantuṁ dhārtarāṣhṭrān sa-bāndhavān  sva-janaṁ hi kathaṁ hatvā sukhinaḥ syāma mādhava",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/001_036-037.mp3",
         "words": [
           {
@@ -2297,8 +2297,8 @@
         "id": "1.38",
         "chapter": 1,
         "verse": 38,
-        "sanskrit": "यद्यप्येते न पश्यन्ति लोभोपहतचेतसः\nकुलक्षयकृतं दोषं मित्रद्रोहे च पातकम्\nकथं न ज्ञेयमस्माभिः पापादस्मान्निवर्तितुम्\nकुलक्षयकृतं दोषं प्रपश्यद्भिर्जनार्दन",
-        "iast": "yady apy ete na paśhyanti lobhopahata-chetasaḥ\nkula-kṣhaya-kṛitaṁ doṣhaṁ mitra-drohe cha pātakam\nkathaṁ na jñeyam asmābhiḥ pāpād asmān nivartitum\nkula-kṣhaya-kṛitaṁ doṣhaṁ prapaśhyadbhir janārdana",
+        "sanskrit": "यद्यप्येते न पश्यन्ति लोभोपहतचेतसः कुलक्षयकृतं दोषं मित्रद्रोहे च पातकम्\nकथं न ज्ञेयमस्माभिः पापादस्मान्निवर्तितुम् कुलक्षयकृतं दोषं प्रपश्यद्भिर्जनार्दन",
+        "iast": "yady apy ete na paśhyanti lobhopahata-chetasaḥ kula-kṣhaya-kṛitaṁ doṣhaṁ mitra-drohe cha pātakam\nkathaṁ na jñeyam asmābhiḥ pāpād asmān nivartitum kula-kṣhaya-kṛitaṁ doṣhaṁ prapaśhyadbhir janārdana",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/001_038-039.mp3",
         "words": [
           {
@@ -2707,8 +2707,8 @@
         "id": "1.45",
         "chapter": 1,
         "verse": 45,
-        "sanskrit": "अहो बत महत्पापं कर्तुं व्यवसिता वयम्\nयद्राज्यसुखलोभेन हन्तुं स्वजनमुद्यताः\nयदि मामप्रतीकारमशस्त्रं शस्त्रपाणयः\nधार्तराष्ट्रा रणे हन्युस्तन्मे क्षेमतरं भवेत्",
-        "iast": "aho bata mahat pāpaṁ kartuṁ vyavasitā vayam\nyad rājya-sukha-lobhena hantuṁ sva-janam udyatāḥ\nyadi mām apratīkāram aśhastraṁ śhastra-pāṇayaḥ\ndhārtarāṣhṭrā raṇe hanyus tan me kṣhemataraṁ bhavet",
+        "sanskrit": "अहो बत महत्पापं कर्तुं व्यवसिता वयम् यद्राज्यसुखलोभेन हन्तुं स्वजनमुद्यताः\nयदि मामप्रतीकारमशस्त्रं शस्त्रपाणयः धार्तराष्ट्रा रणे हन्युस्तन्मे क्षेमतरं भवेत्",
+        "iast": "aho bata mahat pāpaṁ kartuṁ vyavasitā vayam yad rājya-sukha-lobhena hantuṁ sva-janam udyatāḥ\nyadi mām apratīkāram aśhastraṁ śhastra-pāṇayaḥ dhārtarāṣhṭrā raṇe hanyus tan me kṣhemataraṁ bhavet",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/001_045-046.mp3",
         "words": [
           {
@@ -3162,8 +3162,8 @@
         "id": "2.5",
         "chapter": 2,
         "verse": 5,
-        "sanskrit": "गुरूनहत्वा हि महानुभावान्\nश्रेयो भोक्तुं भैक्ष्यमपीह लोके\nहत्वार्थकामांस्तु गुरूनिहैव\nभुञ्जीय भोगान् रुधिरप्रदिग्धान्",
-        "iast": "gurūnahatvā hi mahānubhāvān\nśhreyo bhoktuṁ bhaikṣhyamapīha loke\nhatvārtha-kāmāṁstu gurūnihaiva\nbhuñjīya bhogān rudhira-pradigdhān",
+        "sanskrit": "गुरूनहत्वा हि महानुभावान् श्रेयो भोक्तुं भैक्ष्यमपीह लोके\nहत्वार्थकामांस्तु गुरूनिहैव भुञ्जीय भोगान् रुधिरप्रदिग्धान्",
+        "iast": "gurūnahatvā hi mahānubhāvān śhreyo bhoktuṁ bhaikṣhyamapīha loke\nhatvārtha-kāmāṁstu gurūnihaiva bhuñjīya bhogān rudhira-pradigdhān",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/002_005.mp3",
         "words": [
           {
@@ -3259,8 +3259,8 @@
         "id": "2.6",
         "chapter": 2,
         "verse": 6,
-        "sanskrit": "न चैतद्विद्मः कतरन्नो गरीयो\nयद्वा जयेम यदि वा नो जयेयुः\nयानेव हत्वा न जिजीविषाम\nस्तेऽवस्थिताः प्रमुखे धार्तराष्ट्राः",
-        "iast": "na chaitadvidmaḥ kataranno garīyo\nyadvā jayema yadi vā no jayeyuḥ\nyāneva hatvā na jijīviṣhāmas\nte ’vasthitāḥ pramukhe dhārtarāṣhṭrāḥ",
+        "sanskrit": "न चैतद्विद्मः कतरन्नो गरीयो यद्वा जयेम यदि वा नो जयेयुः\nयानेव हत्वा न जिजीविषाम स्तेऽवस्थिताः प्रमुखे धार्तराष्ट्राः",
+        "iast": "na chaitadvidmaḥ kataranno garīyo yadvā jayema yadi vā no jayeyuḥ\nyāneva hatvā na jijīviṣhāmas te ’vasthitāḥ pramukhe dhārtarāṣhṭrāḥ",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/002_006.mp3",
         "words": [
           {
@@ -3364,8 +3364,8 @@
         "id": "2.7",
         "chapter": 2,
         "verse": 7,
-        "sanskrit": "कार्पण्यदोषोपहतस्वभावः\nपृच्छामि त्वां धर्मसंमूढचेताः\nयच्छ्रेयः स्यान्निश्िचतं ब्रूहि तन्मे\nशिष्यस्तेऽहं शाधि मां त्वां प्रपन्नम्",
-        "iast": "kārpaṇya-doṣhopahata-svabhāvaḥ\npṛichchhāmi tvāṁ dharma-sammūḍha-chetāḥ\nyach-chhreyaḥ syānniśhchitaṁ brūhi tanme\nśhiṣhyaste ’haṁ śhādhi māṁ tvāṁ prapannam",
+        "sanskrit": "कार्पण्यदोषोपहतस्वभावः पृच्छामि त्वां धर्मसंमूढचेताः\nयच्छ्रेयः स्यान्निश्िचतं ब्रूहि तन्मे शिष्यस्तेऽहं शाधि मां त्वां प्रपन्नम्",
+        "iast": "kārpaṇya-doṣhopahata-svabhāvaḥ pṛichchhāmi tvāṁ dharma-sammūḍha-chetāḥ\nyach-chhreyaḥ syānniśhchitaṁ brūhi tanme śhiṣhyaste ’haṁ śhādhi māṁ tvāṁ prapannam",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/002_007.mp3",
         "words": [
           {
@@ -3469,8 +3469,8 @@
         "id": "2.8",
         "chapter": 2,
         "verse": 8,
-        "sanskrit": "न हि प्रपश्यामि ममापनुद्या\nद्यच्छोकमुच्छोषणमिन्द्रियाणाम्\nअवाप्य भूमावसपत्नमृद्धम्\nराज्यं सुराणामपि चाधिपत्यम्",
-        "iast": "na hi prapaśhyāmi mamāpanudyād\nyach-chhokam uchchhoṣhaṇam-indriyāṇām\navāpya bhūmāv-asapatnamṛiddhaṁ\nrājyaṁ surāṇāmapi chādhipatyam",
+        "sanskrit": "न हि प्रपश्यामि ममापनुद्या द्यच्छोकमुच्छोषणमिन्द्रियाणाम्\nअवाप्य भूमावसपत्नमृद्धम् राज्यं सुराणामपि चाधिपत्यम्",
+        "iast": "na hi prapaśhyāmi mamāpanudyād yach-chhokam uchchhoṣhaṇam-indriyāṇām\navāpya bhūmāv-asapatnamṛiddhaṁ rājyaṁ surāṇāmapi chādhipatyam",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/002_008.mp3",
         "words": [
           {
@@ -4369,8 +4369,8 @@
         "id": "2.20",
         "chapter": 2,
         "verse": 20,
-        "sanskrit": "न जायते म्रियते वा कदाचि\nन्नायं भूत्वा भविता वा न भूयः\nअजो नित्यः शाश्वतोऽयं पुराणो\nन हन्यते हन्यमाने शरीरे",
-        "iast": "na jāyate mriyate vā kadāchin\nnāyaṁ bhūtvā bhavitā vā na bhūyaḥ\najo nityaḥ śhāśhvato ’yaṁ purāṇo\nna hanyate hanyamāne śharīre",
+        "sanskrit": "न जायते म्रियते वा कदाचि न्नायं भूत्वा भविता वा न भूयः\nअजो नित्यः शाश्वतोऽयं पुराणो न हन्यते हन्यमाने शरीरे",
+        "iast": "na jāyate mriyate vā kadāchin nāyaṁ bhūtvā bhavitā vā na bhūyaḥ\najo nityaḥ śhāśhvato ’yaṁ purāṇo na hanyate hanyamāne śharīre",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/002_020.mp3",
         "words": [
           {
@@ -4539,8 +4539,8 @@
         "id": "2.22",
         "chapter": 2,
         "verse": 22,
-        "sanskrit": "वासांसि जीर्णानि यथा विहाय\nनवानि गृह्णाति नरोऽपराणि\nतथा शरीराणि विहाय जीर्णा\nन्यन्यानि संयाति नवानि देही",
-        "iast": "vāsānsi jīrṇāni yathā vihāya\nnavāni gṛihṇāti naro ’parāṇi\ntathā śharīrāṇi vihāya jīrṇānya\nnyāni sanyāti navāni dehī",
+        "sanskrit": "वासांसि जीर्णानि यथा विहाय नवानि गृह्णाति नरोऽपराणि\nतथा शरीराणि विहाय जीर्णा न्यन्यानि संयाति नवानि देही",
+        "iast": "vāsānsi jīrṇāni yathā vihāya navāni gṛihṇāti naro ’parāṇi\ntathā śharīrāṇi vihāya jīrṇānya nyāni sanyāti navāni dehī",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/002_022.mp3",
         "words": [
           {
@@ -5058,8 +5058,8 @@
         "id": "2.29",
         "chapter": 2,
         "verse": 29,
-        "sanskrit": "आश्चर्यवत्पश्यति कश्चिदेन\nमाश्चर्यवद्वदति तथैव चान्यः\nआश्चर्यवच्चैनमन्यः श्रृणोति\nश्रुत्वाप्येनं वेद न चैव कश्चित्",
-        "iast": "āśhcharya-vat paśhyati kaśhchid enan\nāśhcharya-vad vadati tathaiva chānyaḥ\nāśhcharya-vach chainam anyaḥ śhṛiṇoti\nśhrutvāpyenaṁ veda na chaiva kaśhchit",
+        "sanskrit": "आश्चर्यवत्पश्यति कश्चिदेन माश्चर्यवद्वदति तथैव चान्यः\nआश्चर्यवच्चैनमन्यः श्रृणोति श्रुत्वाप्येनं वेद न चैव कश्चित्",
+        "iast": "āśhcharya-vat paśhyati kaśhchid enan āśhcharya-vad vadati tathaiva chānyaḥ\nāśhcharya-vach chainam anyaḥ śhṛiṇoti śhrutvāpyenaṁ veda na chaiva kaśhchit",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/002_029.mp3",
         "words": [
           {
@@ -5452,7 +5452,7 @@
         "chapter": 2,
         "verse": 34,
         "sanskrit": "अकीर्तिं चापि भूतानि कथयिष्यन्ति तेऽव्ययाम्\nसंभावितस्य चाकीर्तिर्मरणादतिरिच्यते",
-        "iast": "akīrtiṁ chāpi bhūtāni\nkathayiṣhyanti te ’vyayām\nsambhāvitasya chākīrtir\nmaraṇād atirichyate",
+        "iast": "akīrtiṁ chāpi bhūtāni kathayiṣhyanti te ’vyayām\nsambhāvitasya chākīrtir maraṇād atirichyate",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/002_034.mp3",
         "words": [
           {
@@ -5789,7 +5789,7 @@
         "chapter": 2,
         "verse": 39,
         "sanskrit": "एषा तेऽभिहिता सांख्ये बुद्धिर्योगे त्विमां श्रृणु\nबुद्ध्यायुक्तो यया पार्थ कर्मबन्धं प्रहास्यसि",
-        "iast": "eṣhā te ’bhihitā sānkhye\nbuddhir yoge tvimāṁ śhṛiṇu\nbuddhyā yukto yayā pārtha\nkarma-bandhaṁ prahāsyasi",
+        "iast": "eṣhā te ’bhihitā sānkhye buddhir yoge tvimāṁ śhṛiṇu\nbuddhyā yukto yayā pārtha karma-bandhaṁ prahāsyasi",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/002_039.mp3",
         "words": [
           {
@@ -5999,7 +5999,7 @@
         "id": "2.42",
         "chapter": 2,
         "verse": 42,
-        "sanskrit": "यामिमां पुष्पितां वाचं प्रवदन्त्यविपश्चितः\nवेदवादरताः पार्थ नान्यदस्तीति वादिनः\nकामात्मानः स्वर्गपरा जन्मकर्मफलप्रदाम्\nक्रियाविशेषबहुलां भोगैश्वर्यगतिं प्रति",
+        "sanskrit": "यामिमां पुष्पितां वाचं प्रवदन्त्यविपश्चितः वेदवादरताः पार्थ नान्यदस्तीति वादिनः\nकामात्मानः स्वर्गपरा जन्मकर्मफलप्रदाम् क्रियाविशेषबहुलां भोगैश्वर्यगतिं प्रति",
         "iast": "yāmimāṁ puṣhpitāṁ vāchaṁ pravadanty-avipaśhchitaḥ\nveda-vāda-ratāḥ pārtha nānyad astīti vādinaḥ\n kāmātmānaḥ swarga-parā janma-karma-phala-pradām\nkriyā-viśheṣha-bahulāṁ bhogaiśhwarya-gatiṁ prati\nkāmātmānaḥ svarga-parā \n\n janma-karma-phala-pradām\n\n kriyā-viśeṣa-bahulāṁ\n\n bhogaiśvarya-gatiṁ prati",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/002_042-043.mp3",
         "words": [
@@ -7806,8 +7806,8 @@
         "id": "2.70",
         "chapter": 2,
         "verse": 70,
-        "sanskrit": "आपूर्यमाणमचलप्रतिष्ठं\nसमुद्रमापः प्रविशन्ति यद्वत्\nतद्वत्कामा यं प्रविशन्ति सर्वे\nस शान्तिमाप्नोति न कामकामी",
-        "iast": "āpūryamāṇam achala-pratiṣhṭhaṁ\nsamudram āpaḥ praviśhanti yadvat\ntadvat kāmā yaṁ praviśhanti sarve\nsa śhāntim āpnoti na kāma-kāmī",
+        "sanskrit": "आपूर्यमाणमचलप्रतिष्ठं समुद्रमापः प्रविशन्ति यद्वत्\nतद्वत्कामा यं प्रविशन्ति सर्वे स शान्तिमाप्नोति न कामकामी",
+        "iast": "āpūryamāṇam achala-pratiṣhṭhaṁ samudram āpaḥ praviśhanti yadvat\ntadvat kāmā yaṁ praviśhanti sarve sa śhāntim āpnoti na kāma-kāmī",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/002_070.mp3",
         "words": [
           {
@@ -9360,8 +9360,8 @@
         "id": "3.20",
         "chapter": 3,
         "verse": 20,
-        "sanskrit": "कर्मणैव हि संसिद्धिमास्थिता जनकादयः\nलोकसंग्रहमेवापि संपश्यन्कर्तुमर्हसि\nयद्यदाचरति श्रेष्ठस्तत्तदेवेतरो जनः\nस यत्प्रमाणं कुरुते लोकस्तदनुवर्तते",
-        "iast": "karmaṇaiva hi sansiddhim āsthitā janakādayaḥ\nloka-saṅgraham evāpi sampaśhyan kartum arhasi\nyad yad ācharati śhreṣhṭhas tat tad evetaro janaḥ\nsa yat pramāṇaṁ kurute lokas tad anuvartate",
+        "sanskrit": "कर्मणैव हि संसिद्धिमास्थिता जनकादयः लोकसंग्रहमेवापि संपश्यन्कर्तुमर्हसि\nयद्यदाचरति श्रेष्ठस्तत्तदेवेतरो जनः स यत्प्रमाणं कुरुते लोकस्तदनुवर्तते",
+        "iast": "karmaṇaiva hi sansiddhim āsthitā janakādayaḥ loka-saṅgraham evāpi sampaśhyan kartum arhasi\nyad yad ācharati śhreṣhṭhas tat tad evetaro janaḥ sa yat pramāṇaṁ kurute lokas tad anuvartate",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/003_020-021.mp3",
         "words": [
           {
@@ -12946,7 +12946,7 @@
         "id": "4.29",
         "chapter": 4,
         "verse": 29,
-        "sanskrit": "अपाने जुह्वति प्राण प्राणेऽपानं तथाऽपरे\nप्राणापानगती रुद्ध्वा प्राणायामपरायणाः\nअपरे नियताहाराः प्राणान्प्राणेषु जुह्वति\nसर्वेऽप्येते यज्ञविदो यज्ञक्षपितकल्मषाः",
+        "sanskrit": "अपाने जुह्वति प्राण प्राणेऽपानं तथाऽपरे प्राणापानगती रुद्ध्वा प्राणायामपरायणाः\nअपरे नियताहाराः प्राणान्प्राणेषु जुह्वति सर्वेऽप्येते यज्ञविदो यज्ञक्षपितकल्मषाः",
         "iast": "apāne juhvati prāṇaṁ prāṇe ’pānaṁ tathāpare\nprāṇāpāna-gatī ruddhvā prāṇāyāma-parāyaṇāḥ\n apare niyatāhārāḥ prāṇān prāṇeṣhu juhvati\nsarve ’pyete yajña-vido yajña-kṣhapita-kalmaṣhāḥ\napare niyatāhārāḥ prāṇān  prāṇeṣu juhvati\n\nsarve py 'ete yajña-vido yajña-kṣapita-kalmaṣāḥ",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/004_029-030.mp3",
         "words": [
@@ -14399,7 +14399,7 @@
         "id": "5.8",
         "chapter": 5,
         "verse": 8,
-        "sanskrit": "नैव किंचित्करोमीति युक्तो मन्येत तत्त्ववित्\nपश्यन् श्रृणवन्स्पृशञ्जिघ्रन्नश्नन्गच्छन्स्वपन् श्वसन्\nप्रलपन्विसृजन्गृह्णन्नुन्मिषन्निमिषन्नपि\nइन्द्रियाणीन्द्रियार्थेषु वर्तन्त इति धारयन्",
+        "sanskrit": "नैव किंचित्करोमीति युक्तो मन्येत तत्त्ववित् पश्यन् श्रृणवन्स्पृशञ्जिघ्रन्नश्नन्गच्छन्स्वपन् श्वसन्\nप्रलपन्विसृजन्गृह्णन्नुन्मिषन्निमिषन्नपि इन्द्रियाणीन्द्रियार्थेषु वर्तन्त इति धारयन्",
         "iast": "naiva kiñchit karomīti yukto manyeta tattva-vit\npaśhyañ śhṛiṇvan spṛiśhañjighrann aśhnangachchhan svapañśhvasan\n pralapan visṛijan gṛihṇann unmiṣhan nimiṣhann api\nindriyāṇīndriyārtheṣhu vartanta iti dhārayan\npralapan visṛjan gṛhṇann unmiṣan nimiṣann api indriyāṇīndriyārtheṣu vartanta iti dhārayan",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/005_008-009.mp3",
         "words": [
@@ -15728,7 +15728,7 @@
         "id": "5.27",
         "chapter": 5,
         "verse": 27,
-        "sanskrit": "स्पर्शान्कृत्वा बहिर्बाह्यांश्चक्षुश्चैवान्तरे भ्रुवोः\nप्राणापानौ समौ कृत्वा नासाभ्यन्तरचारिणौ\nयतेन्द्रियमनोबुद्धिर्मुनिर्मोक्षपरायणः\nविगतेच्छाभयक्रोधो यः सदा मुक्त एव सः",
+        "sanskrit": "स्पर्शान्कृत्वा बहिर्बाह्यांश्चक्षुश्चैवान्तरे भ्रुवोः प्राणापानौ समौ कृत्वा नासाभ्यन्तरचारिणौ\nयतेन्द्रियमनोबुद्धिर्मुनिर्मोक्षपरायणः विगतेच्छाभयक्रोधो यः सदा मुक्त एव सः",
         "iast": "sparśhān kṛitvā bahir bāhyānśh chakṣhuśh chaivāntare bhruvoḥ\nprāṇāpānau samau kṛitvā nāsābhyantara-chāriṇau\n yatendriya-mano-buddhir munir mokṣha-parāyaṇaḥ\nvigatechchhā-bhaya-krodho yaḥ sadā mukta eva saḥ\nyatendriya-mano-buddhir  munir   mokṣa-parāyaṇaḥ vigatecchā-bhaya-krodho yaḥ sadā    mukta   eva saḥ",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/005_027-028.mp3",
         "words": [
@@ -16785,8 +16785,8 @@
         "id": "6.12",
         "chapter": 6,
         "verse": 12,
-        "sanskrit": "तत्रैकाग्रं मनः कृत्वा यतचित्तेन्द्रियक्रियः\nउपविश्यासने युञ्ज्याद्योगमात्मविशुद्धये\nसमं कायशिरोग्रीवं धारयन्नचलं स्थिरः\nसंप्रेक्ष्य नासिकाग्रं स्वं दिशश्चानवलोकयन्",
-        "iast": "tatraikāgraṁ manaḥ kṛitvā yata-chittendriya-kriyaḥ\nupaviśhyāsane yuñjyād yogam ātma-viśhuddhaye\nsamaṁ kāya-śhiro-grīvaṁ dhārayann achalaṁ sthiraḥ\nsamprekṣhya nāsikāgraṁ svaṁ diśhaśh chānavalokayan",
+        "sanskrit": "तत्रैकाग्रं मनः कृत्वा यतचित्तेन्द्रियक्रियः उपविश्यासने युञ्ज्याद्योगमात्मविशुद्धये\nसमं कायशिरोग्रीवं धारयन्नचलं स्थिरः संप्रेक्ष्य नासिकाग्रं स्वं दिशश्चानवलोकयन्",
+        "iast": "tatraikāgraṁ manaḥ kṛitvā yata-chittendriya-kriyaḥ upaviśhyāsane yuñjyād yogam ātma-viśhuddhaye\nsamaṁ kāya-śhiro-grīvaṁ dhārayann achalaṁ sthiraḥ samprekṣhya nāsikāgraṁ svaṁ diśhaśh chānavalokayan",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/006_012-013.mp3",
         "words": [
           {
@@ -17584,8 +17584,8 @@
         "id": "6.24",
         "chapter": 6,
         "verse": 24,
-        "sanskrit": "सङ्कल्पप्रभवान्कामांस्त्यक्त्वा सर्वानशेषतः\nमनसैवेन्द्रियग्रामं विनियम्य समन्ततः\nशनैः शनैरुपरमेद् बुद्ध्या धृतिगृहीतया\nआत्मसंस्थं मनः कृत्वा न किञ्चिदपि चिन्तयेत्",
-        "iast": "saṅkalpa-prabhavān kāmāns tyaktvā sarvān aśheṣhataḥ\nmanasaivendriya-grāmaṁ viniyamya samantataḥ\nśhanaiḥ śhanair uparamed buddhyā dhṛiti-gṛihītayā\nātma-sansthaṁ manaḥ kṛitvā na kiñchid api chintayet",
+        "sanskrit": "सङ्कल्पप्रभवान्कामांस्त्यक्त्वा सर्वानशेषतः मनसैवेन्द्रियग्रामं विनियम्य समन्ततः\nशनैः शनैरुपरमेद् बुद्ध्या धृतिगृहीतया आत्मसंस्थं मनः कृत्वा न किञ्चिदपि चिन्तयेत्",
+        "iast": "saṅkalpa-prabhavān kāmāns tyaktvā sarvān aśheṣhataḥ manasaivendriya-grāmaṁ viniyamya samantataḥ\nśhanaiḥ śhanair uparamed buddhyā dhṛiti-gṛihītayā ātma-sansthaṁ manaḥ kṛitvā na kiñchid api chintayet",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/006_024-025.mp3",
         "words": [
           {
@@ -18740,8 +18740,8 @@
         "id": "6.41",
         "chapter": 6,
         "verse": 41,
-        "sanskrit": "प्राप्य पुण्यकृतां लोकानुषित्वा शाश्वतीः समाः\nशुचीनां श्रीमतां गेहे योगभ्रष्टोऽभिजायते\nअथवा योगिनामेव कुले भवति धीमताम्\nएतद्धि दुर्लभतरं लोके जन्म यदीदृशम्",
-        "iast": "prāpya puṇya-kṛitāṁ lokān uṣhitvā śhāśhvatīḥ samāḥ\nśhuchīnāṁ śhrīmatāṁ gehe yoga-bhraṣhṭo’bhijāyate\natha vā yoginām eva kule bhavati dhīmatām\netad dhi durlabhataraṁ loke janma yad īdṛiśham",
+        "sanskrit": "प्राप्य पुण्यकृतां लोकानुषित्वा शाश्वतीः समाः शुचीनां श्रीमतां गेहे योगभ्रष्टोऽभिजायते\nअथवा योगिनामेव कुले भवति धीमताम् एतद्धि दुर्लभतरं लोके जन्म यदीदृशम्",
+        "iast": "prāpya puṇya-kṛitāṁ lokān uṣhitvā śhāśhvatīḥ samāḥ śhuchīnāṁ śhrīmatāṁ gehe yoga-bhraṣhṭo’bhijāyate\natha vā yoginām eva kule bhavati dhīmatām etad dhi durlabhataraṁ loke janma yad īdṛiśham",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/006_041-042.mp3",
         "words": [
           {
@@ -19057,7 +19057,7 @@
         "chapter": 6,
         "verse": 46,
         "sanskrit": "तपस्विभ्योऽधिको योगी ज्ञानिभ्योऽपि मतोऽधिकः\nकर्मिभ्यश्चाधिको योगी तस्माद्योगी भवार्जुन",
-        "iast": "tapasvibhyo ’dhiko yogī\njñānibhyo ’pi mato ’dhikaḥ\nkarmibhyaśh chādhiko yogī\ntasmād yogī bhavārjuna",
+        "iast": "tapasvibhyo ’dhiko yogī jñānibhyo ’pi mato ’dhikaḥ\nkarmibhyaśh chādhiko yogī tasmād yogī bhavārjuna",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/006_046.mp3",
         "words": [
           {
@@ -22096,8 +22096,8 @@
         "id": "8.11",
         "chapter": 8,
         "verse": 11,
-        "sanskrit": "यदक्षरं वेदविदो वदन्ति\nविशन्ति यद्यतयो वीतरागाः\nयदिच्छन्तो ब्रह्मचर्यं चरन्ति\nतत्ते पदं संग्रहेण प्रवक्ष्ये",
-        "iast": "yad akṣharaṁ veda-vido vadanti\nviśhanti yad yatayo vīta-rāgāḥ\nyad ichchhanto brahmacharyaṁ charanti\ntat te padaṁ saṅgraheṇa pravakṣhye",
+        "sanskrit": "यदक्षरं वेदविदो वदन्ति विशन्ति यद्यतयो वीतरागाः\nयदिच्छन्तो ब्रह्मचर्यं चरन्ति तत्ते पदं संग्रहेण प्रवक्ष्ये",
+        "iast": "yad akṣharaṁ veda-vido vadanti viśhanti yad yatayo vīta-rāgāḥ\nyad ichchhanto brahmacharyaṁ charanti tat te padaṁ saṅgraheṇa pravakṣhye",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/008_011.mp3",
         "words": [
           {
@@ -23229,8 +23229,8 @@
         "id": "8.28",
         "chapter": 8,
         "verse": 28,
-        "sanskrit": "वेदेषु यज्ञेषु तपःसु चैव\nदानेषु यत्पुण्यफलं प्रदिष्टम्\nअत्येति तत्सर्वमिदं विदित्वा\nयोगी परं स्थानमुपैति चाद्यम्",
-        "iast": "vedeṣhu yajñeṣhu tapaḥsu chaiva\ndāneṣhu yat puṇya-phalaṁ pradiṣhṭam\natyeti tat sarvam idaṁ viditvā\nyogī paraṁ sthānam upaiti chādyam",
+        "sanskrit": "वेदेषु यज्ञेषु तपःसु चैव दानेषु यत्पुण्यफलं प्रदिष्टम्\nअत्येति तत्सर्वमिदं विदित्वा योगी परं स्थानमुपैति चाद्यम्",
+        "iast": "vedeṣhu yajñeṣhu tapaḥsu chaiva dāneṣhu yat puṇya-phalaṁ pradiṣhṭam\natyeti tat sarvam idaṁ viditvā yogī paraṁ sthānam upaiti chādyam",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/008_028.mp3",
         "words": [
           {
@@ -23725,8 +23725,8 @@
         "id": "9.7",
         "chapter": 9,
         "verse": 7,
-        "sanskrit": "सर्वभूतानि कौन्तेय प्रकृतिं यान्ति मामिकाम्\nकल्पक्षये पुनस्तानि कल्पादौ विसृजाम्यहम्\nप्रकृतिं स्वामवष्टभ्य विसृजामि पुनः पुनः\nभूतग्राममिमं कृत्स्नमवशं प्रकृतेर्वशात्",
-        "iast": "sarva-bhūtāni kaunteya prakṛitiṁ yānti māmikām\nkalpa-kṣhaye punas tāni kalpādau visṛijāmyaham\nprakṛitiṁ svām avaṣhṭabhya visṛijāmi punaḥ punaḥ\nbhūta-grāmam imaṁ kṛitsnam avaśhaṁ prakṛiter vaśhāt",
+        "sanskrit": "सर्वभूतानि कौन्तेय प्रकृतिं यान्ति मामिकाम् कल्पक्षये पुनस्तानि कल्पादौ विसृजाम्यहम्\nप्रकृतिं स्वामवष्टभ्य विसृजामि पुनः पुनः भूतग्राममिमं कृत्स्नमवशं प्रकृतेर्वशात्",
+        "iast": "sarva-bhūtāni kaunteya prakṛitiṁ yānti māmikām kalpa-kṣhaye punas tāni kalpādau visṛijāmyaham\nprakṛitiṁ svām avaṣhṭabhya visṛijāmi punaḥ punaḥ bhūta-grāmam imaṁ kṛitsnam avaśhaṁ prakṛiter vaśhāt",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/009_007-008.mp3",
         "words": [
           {
@@ -24269,8 +24269,8 @@
         "id": "9.16",
         "chapter": 9,
         "verse": 16,
-        "sanskrit": "अहं क्रतुरहं यज्ञः स्वधाऽहमहमौषधम्\nमंत्रोऽहमहमेवाज्यमहमग्निरहं हुतम्\nपिताऽहमस्य जगतो माता धाता पितामहः\nवेद्यं पवित्रमोंकार ऋक् साम यजुरेव च",
-        "iast": "ahaṁ kratur ahaṁ yajñaḥ svadhāham aham auṣhadham\nmantro ’ham aham evājyam aham agnir ahaṁ hutam\npitāham asya jagato mātā dhātā pitāmahaḥ\nvedyaṁ pavitram oṁkāra ṛik sāma yajur eva cha",
+        "sanskrit": "अहं क्रतुरहं यज्ञः स्वधाऽहमहमौषधम् मंत्रोऽहमहमेवाज्यमहमग्निरहं हुतम्\nपिताऽहमस्य जगतो माता धाता पितामहः वेद्यं पवित्रमोंकार ऋक् साम यजुरेव च",
+        "iast": "ahaṁ kratur ahaṁ yajñaḥ svadhāham aham auṣhadham mantro ’ham aham evājyam aham agnir ahaṁ hutam\npitāham asya jagato mātā dhātā pitāmahaḥ vedyaṁ pavitram oṁkāra ṛik sāma yajur eva cha",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/009_016-017.mp3",
         "words": [
           {
@@ -24568,8 +24568,8 @@
         "id": "9.20",
         "chapter": 9,
         "verse": 20,
-        "sanskrit": "त्रैविद्या मां सोमपाः पूतपापा\nयज्ञैरिष्ट्वा स्वर्गतिं प्रार्थयन्ते\nते पुण्यमासाद्य सुरेन्द्रलोक\nमश्नन्ति दिव्यान्दिवि देवभोगान्",
-        "iast": "trai-vidyā māṁ soma-pāḥ pūta-pāpā\nyajñair iṣhṭvā svar-gatiṁ prārthayante\nte puṇyam āsādya surendra-lokam\naśhnanti divyān divi deva-bhogān",
+        "sanskrit": "त्रैविद्या मां सोमपाः पूतपापा यज्ञैरिष्ट्वा स्वर्गतिं प्रार्थयन्ते\nते पुण्यमासाद्य सुरेन्द्रलोक मश्नन्ति दिव्यान्दिवि देवभोगान्",
+        "iast": "trai-vidyā māṁ soma-pāḥ pūta-pāpā yajñair iṣhṭvā svar-gatiṁ prārthayante\nte puṇyam āsādya surendra-lokam aśhnanti divyān divi deva-bhogān",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/009_020.mp3",
         "words": [
           {
@@ -24657,8 +24657,8 @@
         "id": "9.21",
         "chapter": 9,
         "verse": 21,
-        "sanskrit": "ते तं भुक्त्वा स्वर्गलोकं विशालं\nक्षीणे पुण्ये मर्त्यलोकं विशन्ति\nएव त्रयीधर्ममनुप्रपन्ना\nगतागतं कामकामा लभन्ते",
-        "iast": "te taṁ bhuktvā swarga-lokaṁ viśhālaṁ\nkṣhīṇe puṇye martya-lokaṁ viśhanti\nevaṁ trayī-dharmam anuprapannā\ngatāgataṁ kāma-kāmā labhante",
+        "sanskrit": "ते तं भुक्त्वा स्वर्गलोकं विशालं क्षीणे पुण्ये मर्त्यलोकं विशन्ति\nएव त्रयीधर्ममनुप्रपन्ना गतागतं कामकामा लभन्ते",
+        "iast": "te taṁ bhuktvā swarga-lokaṁ viśhālaṁ kṣhīṇe puṇye martya-lokaṁ viśhanti\nevaṁ trayī-dharmam anuprapannā gatāgataṁ kāma-kāmā labhante",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/009_021.mp3",
         "words": [
           {
@@ -25911,7 +25911,7 @@
         "id": "10.4",
         "chapter": 10,
         "verse": 4,
-        "sanskrit": "बुद्धिर्ज्ञानमसंमोहः क्षमा सत्यं दमः शमः\nसुखं दुःखं भवोऽभावो भयं चाभयमेव च\nअहिंसा समता तुष्टिस्तपो दानं यशोऽयशः\nभवन्ति भावा भूतानां मत्त एव पृथग्विधाः",
+        "sanskrit": "बुद्धिर्ज्ञानमसंमोहः क्षमा सत्यं दमः शमः सुखं दुःखं भवोऽभावो भयं चाभयमेव च\nअहिंसा समता तुष्टिस्तपो दानं यशोऽयशः भवन्ति भावा भूतानां मत्त एव पृथग्विधाः",
         "iast": "buddhir jñānam asammohaḥ kṣhamā satyaṁ damaḥ śhamaḥ\nsukhaṁ duḥkhaṁ bhavo ’bhāvo bhayaṁ chābhayameva cha\nahiṁsā   samatā  tuṣṭis tapo dānaṁ   yaśo    'yaśaḥ  bhavanti    bhāvā   bhūtānāṁ    matta   eva pṛthag-vidhāḥ",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/010_004-005.mp3",
         "words": [
@@ -26721,8 +26721,8 @@
         "id": "10.16",
         "chapter": 10,
         "verse": 16,
-        "sanskrit": "वक्तुमर्हस्यशेषेण दिव्या ह्यात्मविभूतयः\nयाभिर्विभूतिभिर्लोकानिमांस्त्वं व्याप्य तिष्ठसि\nकथं विद्यामहं योगिंस्त्वां सदा परिचिन्तयन्\nकेषु केषु च भावेषु चिन्त्योऽसि भगवन्मया",
-        "iast": "vaktum arhasyaśheṣheṇa divyā hyātma-vibhūtayaḥ\nyābhir vibhūtibhir lokān imāṁs tvaṁ vyāpya tiṣhṭhasi\nkathaṁ vidyām ahaṁ yogins tvāṁ sadā parichintayan\nkeṣhu keṣhu cha bhāveṣhu chintyo ’si bhagavan mayā",
+        "sanskrit": "वक्तुमर्हस्यशेषेण दिव्या ह्यात्मविभूतयः याभिर्विभूतिभिर्लोकानिमांस्त्वं व्याप्य तिष्ठसि\nकथं विद्यामहं योगिंस्त्वां सदा परिचिन्तयन् केषु केषु च भावेषु चिन्त्योऽसि भगवन्मया",
+        "iast": "vaktum arhasyaśheṣheṇa divyā hyātma-vibhūtayaḥ yābhir vibhūtibhir lokān imāṁs tvaṁ vyāpya tiṣhṭhasi\nkathaṁ vidyām ahaṁ yogins tvāṁ sadā parichintayan keṣhu keṣhu cha bhāveṣhu chintyo ’si bhagavan mayā",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/010_016-017.mp3",
         "words": [
           {
@@ -27874,7 +27874,7 @@
         "chapter": 10,
         "verse": 33,
         "sanskrit": "अक्षराणामकारोऽस्मि द्वन्द्वः सामासिकस्य च\nअहमेवाक्षयः कालो धाताऽहं विश्वतोमुखः",
-        "iast": "अहमेवाक्षय: कालो धाताहं विश्वतोमुख: || 33||\n\nakṣharāṇām a-kāro ’smi dvandvaḥ sāmāsikasya cha\naham evākṣhayaḥ kālo dhātāhaṁ viśhvato-mukhaḥ",
+        "iast": "अहमेवाक्षय: कालो धाताहं विश्वतोमुख: || 33|| \nakṣharāṇām a-kāro ’smi dvandvaḥ sāmāsikasya cha aham evākṣhayaḥ kālo dhātāhaṁ viśhvato-mukhaḥ",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/010_033.mp3",
         "words": [
           {
@@ -29248,8 +29248,8 @@
         "id": "11.10",
         "chapter": 11,
         "verse": 10,
-        "sanskrit": "अनेकवक्त्रनयनमनेकाद्भुतदर्शनम्\nअनेकदिव्याभरणं दिव्यानेकोद्यतायुधम्\nदिव्यमाल्याम्बरधरं दिव्यगन्धानुलेपनम्\nसर्वाश्चर्यमयं देवमनन्तं विश्वतोमुखम्",
-        "iast": "aneka-vaktra-nayanam anekādbhuta-darśhanam\naneka-divyābharaṇaṁ divyānekodyatāyudham\ndivya-mālyāmbara-dharaṁ divya-gandhānulepanam\nsarvāśhcharya-mayaṁ devam anantaṁ viśhvato-mukham",
+        "sanskrit": "अनेकवक्त्रनयनमनेकाद्भुतदर्शनम् अनेकदिव्याभरणं दिव्यानेकोद्यतायुधम्\nदिव्यमाल्याम्बरधरं दिव्यगन्धानुलेपनम् सर्वाश्चर्यमयं देवमनन्तं विश्वतोमुखम्",
+        "iast": "aneka-vaktra-nayanam anekādbhuta-darśhanam aneka-divyābharaṇaṁ divyānekodyatāyudham\ndivya-mālyāmbara-dharaṁ divya-gandhānulepanam sarvāśhcharya-mayaṁ devam anantaṁ viśhvato-mukham",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/011_010-011.mp3",
         "words": [
           {
@@ -29644,8 +29644,8 @@
         "id": "11.16",
         "chapter": 11,
         "verse": 16,
-        "sanskrit": "अनेकबाहूदरवक्त्रनेत्रं\nपश्यामि त्वां सर्वतोऽनन्तरूपम्\nनान्तं न मध्यं न पुनस्तवादिं\nपश्यामि विश्वेश्वर विश्वरूप",
-        "iast": "aneka-bāhūdara-vaktra-netraṁ\npaśhyāmi tvāṁ sarvato ’nanta-rūpam\nnāntaṁ na madhyaṁ na punas tavādiṁ\npaśhyāmi viśhveśhvara viśhva-rūpa",
+        "sanskrit": "अनेकबाहूदरवक्त्रनेत्रं पश्यामि त्वां सर्वतोऽनन्तरूपम्\nनान्तं न मध्यं न पुनस्तवादिं पश्यामि विश्वेश्वर विश्वरूप",
+        "iast": "aneka-bāhūdara-vaktra-netraṁ paśhyāmi tvāṁ sarvato ’nanta-rūpam\nnāntaṁ na madhyaṁ na punas tavādiṁ paśhyāmi viśhveśhvara viśhva-rūpa",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/011_016.mp3",
         "words": [
           {
@@ -29736,8 +29736,8 @@
         "id": "11.17",
         "chapter": 11,
         "verse": 17,
-        "sanskrit": "किरीटिनं गदिनं चक्रिणं च\nतेजोराशिं सर्वतोदीप्तिमन्तम्\nपश्यामि त्वां दुर्निरीक्ष्यं समन्ता\nद्दीप्तानलार्कद्युतिमप्रमेयम्",
-        "iast": "kirīṭinaṁ gadinaṁ chakriṇaṁ cha\ntejo-rāśhiṁ sarvato dīptimantam\npaśhyāmi tvāṁ durnirīkṣhyaṁ samantād\ndīptānalārka-dyutim aprameyam",
+        "sanskrit": "किरीटिनं गदिनं चक्रिणं च तेजोराशिं सर्वतोदीप्तिमन्तम्\nपश्यामि त्वां दुर्निरीक्ष्यं समन्ता द्दीप्तानलार्कद्युतिमप्रमेयम्",
+        "iast": "kirīṭinaṁ gadinaṁ chakriṇaṁ cha tejo-rāśhiṁ sarvato dīptimantam\npaśhyāmi tvāṁ durnirīkṣhyaṁ samantād dīptānalārka-dyutim aprameyam",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/011_017.mp3",
         "words": [
           {
@@ -29812,8 +29812,8 @@
         "id": "11.18",
         "chapter": 11,
         "verse": 18,
-        "sanskrit": "त्वमक्षरं परमं वेदितव्यं\nत्वमस्य विश्वस्य परं निधानम्\nत्वमव्ययः शाश्वतधर्मगोप्ता\nसनातनस्त्वं पुरुषो मतो मे",
-        "iast": "tvam akṣharaṁ paramaṁ veditavyaṁ\ntvam asya viśhvasya paraṁ nidhānam\ntvam avyayaḥ śhāśhvata-dharma-goptā\nsanātanas tvaṁ puruṣho mato me",
+        "sanskrit": "त्वमक्षरं परमं वेदितव्यं त्वमस्य विश्वस्य परं निधानम्\nत्वमव्ययः शाश्वतधर्मगोप्ता सनातनस्त्वं पुरुषो मतो मे",
+        "iast": "tvam akṣharaṁ paramaṁ veditavyaṁ tvam asya viśhvasya paraṁ nidhānam\ntvam avyayaḥ śhāśhvata-dharma-goptā sanātanas tvaṁ puruṣho mato me",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/011_018.mp3",
         "words": [
           {
@@ -29892,7 +29892,7 @@
         "id": "11.19",
         "chapter": 11,
         "verse": 19,
-        "sanskrit": "अनादिमध्यान्तमनन्तवीर्य\nमनन्तबाहुं शशिसूर्यनेत्रम्\nपश्यामि त्वां दीप्तहुताशवक्त्रम्\nस्वतेजसा विश्वमिदं तपन्तम्",
+        "sanskrit": "अनादिमध्यान्तमनन्तवीर्य मनन्तबाहुं शशिसूर्यनेत्रम्\nपश्यामि त्वां दीप्तहुताशवक्त्रम् स्वतेजसा विश्वमिदं तपन्तम्",
         "iast": "स्वतेजसा विश्वमिदं तपन्तम् || 19||",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/011_019.mp3",
         "words": [
@@ -29912,8 +29912,8 @@
         "id": "11.20",
         "chapter": 11,
         "verse": 20,
-        "sanskrit": "द्यावापृथिव्योरिदमन्तरं हि\nव्याप्तं त्वयैकेन दिशश्च सर्वाः\nदृष्ट्वाऽद्भुतं रूपमुग्रं तवेदं\nलोकत्रयं प्रव्यथितं महात्मन्",
-        "iast": "dyāv ā-pṛithivyor idam antaraṁ hi\nvyāptaṁ tvayaikena diśhaśh cha sarvāḥ\ndṛiṣhṭvādbhutaṁ rūpam ugraṁ tavedaṁ\nloka-trayaṁ pravyathitaṁ mahātman",
+        "sanskrit": "द्यावापृथिव्योरिदमन्तरं हि व्याप्तं त्वयैकेन दिशश्च सर्वाः\nदृष्ट्वाऽद्भुतं रूपमुग्रं तवेदं लोकत्रयं प्रव्यथितं महात्मन्",
+        "iast": "dyāv ā-pṛithivyor idam antaraṁ hi vyāptaṁ tvayaikena diśhaśh cha sarvāḥ\ndṛiṣhṭvādbhutaṁ rūpam ugraṁ tavedaṁ loka-trayaṁ pravyathitaṁ mahātman",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/011_020.mp3",
         "words": [
           {
@@ -30008,8 +30008,8 @@
         "id": "11.21",
         "chapter": 11,
         "verse": 21,
-        "sanskrit": "अमी हि त्वां सुरसङ्घाः विशन्ति\nकेचिद्भीताः प्राञ्जलयो गृणन्ति\nस्वस्तीत्युक्त्वा महर्षिसिद्धसङ्घाः\nस्तुवन्ति त्वां स्तुतिभिः पुष्कलाभिः",
-        "iast": "amī hi tvāṁ sura-saṅghā viśhanti\nkechid bhītāḥ prāñjalayo gṛiṇanti\nsvastīty uktvā maharṣhi-siddha-saṅghāḥ\nstuvanti tvāṁ stutibhiḥ puṣhkalābhiḥ",
+        "sanskrit": "अमी हि त्वां सुरसङ्घाः विशन्ति केचिद्भीताः प्राञ्जलयो गृणन्ति\nस्वस्तीत्युक्त्वा महर्षिसिद्धसङ्घाः स्तुवन्ति त्वां स्तुतिभिः पुष्कलाभिः",
+        "iast": "amī hi tvāṁ sura-saṅghā viśhanti kechid bhītāḥ prāñjalayo gṛiṇanti\nsvastīty uktvā maharṣhi-siddha-saṅghāḥ stuvanti tvāṁ stutibhiḥ puṣhkalābhiḥ",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/011_021.mp3",
         "words": [
           {
@@ -30096,8 +30096,8 @@
         "id": "11.22",
         "chapter": 11,
         "verse": 22,
-        "sanskrit": "रुद्रादित्या वसवो ये च साध्या\nविश्वेऽश्िवनौ मरुतश्चोष्मपाश्च\nगन्धर्वयक्षासुरसिद्धसङ्घा\nवीक्षन्ते त्वां विस्मिताश्चैव सर्वे",
-        "iast": "rudrādityā vasavo ye cha sādhyā\nviśhve ’śhvinau marutaśh choṣhmapāśh cha\ngandharva-yakṣhāsura-siddha-saṅghā\nvīkṣhante tvāṁ vismitāśh chaiva sarve",
+        "sanskrit": "रुद्रादित्या वसवो ये च साध्या विश्वेऽश्िवनौ मरुतश्चोष्मपाश्च\nगन्धर्वयक्षासुरसिद्धसङ्घा वीक्षन्ते त्वां विस्मिताश्चैव सर्वे",
+        "iast": "rudrādityā vasavo ye cha sādhyā viśhve ’śhvinau marutaśh choṣhmapāśh cha\ngandharva-yakṣhāsura-siddha-saṅghā vīkṣhante tvāṁ vismitāśh chaiva sarve",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/011_022.mp3",
         "words": [
           {
@@ -30204,8 +30204,8 @@
         "id": "11.23",
         "chapter": 11,
         "verse": 23,
-        "sanskrit": "रूपं महत्ते बहुवक्त्रनेत्रं\nमहाबाहो बहुबाहूरुपादम्\nबहूदरं बहुदंष्ट्राकरालं\nदृष्ट्वा लोकाः प्रव्यथितास्तथाऽहम्",
-        "iast": "rūpaṁ mahat te bahu-vaktra-netraṁ\nmahā-bāho bahu-bāhūru-pādam\nbahūdaraṁ bahu-danṣhṭrā-karālaṁ\ndṛiṣhṭvā lokāḥ pravyathitās tathāham",
+        "sanskrit": "रूपं महत्ते बहुवक्त्रनेत्रं महाबाहो बहुबाहूरुपादम्\nबहूदरं बहुदंष्ट्राकरालं दृष्ट्वा लोकाः प्रव्यथितास्तथाऽहम्",
+        "iast": "rūpaṁ mahat te bahu-vaktra-netraṁ mahā-bāho bahu-bāhūru-pādam\nbahūdaraṁ bahu-danṣhṭrā-karālaṁ dṛiṣhṭvā lokāḥ pravyathitās tathāham",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/011_023.mp3",
         "words": [
           {
@@ -30296,8 +30296,8 @@
         "id": "11.24",
         "chapter": 11,
         "verse": 24,
-        "sanskrit": "नभःस्पृशं दीप्तमनेकवर्णं\nव्यात्ताननं दीप्तविशालनेत्रम्\nदृष्ट्वा हि त्वां प्रव्यथितान्तरात्मा\nधृतिं न विन्दामि शमं च विष्णो",
-        "iast": "nabhaḥ-spṛiśhaṁ dīptam aneka-varṇaṁ\nvyāttānanaṁ dīpta-viśhāla-netram\ndṛiṣhṭvā hi tvāṁ pravyathitāntar-ātmā\ndhṛitiṁ na vindāmi śhamaṁ cha viṣhṇo",
+        "sanskrit": "नभःस्पृशं दीप्तमनेकवर्णं व्यात्ताननं दीप्तविशालनेत्रम्\nदृष्ट्वा हि त्वां प्रव्यथितान्तरात्मा धृतिं न विन्दामि शमं च विष्णो",
+        "iast": "nabhaḥ-spṛiśhaṁ dīptam aneka-varṇaṁ vyāttānanaṁ dīpta-viśhāla-netram\ndṛiṣhṭvā hi tvāṁ pravyathitāntar-ātmā dhṛitiṁ na vindāmi śhamaṁ cha viṣhṇo",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/011_024.mp3",
         "words": [
           {
@@ -30388,8 +30388,8 @@
         "id": "11.25",
         "chapter": 11,
         "verse": 25,
-        "sanskrit": "दंष्ट्राकरालानि च ते मुखानि\nदृष्ट्वैव कालानलसन्निभानि\nदिशो न जाने न लभे च शर्म\nप्रसीद देवेश जगन्निवास",
-        "iast": "danṣhṭrā-karālāni cha te mukhāni\ndṛiṣhṭvaiva kālānala-sannibhāni\ndiśho na jāne na labhe cha śharma\nprasīda deveśha jagan-nivāsa",
+        "sanskrit": "दंष्ट्राकरालानि च ते मुखानि दृष्ट्वैव कालानलसन्निभानि\nदिशो न जाने न लभे च शर्म प्रसीद देवेश जगन्निवास",
+        "iast": "danṣhṭrā-karālāni cha te mukhāni dṛiṣhṭvaiva kālānala-sannibhāni\ndiśho na jāne na labhe cha śharma prasīda deveśha jagan-nivāsa",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/011_025.mp3",
         "words": [
           {
@@ -30808,8 +30808,8 @@
         "id": "11.30",
         "chapter": 11,
         "verse": 30,
-        "sanskrit": "लेलिह्यसे ग्रसमानः समन्ता\nल्लोकान्समग्रान्वदनैर्ज्वलद्भिः\nतेजोभिरापूर्य जगत्समग्रं\nभासस्तवोग्राः प्रतपन्ति विष्णो",
-        "iast": "lelihyase grasamānaḥ samantāl\nlokān samagrān vadanair jvaladbhiḥ\ntejobhir āpūrya jagat samagraṁ\nbhāsas tavogrāḥ pratapanti viṣhṇo",
+        "sanskrit": "लेलिह्यसे ग्रसमानः समन्ता ल्लोकान्समग्रान्वदनैर्ज्वलद्भिः\nतेजोभिरापूर्य जगत्समग्रं भासस्तवोग्राः प्रतपन्ति विष्णो",
+        "iast": "lelihyase grasamānaḥ samantāl lokān samagrān vadanair jvaladbhiḥ\ntejobhir āpūrya jagat samagraṁ bhāsas tavogrāḥ pratapanti viṣhṇo",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/011_030.mp3",
         "words": [
           {
@@ -30888,8 +30888,8 @@
         "id": "11.31",
         "chapter": 11,
         "verse": 31,
-        "sanskrit": "आख्याहि मे को भवानुग्ररूपो\nनमोऽस्तु ते देववर प्रसीद\nविज्ञातुमिच्छामि भवन्तमाद्यं\nन हि प्रजानामि तव प्रवृत्तिम्",
-        "iast": "ākhyāhi me ko bhavān ugra-rūpo\nnamo ’stu te deva-vara prasīda\nvijñātum ichchhāmi bhavantam ādyaṁ\nna hi prajānāmi tava pravṛittim",
+        "sanskrit": "आख्याहि मे को भवानुग्ररूपो नमोऽस्तु ते देववर प्रसीद\nविज्ञातुमिच्छामि भवन्तमाद्यं न हि प्रजानामि तव प्रवृत्तिम्",
+        "iast": "ākhyāhi me ko bhavān ugra-rūpo namo ’stu te deva-vara prasīda\nvijñātum ichchhāmi bhavantam ādyaṁ na hi prajānāmi tava pravṛittim",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/011_031.mp3",
         "words": [
           {
@@ -31064,8 +31064,8 @@
         "id": "11.33",
         "chapter": 11,
         "verse": 33,
-        "sanskrit": "तस्मात्त्वमुत्तिष्ठ यशो लभस्व\nजित्वा शत्रून् भुङ्क्ष्व राज्यं समृद्धम्\nमयैवैते निहताः पूर्वमेव\nनिमित्तमात्रं भव सव्यसाचिन्",
-        "iast": "tasmāt tvam uttiṣhṭha yaśho labhasva\njitvā śhatrūn bhuṅkṣhva rājyaṁ samṛiddham\nmayaivaite nihatāḥ pūrvam eva\nnimitta-mātraṁ bhava savya-sāchin",
+        "sanskrit": "तस्मात्त्वमुत्तिष्ठ यशो लभस्व जित्वा शत्रून् भुङ्क्ष्व राज्यं समृद्धम्\nमयैवैते निहताः पूर्वमेव निमित्तमात्रं भव सव्यसाचिन्",
+        "iast": "tasmāt tvam uttiṣhṭha yaśho labhasva jitvā śhatrūn bhuṅkṣhva rājyaṁ samṛiddham\nmayaivaite nihatāḥ pūrvam eva nimitta-mātraṁ bhava savya-sāchin",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/011_033.mp3",
         "words": [
           {
@@ -31152,8 +31152,8 @@
         "id": "11.34",
         "chapter": 11,
         "verse": 34,
-        "sanskrit": "द्रोणं च भीष्मं च जयद्रथं च\nकर्णं तथाऽन्यानपि योधवीरान्\nमया हतांस्त्वं जहि मा व्यथिष्ठा\nयुध्यस्व जेतासि रणे सपत्नान्",
-        "iast": "droṇaṁ cha bhīṣhmaṁ cha jayadrathaṁ cha\nkarṇaṁ tathānyān api yodha-vīrān\nmayā hatāṁs tvaṁ jahi mā vyathiṣhṭhā\nyudhyasva jetāsi raṇe sapatnān",
+        "sanskrit": "द्रोणं च भीष्मं च जयद्रथं च कर्णं तथाऽन्यानपि योधवीरान्\nमया हतांस्त्वं जहि मा व्यथिष्ठा युध्यस्व जेतासि रणे सपत्नान्",
+        "iast": "droṇaṁ cha bhīṣhmaṁ cha jayadrathaṁ cha karṇaṁ tathānyān api yodha-vīrān\nmayā hatāṁs tvaṁ jahi mā vyathiṣhṭhā yudhyasva jetāsi raṇe sapatnān",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/011_034.mp3",
         "words": [
           {
@@ -31416,8 +31416,8 @@
         "id": "11.37",
         "chapter": 11,
         "verse": 37,
-        "sanskrit": "कस्माच्च ते न नमेरन्महात्मन्\nगरीयसे ब्रह्मणोऽप्यादिकर्त्रे\nअनन्त देवेश जगन्निवास\nत्वमक्षरं सदसत्तत्परं यत्",
-        "iast": "kasmāch cha te na nameran mahātman\ngarīyase brahmaṇo ’py ādi-kartre\nananta deveśha jagan-nivāsa\ntvam akṣharaṁ sad-asat tat paraṁ yat",
+        "sanskrit": "कस्माच्च ते न नमेरन्महात्मन् गरीयसे ब्रह्मणोऽप्यादिकर्त्रे\nअनन्त देवेश जगन्निवास त्वमक्षरं सदसत्तत्परं यत्",
+        "iast": "kasmāch cha te na nameran mahātman garīyase brahmaṇo ’py ādi-kartre\nananta deveśha jagan-nivāsa tvam akṣharaṁ sad-asat tat paraṁ yat",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/011_037.mp3",
         "words": [
           {
@@ -31504,8 +31504,8 @@
         "id": "11.38",
         "chapter": 11,
         "verse": 38,
-        "sanskrit": "त्वमादिदेवः पुरुषः पुराण\nस्त्वमस्य विश्वस्य परं निधानम्\nवेत्तासि वेद्यं च परं च धाम\nत्वया ततं विश्वमनन्तरूप",
-        "iast": "tvam ādi-devaḥ puruṣhaḥ purāṇas\ntvam asya viśhvasya paraṁ nidhānam\nvettāsi vedyaṁ cha paraṁ cha dhāma\ntvayā tataṁ viśhvam ananta-rūpa",
+        "sanskrit": "त्वमादिदेवः पुरुषः पुराण स्त्वमस्य विश्वस्य परं निधानम्\nवेत्तासि वेद्यं च परं च धाम त्वया ततं विश्वमनन्तरूप",
+        "iast": "tvam ādi-devaḥ puruṣhaḥ purāṇas tvam asya viśhvasya paraṁ nidhānam\nvettāsi vedyaṁ cha paraṁ cha dhāma tvayā tataṁ viśhvam ananta-rūpa",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/011_038.mp3",
         "words": [
           {
@@ -31600,8 +31600,8 @@
         "id": "11.39",
         "chapter": 11,
         "verse": 39,
-        "sanskrit": "वायुर्यमोऽग्निर्वरुणः शशाङ्कः\nप्रजापतिस्त्वं प्रपितामहश्च\nनमो नमस्तेऽस्तु सहस्रकृत्वः\nपुनश्च भूयोऽपि नमो नमस्ते",
-        "iast": "vāyur yamo ’gnir varuṇaḥ śhaśhāṅkaḥ\nprajāpatis tvaṁ prapitāmahaśh cha\nnamo namas te ’stu sahasra-kṛitvaḥ\npunaśh cha bhūyo ’pi namo namas te",
+        "sanskrit": "वायुर्यमोऽग्निर्वरुणः शशाङ्कः प्रजापतिस्त्वं प्रपितामहश्च\nनमो नमस्तेऽस्तु सहस्रकृत्वः पुनश्च भूयोऽपि नमो नमस्ते",
+        "iast": "vāyur yamo ’gnir varuṇaḥ śhaśhāṅkaḥ prajāpatis tvaṁ prapitāmahaśh cha\nnamo namas te ’stu sahasra-kṛitvaḥ punaśh cha bhūyo ’pi namo namas te",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/011_039.mp3",
         "words": [
           {
@@ -31692,8 +31692,8 @@
         "id": "11.40",
         "chapter": 11,
         "verse": 40,
-        "sanskrit": "नमः पुरस्तादथ पृष्ठतस्ते\nनमोऽस्तु ते सर्वत एव सर्व\nअनन्तवीर्यामितविक्रमस्त्वं\nसर्वं समाप्नोषि ततोऽसि सर्वः",
-        "iast": "namaḥ purastād atha pṛiṣhṭhatas te\nnamo ’stu te sarvata eva sarva\nananta-vīryāmita-vikramas tvaṁ\nsarvaṁ samāpnoṣhi tato ’si sarvaḥ",
+        "sanskrit": "नमः पुरस्तादथ पृष्ठतस्ते नमोऽस्तु ते सर्वत एव सर्व\nअनन्तवीर्यामितविक्रमस्त्वं सर्वं समाप्नोषि ततोऽसि सर्वः",
+        "iast": "namaḥ purastād atha pṛiṣhṭhatas te namo ’stu te sarvata eva sarva\nananta-vīryāmita-vikramas tvaṁ sarvaṁ samāpnoṣhi tato ’si sarvaḥ",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/011_040.mp3",
         "words": [
           {
@@ -31944,8 +31944,8 @@
         "id": "11.43",
         "chapter": 11,
         "verse": 43,
-        "sanskrit": "पितासि लोकस्य चराचरस्य\nत्वमस्य पूज्यश्च गुरुर्गरीयान्\nन त्वत्समोऽस्त्यभ्यधिकः कुतोऽन्यो\nलोकत्रयेऽप्यप्रतिमप्रभाव",
-        "iast": "pitāsi lokasya charācharasya\ntvam asya pūjyaśh cha gurur garīyān\nna tvat-samo ’sty abhyadhikaḥ kuto ’nyo\nloka-traye ’py apratima-prabhāva",
+        "sanskrit": "पितासि लोकस्य चराचरस्य त्वमस्य पूज्यश्च गुरुर्गरीयान्\nन त्वत्समोऽस्त्यभ्यधिकः कुतोऽन्यो लोकत्रयेऽप्यप्रतिमप्रभाव",
+        "iast": "pitāsi lokasya charācharasya tvam asya pūjyaśh cha gurur garīyān\nna tvat-samo ’sty abhyadhikaḥ kuto ’nyo loka-traye ’py apratima-prabhāva",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/011_043.mp3",
         "words": [
           {
@@ -32040,8 +32040,8 @@
         "id": "11.44",
         "chapter": 11,
         "verse": 44,
-        "sanskrit": "तस्मात्प्रणम्य प्रणिधाय कायं\nप्रसादये त्वामहमीशमीड्यम्\nपितेव पुत्रस्य सखेव सख्युः\nप्रियः प्रियायार्हसि देव सोढुम्",
-        "iast": "tasmāt praṇamya praṇidhāya kāyaṁ\nprasādaye tvām aham īśham īḍyam\npiteva putrasya sakheva sakhyuḥ\npriyaḥ priyāyārhasi deva soḍhum",
+        "sanskrit": "तस्मात्प्रणम्य प्रणिधाय कायं प्रसादये त्वामहमीशमीड्यम्\nपितेव पुत्रस्य सखेव सख्युः प्रियः प्रियायार्हसि देव सोढुम्",
+        "iast": "tasmāt praṇamya praṇidhāya kāyaṁ prasādaye tvām aham īśham īḍyam\npiteva putrasya sakheva sakhyuḥ priyaḥ priyāyārhasi deva soḍhum",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/011_044.mp3",
         "words": [
           {
@@ -32136,8 +32136,8 @@
         "id": "11.45",
         "chapter": 11,
         "verse": 45,
-        "sanskrit": "अदृष्टपूर्वं हृषितोऽस्मि दृष्ट्वा\nभयेन च प्रव्यथितं मनो मे\nतदेव मे दर्शय देव रूपं\nप्रसीद देवेश जगन्निवास",
-        "iast": "adṛiṣhṭa-pūrvaṁ hṛiṣhito ’smi dṛiṣhṭvā\nbhayena cha pravyathitaṁ mano me\ntad eva me darśhaya deva rūpaṁ\nprasīda deveśha jagan-nivāsa",
+        "sanskrit": "अदृष्टपूर्वं हृषितोऽस्मि दृष्ट्वा भयेन च प्रव्यथितं मनो मे\nतदेव मे दर्शय देव रूपं प्रसीद देवेश जगन्निवास",
+        "iast": "adṛiṣhṭa-pūrvaṁ hṛiṣhito ’smi dṛiṣhṭvā bhayena cha pravyathitaṁ mano me\ntad eva me darśhaya deva rūpaṁ prasīda deveśha jagan-nivāsa",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/011_045.mp3",
         "words": [
           {
@@ -32224,8 +32224,8 @@
         "id": "11.46",
         "chapter": 11,
         "verse": 46,
-        "sanskrit": "किरीटिनं गदिनं चक्रहस्त\nमिच्छामि त्वां द्रष्टुमहं तथैव\nतेनैव रूपेण चतुर्भुजेन\nसहस्रबाहो भव विश्वमूर्ते",
-        "iast": "kirīṭinaṁ gadinaṁ chakra-hastam\nichchhāmi tvāṁ draṣhṭum ahaṁ tathaiva\ntenaiva rūpeṇa chatur-bhujena\nsahasra-bāho bhava viśhva-mūrte",
+        "sanskrit": "किरीटिनं गदिनं चक्रहस्त मिच्छामि त्वां द्रष्टुमहं तथैव\nतेनैव रूपेण चतुर्भुजेन सहस्रबाहो भव विश्वमूर्ते",
+        "iast": "kirīṭinaṁ gadinaṁ chakra-hastam ichchhāmi tvāṁ draṣhṭum ahaṁ tathaiva\ntenaiva rūpeṇa chatur-bhujena sahasra-bāho bhava viśhva-mūrte",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/011_046.mp3",
         "words": [
           {
@@ -32384,8 +32384,8 @@
         "id": "11.48",
         "chapter": 11,
         "verse": 48,
-        "sanskrit": "न वेदयज्ञाध्ययनैर्न दानै\nर्न च क्रियाभिर्न तपोभिरुग्रैः\nएवंरूपः शक्य अहं नृलोके\nद्रष्टुं त्वदन्येन कुरुप्रवीर",
-        "iast": "na veda-yajñādhyayanair na dānair\nna cha kriyābhir na tapobhir ugraiḥ\nevaṁ-rūpaḥ śhakya ahaṁ nṛi-loke\ndraṣhṭuṁ tvad anyena kuru-pravīra",
+        "sanskrit": "न वेदयज्ञाध्ययनैर्न दानै र्न च क्रियाभिर्न तपोभिरुग्रैः\nएवंरूपः शक्य अहं नृलोके द्रष्टुं त्वदन्येन कुरुप्रवीर",
+        "iast": "na veda-yajñādhyayanair na dānair na cha kriyābhir na tapobhir ugraiḥ\nevaṁ-rūpaḥ śhakya ahaṁ nṛi-loke draṣhṭuṁ tvad anyena kuru-pravīra",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/011_048.mp3",
         "words": [
           {
@@ -32476,8 +32476,8 @@
         "id": "11.49",
         "chapter": 11,
         "verse": 49,
-        "sanskrit": "मा ते व्यथा मा च विमूढभावो\nदृष्ट्वा रूपं घोरमीदृङ्ममेदम्\nव्यपेतभीः प्रीतमनाः पुनस्त्वं\nतदेव मे रूपमिदं प्रपश्य",
-        "iast": "mā te vyathā mā cha vimūḍha-bhāvo\ndṛiṣhṭvā rūpaṁ ghoram īdṛiṅ mamedam\nvyapeta-bhīḥ prīta-manāḥ punas tvaṁ\ntad eva me rūpam idaṁ prapaśhya",
+        "sanskrit": "मा ते व्यथा मा च विमूढभावो दृष्ट्वा रूपं घोरमीदृङ्ममेदम्\nव्यपेतभीः प्रीतमनाः पुनस्त्वं तदेव मे रूपमिदं प्रपश्य",
+        "iast": "mā te vyathā mā cha vimūḍha-bhāvo dṛiṣhṭvā rūpaṁ ghoram īdṛiṅ mamedam\nvyapeta-bhīḥ prīta-manāḥ punas tvaṁ tad eva me rūpam idaṁ prapaśhya",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/011_049.mp3",
         "words": [
           {
@@ -33163,7 +33163,7 @@
         "id": "12.3",
         "chapter": 12,
         "verse": 3,
-        "sanskrit": "ये त्वक्षरमनिर्देश्यमव्यक्तं पर्युपासते\nसर्वत्रगमचिन्त्यं च कूटस्थमचलं ध्रुवम्\nसंनियम्येन्द्रियग्रामं सर्वत्र समबुद्धयः\nते प्राप्नुवन्ति मामेव सर्वभूतहिते रताः",
+        "sanskrit": "ये त्वक्षरमनिर्देश्यमव्यक्तं पर्युपासते सर्वत्रगमचिन्त्यं च कूटस्थमचलं ध्रुवम्\nसंनियम्येन्द्रियग्रामं सर्वत्र समबुद्धयः ते प्राप्नुवन्ति मामेव सर्वभूतहिते रताः",
         "iast": "ye tv akṣharam anirdeśhyam avyaktaṁ paryupāsate\nsarvatra-gam achintyañcha kūṭa-stham achalandhruvam\n sanniyamyendriya-grāmaṁ sarvatra sama-buddhayaḥ\nte prāpnuvanti mām eva sarva-bhūta-hite ratāḥ\nsanniyamyendriya-grāmaṁ  sarvatra    sama-buddhayaḥ  te  prāpnuvanti mām eva sarva-bhūta-hite    ratāḥ",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/012_003-004.mp3",
         "words": [
@@ -33369,8 +33369,8 @@
         "id": "12.6",
         "chapter": 12,
         "verse": 6,
-        "sanskrit": "ये तु सर्वाणि कर्माणि मयि संन्यस्य मत्पराः\nअनन्येनैव योगेन मां ध्यायन्त उपासते\nतेषामहं समुद्धर्ता मृत्युसंसारसागरात्\nभवामि नचिरात्पार्थ मय्यावेशितचेतसाम्",
-        "iast": "ye tu sarvāṇi karmāṇi mayi sannyasya mat-paraḥ\nananyenaiva yogena māṁ dhyāyanta upāsate\nteṣhām ahaṁ samuddhartā mṛityu-saṁsāra-sāgarāt\nbhavāmi na chirāt pārtha mayy āveśhita-chetasām",
+        "sanskrit": "ये तु सर्वाणि कर्माणि मयि संन्यस्य मत्पराः अनन्येनैव योगेन मां ध्यायन्त उपासते\nतेषामहं समुद्धर्ता मृत्युसंसारसागरात् भवामि नचिरात्पार्थ मय्यावेशितचेतसाम्",
+        "iast": "ye tu sarvāṇi karmāṇi mayi sannyasya mat-paraḥ ananyenaiva yogena māṁ dhyāyanta upāsate\nteṣhām ahaṁ samuddhartā mṛityu-saṁsāra-sāgarāt bhavāmi na chirāt pārtha mayy āveśhita-chetasām",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/012_006-007.mp3",
         "words": [
           {
@@ -33811,8 +33811,8 @@
         "id": "12.13",
         "chapter": 12,
         "verse": 13,
-        "sanskrit": "अद्वेष्टा सर्वभूतानां मैत्रः करुण एव च\nनिर्ममो निरहङ्कारः समदुःखसुखः क्षमी\nसन्तुष्टः सततं योगी यतात्मा दृढनिश्चयः\nमय्यर्पितमनोबुद्धिर्यो मद्भक्तः स मे प्रियः",
-        "iast": "adveṣhṭā sarva-bhūtānāṁ maitraḥ karuṇa eva cha\nnirmamo nirahankāraḥ sama-duḥkha-sukhaḥ kṣhamī\nsantuṣhṭaḥ satataṁ yogī yatātmā dṛiḍha-niśhchayaḥ\nmayy arpita-mano-buddhir yo mad-bhaktaḥ sa me priyaḥ",
+        "sanskrit": "अद्वेष्टा सर्वभूतानां मैत्रः करुण एव च निर्ममो निरहङ्कारः समदुःखसुखः क्षमी\nसन्तुष्टः सततं योगी यतात्मा दृढनिश्चयः मय्यर्पितमनोबुद्धिर्यो मद्भक्तः स मे प्रियः",
+        "iast": "adveṣhṭā sarva-bhūtānāṁ maitraḥ karuṇa eva cha nirmamo nirahankāraḥ sama-duḥkha-sukhaḥ kṣhamī\nsantuṣhṭaḥ satataṁ yogī yatātmā dṛiḍha-niśhchayaḥ mayy arpita-mano-buddhir yo mad-bhaktaḥ sa me priyaḥ",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/012_013-014.mp3",
         "words": [
           {
@@ -34167,8 +34167,8 @@
         "id": "12.18",
         "chapter": 12,
         "verse": 18,
-        "sanskrit": "समः शत्रौ च मित्रे च तथा मानापमानयोः\nशीतोष्णसुखदुःखेषु समः सङ्गविवर्जितः\nतुल्यनिन्दास्तुतिर्मौनी सन्तुष्टो येनकेनचित्\nअनिकेतः स्थिरमतिर्भक्ितमान्मे प्रियो नरः",
-        "iast": "samaḥ śhatrau cha mitre cha tathā mānāpamānayoḥ\nśhītoṣhṇa-sukha-duḥkheṣhu samaḥ saṅga-vivarjitaḥ\ntulya-nindā-stutir maunī santuṣhṭo yena kenachit\naniketaḥ sthira-matir bhaktimān me priyo naraḥ",
+        "sanskrit": "समः शत्रौ च मित्रे च तथा मानापमानयोः शीतोष्णसुखदुःखेषु समः सङ्गविवर्जितः\nतुल्यनिन्दास्तुतिर्मौनी सन्तुष्टो येनकेनचित् अनिकेतः स्थिरमतिर्भक्ितमान्मे प्रियो नरः",
+        "iast": "samaḥ śhatrau cha mitre cha tathā mānāpamānayoḥ śhītoṣhṇa-sukha-duḥkheṣhu samaḥ saṅga-vivarjitaḥ\ntulya-nindā-stutir maunī santuṣhṭo yena kenachit aniketaḥ sthira-matir bhaktimān me priyo naraḥ",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/012_018-019.mp3",
         "words": [
           {
@@ -36667,8 +36667,8 @@
         "id": "14.3",
         "chapter": 14,
         "verse": 3,
-        "sanskrit": "मम योनिर्महद्ब्रह्म तस्मिन् गर्भं दधाम्यहम्\nसंभवः सर्वभूतानां ततो भवति भारत\nसर्वयोनिषु कौन्तेय मूर्तयः सम्भवन्ति याः\nतासां ब्रह्म महद्योनिरहं बीजप्रदः पिता",
-        "iast": "mama yonir mahad brahma tasmin garbhaṁ dadhāmy aham\nsambhavaḥ sarva-bhūtānāṁ tato bhavati bhārata\nsarva-yoniṣhu kaunteya mūrtayaḥ sambhavanti yāḥ\ntāsāṁ brahma mahad yonir ahaṁ bīja-pradaḥ pitā",
+        "sanskrit": "मम योनिर्महद्ब्रह्म तस्मिन् गर्भं दधाम्यहम् संभवः सर्वभूतानां ततो भवति भारत\nसर्वयोनिषु कौन्तेय मूर्तयः सम्भवन्ति याः तासां ब्रह्म महद्योनिरहं बीजप्रदः पिता",
+        "iast": "mama yonir mahad brahma tasmin garbhaṁ dadhāmy aham sambhavaḥ sarva-bhūtānāṁ tato bhavati bhārata\nsarva-yoniṣhu kaunteya mūrtayaḥ sambhavanti yāḥ tāsāṁ brahma mahad yonir ahaṁ bīja-pradaḥ pitā",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/014_003-004.mp3",
         "words": [
           {
@@ -37186,8 +37186,8 @@
         "id": "14.11",
         "chapter": 14,
         "verse": 11,
-        "sanskrit": "सर्वद्वारेषु देहेऽस्मिन्प्रकाश उपजायते\nज्ञानं यदा तदा विद्याद्विवृद्धं सत्त्वमित्युत\nलोभः प्रवृत्तिरारम्भः कर्मणामशमः स्पृहा\nरजस्येतानि जायन्ते विवृद्धे भरतर्षभ\nअप्रकाशोऽप्रवृत्तिश्च प्रमादो मोह एव च\nतमस्येतानि जायन्ते विवृद्धे कुरुनन्दन",
-        "iast": "sarva-dvāreṣhu dehe ’smin prakāśha upajāyate\njñānaṁ yadā tadā vidyād vivṛiddhaṁ sattvam ity uta\nlobhaḥ pravṛittir ārambhaḥ karmaṇām aśhamaḥ spṛihā\nrajasy etāni jāyante vivṛiddhe bharatarṣhabha\naprakāśho ’pravṛittiśh cha pramādo moha eva cha\ntamasy etāni jāyante vivṛiddhe kuru-nandana",
+        "sanskrit": "सर्वद्वारेषु देहेऽस्मिन्प्रकाश उपजायते ज्ञानं यदा तदा विद्याद्विवृद्धं सत्त्वमित्युत\nलोभः प्रवृत्तिरारम्भः कर्मणामशमः स्पृहा रजस्येतानि जायन्ते विवृद्धे भरतर्षभ\nअप्रकाशोऽप्रवृत्तिश्च प्रमादो मोह एव च तमस्येतानि जायन्ते विवृद्धे कुरुनन्दन",
+        "iast": "sarva-dvāreṣhu dehe ’smin prakāśha upajāyate jñānaṁ yadā tadā vidyād vivṛiddhaṁ sattvam ity uta\nlobhaḥ pravṛittir ārambhaḥ karmaṇām aśhamaḥ spṛihā rajasy etāni jāyante vivṛiddhe bharatarṣhabha\naprakāśho ’pravṛittiśh cha pramādo moha eva cha tamasy etāni jāyante vivṛiddhe kuru-nandana",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/014_011-013.mp3",
         "words": [
           {
@@ -37351,8 +37351,8 @@
         "id": "14.14",
         "chapter": 14,
         "verse": 14,
-        "sanskrit": "यदा सत्त्वे प्रवृद्धे तु प्रलयं याति देहभृत्\nतदोत्तमविदां लोकानमलान्प्रतिपद्यते\nरजसि प्रलयं गत्वा कर्मसङ्गिषु जायते\nतथा प्रलीनस्तमसि मूढयोनिषु जायते",
-        "iast": "yadā sattve pravṛiddhe tu pralayaṁ yāti deha-bhṛit\ntadottama-vidāṁ lokān amalān pratipadyate\nrajasi pralayaṁ gatvā karma-saṅgiṣhu jāyate\ntathā pralīnas tamasi mūḍha-yoniṣhu jāyate",
+        "sanskrit": "यदा सत्त्वे प्रवृद्धे तु प्रलयं याति देहभृत् तदोत्तमविदां लोकानमलान्प्रतिपद्यते\nरजसि प्रलयं गत्वा कर्मसङ्गिषु जायते तथा प्रलीनस्तमसि मूढयोनिषु जायते",
+        "iast": "yadā sattve pravṛiddhe tu pralayaṁ yāti deha-bhṛit tadottama-vidāṁ lokān amalān pratipadyate\nrajasi pralayaṁ gatvā karma-saṅgiṣhu jāyate tathā pralīnas tamasi mūḍha-yoniṣhu jāyate",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/014_014-015.mp3",
         "words": [
           {
@@ -37894,7 +37894,7 @@
         "id": "14.22",
         "chapter": 14,
         "verse": 22,
-        "sanskrit": "श्री भगवानुवाचप्रकाशं च प्रवृत्तिं च मोहमेव च पाण्डव\nन द्वेष्टि सम्प्रवृत्तानि न निवृत्तानि काङ्क्षति\nउदासीनवदासीनो गुणैर्यो न विचाल्यते\nगुणा वर्तन्त इत्येव योऽवतिष्ठति नेङ्गते",
+        "sanskrit": "श्री भगवानुवाचप्रकाशं च प्रवृत्तिं च मोहमेव च पाण्डव न द्वेष्टि सम्प्रवृत्तानि न निवृत्तानि काङ्क्षति\nउदासीनवदासीनो गुणैर्यो न विचाल्यते गुणा वर्तन्त इत्येव योऽवतिष्ठति नेङ्गते",
         "iast": "śhrī-bhagavān uvācha\nprakāśhaṁ cha pravṛittiṁ cha moham eva cha pāṇḍava\nna dveṣhṭi sampravṛittāni na nivṛittāni kāṅkṣhati\nudāsīna-vad āsīno guṇair yo na vichālyate\nguṇā vartanta ity evaṁ yo ’vatiṣhṭhati neṅgate",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/014_022-023.mp3",
         "words": [
@@ -38019,8 +38019,8 @@
         "id": "14.24",
         "chapter": 14,
         "verse": 24,
-        "sanskrit": "समदुःखसुखः स्वस्थः समलोष्टाश्मकाञ्चनः\nतुल्यप्रियाप्रियो धीरस्तुल्यनिन्दात्मसंस्तुतिः\nमानापमानयोस्तुल्यस्तुल्यो मित्रारिपक्षयोः\nसर्वारम्भपरित्यागी गुणातीतः स उच्यते",
-        "iast": "sama-duḥkha-sukhaḥ sva-sthaḥ sama-loṣhṭāśhma-kāñchanaḥ\ntulya-priyāpriyo dhīras tulya-nindātma-sanstutiḥ\nmānāpamānayos tulyas tulyo mitrāri-pakṣhayoḥ\nsarvārambha-parityāgī guṇātītaḥ sa uchyate",
+        "sanskrit": "समदुःखसुखः स्वस्थः समलोष्टाश्मकाञ्चनः तुल्यप्रियाप्रियो धीरस्तुल्यनिन्दात्मसंस्तुतिः\nमानापमानयोस्तुल्यस्तुल्यो मित्रारिपक्षयोः सर्वारम्भपरित्यागी गुणातीतः स उच्यते",
+        "iast": "sama-duḥkha-sukhaḥ sva-sthaḥ sama-loṣhṭāśhma-kāñchanaḥ tulya-priyāpriyo dhīras tulya-nindātma-sanstutiḥ\nmānāpamānayos tulyas tulyo mitrāri-pakṣhayoḥ sarvārambha-parityāgī guṇātītaḥ sa uchyate",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/014_024-025.mp3",
         "words": [
           {
@@ -38365,7 +38365,7 @@
         "chapter": 15,
         "verse": 2,
         "sanskrit": "अधश्चोर्ध्वं प्रसृतास्तस्य शाखा     गुणप्रवृद्धा विषयप्रवालाः\nअधश्च मूलान्यनुसन्ततानि     कर्मानुबन्धीनि मनुष्यलोके",
-        "iast": "adhaśh chordhvaṁ prasṛitās tasya śhākhā\nguṇa-pravṛiddhā viṣhaya-pravālāḥ\nadhaśh cha mūlāny anusantatāni\nkarmānubandhīni manuṣhya-loke",
+        "iast": "adhaśh chordhvaṁ prasṛitās tasya śhākhā guṇa-pravṛiddhā viṣhaya-pravālāḥ\nadhaśh cha mūlāny anusantatāni karmānubandhīni manuṣhya-loke",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/015_002.mp3",
         "words": [
           {
@@ -38449,7 +38449,7 @@
         "id": "15.3",
         "chapter": 15,
         "verse": 3,
-        "sanskrit": "न रूपमस्येह तथोपलभ्यते    नान्तो न चादिर्न च संप्रतिष्ठा\nअश्वत्थमेनं सुविरूढमूल    मसङ्गशस्त्रेण दृढेन छित्त्वा\nततः पदं तत्परिमार्गितव्य    यस्मिन्गता न निवर्तन्ति भूयः\nतमेव चाद्यं पुरुषं प्रपद्ये    यतः प्रवृत्तिः प्रसृता पुराणी",
+        "sanskrit": "न रूपमस्येह तथोपलभ्यते    नान्तो न चादिर्न च संप्रतिष्ठा अश्वत्थमेनं सुविरूढमूल    मसङ्गशस्त्रेण दृढेन छित्त्वा\nततः पदं तत्परिमार्गितव्य    यस्मिन्गता न निवर्तन्ति भूयः तमेव चाद्यं पुरुषं प्रपद्ये    यतः प्रवृत्तिः प्रसृता पुराणी",
         "iast": "na rūpam asyeha tathopalabhyate\nnānto na chādir na cha sampratiṣhṭhā\naśhvattham enaṁ su-virūḍha-mūlam\nasaṅga-śhastreṇa dṛiḍhena chhittvā\ntataḥ padaṁ tat parimārgitavyaṁ\nyasmin gatā na nivartanti bhūyaḥ\ntam eva chādyaṁ puruṣhaṁ prapadye\nyataḥ pravṛittiḥ prasṛitā purāṇī",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/015_003-004.mp3",
         "words": [
@@ -38623,7 +38623,7 @@
         "chapter": 15,
         "verse": 5,
         "sanskrit": "निर्मानमोहा जितसङ्गदोषा    अध्यात्मनित्या विनिवृत्तकामाः\nद्वन्द्वैर्विमुक्ताः सुखदुःखसंज्ञै    र्गच्छन्त्यमूढाः पदमव्ययं तत्",
-        "iast": "nirmāna-mohā jita-saṅga-doṣhā\nadhyātma-nityā vinivṛitta-kāmāḥ\ndvandvair vimuktāḥ sukha-duḥkha-sanjñair\ngachchhanty amūḍhāḥ padam avyayaṁ tat",
+        "iast": "nirmāna-mohā jita-saṅga-doṣhā adhyātma-nityā vinivṛitta-kāmāḥ\ndvandvair vimuktāḥ sukha-duḥkha-sanjñair gachchhanty amūḍhāḥ padam avyayaṁ tat",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/015_005.mp3",
         "words": [
           {
@@ -39345,7 +39345,7 @@
         "chapter": 15,
         "verse": 15,
         "sanskrit": "सर्वस्य चाहं हृदि सन्निविष्टो    मत्तः स्मृतिर्ज्ञानमपोहनं च\nवेदैश्च सर्वैरहमेव वेद्यो    वेदान्तकृद्वेदविदेव चाहम्",
-        "iast": "sarvasya chāhaṁ hṛidi sanniviṣhṭo\nmattaḥ smṛitir jñānam apohanaṁ cha\nvedaiśh cha sarvair aham eva vedyo\nvedānta-kṛid veda-vid eva chāham",
+        "iast": "sarvasya chāhaṁ hṛidi sanniviṣhṭo mattaḥ smṛitir jñānam apohanaṁ cha\nvedaiśh cha sarvair aham eva vedyo vedānta-kṛid veda-vid eva chāham",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/015_015.mp3",
         "words": [
           {
@@ -40605,7 +40605,7 @@
         "id": "16.13",
         "chapter": 16,
         "verse": 13,
-        "sanskrit": "इदमद्य मया लब्धमिमं प्राप्स्ये मनोरथम्\nइदमस्तीदमपि मे भविष्यति पुनर्धनम्\nअसौ मया हतः शत्रुर्हनिष्ये चापरानपि\nईश्वरोऽहमहं भोगी सिद्धोऽहं बलवान्सुखी\nआढ्योऽभिजनवानस्मि कोऽन्योऽस्ति सदृशो मया\nयक्ष्ये दास्यामि मोदिष्य इत्यज्ञानविमोहिताः",
+        "sanskrit": "इदमद्य मया लब्धमिमं प्राप्स्ये मनोरथम् इदमस्तीदमपि मे भविष्यति पुनर्धनम्\nअसौ मया हतः शत्रुर्हनिष्ये चापरानपि ईश्वरोऽहमहं भोगी सिद्धोऽहं बलवान्सुखी\nआढ्योऽभिजनवानस्मि कोऽन्योऽस्ति सदृशो मया यक्ष्ये दास्यामि मोदिष्य इत्यज्ञानविमोहिताः",
         "iast": "idam adya mayā labdham imaṁ prāpsye manoratham\nidam astīdam api me bhaviṣhyati punar dhanam\nasau mayā hataḥ śhatrur haniṣhye chāparān api\nīśhvaro ’ham ahaṁ bhogī siddho ’haṁ balavān sukhī\nāḍhyo ’bhijanavān asmi ko ’nyo ’sti sadṛiśho mayā\nyakṣhye dāsyāmi modiṣhya ity ajñāna-vimohitāḥ\n aneka-chitta-vibhrāntā moha-jāla-samāvṛitāḥ\nprasaktāḥ kāma-bhogeṣhu patanti narake ’śhuchau",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/016_013-015.mp3",
         "words": [
@@ -41029,8 +41029,8 @@
         "id": "16.19",
         "chapter": 16,
         "verse": 19,
-        "sanskrit": "तानहं द्विषतः क्रूरान्संसारेषु नराधमान्\nक्षिपाम्यजस्रमशुभानासुरीष्वेव योनिषु\nअसुरीं योनिमापन्ना मूढा जन्मनि जन्मनि\nमामप्राप्यैव कौन्तेय ततो यान्त्यधमां गतिम्",
-        "iast": "tān ahaṁ dviṣhataḥ krūrān sansāreṣhu narādhamān\nkṣhipāmy ajasram aśhubhān āsurīṣhv eva yoniṣhu\nāsurīṁ yonim āpannā mūḍhā janmani janmani\nmām aprāpyaiva kaunteya tato yānty adhamāṁ gatim",
+        "sanskrit": "तानहं द्विषतः क्रूरान्संसारेषु नराधमान् क्षिपाम्यजस्रमशुभानासुरीष्वेव योनिषु\nअसुरीं योनिमापन्ना मूढा जन्मनि जन्मनि मामप्राप्यैव कौन्तेय ततो यान्त्यधमां गतिम्",
+        "iast": "tān ahaṁ dviṣhataḥ krūrān sansāreṣhu narādhamān kṣhipāmy ajasram aśhubhān āsurīṣhv eva yoniṣhu\nāsurīṁ yonim āpannā mūḍhā janmani janmani mām aprāpyaiva kaunteya tato yānty adhamāṁ gatim",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/016_019-020.mp3",
         "words": [
           {
@@ -41734,8 +41734,8 @@
         "id": "17.5",
         "chapter": 17,
         "verse": 5,
-        "sanskrit": "अशास्त्रविहितं घोरं तप्यन्ते ये तपो जनाः\nदम्भाहङ्कारसंयुक्ताः कामरागबलान्विताः\nकर्षयन्तः शरीरस्थं भूतग्राममचेतसः\nमां चैवान्तःशरीरस्थं तान्विद्ध्यासुरनिश्चयान्",
-        "iast": "aśhāstra-vihitaṁ ghoraṁ tapyante ye tapo janāḥ\ndambhāhankāra-sanyuktāḥ kāma-rāga-balānvitāḥ\nkarṣhayantaḥ śharīra-sthaṁ bhūta-grāmam achetasaḥ\nmāṁ chaivāntaḥ śharīra-sthaṁ tān viddhy āsura-niśhchayān",
+        "sanskrit": "अशास्त्रविहितं घोरं तप्यन्ते ये तपो जनाः दम्भाहङ्कारसंयुक्ताः कामरागबलान्विताः\nकर्षयन्तः शरीरस्थं भूतग्राममचेतसः मां चैवान्तःशरीरस्थं तान्विद्ध्यासुरनिश्चयान्",
+        "iast": "aśhāstra-vihitaṁ ghoraṁ tapyante ye tapo janāḥ dambhāhankāra-sanyuktāḥ kāma-rāga-balānvitāḥ\nkarṣhayantaḥ śharīra-sthaṁ bhūta-grāmam achetasaḥ māṁ chaivāntaḥ śharīra-sthaṁ tān viddhy āsura-niśhchayān",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/017_005-006.mp3",
         "words": [
           {
@@ -43142,8 +43142,8 @@
         "id": "17.26",
         "chapter": 17,
         "verse": 26,
-        "sanskrit": "सद्भावे साधुभावे च सदित्येतत्प्रयुज्यते\nप्रशस्ते कर्मणि तथा सच्छब्दः पार्थ युज्यते\nयज्ञे तपसि दाने च स्थितिः सदिति चोच्यते\nकर्म चैव तदर्थीयं सदित्येवाभिधीयते",
-        "iast": "sad-bhāve sādhu-bhāve cha sad ity etat prayujyate\npraśhaste karmaṇi tathā sach-chhabdaḥ pārtha yujyate\nyajñe tapasi dāne cha sthitiḥ sad iti chochyate\nkarma chaiva tad-arthīyaṁ sad ity evābhidhīyate",
+        "sanskrit": "सद्भावे साधुभावे च सदित्येतत्प्रयुज्यते प्रशस्ते कर्मणि तथा सच्छब्दः पार्थ युज्यते\nयज्ञे तपसि दाने च स्थितिः सदिति चोच्यते कर्म चैव तदर्थीयं सदित्येवाभिधीयते",
+        "iast": "sad-bhāve sādhu-bhāve cha sad ity etat prayujyate praśhaste karmaṇi tathā sach-chhabdaḥ pārtha yujyate\nyajñe tapasi dāne cha sthitiḥ sad iti chochyate karma chaiva tad-arthīyaṁ sad ity evābhidhīyate",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/017_026-027.mp3",
         "words": [
           {
@@ -44371,8 +44371,8 @@
         "id": "18.15",
         "chapter": 18,
         "verse": 15,
-        "sanskrit": "शरीरवाङ्मनोभिर्यत्कर्म प्रारभते नरः\nन्याय्यं वा विपरीतं वा पञ्चैते तस्य हेतवः\nतत्रैवं सति कर्तारमात्मानं केवलं तु यः\nपश्यत्यकृतबुद्धित्वान्न स पश्यति दुर्मतिः",
-        "iast": "śharīra-vāṅ-manobhir yat karma prārabhate naraḥ\nnyāyyaṁ vā viparītaṁ vā pañchaite tasya hetavaḥ\ntatraivaṁ sati kartāram ātmānaṁ kevalaṁ tu yaḥ\npaśhyaty akṛita-buddhitvān na sa paśhyati durmatiḥ",
+        "sanskrit": "शरीरवाङ्मनोभिर्यत्कर्म प्रारभते नरः न्याय्यं वा विपरीतं वा पञ्चैते तस्य हेतवः\nतत्रैवं सति कर्तारमात्मानं केवलं तु यः पश्यत्यकृतबुद्धित्वान्न स पश्यति दुर्मतिः",
+        "iast": "śharīra-vāṅ-manobhir yat karma prārabhate naraḥ nyāyyaṁ vā viparītaṁ vā pañchaite tasya hetavaḥ\ntatraivaṁ sati kartāram ātmānaṁ kevalaṁ tu yaḥ paśhyaty akṛita-buddhitvān na sa paśhyati durmatiḥ",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/018_015-016.mp3",
         "words": [
           {
@@ -45780,7 +45780,7 @@
         "chapter": 18,
         "verse": 36,
         "sanskrit": "सुखं त्विदानीं त्रिविधं श्रृणु मे भरतर्षभ\nअभ्यासाद्रमते यत्र दुःखान्तं च निगच्छति",
-        "iast": "sukhaṁ tv idānīṁ tri-vidhaṁ śhṛiṇu me bharatarṣhabha\nabhyāsād ramate yatra duḥkhāntaṁ cha nigachchhati\n yat tad agre viṣham iva pariṇāme ‘mṛitopamam\ntat sukhaṁ sāttvikaṁ proktam ātma-buddhi-prasāda-jam",
+        "iast": "sukhaṁ tv idānīṁ tri-vidhaṁ śhṛiṇu me bharatarṣhabha abhyāsād ramate yatra duḥkhāntaṁ cha nigachchhati\n yat tad agre viṣham iva pariṇāme ‘mṛitopamam tat sukhaṁ sāttvikaṁ proktam ātma-buddhi-prasāda-jam",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/018_036.mp3",
         "words": [
           {
@@ -46850,8 +46850,8 @@
         "id": "18.51",
         "chapter": 18,
         "verse": 51,
-        "sanskrit": "बुद्ध्या विशुद्धया युक्तो धृत्याऽऽत्मानं नियम्य च\nशब्दादीन् विषयांस्त्यक्त्वा रागद्वेषौ व्युदस्य च\nविविक्तसेवी लघ्वाशी यतवाक्कायमानसः\nध्यानयोगपरो नित्यं वैराग्यं समुपाश्रितः\nअहङ्कारं बलं दर्पं कामं क्रोधं परिग्रहम्\nविमुच्य निर्ममः शान्तो ब्रह्मभूयाय कल्पते",
-        "iast": "buddhyā viśhuddhayā yukto dhṛityātmānaṁ niyamya cha\nśhabdādīn viṣhayāns tyaktvā rāga-dveṣhau vyudasya cha\nvivikta-sevī laghv-āśhī yata-vāk-kāya-mānasaḥ\ndhyāna-yoga-paro nityaṁ vairāgyaṁ samupāśhritaḥ\nahankāraṁ balaṁ darpaṁ kāmaṁ krodhaṁ parigraham\nvimuchya nirmamaḥ śhānto brahma-bhūyāya kalpate",
+        "sanskrit": "बुद्ध्या विशुद्धया युक्तो धृत्याऽऽत्मानं नियम्य च शब्दादीन् विषयांस्त्यक्त्वा रागद्वेषौ व्युदस्य च\nविविक्तसेवी लघ्वाशी यतवाक्कायमानसः ध्यानयोगपरो नित्यं वैराग्यं समुपाश्रितः\nअहङ्कारं बलं दर्पं कामं क्रोधं परिग्रहम् विमुच्य निर्ममः शान्तो ब्रह्मभूयाय कल्पते",
+        "iast": "buddhyā viśhuddhayā yukto dhṛityātmānaṁ niyamya cha śhabdādīn viṣhayāns tyaktvā rāga-dveṣhau vyudasya cha\nvivikta-sevī laghv-āśhī yata-vāk-kāya-mānasaḥ dhyāna-yoga-paro nityaṁ vairāgyaṁ samupāśhritaḥ\nahankāraṁ balaṁ darpaṁ kāmaṁ krodhaṁ parigraham vimuchya nirmamaḥ śhānto brahma-bhūyāya kalpate",
         "audio": "https://gita-audio.jkyog.org/audio/sanskrit/gita_audios/018_051-053.mp3",
         "words": [
           {
