@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { NavLink, useParams, useNavigate } from 'react-router-dom';
-import { ChevronDown, ChevronRight, BookOpen, X } from 'lucide-react';
+import { ChevronDown, ChevronRight, BookOpen, X, ChevronUp } from 'lucide-react';
 import { CHAPTER_DATA } from '../constants';
 import { useUI } from '../context/UIContext';
 import { fetchGitaData } from '../utils/dataFetcher';
@@ -10,7 +10,20 @@ const Sidebar = () => {
     const { isSidebarOpen, setIsSidebarOpen } = useUI();
     const [chapters, setChapters] = useState([]);
     const [expandedChapter, setExpandedChapter] = useState(null);
+    const [showChapters, setShowChapters] = useState(() => {
+        if (typeof window !== 'undefined') {
+            const saved = localStorage.getItem('gita-show-chapters');
+            if (saved !== null) {
+                return JSON.parse(saved);
+            }
+        }
+        return true;
+    });
     const navigate = useNavigate();
+
+    useEffect(() => {
+        localStorage.setItem('gita-show-chapters', JSON.stringify(showChapters));
+    }, [showChapters]);
 
     useEffect(() => {
         fetchGitaData()
@@ -59,45 +72,55 @@ const Sidebar = () => {
 
                 {/* Top Half: Chapters */}
                 <div className="flex-1 overflow-y-auto border-b border-gold-border/40 dark:border-[#222] custom-scrollbar min-h-0 overscroll-contain">
-                    <div className="p-4 bg-transparent sticky top-0 z-10 backdrop-blur-sm hidden lg:block">
-                        <h2 className="text-xs font-bold text-text-primary/70 dark:text-dark-text-primary/70">
+                    <button
+                        onClick={() => setShowChapters(!showChapters)}
+                        className="w-full flex items-center justify-between p-4 bg-transparent sticky top-0 z-10 backdrop-blur-sm hidden lg:flex group focus:outline-none transition-colors"
+                    >
+                        <h2 className="text-xs font-bold text-text-primary/70 dark:text-dark-text-primary/70 group-hover:text-gold-primary transition-colors">
                             장 (Chapter)
                         </h2>
-                    </div>
-                    <div className="py-1 px-2 space-y-0.5">
-                        {chapters.map((ch) => {
-                            const isExpanded = expandedChapter === ch.chapter;
-                            const title = CHAPTER_DATA[ch.chapter]?.name_korean || ch.name_translated || "";
+                        {showChapters ? (
+                            <ChevronUp className="w-4 h-4 text-text-secondary/50 group-hover:text-gold-primary transition-colors" />
+                        ) : (
+                            <ChevronDown className="w-4 h-4 text-text-secondary/50 group-hover:text-gold-primary transition-colors" />
+                        )}
+                    </button>
+                    <div className={`transition-all duration-300 overflow-hidden ${showChapters ? 'max-h-[5000px] opacity-100' : 'max-h-0 opacity-0 hidden lg:block'}`}>
+                        <div className="py-1 px-2 space-y-0.5">
+                            {chapters.map((ch) => {
+                                const isExpanded = expandedChapter === ch.chapter;
+                                const title = CHAPTER_DATA[ch.chapter]?.name_korean || ch.name_translated || "";
 
-                            const hasSub = title.includes('(');
-                            const mainTitle = hasSub ? title.substring(0, title.indexOf('(')).trim() : title;
-                            const subTitle = hasSub ? title.substring(title.indexOf('(')).trim() : "";
+                                const hasSub = title.includes('(');
+                                const mainTitle = hasSub ? title.substring(0, title.indexOf('(')).trim() : title;
+                                const subTitle = hasSub ? title.substring(title.indexOf('(')).trim() : "";
 
-                            return (
-                                <button
-                                    key={ch.chapter}
-                                    onClick={() => toggleChapter(ch.chapter)}
-                                    className={`w-full flex items-start justify-between gap-1.5 px-2 py-1.5 sm:px-1.5 sm:py-1 rounded-lg text-left transition-colors ${isExpanded
-                                        ? 'bg-white/60 dark:bg-dark-bg/60 shadow-sm border border-gold-primary/20 text-[#1C2B36] dark:text-gold-light'
-                                        : 'text-[#5B7282] dark:text-dark-text-secondary hover:bg-gold-surface/40 dark:hover:bg-dark-bg/40 border border-transparent'
-                                        }`}
-                                >
-                                    <div className="flex-1 pr-1 flex flex-col pt-0">
-                                        <span className={`text-[14px] sm:text-[13px] leading-snug font-inter break-keep ${isExpanded ? 'font-bold text-[#1C2B36]' : 'font-bold'}`}>
-                                            {ch.chapter}. {mainTitle}
-                                        </span>
-                                        {subTitle && (
-                                            <span className={`text-[12px] sm:text-[11.5px] font-inter break-keep mt-0 ${isExpanded ? 'opacity-50 text-[#1C2B36] font-medium' : 'opacity-60 font-medium'}`}>
-                                                {subTitle}
+                                return (
+                                    <button
+                                        key={ch.chapter}
+                                        onClick={() => toggleChapter(ch.chapter)}
+                                        className={`w-full flex items-start justify-between gap-1.5 px-2 py-1.5 sm:px-1.5 sm:py-1 rounded-lg text-left transition-colors ${isExpanded
+                                            ? 'bg-white/60 dark:bg-dark-bg/60 shadow-sm border border-gold-primary/20 text-[#1C2B36] dark:text-gold-light'
+                                            : 'text-[#5B7282] dark:text-dark-text-secondary hover:bg-gold-surface/40 dark:hover:bg-dark-bg/40 border border-transparent'
+                                            }`}
+                                    >
+                                        <div className="flex-1 pr-1 flex flex-col pt-0">
+                                            <span className={`text-[14px] sm:text-[13px] leading-snug font-inter break-keep ${isExpanded ? 'font-bold text-[#1C2B36]' : 'font-bold'}`}>
+                                                {ch.chapter}. {mainTitle}
                                             </span>
-                                        )}
-                                    </div>
-                                    <span className={`shrink-0 mt-0 text-[#A68B5C] px-1.5 py-0.5 rounded text-[11px] font-bold ${isExpanded ? 'opacity-100' : 'opacity-70'}`}>
-                                        {ch.verses.length}
-                                    </span>
-                                </button>
-                            );
-                        })}
+                                            {subTitle && (
+                                                <span className={`text-[12px] sm:text-[11.5px] font-inter break-keep mt-0 ${isExpanded ? 'opacity-50 text-[#1C2B36] font-medium' : 'opacity-60 font-medium'}`}>
+                                                    {subTitle}
+                                                </span>
+                                            )}
+                                        </div>
+                                        <span className={`shrink-0 mt-0 text-[#A68B5C] px-1.5 py-0.5 rounded text-[11px] font-bold ${isExpanded ? 'opacity-100' : 'opacity-70'}`}>
+                                            {ch.verses.length}
+                                        </span>
+                                    </button>
+                                );
+                            })}
+                        </div>
                     </div>
                 </div>
 
