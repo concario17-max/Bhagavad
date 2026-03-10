@@ -72,14 +72,24 @@ for (const line of lines) {
     }
 
     // Match patterns like "1.1 드리타라쉬트라 우바차" or "1.4-6 아트라 수라..."
-    const match = trimmed.match(/^(\d+)\.(\d+)(?:-(\d+))?\s+(.+)$/);
-    if (match) {
+    // OR bracketed patterns like "[1.1]" or "[1.4-6]"
+    const matchInline = trimmed.match(/^(\d+)\.(\d+)(?:-(\d+))?\s+(.+)$/);
+    const matchBracket = trimmed.match(/^\[(\d+)\.(\d+)(?:-(\d+))?\]$/);
+
+    if (matchInline) {
         saveCurrentVerseText();
 
-        currentChapter = parseInt(match[1]);
-        currentVerseStart = parseInt(match[2]);
-        currentVerseEnd = match[3] ? parseInt(match[3]) : null;
-        currentTextLines = [match[4]];
+        currentChapter = parseInt(matchInline[1]);
+        currentVerseStart = parseInt(matchInline[2]);
+        currentVerseEnd = matchInline[3] ? parseInt(matchInline[3]) : null;
+        currentTextLines = [matchInline[4]];
+    } else if (matchBracket) {
+        saveCurrentVerseText();
+
+        currentChapter = parseInt(matchBracket[1]);
+        currentVerseStart = parseInt(matchBracket[2]);
+        currentVerseEnd = matchBracket[3] ? parseInt(matchBracket[3]) : null;
+        currentTextLines = [];
     } else {
         // Continuation of the current verse
         if (currentChapter && currentVerseStart) {
