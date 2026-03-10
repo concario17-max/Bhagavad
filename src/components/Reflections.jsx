@@ -17,7 +17,7 @@ const Reflections = () => {
         }
         return true;
     });
-    const { isReflectionsOpen, setIsReflectionsOpen } = useUI();
+    const { isReflectionsOpen, setIsReflectionsOpen, isDesktopReflectionsOpen } = useUI();
 
     const noteKey = `gita-note-${chapterNum}-${verseNum}`;
 
@@ -95,7 +95,10 @@ const Reflections = () => {
                     onClick={() => setIsReflectionsOpen(false)}
                 />
             )}
-            <aside className={`fixed inset-y-0 right-0 z-50 w-[90vw] sm:w-[400px] bg-white/40 dark:bg-dark-surface/40 backdrop-blur-md border-l border-gold-primary/20 dark:border-dark-border/50 h-full lg:h-[calc(100vh-64px)] lg:sticky lg:top-16 transform transition-transform duration-300 lg:translate-x-0 ${isReflectionsOpen ? 'translate-x-0 overflow-hidden shadow-2xl lg:shadow-none' : 'translate-x-full'} flex flex-col font-inter`}>
+            <aside className={`fixed inset-y-0 right-0 z-50 sm:w-[400px] bg-white/40 dark:bg-dark-surface/40 backdrop-blur-md border-l border-gold-primary/20 dark:border-dark-border/50 h-full lg:h-[calc(100vh-64px)] lg:sticky lg:top-16 transform transition-all duration-300 flex flex-col font-inter
+                ${isReflectionsOpen ? 'w-[90vw] translate-x-0 overflow-hidden shadow-2xl lg:shadow-none' : 'w-[90vw] translate-x-full lg:translate-x-0'}
+                ${isDesktopReflectionsOpen ? 'lg:w-[400px] lg:opacity-100' : 'lg:w-0 lg:opacity-0 lg:border-none lg:translate-x-10 px-0 overflow-hidden'}
+            `}>
 
                 {/* Mobile Close Button */}
                 <div className="lg:hidden absolute top-4 right-4 z-50">

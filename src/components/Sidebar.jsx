@@ -7,7 +7,7 @@ import { fetchGitaData } from '../utils/dataFetcher';
 
 const Sidebar = () => {
     const { chapterNum, verseNum } = useParams();
-    const { isSidebarOpen, setIsSidebarOpen } = useUI();
+    const { isSidebarOpen, setIsSidebarOpen, isDesktopSidebarOpen } = useUI();
     const [chapters, setChapters] = useState([]);
     const [expandedChapter, setExpandedChapter] = useState(null);
     const [showChapters, setShowChapters] = useState(() => {
@@ -60,7 +60,10 @@ const Sidebar = () => {
                 />
             )}
 
-            <aside className={`fixed inset-y-0 left-0 z-50 w-80 bg-white/40 dark:bg-dark-surface/40 backdrop-blur-md border-r border-gold-primary/20 dark:border-dark-border/50 h-[100dvh] lg:h-[calc(100vh-64px)] lg:sticky lg:top-16 transform transition-transform duration-300 lg:translate-x-0 ${isSidebarOpen ? 'translate-x-0 overflow-hidden shadow-2xl lg:shadow-none' : '-translate-x-full'} flex flex-col font-inter overscroll-contain`}>
+            <aside className={`fixed inset-y-0 left-0 z-50 bg-white/40 dark:bg-dark-surface/40 backdrop-blur-md border-r border-gold-primary/20 dark:border-dark-border/50 h-[100dvh] lg:h-[calc(100vh-64px)] lg:sticky lg:top-16 transform transition-all duration-300 flex flex-col font-inter overscroll-contain
+                ${isSidebarOpen ? 'w-80 translate-x-0 overflow-hidden shadow-2xl lg:shadow-none' : 'w-80 -translate-x-full lg:translate-x-0'}
+                ${isDesktopSidebarOpen ? 'lg:w-80 lg:opacity-100' : 'lg:w-0 lg:opacity-0 lg:border-none lg:-translate-x-10 p-0 overflow-hidden'}
+            `}>
 
                 {/* Mobile Close Button & Header */}
                 <div className="lg:hidden flex items-center justify-between p-4 border-b border-gold-border/30 dark:border-[#333] shrink-0">

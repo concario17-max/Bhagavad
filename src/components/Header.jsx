@@ -54,7 +54,7 @@ const Header = () => {
                         <>
                             <button
                                 onClick={toggleSidebar}
-                                className="lg:hidden p-2 -ml-2 rounded-lg hover:bg-gold-surface dark:hover:bg-dark-surface text-gold-primary dark:text-gold-light transition-colors"
+                                className="p-2 -ml-2 rounded-lg hover:bg-gold-surface dark:hover:bg-dark-surface text-gold-primary dark:text-gold-light transition-colors"
                             >
                                 <Menu className="w-5 h-5" />
                             </button>
@@ -109,7 +109,7 @@ const Header = () => {
                     {isVerseView && (
                         <button
                             onClick={toggleReflections}
-                            className="lg:hidden p-2 rounded-lg hover:bg-gold-surface dark:hover:bg-dark-surface text-gold-primary dark:text-gold-light transition-colors"
+                            className="p-2 rounded-lg hover:bg-gold-surface dark:hover:bg-dark-surface text-gold-primary dark:text-gold-light transition-colors"
                         >
                             <Edit3 className="w-5 h-5" />
                         </button>
