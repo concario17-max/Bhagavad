@@ -3,21 +3,33 @@ import { X } from 'lucide-react';
 import LexiconAlphabet from './LexiconAlphabet';
 import LexiconItem from './LexiconItem';
 
-const LexiconModal = ({ isOpen, onClose }) => {
-    const [lexiconData, setLexiconData] = useState({});
+interface LexiconModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+}
+
+interface LexiconWord {
+    word: string;
+    meaning: string;
+}
+
+type LexiconData = Record<string, LexiconWord[]>;
+
+const LexiconModal = ({ isOpen, onClose }: LexiconModalProps) => {
+    const [lexiconData, setLexiconData] = useState<LexiconData>({});
 
     useEffect(() => {
         if (isOpen && Object.keys(lexiconData).length === 0) {
             fetch('/lexicon.json')
                 .then(res => res.json())
-                .then(data => setLexiconData(data))
+                .then(data => setLexiconData(data as LexiconData))
                 .catch(err => console.error("Failed to load lexicon data:", err));
         }
     }, [isOpen, lexiconData]);
 
     const alphabet = "ABCDEFGHIJKLMNOPRSTUVY".split('');
 
-    const scrollToLetter = useCallback((letter) => {
+    const scrollToLetter = useCallback((letter: string) => {
         const element = document.getElementById(`lexicon-${letter}`);
         if (element) {
             element.scrollIntoView({ behavior: 'smooth', block: 'start' });

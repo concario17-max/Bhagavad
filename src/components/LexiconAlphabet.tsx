@@ -1,7 +1,13 @@
 import React from 'react';
 
+interface LexiconAlphabetProps {
+    alphabet: string[];
+    lexiconData: Record<string, any[]>;
+    onLetterClick: (letter: string) => void;
+}
+
 // 알파벳 필터 렌더링 컴포넌트.
-const LexiconAlphabet = ({ alphabet, lexiconData, onLetterClick }) => {
+const LexiconAlphabet = ({ alphabet, lexiconData, onLetterClick }: LexiconAlphabetProps) => {
     return (
         <div className="flex flex-wrap gap-2 mb-12">
             {alphabet.map((letter) => {
