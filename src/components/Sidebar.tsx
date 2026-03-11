@@ -1,36 +1,49 @@
 import { useState, useEffect } from 'react';
 import { NavLink, useParams, useNavigate } from 'react-router-dom';
-import { ChevronDown, ChevronRight, BookOpen, X } from 'lucide-react';
+import { X } from 'lucide-react';
 import { CHAPTER_DATA } from '../constants';
 import { useUI } from '../context/UIContext';
 import { fetchGitaData } from '../utils/dataFetcher';
 
+export interface GitaVerse {
+    id: string;
+    chapter: number;
+    verse: number;
+    sanskrit: string;
+    iast: string;
+}
+
+export interface GitaChapter {
+    chapter: number;
+    verses: GitaVerse[];
+    name_translated?: string;
+}
+
 const Sidebar = () => {
-    const { chapterNum, verseNum } = useParams();
+    const { chapterNum, verseNum } = useParams<{ chapterNum: string; verseNum: string }>();
     const { isSidebarOpen, setIsSidebarOpen, isDesktopSidebarOpen } = useUI();
-    const [chapters, setChapters] = useState([]);
-    const [expandedChapter, setExpandedChapter] = useState(null);
+    const [chapters, setChapters] = useState<GitaChapter[]>([]);
+    const [expandedChapter, setExpandedChapter] = useState<number | null>(null);
     const navigate = useNavigate();
 
     useEffect(() => {
         fetchGitaData()
             .then(data => {
                 if (data && typeof data === 'object') {
-                    const chapterArray = Object.values(data);
+                    const chapterArray = Object.values(data) as GitaChapter[];
                     setChapters(chapterArray);
                 }
             })
             .catch(err => console.error('Failed to load chapters:', err));
     }, []);
 
-    // Auto-expand the current chapter based on URL
     useEffect(() => {
         if (chapterNum) {
             setExpandedChapter(parseInt(chapterNum));
         }
     }, [chapterNum]);
 
-    const toggleChapter = (chNum) => {
+    const toggleChapter = (chNum: number) => {
         setExpandedChapter(chNum);
         navigate(`/chapter/${chNum}/verse/1`);
     };
@@ -39,7 +52,6 @@ const Sidebar = () => {
 
     return (
         <>
-            {/* Mobile Backdrop */}
             {isSidebarOpen && (
                 <div
                     className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm lg:hidden transition-opacity duration-300 opacity-100 touch-none"
@@ -52,7 +64,6 @@ const Sidebar = () => {
                 ${isDesktopSidebarOpen ? 'lg:w-80 lg:opacity-100' : 'lg:w-0 lg:opacity-0 lg:border-none lg:-translate-x-10 p-0 overflow-hidden'}
             `}>
 
-                {/* Mobile Close Button & Header */}
                 <div className="lg:hidden flex items-center justify-between p-4 border-b border-gold-border/30 dark:border-[#333] shrink-0">
                     <span className="font-crimson font-bold text-lg text-text-primary dark:text-dark-text-primary">장 (Chapter)</span>
                     <button onClick={() => setIsSidebarOpen(false)} className="p-2 -mr-2 rounded-full hover:bg-gold-surface dark:hover:bg-dark-surface text-text-secondary dark:text-dark-text-secondary transition-colors">
@@ -60,7 +71,6 @@ const Sidebar = () => {
                     </button>
                 </div>
 
-                {/* Top Half: Chapters */}
                 <div className="flex-1 overflow-y-auto border-b border-gold-border/40 dark:border-[#222] custom-scrollbar min-h-0 overscroll-contain">
                     <div className="p-4 bg-transparent sticky top-0 z-10 backdrop-blur-sm hidden lg:block">
                         <h2 className="text-xs font-bold text-text-primary/70 dark:text-dark-text-primary/70">
@@ -104,23 +114,17 @@ const Sidebar = () => {
                     </div>
                 </div>
 
-                {/* Bottom Half: Verses */}
                 <div className="flex-1 overflow-y-auto bg-transparent custom-scrollbar overscroll-contain">
                     <div className="py-1 px-2 space-y-0">
                         {currentChapter ? (
                             currentChapter.verses.map((v, idx) => {
-                                // Find the end verse if it's a range
                                 const nextV = currentChapter.verses[idx + 1];
                                 let displayVerse = `${currentChapter.chapter}.${v.verse}`;
 
-                                // Check for gap
                                 if (nextV && nextV.verse > v.verse + 1) {
                                     displayVerse = `${currentChapter.chapter}.${v.verse}-${nextV.verse - 1}`;
-                                } else if (!nextV) {
-                                    // Handle last verse if needed
                                 }
 
-                                // Verse text preview - taking first few words of IAST
                                 const verseText = v.iast ? v.iast.split('\n')[0].substring(0, 40) + '...' : `Verse ${v.verse}`;
 
                                 return (
@@ -135,7 +139,7 @@ const Sidebar = () => {
                                             }`
                                         }
                                     >
-                                        <span className={`min-w-[45px] whitespace-nowrap font-bold text-xs sm:text-[13px] mt-[2px] ${v.chapter === parseInt(chapterNum) && v.verse === parseInt(verseNum) ? 'text-gold-primary' : 'text-text-secondary/60 dark:text-dark-text-secondary/60'}`}>{displayVerse}</span>
+                                        <span className={`min-w-[45px] whitespace-nowrap font-bold text-xs sm:text-[13px] mt-[2px] ${v.chapter === parseInt(chapterNum || '1') && v.verse === parseInt(verseNum || '1') ? 'text-gold-primary' : 'text-text-secondary/60 dark:text-dark-text-secondary/60'}`}>{displayVerse}</span>
                                         <span className="truncate opacity-90 text-[14px] sm:text-[13px] leading-relaxed font-inter">
                                             {verseText}
                                         </span>

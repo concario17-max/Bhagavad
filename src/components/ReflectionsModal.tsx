@@ -1,19 +1,30 @@
 import { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 
-const ReflectionsModal = ({ isOpen, onClose }) => {
-    const [notesData, setNotesData] = useState([]);
+interface ReflectionsModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+}
+
+interface ReflectionNote {
+    id: string;
+    chapter: string;
+    verse: string;
+    sanskrit: string;
+    content: string;
+}
+
+const ReflectionsModal = ({ isOpen, onClose }: ReflectionsModalProps) => {
+    const [notesData, setNotesData] = useState<ReflectionNote[]>([]);
 
     useEffect(() => {
         if (!isOpen) return;
 
-        // Fetch gita.json to match sanskrit text with saved notes
         fetch('/gita.json')
             .then(res => res.json())
-            .then(data => {
+            .then((data: any) => {
                 const noteKeys = Object.keys(localStorage).filter(key => key.startsWith('gita-note-'));
 
-                // Sort keys chronologically
                 noteKeys.sort((a, b) => {
                     const [, , chA, vA] = a.split('-');
                     const [, , chB, vB] = b.split('-');
@@ -21,20 +32,18 @@ const ReflectionsModal = ({ isOpen, onClose }) => {
                     return parseInt(vA) - parseInt(vB);
                 });
 
-                const loadedNotes = [];
+                const loadedNotes: ReflectionNote[] = [];
 
                 noteKeys.forEach(key => {
                     const [, , ch, v] = key.split('-');
                     const content = localStorage.getItem(key);
 
                     if (content && content.trim()) {
-                        // Find sanskrit text
                         let sanskritText = "";
                         const chapterData = data[ch];
                         if (chapterData && chapterData.verses) {
-                            const verseData = chapterData.verses.find(verse => verse.verse.toString() === v);
+                            const verseData = chapterData.verses.find((verse: any) => verse.verse.toString() === v);
                             if (verseData && verseData.sanskrit) {
-                                // Just grab the first phrase/line of sanskrit for the header, or the whole thing if short
                                 sanskritText = verseData.sanskrit.split('\n')[1] || verseData.sanskrit.split('।')[0] + '।';
                                 if (!sanskritText.trim()) sanskritText = verseData.sanskrit.substring(0, 50) + "...";
                             }

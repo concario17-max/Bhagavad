@@ -1,4 +1,10 @@
-export const CHAPTER_DATA = {
+export interface ChapterMeta {
+    name: string;
+    name_korean: string;
+    description: string;
+}
+
+export const CHAPTER_DATA: Record<number, ChapterMeta> = {
     1: {
         name: "Arjun Viṣhād Yog",
         name_korean: "아르주나의 고민",

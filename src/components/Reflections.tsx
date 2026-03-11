@@ -4,10 +4,10 @@ import { Download, Save, Edit3, X } from 'lucide-react';
 import { useUI } from '../context/UIContext';
 
 const Reflections = () => {
-    const { chapterNum, verseNum } = useParams();
-    const [note, setNote] = useState('');
-    const [isSaving, setIsSaving] = useState(false);
-    const [showExportMenu, setShowExportMenu] = useState(false);
+    const { chapterNum, verseNum } = useParams<{ chapterNum: string; verseNum: string }>();
+    const [note, setNote] = useState<string>('');
+    const [isSaving, setIsSaving] = useState<boolean>(false);
+    const [showExportMenu, setShowExportMenu] = useState<boolean>(false);
     const { isReflectionsOpen, setIsReflectionsOpen, isDesktopReflectionsOpen } = useUI();
 
     const noteKey = `gita-note-${chapterNum}-${verseNum}`;
@@ -41,7 +41,6 @@ const Reflections = () => {
         let allNotesText = `Bhagavad Gita - All Reflections\n\n`;
         const noteKeys = Object.keys(localStorage).filter(key => key.startsWith('gita-note-'));
 
-        // Sort keys logically by chapter then verse
         noteKeys.sort((a, b) => {
             const [, , chA, vA] = a.split('-');
             const [, , chB, vB] = b.split('-');
@@ -75,7 +74,6 @@ const Reflections = () => {
 
     return (
         <>
-            {/* Mobile Backdrop */}
             {isReflectionsOpen && (
                 <div
                     className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm lg:hidden transition-opacity duration-300"
@@ -87,7 +85,6 @@ const Reflections = () => {
                 ${isDesktopReflectionsOpen ? 'lg:w-[400px] lg:opacity-100' : 'lg:w-0 lg:opacity-0 lg:border-none lg:translate-x-10 px-0 overflow-hidden'}
             `}>
 
-                {/* Mobile Close Button */}
                 <div className="lg:hidden absolute top-4 right-4 z-50">
                     <button onClick={() => setIsReflectionsOpen(false)} className="p-2 rounded-full hover:bg-gold-surface dark:hover:bg-dark-surface text-text-secondary dark:text-dark-text-secondary transition-colors">
                         <X className="w-5 h-5" />
