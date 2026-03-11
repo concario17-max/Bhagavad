@@ -6,23 +6,23 @@
 ## 1. 기반 공사 (Foundation Layer)
 이식 대상 프로젝트의 핵심 스타일링 및 인프라 구축.
 
-- [ ] Tailwind CSS v4.x 마이그레이션 설치 및 초기화
-- [ ] `index.css` 핵심 유틸리티 이식
-  - [ ] 전역 `body`, `html`, 글꼴 기본화 (Inter, Noto Serif KR 등 폰트 패밀리 이식)
-  - [ ] `@theme` (또는 `tailwind.config.js`) 변수 이식 (골드/다크 테마 토큰: `gold-bg`, `dark-bg`, `gold-primary` 등)
-  - [ ] 커스텀 스크롤바(`custom-scrollbar`) css 이식
-- [ ] SVG/Icon 의존성 설치 (`lucide-react`)
-- [ ] 에셋 이식 (폰트 파일, `favicon.png`, `gita_header_icon.png` 등 로고류)
+- [x] Tailwind CSS v4.x 마이그레이션 설치 및 초기화
+- [x] `index.css` 핵심 유틸리티 이식
+  - [x] 전역 `body`, `html`, 글꼴 기본화 (Inter, Noto Serif KR 등 폰트 패밀리 이식)
+  - [x] `@theme` (또는 `tailwind.config.js`) 변수 이식 (골드/다크 테마 토큰: `gold-bg`, `dark-bg`, `gold-primary` 등)
+  - [x] 커스텀 스크롤바(`custom-scrollbar`) css 이식
+- [x] SVG/Icon 의존성 설치 (`lucide-react`)
+- [x] 에셋 이식 (폰트 파일, `favicon.png`, `gita_header_icon.png` 등 로고류)
 
 ## 2. 전역 상태 래핑 (Context Providers)
 의존성을 줄이고 컴포넌트 재사용성을 극대화하기 위한 컨텍스트 분리 이식.
 
-- [ ] `src/context/ThemeContext.jsx` 이식
-  - [ ] 로컬스토리지 기반 `dark`/`light` 모드 토글 로직 복사
-  - [ ] `<html class="dark">` 삽입 사이드 이펙트(Effect) 재현
-- [ ] `src/context/UIContext.jsx` 이식
-  - [ ] 사이드바(`isSidebarOpen`) 같은 전역 토글 상태 추상화 (예: `MenuContext`로 범용화)
-- [ ] `main.jsx` 최상단에 Provider 래핑 처리
+- [x] `src/context/ThemeContext.jsx` 이식
+  - [x] 로컬스토리지 기반 `dark`/`light` 모드 토글 로직 복사
+  - [x] `<html class="dark">` 삽입 사이드 이펙트(Effect) 재현
+- [x] `src/context/UIContext.jsx` 이식
+  - [x] 사이드바(`isSidebarOpen`) 같은 전역 토글 상태 추상화 (예: `MenuContext`로 범용화)
+- [x] `main.jsx` 최상단에 Provider 래핑 처리
 
 ## 3. 코어 UI 컴포넌트 이식 (Core Reusable Components)
 도메인에 종속되지 않는 순수 프레젠테이셔널(Presentational) 컴포넌트만 추출하여 이식.

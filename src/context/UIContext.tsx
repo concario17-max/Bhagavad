@@ -1,13 +1,29 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, ReactNode, Dispatch, SetStateAction } from 'react';
 
-const UIContext = createContext();
+interface UIContextType {
+    isSidebarOpen: boolean;
+    setIsSidebarOpen: Dispatch<SetStateAction<boolean>>;
+    isDesktopSidebarOpen: boolean;
+    toggleSidebar: () => void;
+    isReflectionsOpen: boolean;
+    setIsReflectionsOpen: Dispatch<SetStateAction<boolean>>;
+    isDesktopReflectionsOpen: boolean;
+    toggleReflections: () => void;
+    closeAllDrawers: () => void;
+}
 
-export const UIProvider = ({ children }) => {
-    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const [isReflectionsOpen, setIsReflectionsOpen] = useState(false);
+const UIContext = createContext<UIContextType | undefined>(undefined);
+
+interface UIProviderProps {
+    children: ReactNode;
+}
+
+export const UIProvider = ({ children }: UIProviderProps) => {
+    const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
+    const [isReflectionsOpen, setIsReflectionsOpen] = useState<boolean>(false);
 
     // Desktop Panel States
-    const [isDesktopSidebarOpen, setIsDesktopSidebarOpen] = useState(() => {
+    const [isDesktopSidebarOpen, setIsDesktopSidebarOpen] = useState<boolean>(() => {
         if (typeof window !== 'undefined') {
             const saved = localStorage.getItem('gita-desktop-sidebar');
             return saved !== null ? JSON.parse(saved) : true;
@@ -15,7 +31,7 @@ export const UIProvider = ({ children }) => {
         return true;
     });
 
-    const [isDesktopReflectionsOpen, setIsDesktopReflectionsOpen] = useState(() => {
+    const [isDesktopReflectionsOpen, setIsDesktopReflectionsOpen] = useState<boolean>(() => {
         if (typeof window !== 'undefined') {
             const saved = localStorage.getItem('gita-desktop-reflections');
             return saved !== null ? JSON.parse(saved) : true;
@@ -65,4 +81,10 @@ export const UIProvider = ({ children }) => {
     );
 };
 
-export const useUI = () => useContext(UIContext);
+export const useUI = (): UIContextType => {
+    const context = useContext(UIContext);
+    if (context === undefined) {
+        throw new Error('useUI must be used within a UIProvider');
+    }
+    return context;
+};
