@@ -10,36 +10,29 @@ import PasswordGateway from './components/PasswordGateway';
 import ThemeToggle from './components/ThemeToggle';
 import { useUI } from './context/UIContext';
 
+import { AppShell } from './components/ui/AppShell';
+
 const MainLayout = () => {
     const location = useLocation();
     const isVerseView = location.pathname.includes('/chapter/') && location.pathname.includes('/verse/');
     const { isSidebarOpen } = useUI();
 
     return (
-        <div className="h-[100dvh] flex flex-col bg-gold-bg dark:bg-dark-bg transition-colors duration-500 relative selection:bg-gold-primary/20 selection:text-text-primary dark:selection:text-dark-text-primary overflow-hidden">
-            {/* Ambient luxury spotlight overlay. */}
-            <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(255,255,255,0.65)_0%,_transparent_80%)] dark:bg-[radial-gradient(ellipse_at_top,_rgba(255,255,255,0.04)_0%,_transparent_80%)] z-0"></div>
-
-            <div className="relative z-10 flex flex-col flex-1 h-full overflow-hidden">
-                {isVerseView && <Header />}
-                <div className="flex flex-1 relative overflow-hidden">
-                    {isVerseView && <Sidebar />}
-                    <main className={`flex-1 min-w-0 custom-scrollbar ${isSidebarOpen ? 'overflow-hidden touch-none' : 'overflow-y-auto'}`}>
-                        <Suspense fallback={<div className="h-full flex items-center justify-center bg-transparent"><div className="w-8 h-8 border-4 border-gold-primary border-t-transparent rounded-full animate-spin"></div></div>}>
-                            <Outlet />
-                        </Suspense>
-                    </main>
-                    {isVerseView && <Reflections />}
-                </div>
-
-                {/* Floating Theme Toggle for Home Page */}
-                {!isVerseView && (
-                    <div className="fixed bottom-6 right-6 sm:bottom-8 sm:right-8 z-50">
-                        <ThemeToggle className="p-3 bg-white/80 dark:bg-[#111]/80 backdrop-blur-md border border-gold-primary/20 dark:border-gold-primary/10 hover:border-gold-primary/40 shadow-xl shadow-black/5 dark:shadow-[0_8px_30px_-5px_rgba(0,0,0,0.6)] hover:-translate-y-1" />
-                    </div>
-                )}
-            </div>
-        </div>
+        <AppShell
+            header={isVerseView ? <Header /> : undefined}
+            sidebar={isVerseView ? <Sidebar /> : undefined}
+            rightPanel={isVerseView ? <Reflections /> : undefined}
+            isMobilePanelOpen={isSidebarOpen}
+            floatingAction={
+                !isVerseView ? (
+                    <ThemeToggle className="p-3 bg-white/80 dark:bg-[#111]/80 backdrop-blur-md border border-gold-primary/20 dark:border-gold-primary/10 hover:border-gold-primary/40 shadow-xl shadow-black/5 dark:shadow-[0_8px_30px_-5px_rgba(0,0,0,0.6)] hover:-translate-y-1" />
+                ) : undefined
+            }
+        >
+            <Suspense fallback={<div className="h-full flex items-center justify-center bg-transparent"><div className="w-8 h-8 border-4 border-gold-primary border-t-transparent rounded-full animate-spin"></div></div>}>
+                <Outlet />
+            </Suspense>
+        </AppShell>
     );
 };
 

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Download, Save, Edit3, X } from 'lucide-react';
+import { Download, Edit3, X } from 'lucide-react';
 import { useUI } from '../context/UIContext';
 
 const Reflections = () => {

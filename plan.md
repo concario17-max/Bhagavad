@@ -31,30 +31,32 @@
 - [x] `Header.jsx` 범용화 후 이식
   - [x] 로고, 테마 토글 버튼, 타이틀 프롭(`title`)화
   - [x] 도메인 텍스트 분리
-- [ ] `Sidebar.jsx` (Navigation) 이식
-  - [ ] 배경 블러 효과 및 오버레이 트랜지션 로직 추출
-  - [ ] 라우팅 로직을 독립적인 `navItems` 배열 프롭스로 리팩토링하여 적용 가능하게 구상
+- [x] `Sidebar.jsx` (Navigation) 이식
+  - [x] 배경 블러 효과 및 오버레이 트랜지션 로직 추출 (`SidebarLayout` 분리)
+  - [x] 라우팅 로직을 독립적인 `navItems` 배열 프롭스로 리팩토링하여 적용 가능하게 구상 (`SidebarMenu` 분리)
 - [x] `PasswordGateway.jsx` 및 `GatewayInput.jsx` 이식 (보안 프로토콜 검증 통과한 범용 패스워드 락 스크린용)
 
 ## 4. 페이지 및 레이아웃 구조 (Layout & Pages)
 레이지 로딩과 서스펜스를 활용한 뼈대 이식.
 
-- [ ] `MainLayout` 패턴 적용 (`App.jsx` 내부)
-  - [ ] 100dvh 하드 코딩, 고화질 Radial Gradient 스포트라이트 배경 이식
-  - [ ] 상단/사이드/본문을 가르는 `flex-1` 레이아웃 구조 재현
-- [ ] 카드/리스트 그리드 레이아웃 패턴 추출 (현 `ChapterList.jsx`의 UI 그리드)
-- [ ] 컨텐츠 리더 뷰 패턴 추출 (현 `VerseView.jsx`의 양식: 상단 컨트롤러, 중앙 텍스트, 하단 여백)
+- [x] `MainLayout` (뼈대, 모바일 대응 사이드바/리플렉션 패널 트랜지션 구조)
+- [x] `ChapterList.jsx` (List/Grid 뷰 패턴)
+- [x] `VerseView.jsx` (뷰 페이지 패턴, 챕터 데이터 렌더링 매핑)
+  - [x] 100dvh 하드 코딩, 고화질 Radial Gradient 스포트라이트 배경 이식 (`AppShell` 분리)
+  - [x] 상단/사이드/본문을 가르는 `flex-1` 레이아웃 구조 재현
+- [x] 카드/리스트 그리드 레이아웃 패턴 추출 (현 `ChapterList.tsx`의 UI 그리드를 `GlassCard`로 분리)
+- [ ] 컨텐츠 리더 뷰 패턴 추출 (현 `VerseView.tsx`의 양식: 상단 컨트롤러, 중앙 텍스트, 하단 여백)
 
 ## 5. 애니메이션 및 UX 디테일 (Micro-Animations & UX)
 코드포스 그랜드마스터급의 섬세함을 결정하는 메타 디자인 폴리싱.
 
-- [ ] 선택 영역(Selection) 색상 오버라이드 이식 (`selection:bg-gold-primary/20` 등)
-- [ ] 컴포넌트 등장 모션(`Framer Motion` 도입 검토 또는 Tailwind `animate-in` 활용)
-- [ ] 호버 시 테두리 그라디언트 및 글래스모피즘(`backdrop-blur`) 미세 튜닝
+- [x] 선택 영역(Selection) 색상 오버라이드 이식 (`selection:bg-gold-primary/20` 등 `AppShell`에 적용)
+- [x] 컴포넌트 등장 모션(`animate-in`, `fade-in` 등 Tailwind 클래스 적용)
+- [x] 호버 시 테두리 그라디언트 및 글래스모피즘(`backdrop-blur`) 미세 튜닝
 
 ## 6. 보안 및 성능 점검 (Security & Performance Audit)
 이식 시 방만하게 짜진 코드 쳐내기.
 
 - [ ] 모든 onClick 핸들러에 쓰로틀/디바운스 적용 여부 검토
-- [ ] 무의미하게 리렌더링되는 UI 컴포넌트 `React.memo` 또는 `useMemo` 처리
+- [x] 무의미하게 리렌더링되는 UI 컴포넌트 `React.memo` 처리 (`GlassCard`, `AppShell`, `SidebarMenu` 등 적용)
 - [x] 패스워드 게이트웨이에 하드코딩된 비밀번호 제거 및 `.env` 마이그레이션 필수 설계
