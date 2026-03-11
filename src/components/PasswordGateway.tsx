@@ -1,16 +1,20 @@
-import { useState, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Lock, ChevronRight } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
 import GatewayInput from './GatewayInput';
 
-const PasswordGateway = ({ onAuthenticate }) => {
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState(false);
+interface PasswordGatewayProps {
+    onAuthenticate: () => void;
+}
 
-    const handleSubmit = useCallback((e) => {
+const PasswordGateway = ({ onAuthenticate }: PasswordGatewayProps) => {
+    const [password, setPassword] = useState<string>('');
+    const [error, setError] = useState<boolean>(false);
+
+    const handleSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // TODO: Move to environment variable or secure backend validation
-        if (password === '0228') {
+        const correctPassword = import.meta.env.VITE_GATEWAY_PASSWORD || '0228';
+        if (password === correctPassword) {
             onAuthenticate();
         } else {
             setError(true);
@@ -39,7 +43,7 @@ const PasswordGateway = ({ onAuthenticate }) => {
                         <Lock className="w-8 h-8 text-gold-primary group-hover:scale-110 transition-transform duration-700" />
                     </div>
                     <h1 className="text-5xl font-light tracking-tighter text-gold-primary mb-3 drop-shadow-sm">
-                        Bhagavad <span className="italic font-serif">Gita</span>
+                        Gateway <span className="italic font-serif">Access</span>
                     </h1>
                     <div className="h-px w-12 bg-gold-primary/30 mx-auto mb-4"></div>
                     <p className="text-[10px] font-inter tracking-[0.5em] text-gold-muted uppercase opacity-80">
@@ -69,9 +73,6 @@ const PasswordGateway = ({ onAuthenticate }) => {
                     <a href="mailto:roadsea@naver.com" className="font-inter text-[10px] tracking-widest text-gold-muted hover:text-gold-primary transition-colors border-b border-transparent hover:border-gold-primary/30 pb-1">
                         SUPPORT & INQUIRIES
                     </a>
-                    <p className="font-crimson italic text-sm text-gold-muted/80 text-center max-w-xs leading-relaxed">
-                        "Set thy heart upon thy work, but never on its reward."
-                    </p>
                 </div>
             </div>
         </div>

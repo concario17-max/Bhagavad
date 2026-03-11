@@ -1,11 +1,15 @@
 import { Moon, Sun } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 
+interface ThemeToggleProps {
+    className?: string;
+}
+
 /**
  * 전역 테마 토글 컴포넌트
  * 단일 책임 원칙(Zero Monolith) 적용.
  */
-const ThemeToggle = ({ className = "" }) => {
+const ThemeToggle = ({ className = "" }: ThemeToggleProps) => {
     const { theme, toggleTheme } = useTheme();
 
     return (

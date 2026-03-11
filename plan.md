@@ -27,14 +27,14 @@
 ## 3. 코어 UI 컴포넌트 이식 (Core Reusable Components)
 도메인에 종속되지 않는 순수 프레젠테이셔널(Presentational) 컴포넌트만 추출하여 이식.
 
-- [ ] `ThemeToggle.jsx` 이식 (글래스모피즘이 적용된 플로팅 테마 전환 버튼)
-- [ ] `Header.jsx` 범용화 후 이식
-  - [ ] 로고, 테마 토글 버튼, 타이틀 프롭(`title`)화
-  - [ ] 도메인 텍스트 분리
+- [x] `ThemeToggle.jsx` 이식 (글래스모피즘이 적용된 플로팅 테마 전환 버튼)
+- [x] `Header.jsx` 범용화 후 이식
+  - [x] 로고, 테마 토글 버튼, 타이틀 프롭(`title`)화
+  - [x] 도메인 텍스트 분리
 - [ ] `Sidebar.jsx` (Navigation) 이식
   - [ ] 배경 블러 효과 및 오버레이 트랜지션 로직 추출
   - [ ] 라우팅 로직을 독립적인 `navItems` 배열 프롭스로 리팩토링하여 적용 가능하게 구상
-- [ ] `PasswordGateway.jsx` 및 `GatewayInput.jsx` 이식 (보안 프로토콜 검증 통과한 범용 패스워드 락 스크린용)
+- [x] `PasswordGateway.jsx` 및 `GatewayInput.jsx` 이식 (보안 프로토콜 검증 통과한 범용 패스워드 락 스크린용)
 
 ## 4. 페이지 및 레이아웃 구조 (Layout & Pages)
 레이지 로딩과 서스펜스를 활용한 뼈대 이식.
@@ -57,4 +57,4 @@
 
 - [ ] 모든 onClick 핸들러에 쓰로틀/디바운스 적용 여부 검토
 - [ ] 무의미하게 리렌더링되는 UI 컴포넌트 `React.memo` 또는 `useMemo` 처리
-- [ ] 패스워드 게이트웨이에 하드코딩된 비밀번호 제거 및 `.env` 마이그레이션 필수 설계
+- [x] 패스워드 게이트웨이에 하드코딩된 비밀번호 제거 및 `.env` 마이그레이션 필수 설계

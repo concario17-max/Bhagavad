@@ -1,7 +1,13 @@
 import React from 'react';
 
+interface GatewayInputProps {
+    value: string;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    error: boolean;
+}
+
 // 로그인 폼 입력 필드 관리 컴포넌트.
-const GatewayInput = ({ value, onChange, error }) => {
+const GatewayInput = ({ value, onChange, error }: GatewayInputProps) => {
     return (
         <div className="w-full relative group">
             <input

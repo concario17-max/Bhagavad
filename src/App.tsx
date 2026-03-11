@@ -5,7 +5,6 @@ const ChapterList = lazy(() => import('./pages/ChapterList'));
 const VerseView = lazy(() => import('./pages/VerseView'));
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
-import Footer from './components/Footer';
 import Reflections from './components/Reflections';
 import PasswordGateway from './components/PasswordGateway';
 import ThemeToggle from './components/ThemeToggle';
@@ -32,7 +31,6 @@ const MainLayout = () => {
                     </main>
                     {isVerseView && <Reflections />}
                 </div>
-                {/* No Footer rendered anywhere per minimalistic design */}
 
                 {/* Floating Theme Toggle for Home Page */}
                 {!isVerseView && (
@@ -46,8 +44,8 @@ const MainLayout = () => {
 };
 
 function App() {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [isChecking, setIsChecking] = useState(true);
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+    const [isChecking, setIsChecking] = useState<boolean>(true);
 
     useEffect(() => {
         // 인증 상태 로컬 스토리지 로드.
