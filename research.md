@@ -64,3 +64,27 @@ Redux 같은 무거운 의존성 대신 React의 내장 Context API를 철저히
 ## 총평 (Architectural Verdict)
 A+ 급 정적 웹앱 설계 구조. 모놀리식을 치밀하게 피하고 레이지 로딩과 책임 기반 컴포넌트화를 강제한 설계는 우수. 거대 JSON 구조 하나에 과의존하는 것이 초기 번들링 단계 로드를 야기할 수 있으나, PWA 구조로 업데이트해 Cache Storage 워커를 추가하거나 컴포넌트 레벨에서의 가상화(Virtualization)를 끼워 넣으면 압도적인 퍼포먼스를 견인할 수 있음. 
 (결론: 리팩토링할 구석 없이 이대로 운영해도 손색없는 매우 클린한 프로젝트 뼈대)
+
+---
+
+## 6. 알림 시스템 심층 분석 (Notification System Analysis)
+
+### 6.1 현행 알림 아키텍처 (Current State)
+전역 `Toast`나 `Snackbar` 같은 **공식적인 알림(Notification) 시스템 UI 컴포넌트는 존재하지 않음.** 
+모든 피드백과 알림 처리가 매우 원시적인 수준에 머물러 있음. 코드포스 랭커 관점에서 보면 상태 관리조차 들어가지 않은 깡통 수준임.
+
+### 6.2 데이터 생성 및 전달 흐름 (Creation & Delivery Flow)
+현재 존재하는 알림 메커니즘은 단 두 가지 형태로 강제 처리됨.
+1. **네이티브 브라우저 Alert (원시적 차단 방식)**
+   - **발생처**: `src/components/Reflections.jsx` (Line 61 내외)
+   - **동작**: 사용자가 저장된 메모(Reflections)를 내보내기(Export) 하려 할 때, 저장된 데이터가 없으면 `alert("No saved reflections found to export.");`를 호출하여 메인 스레드를 블로킹함.
+2. **로컬 컴포넌트 에러 바인딩 (Local Error State)**
+   - **발생처**: `src/components/PasswordGateway.jsx`
+   - **동작**: 비밀번호 입력 실패 시 지역 상태인 `const [error, setError] = useState(false);`를 2초 동안 `true`로 바꾼 뒤 `<GatewayInput>` 컴포넌트로 프롭 내려보내 시각적 피드백(빨간색 텍스트 분기 등)만 줌.
+
+### 6.3 문제점 및 개선 방향 (Bottlenecks & Meta-Design Target)
+- **문제점**: 에러나 성공 메시지(사용자 피드백)가 통일된 큐(Queue)나 전역 Context로 관리되지 않음. UX를 심각하게 깎아먹는 네이티브 블로킹 `alert`가 섞여 있음.
+- **개선 방안**: 
+  1. `ToastContext` 혹은 `NotificationProvider`를 전역 래퍼로 신설.
+  2. `addNotification(type, message, duration)` 같은 O(1) 해시 큐 구조를 짜서 알림 스택을 배열로 관리.
+  3. `Framer Motion`이나 Tailwind `group-hover` 등을 응용한 논블로킹, 글래스모피즘(Glassmorphism) 플로팅 팝업 UI로 Awwwards급 메타 디자인 적용 필수.
