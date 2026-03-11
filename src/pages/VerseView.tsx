@@ -2,16 +2,17 @@ import { useState, useEffect, useRef } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Play, Pause, ChevronRight, ChevronLeft, ChevronDown, ChevronUp } from 'lucide-react';
 import { fetchGitaData } from '../utils/dataFetcher';
+import { GitaData, GitaVerse } from '../types';
 
 const VerseView = () => {
-    const { chapterNum, verseNum } = useParams();
+    const { chapterNum, verseNum } = useParams<{ chapterNum: string; verseNum: string }>();
     const navigate = useNavigate();
-    const [verseData, setVerseData] = useState(null);
-    const [allChapters, setAllChapters] = useState(null);
-    const [isPlaying, setIsPlaying] = useState(false);
-    const [currentTime, setCurrentTime] = useState(0);
-    const [duration, setDuration] = useState(0);
-    const [showLexicon, setShowLexicon] = useState(() => {
+    const [verseData, setVerseData] = useState<GitaVerse | null>(null);
+    const [allChapters, setAllChapters] = useState<GitaData | null>(null);
+    const [isPlaying, setIsPlaying] = useState<boolean>(false);
+    const [currentTime, setCurrentTime] = useState<number>(0);
+    const [duration, setDuration] = useState<number>(0);
+    const [showLexicon, setShowLexicon] = useState<boolean>(() => {
         if (typeof window !== 'undefined') {
             const saved = localStorage.getItem('gita-show-lexicon');
             if (saved !== null) {
@@ -20,39 +21,33 @@ const VerseView = () => {
         }
         return false;
     });
-    const audioRef = useRef(null);
+    const audioRef = useRef<HTMLAudioElement>(null);
 
     useEffect(() => {
         localStorage.setItem('gita-show-lexicon', JSON.stringify(showLexicon));
     }, [showLexicon]);
 
     useEffect(() => {
+        if (!chapterNum || !verseNum) return;
         fetchGitaData()
-            .then(data => {
+            .then((data: any) => {
                 if (data) {
-                    setAllChapters(data);
-                    const chapter = data[chapterNum];
+                    const parsedData = data as GitaData;
+                    setAllChapters(parsedData);
+                    const chapter = parsedData[chapterNum];
                     if (chapter) {
                         const targetVerseNum = parseInt(verseNum);
-                        // Find the verse that covers the requested number
-                        // Because some verses are grouped (e.g., 4, 5, 6 might all be under verse 4)
                         const verseIndex = chapter.verses.findIndex((v, i, arr) => {
                             const nextV = arr[i + 1];
                             if (nextV) {
                                 return v.verse <= targetVerseNum && targetVerseNum < nextV.verse;
                             }
-                            // For the last verse, it matches if target is >= verse.verse
-                            // But usually we just care about exact or within known range.
-                            // Let's just say if it's >= last verse start, it's the last verse.
                             return v.verse <= targetVerseNum;
                         });
 
                         if (verseIndex !== -1) {
                             const foundVerse = chapter.verses[verseIndex];
                             setVerseData(foundVerse);
-
-                            // If the URL verse number is different from the canonical verse number (e.g. visited 5, found 4),
-                            // replace URL to canonical 4.
                             if (foundVerse.verse !== targetVerseNum) {
                                 navigate(`/chapter/${chapterNum}/verse/${foundVerse.verse}`, { replace: true });
                             }
@@ -68,10 +63,7 @@ const VerseView = () => {
     }, [chapterNum, verseNum, navigate]);
 
     useEffect(() => {
-        // Scroll to top of the page when navigating to a new verse
         window.scrollTo(0, 0);
-
-        // Reset audio state when verse changes
         setIsPlaying(false);
         setCurrentTime(0);
         setDuration(0);
@@ -81,8 +73,8 @@ const VerseView = () => {
         }
     }, [chapterNum, verseNum]); // Keep this simple, it reacts to URL changes
 
-    const getAudioSrc = (remoteUrl) => {
-        if (!remoteUrl) return null;
+    const getAudioSrc = (remoteUrl?: string) => {
+        if (!remoteUrl) return undefined;
         const filename = remoteUrl.split('/').pop();
         return `/mp3/${filename}`;
     };
@@ -115,7 +107,7 @@ const VerseView = () => {
         setCurrentTime(0);
     };
 
-    const formatTime = (time) => {
+    const formatTime = (time: number) => {
         if (isNaN(time)) return "0:00";
         const minutes = Math.floor(time / 60);
         const seconds = Math.floor(time % 60);
@@ -123,56 +115,52 @@ const VerseView = () => {
     };
 
     const handlePrev = () => {
-        if (!allChapters || !verseData) return;
+        if (!allChapters || !verseData || !chapterNum) return;
 
         const currentC = parseInt(chapterNum);
-        const currentChapter = allChapters[currentC];
+        const currentChapter = allChapters[currentC.toString()];
         const currentIndex = currentChapter.verses.findIndex(v => v.verse === verseData.verse);
 
         if (currentIndex > 0) {
-            // Go to previous verse in the same chapter
             const prevVerse = currentChapter.verses[currentIndex - 1];
             navigate(`/chapter/${currentC}/verse/${prevVerse.verse}`);
         } else if (currentC > 1) {
-            // Go to previous chapter's last verse
-            const prevChapter = allChapters[currentC - 1];
+            const prevChapter = allChapters[(currentC - 1).toString()];
             const lastVerse = prevChapter.verses[prevChapter.verses.length - 1];
             navigate(`/chapter/${currentC - 1}/verse/${lastVerse.verse}`);
         }
     };
 
     const handleNext = () => {
-        if (!allChapters || !verseData) return;
+        if (!allChapters || !verseData || !chapterNum) return;
 
         const currentC = parseInt(chapterNum);
-        const currentChapter = allChapters[currentC];
+        const currentChapter = allChapters[currentC.toString()];
         const currentIndex = currentChapter.verses.findIndex(v => v.verse === verseData.verse);
 
         if (currentIndex < currentChapter.verses.length - 1) {
-            // Go to next verse in the same chapter
             const nextVerse = currentChapter.verses[currentIndex + 1];
             navigate(`/chapter/${currentC}/verse/${nextVerse.verse}`);
         } else if (currentC < Object.keys(allChapters).length) {
-            // Go to next chapter's first verse
-            const nextChapter = allChapters[currentC + 1];
+            const nextChapter = allChapters[(currentC + 1).toString()];
             const firstVerse = nextChapter.verses[0];
             navigate(`/chapter/${currentC + 1}/verse/${firstVerse.verse}`);
         }
     };
 
-    if (!verseData || !allChapters) return <div className="min-h-screen flex items-center justify-center bg-gold-bg dark:bg-dark-bg"><div className="w-8 h-8 border-4 border-gold-primary border-t-transparent rounded-full animate-spin"></div></div>;
+    if (!verseData || !allChapters || !chapterNum) {
+        return <div className="min-h-screen flex items-center justify-center bg-gold-bg dark:bg-dark-bg"><div className="w-8 h-8 border-4 border-gold-primary border-t-transparent rounded-full animate-spin"></div></div>;
+    }
 
     const currentChapter = allChapters[chapterNum];
-    const totalVerses = currentChapter.verses.length;
 
-    // Calculate display verse range (e.g., 4-6)
     const getVerseRange = () => {
         const idx = currentChapter.verses.findIndex(v => v.verse === verseData.verse);
         const nextV = currentChapter.verses[idx + 1];
         if (nextV && nextV.verse > verseData.verse + 1) {
             return `${verseData.verse}-${nextV.verse - 1}`;
         }
-        return verseData.verse;
+        return verseData.verse.toString();
     };
 
     const verseRange = getVerseRange();
@@ -181,7 +169,6 @@ const VerseView = () => {
     return (
         <div className="min-h-screen bg-transparent font-crimson text-text-primary dark:text-dark-text-primary transition-colors duration-500">
             <div className="mx-auto max-w-[1000px] px-4 pb-24 pt-6 sm:px-6">
-                {/* Verse Heading / Breadcrumbs (Centered) */}
                 <div className="flex flex-col items-center justify-center mb-2 pt-4">
                     <nav className="flex items-center gap-2 text-[13px] text-text-secondary dark:text-dark-text-secondary font-inter mb-6">
                         <Link to="/" className="hover:text-gold-primary dark:hover:text-gold-light transition-colors">Chapter {chapterNum}</Link>
@@ -189,27 +176,23 @@ const VerseView = () => {
                         <span className="text-text-primary dark:text-dark-text-primary font-bold">Sutra {verseRange}</span>
                     </nav>
 
-                    {/* Top small icon above Sanskrit */}
                     <div className="w-8 h-8 rounded-full bg-gold-border/20 flex items-center justify-center mb-2 text-gold-primary">
                         <span className="font-serif leading-none">֍</span>
                     </div>
                 </div>
 
-                {/* Sanskrit */}
                 <section className="mb-4 text-center px-2 sm:px-0">
                     <p className="font-noto text-[#8C3A3A] dark:text-[#E8A586] text-xl sm:text-2xl leading-normal whitespace-pre-line tracking-wide font-bold drop-shadow-sm">
                         {verseData.sanskrit}
                     </p>
                 </section>
 
-                {/* Transliteration */}
                 <section className="mb-2 text-center flex flex-col items-center">
                     <p className="font-noto italic text-[#B0A084] dark:text-[#D4C3A3] text-[14px] leading-snug whitespace-pre-line tracking-[0.15em] uppercase mb-1 drop-shadow-sm">
                         {verseData.iast}
                     </p>
                 </section>
 
-                {/* Korean Pronunciation */}
                 {verseData.korean_pronunciation && (
                     <section className="mb-12 text-center">
                         <p className="font-noto-kr italic text-[#B0A084] dark:text-[#D4C3A3] text-[14px] leading-relaxed whitespace-pre-line tracking-[0.15em] drop-shadow-sm">
@@ -218,7 +201,6 @@ const VerseView = () => {
                     </section>
                 )}
 
-                {/* Clean Pill Audio Player */}
                 <div className="mb-16 flex justify-center">
                     <audio
                         ref={audioRef}
@@ -253,7 +235,6 @@ const VerseView = () => {
                                 className="absolute top-0 left-0 h-full bg-[#A68B5C] transition-all"
                                 style={{ width: `${progressPercent}%` }}
                             ></div>
-                            {/* Dragger circle that appears on hover */}
                             <div
                                 className="absolute top-1/2 -translate-y-1/2 w-2 h-2 bg-[#A68B5C] rounded-full shadow-sm opacity-0 group-hover:opacity-100 transition-opacity"
                                 style={{ left: `calc(${progressPercent}% - 4px)` }}
@@ -266,7 +247,6 @@ const VerseView = () => {
                     </div>
                 </div>
 
-                {/* Word Meanings (Card Grid Style) Toggle */}
                 <section className="mb-16">
                     <div className="flex items-center justify-center mb-6">
                         <button
@@ -302,11 +282,6 @@ const VerseView = () => {
                     </div>
                 </section>
 
-
-
-
-
-                {/* Translation */}
                 <section className="mb-10">
                     <div className="flex items-center justify-center mb-6">
                         <span className="text-gold-muted/40 dark:text-gold-muted/30 tracking-[8px] text-xs">•••</span>
@@ -359,7 +334,6 @@ const VerseView = () => {
                     )}
                 </section>
 
-                {/* Commentary */}
                 {verseData.commentary_en &&
                     !verseData.commentary_en.startsWith('$') &&
                     !/[\u0900-\u097F]/.test(verseData.commentary_en) && (
@@ -374,12 +348,11 @@ const VerseView = () => {
                         </section>
                     )}
 
-                {/* Navigation (Floating Pill Style) */}
                 <div className="mt-16 pb-8 flex justify-center font-inter">
                     <div className="flex items-center justify-between bg-white/40 dark:bg-dark-surface/40 backdrop-blur-md border border-gold-primary/20 dark:border-dark-border/50 rounded-full px-3 py-1.5 shadow-sm min-w-[180px] hover:shadow-md transition-shadow">
                         <button
                             onClick={handlePrev}
-                            disabled={parseInt(chapterNum) === 1 && parseInt(verseNum) === 1}
+                            disabled={parseInt(chapterNum) === 1 && parseInt(verseNum || '1') === 1}
                             className="p-2 rounded-full hover:bg-gold-surface/50 dark:hover:bg-[#222] transition-colors disabled:opacity-30 disabled:cursor-not-allowed group text-[#5B7282] dark:text-dark-text-secondary"
                         >
                             <ChevronLeft className="w-5 h-5 group-hover:scale-110 transition-transform stroke-[1.5]" />
@@ -391,7 +364,7 @@ const VerseView = () => {
 
                         <button
                             onClick={handleNext}
-                            disabled={parseInt(chapterNum) === 18 && parseInt(verseNum) === 78}
+                            disabled={parseInt(chapterNum) === 18 && parseInt(verseNum || '1') === 78}
                             className="p-2 rounded-full hover:bg-gold-surface/50 dark:hover:bg-[#222] transition-colors disabled:opacity-30 disabled:cursor-not-allowed group text-[#5B7282] dark:text-dark-text-secondary"
                         >
                             <ChevronRight className="w-5 h-5 group-hover:scale-110 transition-transform stroke-[1.5]" />

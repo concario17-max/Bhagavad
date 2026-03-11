@@ -2,6 +2,7 @@ import { useState, useEffect, lazy, Suspense } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { CHAPTER_DATA } from '../constants';
 import { fetchGitaData } from '../utils/dataFetcher';
+import { GitaChapter } from '../types';
 
 const CompendiumModal = lazy(() => import('../components/CompendiumModal'));
 const LexiconModal = lazy(() => import('../components/LexiconModal'));
@@ -9,19 +10,19 @@ const ReflectionsModal = lazy(() => import('../components/ReflectionsModal'));
 
 const ChapterList = () => {
     const navigate = useNavigate();
-    const [chapters, setChapters] = useState([]);
-    const [isCompendiumOpen, setIsCompendiumOpen] = useState(false);
-    const [isLexiconOpen, setIsLexiconOpen] = useState(false);
-    const [isReflectionsOpen, setIsReflectionsOpen] = useState(false);
+    const [chapters, setChapters] = useState<GitaChapter[]>([]);
+    const [isCompendiumOpen, setIsCompendiumOpen] = useState<boolean>(false);
+    const [isLexiconOpen, setIsLexiconOpen] = useState<boolean>(false);
+    const [isReflectionsOpen, setIsReflectionsOpen] = useState<boolean>(false);
 
-    const [selectedChapter, setSelectedChapter] = useState('');
-    const [selectedVerse, setSelectedVerse] = useState('');
+    const [selectedChapter, setSelectedChapter] = useState<string>('');
+    const [selectedVerse, setSelectedVerse] = useState<string>('');
 
     useEffect(() => {
         fetchGitaData()
             .then(data => {
                 if (data && typeof data === 'object') {
-                    const chapterArray = Object.values(data);
+                    const chapterArray = Object.values(data) as GitaChapter[];
                     setChapters(chapterArray);
                 } else {
                     console.error('Invalid gita.json format');
@@ -33,7 +34,6 @@ const ChapterList = () => {
     return (
         <div className="container mx-auto max-w-5xl px-4 py-8 md:py-12 transition-colors duration-500">
             <div className="text-center mb-10 md:mb-16 flex flex-col items-center">
-                {/* Book Icon centered like Yoga Sutras */}
                 <div className="w-12 h-12 flex items-center justify-center rounded-full bg-gold-surface/50 dark:bg-dark-surface border border-gold-border dark:border-dark-border mb-6">
                     <img src="/gita_header_icon.png" alt="Icon" className="w-6 h-6 object-contain opacity-80" />
                 </div>
@@ -67,14 +67,12 @@ const ChapterList = () => {
                     </span>
                 </div>
 
-                {/* Subtitle Divider with Flower/Lotus */}
                 <div className="flex items-center justify-center w-full max-w-md mx-auto mb-16 opacity-60">
                     <div className="flex-1 h-px bg-gold-border"></div>
                     <div className="mx-4 text-gold-primary text-xl font-serif leading-none">❦</div>
                     <div className="flex-1 h-px bg-gold-border"></div>
                 </div>
 
-                {/* Functional Selector box */}
                 <div className="bg-white dark:bg-dark-surface backdrop-blur-sm border border-gold-primary/30 rounded-2xl shadow-xl shadow-gold-primary/10 dark:shadow-[0_8px_30px_-5px_rgba(0,0,0,0.5)] p-5 sm:p-6 mb-16 relative z-10 w-full max-w-3xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-0">
                     <div className="flex-1 w-full flex flex-col items-start px-2 sm:px-6 border-b sm:border-b-0 sm:border-r border-gold-border/40 pb-4 sm:pb-0">
                         <span className="text-[11px] font-black text-gold-primary tracking-[0.25em] uppercase mb-2 drop-shadow-sm">CHAPTER</span>
@@ -126,10 +124,8 @@ const ChapterList = () => {
                             to={`/chapter/${ch.chapter}/verse/1`}
                             className="group relative flex flex-col items-center justify-start text-center p-6 sm:p-8 pt-10 sm:pt-16 bg-white/50 dark:bg-[#161616]/70 backdrop-blur-md border border-gold-border/50 hover:border-gold-primary/70 rounded-2xl shadow-xl shadow-black/5 hover:shadow-2xl hover:shadow-gold-primary/20 dark:shadow-none dark:hover:shadow-[0_8px_30px_-5px_rgba(0,0,0,0.6)] transition-all duration-700 min-h-[280px] sm:min-h-[340px] overflow-hidden"
                         >
-                            {/* Inner Hover Gradient Spotlight */}
                             <div className="absolute inset-0 bg-gradient-to-b from-white/60 to-transparent dark:from-white/[0.03] dark:to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-0 pointer-events-none"></div>
 
-                            {/* Icon Placeholder (Sun/Lotus/Mind) */}
                             <div className="w-8 h-8 flex items-center justify-center text-gold-primary/60 mb-6 group-hover:scale-110 transition-transform relative z-10">
                                 <span className="text-2xl font-serif leading-none opacity-90">֍</span>
                             </div>
@@ -165,7 +161,6 @@ const ChapterList = () => {
                 })}
             </div>
 
-            {/* Lazy Loaded Modals */}
             <Suspense fallback={null}>
                 {isCompendiumOpen && (
                     <CompendiumModal

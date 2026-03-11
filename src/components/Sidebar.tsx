@@ -4,20 +4,7 @@ import { X } from 'lucide-react';
 import { CHAPTER_DATA } from '../constants';
 import { useUI } from '../context/UIContext';
 import { fetchGitaData } from '../utils/dataFetcher';
-
-export interface GitaVerse {
-    id: string;
-    chapter: number;
-    verse: number;
-    sanskrit: string;
-    iast: string;
-}
-
-export interface GitaChapter {
-    chapter: number;
-    verses: GitaVerse[];
-    name_translated?: string;
-}
+import { GitaChapter } from '../types';
 
 const Sidebar = () => {
     const { chapterNum, verseNum } = useParams<{ chapterNum: string; verseNum: string }>();
