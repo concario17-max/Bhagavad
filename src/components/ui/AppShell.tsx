@@ -31,7 +31,7 @@ export const AppShell = React.memo(({
                 {header}
                 <div className="flex flex-1 relative overflow-hidden">
                     {sidebar}
-                    <main className={`flex-1 min-w-0 custom-scrollbar ${isMobilePanelOpen ? 'overflow-hidden touch-none' : 'overflow-y-auto'}`}>
+                    <main className={`flex-1 min-w-0 w-full lg:w-auto custom-scrollbar flex flex-col justify-center min-h-full ${isMobilePanelOpen ? 'overflow-hidden touch-none' : 'overflow-y-auto'}`}>
                         {children}
                     </main>
                     {rightPanel}

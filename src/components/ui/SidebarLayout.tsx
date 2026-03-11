@@ -30,6 +30,13 @@ export const SidebarLayout = React.memo(({
     const borderClass = isLeft ? 'border-r' : 'border-l';
     const placementClass = isLeft ? 'left-0' : 'right-0';
 
+    const lgWidthClass = {
+        'w-64': 'lg:w-64',
+        'w-72': 'lg:w-72',
+        'w-80': 'lg:w-80',
+        'w-96': 'lg:w-96'
+    }[widthClass] || `lg:${widthClass}`;
+
     return (
         <>
             {isOpen && (
@@ -40,8 +47,8 @@ export const SidebarLayout = React.memo(({
             )}
 
             <aside className={`fixed inset-y-0 ${placementClass} z-50 bg-white/40 dark:bg-dark-surface/40 backdrop-blur-md ${borderClass} border-gold-primary/20 dark:border-dark-border/50 h-[100dvh] lg:h-[calc(100vh-64px)] lg:sticky lg:top-16 transform transition-all duration-300 flex flex-col font-inter overscroll-contain
-                ${isOpen ? `${widthClass} translate-x-0 overflow-hidden shadow-2xl lg:shadow-none` : `w-[90vw] lg:${widthClass} ${translateClosed} lg:translate-x-0`}
-                ${isDesktopOpen ? `lg:${widthClass} lg:opacity-100` : `lg:w-0 lg:opacity-0 lg:border-none p-0 px-0 overflow-hidden`}
+                ${isOpen ? `${widthClass} translate-x-0 overflow-hidden shadow-2xl lg:shadow-none` : `w-[90vw] ${lgWidthClass} ${translateClosed} lg:translate-x-0`}
+                ${isDesktopOpen ? `${lgWidthClass} lg:opacity-100` : `lg:w-0 lg:opacity-0 lg:border-none p-0 px-0 overflow-hidden`}
             `}>
 
                 {title && (

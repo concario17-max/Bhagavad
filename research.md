@@ -88,3 +88,39 @@ A+ 급 정적 웹앱 설계 구조. 모놀리식을 치밀하게 피하고 레�
   1. `ToastContext` 혹은 `NotificationProvider`를 전역 래퍼로 신설.
   2. `addNotification(type, message, duration)` 같은 O(1) 해시 큐 구조를 짜서 알림 스택을 배열로 관리.
   3. `Framer Motion`이나 Tailwind `group-hover` 등을 응용한 논블로킹, 글래스모피즘(Glassmorphism) 플로팅 팝업 UI로 Awwwards급 메타 디자인 적용 필수.
+
+---
+
+## 7. Verse View 중앙 정렬 버그 분석 보고서
+
+### 7.1 현상 파악 (Symptom)
+- 사용자가 확인하려 했던 중앙의 본문 텍스트가 화면에 표시되지 않음("안나옴" 현상).
+- 화면 레이아웃이 붕괴되어 왼쪽 사이드바가 데스크톱 화면의 대부분(약 90%)을 차지하고 있는 상태.
+
+### 7.2 근본 원인 분석 (Root Cause)
+
+#### 7.2.1 Tailwind CSS 동적 클래스 생성 한계 (JIT 컴파일러 이슈)
+핵심적인 원인은 `src/components/ui/SidebarLayout.tsx`의 동적 클래스 이름 할당 방식에 있습니다.
+```tsx
+<aside className={`... 
+    ${isOpen ? `${widthClass} ...` : `w-[90vw] lg:${widthClass} ...`}
+    ${isDesktopOpen ? `lg:${widthClass} lg:opacity-100` : `...`}
+`}>
+```
+- 컴포넌트 프롭으로 `widthClass="w-80"`을 전달받고, 이를 템플릿 리터럴로 `lg:${widthClass}`와 같이 결합하고 있습니다.
+- Tailwind CSS의 JIT 컴파일러는 빌드 시 소스 코드를 스캔하여 **완전한 형태의 문자열(예: "lg:w-80")**이 존재할 때만 해당 CSS 클래스를 생성합니다.
+- `lg:${widthClass}`와 같이 런타임에 조합되는 클래스는 인식하지 못하여 CSS 파일에 포함되지 않습니다. 
+- 결과적으로 데스크톱 뷰포트에서도 `lg:w-80`이 무시되고 모바일용인 `w-[90vw]` 클래스가 적용되어버려, 왼쪽 사이드바가 화면의 90%를 차지하게 되었습니다.
+
+#### 7.2.2 메인 콘텐츠 영역 붕괴 (Zero Width)
+- `AppShell.tsx`에서 메인 영역은 `className="flex-1 min-w-0"`로 설정되어 좌우 패널이 차지한 나머지 공간을 유연하게 채우도록 설계되었습니다.
+- 왼쪽 사이드바가 90vw를 차지하고, 오른쪽 패널(Reflections)이 공간을 요구하면서, 가운데 `main` 영역이 사용할 수 있는 남은 너비가 **0px**로 압축되었습니다.
+- DOM에는 수트라 텍스트가 정상적으로 렌더링되고 있으나, 부모 컨테이너의 너비가 0이 되어 사용자 눈에는 보이지 않게 된 것입니다.
+
+#### 7.2.3 수직 중앙 정렬 (Vertical Centering) 누락
+- 원본 레퍼런스(The Tibetan Book of the Dead)의 스크린샷에서는 본문 내용이 화면의 **수직 중앙**에 우아하게 배치되어 있습니다.
+- 현재 `VerseView.tsx`는 `min-h-screen pt-6 pb-24`로 되어 있어 컨텐츠가 단순히 위에서부터 아래로 흐르도록 배치되어 있습니다.
+- Zero Monolith 기반의 앱 쉘 아키텍처에서 `main` 컨테이너 내에서 컨텐츠가 짧을 경우에도 중앙에 오도록 Flexbox 중앙 정렬(`flex flex-col justify-center min-h-full`) 로직이 필요합니다.
+
+### 7.3 결론 및 해결 방향
+문제를 해결하기 위해선 Tailwind JIT 엔진이 인식할 수 있도록 동적 클래스(`lg:${widthClass}`) 사용을 지양하고, 온전한 클래스 문자열(`"lg:w-80"`)을 전달해야 합니다. 또한, `VerseView` 본문 레이아웃을 Flex 기반의 수직 중앙 정렬로 재구성해야 합니다.

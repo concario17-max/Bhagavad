@@ -57,6 +57,44 @@
 ## 6. 보안 및 성능 점검 (Security & Performance Audit)
 이식 시 방만하게 짜진 코드 쳐내기.
 
-- [ ] 모든 onClick 핸들러에 쓰로틀/디바운스 적용 여부 검토
+- [x] 모든 onClick 핸들러에 쓰로틀/디바운스 적용 여부 검토
 - [x] 무의미하게 리렌더링되는 UI 컴포넌트 `React.memo` 처리 (`GlassCard`, `AppShell`, `SidebarMenu` 등 적용)
 - [x] 패스워드 게이트웨이에 하드코딩된 비밀번호 제거 및 `.env` 마이그레이션 필수 설계
+
+## 7. 이슈 트래킹 및 버그 픽스 (Issue Tracking & Bug Fixes)
+- [x] Verse View 중앙 정렬 및 JIT 컴파일러 버그 픽스
+  - [x] `SidebarLayout.tsx`의 동적 클래스(`lg:${widthClass}`)를 Tailwind JIT 엔진이 인식할 수 있도록 정적인 완전한 클래스 문자열(`lg:w-80`)로 치환 구조 구성
+  - [x] 메인 콘텐츠 영역 불필요한 붕괴 방지(`width: 0px`) 및 `flex-1 min-w-0` 로직 확인 후 사이드바 너비 고정화
+  - [x] `VerseView` 본문 컨테이너에 수직 중앙 정렬(`flex flex-col justify-center min-h-full`) 적용 및 레이아웃 리팩토링
+
+---
+
+# 🧘 Yoga Project UI Migration Plan
+목표 타겟: `C:\Users\PT\Desktop\yoga` (현재 Vanilla HTML/JS 기반)
+Zero Monolith 아키텍쳐와 메타 디자인 UI를 이양하기 위한 세부 작업 명세서.
+
+## 1. 기반 공사 (Vite & React 셋업)
+- [x] 기존 Vanilla JS 파일 스캐폴딩 방지용 구조 파악 및 백업 (HTML/CSS 기준점 확보)
+- [x] Vite + React + TypeScript 환경 초기화 (`package.json`, `tsconfig.json` 엄격 모드 구성)
+- [x] Tailwind CSS v4 및 아이콘(`lucide-react`), 라우터(`react-router-dom`) 의존성 설치
+- [x] 프리미엄 테마 토큰 이식 (`index.css`에 Yoga 프로젝트 특유의 Champagne Gold, Ink 색상 및 폰트 매핑)
+
+## 2. 코어 아키텍쳐 이식 (Zero Monolith Shells)
+- [x] `gita` 프로젝트에서 추상화한 `src/components/ui/` (AppShell, GlassCard, SidebarLayout, SidebarMenu) 전체 복사
+- [x] 전역 상태 관리 로직 (`ThemeContext.tsx`, `UIContext.tsx`) 이식 및 타입 재검증
+
+## 3. 데이터 레이어 변환 (Data Adaptation)
+- [x] `yoga/data.js` 및 정적 JSON 포맷을 명시적 TypeScript 인터페이스(`YogaSutra`, `YogaChapter` 등)로 치환
+- [x] 오디오 파일(`mp3/`) 및 에셋 경로를 Vite 빌드 환경에 맞게 `public/` 폴더 정규화
+
+## 4. 페이지 및 도메인 컴포넌트 구현 (Domain Integration)
+- [x] `App.tsx` 메인 라우터 세팅 (게이트웨이 탑재, Home, ChapterList, VerseView 연결)
+- [x] `ChapterList.tsx` 구현 (`GlassCard` 활용, 요가수트라 4장 체제 메타 디자인 매핑)
+- [x] `VerseView.tsx` 구현 (`AppShell` 내부 렌더, 산스크리트어, 한글 역본, 오디오 컨트롤러 이식)
+- [x] `Sidebar.tsx` 구현 (`SidebarLayout`, `SidebarMenu`에 요가수트라 인덱스 주입)
+- [x] 범용 모달(Compendium, Lexicon, Commentaries/Reflections) Vanilla JS -> React TSX 포팅
+
+## 5. 보안 및 검증 (Safety & Strict Protocol)
+- [x] 패스워드 게이트웨이 이식 및 `import.meta.env` 활용 시크릿 키 은닉 처리
+- [x] tsc `--noEmit` 기반의 Zero Any/Unknown 타입 검증
+- [x] 애니메이션 컴포넌트 언마운트 시 메모리 릭 체크 및 성능 최적화 (O(1) 렌더 지향)
