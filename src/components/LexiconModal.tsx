@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { X } from 'lucide-react';
 import LexiconAlphabet from './LexiconAlphabet';
 import LexiconItem from './LexiconItem';
+import { withBasePath } from '../utils/paths';
 
 interface LexiconModalProps {
     isOpen: boolean;
@@ -20,7 +21,7 @@ const LexiconModal = ({ isOpen, onClose }: LexiconModalProps) => {
 
     useEffect(() => {
         if (isOpen && Object.keys(lexiconData).length === 0) {
-            fetch('/lexicon.json')
+            fetch(withBasePath('lexicon.json'))
                 .then(res => res.json())
                 .then(data => setLexiconData(data as LexiconData))
                 .catch(err => console.error("Failed to load lexicon data:", err));

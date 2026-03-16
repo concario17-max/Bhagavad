@@ -2,7 +2,7 @@ import React from 'react';
 
 interface LexiconAlphabetProps {
     alphabet: string[];
-    lexiconData: Record<string, any[]>;
+    lexiconData: Record<string, { word: string; meaning: string }[]>;
     onLetterClick: (letter: string) => void;
 }
 

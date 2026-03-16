@@ -1,126 +1,386 @@
-# Gita Project Architecture & Deep Dive Report
+# Bhagavad 프로젝트 심층 분석 보고서
 
-## 1. 개요 (Overview)
-본 프로젝트는 **React 19, Vite, TailwindCSS v4** 기반으로 구축된 최적화된 정적 웹 애플리케이션임. 힌두교 성전인 '바가바드기타'를 다국어(영어, 한국어 4가지 판본, 산스크리트어 등)로 제공하며 음성 재생 기능과 사전(Lexicon) 기능을 포함하는 고품질 리더(Reader) 앱 구조를 띄고 있음.
+## 1. 분석 범위
 
----
+이 문서는 `C:\Users\roadsea\Desktop\nagham` 전체를 기준으로 다음을 파악한 결과다.
 
-## 2. 코어 아키텍처 (Core Architecture)
+- 프로젝트가 어떤 구조로 동작하는지
+- 라우팅, 레이아웃, 데이터, 상태 관리가 어떻게 연결되는지
+- 대문 페이지에서 위쪽으로 이동이 안 되는 현상의 실제 원인
+- 현재 코드베이스에 있는 추가 리스크와 배포 전제
 
-### 2.1 진입점 및 라우팅 (Routing & Entry)
-- **`src/main.jsx`**: `ThemeProvider`와 `UIProvider`로 전체 앱 래핑. `window.addEventListener('error')`로 글로벌 에러 캐칭.
-- **`src/App.jsx`**: 
-  - `React Router v7` 기반 클라이언트 사이드 라우팅.
-  - 메인 페이지 래퍼인 `<MainLayout>`을 통해 `Header`, `Sidebar`, `Reflections`(VerseView 시뷰 한정), 플로팅 `ThemeToggle` 렌더링.
-  - 성능 최적화를 위해 메인 뷰 컴포넌트를 지연 로딩(`React.lazy`) 처리함 (`ChapterList` 및 `VerseView`).
+이번 분석은 코드와 정적 자산을 직접 읽어 정리한 것이며, `node_modules`가 없는 상태라 실제 빌드 실행 검증은 하지 못했다.
 
-### 2.2 보안 기반 접근 제어 (Security / Auth Gateway)
-- **`PasswordGateway.jsx`**: 앱 최상단에 마운트되어 로컬 스토리지(`gita_authenticated`)의 인증 여부를 가림.
-- 단순 비번 입력 클라이언트단 우회 방식이므로 철저한 보안보다는 미공개 WIP 모드로 추정. (보안 프로토콜 관점에서는 하드코딩된 Secret 검증은 위험하나 완전 정적 구조에서는 용인되는 패턴.)
+## 2. 프로젝트 한줄 요약
 
-### 2.3 상태 관리 (State Management)
-Redux 같은 무거운 의존성 대신 React의 내장 Context API를 철저히 단일 책임 원칙(Zero Monolith)하에 분리.
-- **`ThemeContext`**: 다크 모드/라이트 모드 상태 및 로컬 스토리지 유지.
-- **`UIContext`**: 사이드바 개폐 여부(`isSidebarOpen`)와 같은 전역 UI 트리거 관리.
+이 저장소는 React 19 + Vite + Tailwind v4 + React Router 기반의 Bhagavad Gita 리더 앱이다. 서버 API 없이 `public/gita.json`, `public/lexicon.json`, `public/mp3/*` 같은 정적 파일을 직접 읽고, 사용자 설정과 메모는 `localStorage`에 저장한다.
 
----
+핵심 사용자 흐름은 아래와 같다.
 
-## 3. UI 컴포넌트 구조 (Components Matrix)
+1. 앱 진입
+2. 비밀번호 게이트 통과
+3. 대문(`/`)에서 챕터 선택
+4. 구절 페이지(`/chapter/:chapterNum/verse/:verseNum`)에서 본문, 번역, 오디오, 단어 해설, 개인 메모 사용
 
-모든 UI는 `src/components/`, `src/pages/`로 기능과 도메인 분리 유지.
-- **Pages**:
-  - `ChapterList.jsx`: 루트(`/`) 라우트 페이지. 챕터 리스트 렌더링.
-  - `VerseView.jsx`: `/:chapterNum/verse/:verseNum` 라우트 페이지. 핵심 본문 뷰어.
-- **Layout & Layout Modules**:
-  - `Header.jsx`, `Sidebar.jsx`, `Footer.jsx` (현재 Footer는 미렌더링 구조)
-- **Features & Modals**:
-  - `LexiconModal.jsx`, `LexiconAlphabet.jsx`, `LexiconItem.jsx`: 특정 단어 뜻풀이.
-  - `Reflections.jsx`, `ReflectionsModal.jsx`: 각 절(Verse)에 대한 사용자 메모나 명상록 저장 구조.
+## 3. 실행 구조
 
----
+### 3.1 진입점
 
-## 4. 데이터 계층 및 에셋 (Data Layer & Assets)
+- `src/main.tsx`
+  - `ThemeProvider`, `UIProvider`로 앱 전체를 감싼다.
+  - 전역 에러 이벤트를 `console.error`로 기록한다.
+- `src/App.tsx`
+  - `BrowserRouter`를 사용한다.
+  - 인증 여부를 `localStorage['gita_authenticated']`로 확인한다.
+  - 인증 전에는 `PasswordGateway`만 렌더링한다.
+  - 인증 후에는 `MainLayout` 안에서 실제 라우트를 렌더링한다.
 
-### 4.1 정적 데이터 (Data JSONs)
-모든 데이터는 `public/` 혹은 `src/`에 하드코딩되어 정적으로 서빙(Zero API Call 방식).
-- **`public/gita.json` (2.3MB+)**: 메인 원천 데이터.
-  각 장수/절별 ID 아키텍처로 구성.
-  내부 필드: `sanskrit`, `iast`, 오디오 파일 URL(`audio`), 단어별 해석(`words`), 여러 언어 변역(`translation_en`, `translation_ham`, `translation_gil`, `translation_jimong`, `translation_suk` 등).
-- **`public/lexicon.json`**: 산스크리트어 사전 용도 매핑 JSON.
-- **`src/constants.js`**: 챕터별 이름/설명/한국어 메타 데이터. 앱 로딩 즉시 메모리에 캐싱.
+### 3.2 라우트
 
-### 4.2 미디어 관리
-- `public/mp3/`: `gita.json` 내부 `audio` 속성과 별개로 로컬 서빙용으로 구축된 음성 파일 캐시 폴더 패턴.
+`src/App.tsx` 기준 현재 라우트는 두 개다.
 
----
+- `/` -> `ChapterList`
+- `/chapter/:chapterNum/verse/:verseNum` -> `VerseView`
 
-## 5. 빌드 및 스크립팅 (Build & Utility Scripts)
+라우트 컴포넌트는 `React.lazy`로 지연 로딩된다.
 
-`scripts/` 디렉터리에 원천 더미 텍스트(.txt / .md) 파싱 및 JSON 포매팅을 위한 Node.js(.js, .cjs) 스크립트 대거 포진. 배포 전 데이터 전처리(Pre-processing) 자동화 목적으로 구성.
-- 텍스트 정제 스크립트: `clean_sanskrit.js`, `clean_korean_pronunciation.js`, `fix_sanskrit_newlines.js`
-- 번역 추출 및 매핑 도구: `extract_en_md.js`, `extract_local_translation.js`, `update_korean_pronunciation.js`
-- 파일 무결성 및 누락 검증: `check_mp3.js`, `check_sequence.js`
+## 4. 레이아웃 구조
 
-## 총평 (Architectural Verdict)
-A+ 급 정적 웹앱 설계 구조. 모놀리식을 치밀하게 피하고 레이지 로딩과 책임 기반 컴포넌트화를 강제한 설계는 우수. 거대 JSON 구조 하나에 과의존하는 것이 초기 번들링 단계 로드를 야기할 수 있으나, PWA 구조로 업데이트해 Cache Storage 워커를 추가하거나 컴포넌트 레벨에서의 가상화(Virtualization)를 끼워 넣으면 압도적인 퍼포먼스를 견인할 수 있음. 
-(결론: 리팩토링할 구석 없이 이대로 운영해도 손색없는 매우 클린한 프로젝트 뼈대)
+### 4.1 AppShell
 
----
+핵심 레이아웃은 `src/components/ui/AppShell.tsx`가 담당한다.
 
-## 6. 알림 시스템 심층 분석 (Notification System Analysis)
+중요한 구조:
 
-### 6.1 현행 알림 아키텍처 (Current State)
-전역 `Toast`나 `Snackbar` 같은 **공식적인 알림(Notification) 시스템 UI 컴포넌트는 존재하지 않음.** 
-모든 피드백과 알림 처리가 매우 원시적인 수준에 머물러 있음. 코드포스 랭커 관점에서 보면 상태 관리조차 들어가지 않은 깡통 수준임.
+- 루트 컨테이너가 `h-[100dvh]` 고정 높이
+- 최상위와 내부 래퍼 모두 `overflow-hidden`
+- 실제 스크롤은 `main` 요소에서만 발생
+- `main`에 `flex flex-col justify-center min-h-full overflow-y-auto` 적용
 
-### 6.2 데이터 생성 및 전달 흐름 (Creation & Delivery Flow)
-현재 존재하는 알림 메커니즘은 단 두 가지 형태로 강제 처리됨.
-1. **네이티브 브라우저 Alert (원시적 차단 방식)**
-   - **발생처**: `src/components/Reflections.jsx` (Line 61 내외)
-   - **동작**: 사용자가 저장된 메모(Reflections)를 내보내기(Export) 하려 할 때, 저장된 데이터가 없으면 `alert("No saved reflections found to export.");`를 호출하여 메인 스레드를 블로킹함.
-2. **로컬 컴포넌트 에러 바인딩 (Local Error State)**
-   - **발생처**: `src/components/PasswordGateway.jsx`
-   - **동작**: 비밀번호 입력 실패 시 지역 상태인 `const [error, setError] = useState(false);`를 2초 동안 `true`로 바꾼 뒤 `<GatewayInput>` 컴포넌트로 프롭 내려보내 시각적 피드백(빨간색 텍스트 분기 등)만 줌.
+즉 이 앱은 브라우저 `window` 자체가 아니라, 내부 `main`을 스크롤 컨테이너로 쓰는 구조다.
 
-### 6.3 문제점 및 개선 방향 (Bottlenecks & Meta-Design Target)
-- **문제점**: 에러나 성공 메시지(사용자 피드백)가 통일된 큐(Queue)나 전역 Context로 관리되지 않음. UX를 심각하게 깎아먹는 네이티브 블로킹 `alert`가 섞여 있음.
-- **개선 방안**: 
-  1. `ToastContext` 혹은 `NotificationProvider`를 전역 래퍼로 신설.
-  2. `addNotification(type, message, duration)` 같은 O(1) 해시 큐 구조를 짜서 알림 스택을 배열로 관리.
-  3. `Framer Motion`이나 Tailwind `group-hover` 등을 응용한 논블로킹, 글래스모피즘(Glassmorphism) 플로팅 팝업 UI로 Awwwards급 메타 디자인 적용 필수.
+이 점이 대문 스크롤 이슈와 바로 연결된다.
 
----
+### 4.2 페이지별 레이아웃 차이
 
-## 7. Verse View 중앙 정렬 버그 분석 보고서
+- 홈(`/`)
+  - `Header`, `Sidebar`, `Reflections` 없음
+  - 우하단에 `ThemeToggle`만 떠 있음
+- 구절 페이지
+  - 상단 `Header`
+  - 좌측 `Sidebar`
+  - 우측 `Reflections`
+  - 본문은 `ContentReader` 안에 들어감
 
-### 7.1 현상 파악 (Symptom)
-- 사용자가 확인하려 했던 중앙의 본문 텍스트가 화면에 표시되지 않음("안나옴" 현상).
-- 화면 레이아웃이 붕괴되어 왼쪽 사이드바가 데스크톱 화면의 대부분(약 90%)을 차지하고 있는 상태.
+## 5. 페이지 동작 상세
 
-### 7.2 근본 원인 분석 (Root Cause)
+### 5.1 ChapterList
 
-#### 7.2.1 Tailwind CSS 동적 클래스 생성 한계 (JIT 컴파일러 이슈)
-핵심적인 원인은 `src/components/ui/SidebarLayout.tsx`의 동적 클래스 이름 할당 방식에 있습니다.
-```tsx
-<aside className={`... 
-    ${isOpen ? `${widthClass} ...` : `w-[90vw] lg:${widthClass} ...`}
-    ${isDesktopOpen ? `lg:${widthClass} lg:opacity-100` : `...`}
-`}>
-```
-- 컴포넌트 프롭으로 `widthClass="w-80"`을 전달받고, 이를 템플릿 리터럴로 `lg:${widthClass}`와 같이 결합하고 있습니다.
-- Tailwind CSS의 JIT 컴파일러는 빌드 시 소스 코드를 스캔하여 **완전한 형태의 문자열(예: "lg:w-80")**이 존재할 때만 해당 CSS 클래스를 생성합니다.
-- `lg:${widthClass}`와 같이 런타임에 조합되는 클래스는 인식하지 못하여 CSS 파일에 포함되지 않습니다. 
-- 결과적으로 데스크톱 뷰포트에서도 `lg:w-80`이 무시되고 모바일용인 `w-[90vw]` 클래스가 적용되어버려, 왼쪽 사이드바가 화면의 90%를 차지하게 되었습니다.
+`src/pages/ChapterList.tsx`
 
-#### 7.2.2 메인 콘텐츠 영역 붕괴 (Zero Width)
-- `AppShell.tsx`에서 메인 영역은 `className="flex-1 min-w-0"`로 설정되어 좌우 패널이 차지한 나머지 공간을 유연하게 채우도록 설계되었습니다.
-- 왼쪽 사이드바가 90vw를 차지하고, 오른쪽 패널(Reflections)이 공간을 요구하면서, 가운데 `main` 영역이 사용할 수 있는 남은 너비가 **0px**로 압축되었습니다.
-- DOM에는 수트라 텍스트가 정상적으로 렌더링되고 있으나, 부모 컨테이너의 너비가 0이 되어 사용자 눈에는 보이지 않게 된 것입니다.
+역할:
 
-#### 7.2.3 수직 중앙 정렬 (Vertical Centering) 누락
-- 원본 레퍼런스(The Tibetan Book of the Dead)의 스크린샷에서는 본문 내용이 화면의 **수직 중앙**에 우아하게 배치되어 있습니다.
-- 현재 `VerseView.tsx`는 `min-h-screen pt-6 pb-24`로 되어 있어 컨텐츠가 단순히 위에서부터 아래로 흐르도록 배치되어 있습니다.
-- Zero Monolith 기반의 앱 쉘 아키텍처에서 `main` 컨테이너 내에서 컨텐츠가 짧을 경우에도 중앙에 오도록 Flexbox 중앙 정렬(`flex flex-col justify-center min-h-full`) 로직이 필요합니다.
+- `fetchGitaData()`로 챕터 목록을 불러옴
+- 상단 히어로 섹션과 챕터/구절 셀렉트 표시
+- 챕터 카드 그리드 렌더링
+- `Compendium`, `Lexicon`, `Commentaries` 모달 열기
 
-### 7.3 결론 및 해결 방향
-문제를 해결하기 위해선 Tailwind JIT 엔진이 인식할 수 있도록 동적 클래스(`lg:${widthClass}`) 사용을 지양하고, 온전한 클래스 문자열(`"lg:w-80"`)을 전달해야 합니다. 또한, `VerseView` 본문 레이아웃을 Flex 기반의 수직 중앙 정렬로 재구성해야 합니다.
+특징:
+
+- 데이터는 `Object.values(data)`로 배열화
+- 챕터를 선택하면 그 챕터의 verse 목록을 select에 채움
+- 구절 선택 시 `navigate('/chapter/...')`
+- 카드 클릭도 첫 구절로 이동
+
+### 5.2 VerseView
+
+`src/pages/VerseView.tsx`
+
+역할:
+
+- URL 파라미터로 현재 챕터/구절 결정
+- `gita.json`에서 실제 표시할 구절을 찾음
+- 산스크리트, IAST, 한국어 발음, 오디오, 단어별 해설, 번역, 해설 표시
+- 이전/다음 구절 이동
+
+특징:
+
+- URL의 verse 번호가 구간 시작 verse가 아니어도 가장 가까운 실제 verse 시작점으로 보정
+- `showLexicon`은 `localStorage['gita-show-lexicon']`에 저장
+- 오디오 소스는 원격 URL에서 파일명만 뽑아 `/mp3/<filename>`로 재매핑
+
+주의할 점:
+
+- 스크롤 리셋이 `window.scrollTo(0, 0)`로 되어 있는데, 실제 스크롤 컨테이너는 `window`가 아니라 `main`이다. 따라서 현재 구현은 의도와 다르게 동작할 가능성이 높다.
+
+## 6. 상태 관리
+
+### 6.1 ThemeContext
+
+`src/context/ThemeContext.tsx`
+
+- 테마는 `light`/`dark`
+- 기본값은 `light`
+- `localStorage['theme']`를 읽고 저장
+- `<html>`에 `dark` 클래스를 붙이는 방식
+
+### 6.2 UIContext
+
+`src/context/UIContext.tsx`
+
+관리 상태:
+
+- 모바일 사이드바 열림 여부
+- 모바일 reflections 패널 열림 여부
+- 데스크탑 사이드바 열림 여부
+- 데스크탑 reflections 패널 열림 여부
+
+특징:
+
+- 데스크탑 패널 상태는 `localStorage`에 유지
+- 모바일에서는 drawer 토글
+- 데스크탑에서는 패널 폭 0/정상폭 전환
+
+## 7. 데이터 계층
+
+### 7.1 gita.json
+
+`public/gita.json`
+
+구조:
+
+- 최상위는 챕터 번호 문자열 키
+- 각 챕터 안에 `verses` 배열
+- 각 verse는 다음 필드를 가질 수 있음
+  - `id`
+  - `chapter`
+  - `verse`
+  - `sanskrit`
+  - `iast`
+  - `korean_pronunciation`
+  - `audio`
+  - `words`
+  - 여러 번역 필드
+  - `commentary_en`
+
+로딩 방식:
+
+- `src/utils/dataFetcher.ts`에서 `/gita.json`을 fetch
+- Promise를 모듈 스코프에 캐시해서 중복 fetch를 줄임
+
+### 7.2 lexicon.json
+
+`public/lexicon.json`
+
+- 알파벳별 단어 배열 구조
+- `LexiconModal`이 처음 열릴 때만 fetch
+
+### 7.3 mp3 자산
+
+`public/mp3/*`
+
+- verse 또는 verse range 기준 파일명
+- `VerseView`는 gita 데이터의 원격 URL을 직접 쓰지 않고 로컬 파일명으로 치환
+
+## 8. 기능별 요약
+
+### 8.1 인증 게이트
+
+`src/components/PasswordGateway.tsx`
+
+- 비밀번호는 `import.meta.env.VITE_GATEWAY_PASSWORD` 또는 기본값 `0228`
+- 성공 시 `gita_authenticated=true`
+
+보안 관점:
+
+- 완전한 보안 기능이 아니라 프런트엔드 가드에 가깝다.
+- 소스 번들 안에서 우회 가능한 구조다.
+
+### 8.2 개인 메모
+
+`src/components/Reflections.tsx`
+
+- 키 형식: `gita-note-<chapter>-<verse>`
+- 현재 verse 메모 저장
+- 현재 verse / 전체 verse 메모를 txt로 export 가능
+
+### 8.3 메모 모달
+
+`src/components/ReflectionsModal.tsx`
+
+- `localStorage`의 모든 메모를 읽어 목록 표시
+- 각 메모에 대응하는 산스크리트 일부를 `gita.json`에서 찾아 함께 보여줌
+
+## 9. 대문 페이지 스크롤 이슈 분석
+
+### 9.1 사용자 증상
+
+사용자 설명: "대문 페이지 들어가면 위쪽으로 안 넘어가진다."
+
+이 설명과 현재 구조를 함께 보면, 홈 화면 상단이 잘려 있거나 스크롤을 올려도 진짜 맨 위까지 도달하지 못하는 현상으로 해석하는 것이 가장 자연스럽다.
+
+### 9.2 실제 원인
+
+핵심 원인은 `AppShell`의 `main`에 들어간 `justify-center`다.
+
+문제 코드:
+
+- `src/components/ui/AppShell.tsx`
+  - `main`이 `flex flex-col justify-center min-h-full overflow-y-auto`
+
+홈 페이지는 `ChapterList` 하나만 `main` 안에 들어간다. 그런데 `ChapterList`는 히어로 섹션 + 셀렉트 박스 + 카드 그리드까지 있어서 화면보다 세로 길이가 길어진다.
+
+이때 스크롤 컨테이너 안에서 `justify-center`가 걸리면 콘텐츠가 세로 중앙 정렬 기준으로 배치된다. 콘텐츠 높이가 뷰포트보다 커지면, 위쪽 일부가 스크롤 시작점보다 바깥으로 밀려난다. 그런데 바깥 부모가 `overflow-hidden`이라 그 위쪽 영역은 접근할 수 없다.
+
+결과:
+
+- 콘텐츠가 중앙 기준으로 배치됨
+- 위쪽 일부가 잘림
+- 사용자가 스크롤을 올려도 진짜 시작점까지 못 감
+
+즉, 이 이슈는 데이터 문제가 아니라 레이아웃 정렬 방식 때문에 생긴다.
+
+### 9.3 왜 홈에서 더 잘 드러나는가
+
+구절 페이지도 내부적으로 중앙 정렬 성향이 있지만, 홈은 카드 그리드 때문에 콘텐츠 높이가 더 빨리 커진다. 그래서 같은 `justify-center`라도 홈에서 "맨 위 접근 불가"가 더 눈에 띄게 드러난다.
+
+### 9.4 관련 2차 문제
+
+`VerseView`의 아래 코드는 현재 구조와 맞지 않는다.
+
+- `src/pages/VerseView.tsx`
+  - `window.scrollTo(0, 0)`
+
+실제 스크롤 컨테이너가 `window`가 아니라 `main`이므로, 페이지 이동 시 스크롤 초기화가 완전히 의도대로 동작하지 않을 가능성이 높다. 홈 스크롤 이슈와 같은 설계 결정에서 파생된 2차 증상이다.
+
+## 10. 추가로 발견한 중요 리스크
+
+### 10.1 index.html 엔트리 경로 불일치
+
+`index.html`은 아래 파일을 불러오도록 되어 있다.
+
+- `/src/main.jsx`
+
+그런데 실제 파일은:
+
+- `src/main.tsx`
+
+즉, 현재 저장소 기준으로는 엔트리 경로가 맞지 않는다. 이 상태라면 로컬 개발이나 빌드에서 바로 실패할 가능성이 매우 높다.
+
+이건 스크롤 이슈와 별개로, 가장 먼저 정리해야 하는 실행 리스크다.
+
+### 10.2 GitHub Pages 배포 경로 리스크
+
+`vite.config.js`는 `base: '/'`로 고정되어 있고, 데이터/자산 fetch도 절대 경로를 사용한다.
+
+- `/gita.json`
+- `/lexicon.json`
+- `/mp3/...`
+- `/favicon.png`
+
+이 저장소는 `.github/workflows/deploy.yml`로 `gh-pages` 브랜치에 배포하도록 되어 있다. 만약 GitHub Pages의 일반적인 project page 형태로 배포된다면 URL은 보통 `/<repo-name>/` 하위가 된다. 그 경우 `base: '/'`와 절대 경로 fetch는 깨질 가능성이 높다.
+
+즉, 커스텀 도메인이나 user page가 아닌 일반 repo page라면 배포 환경에서 자산 경로 문제가 날 수 있다.
+
+이 항목은 코드상 강한 리스크이며, 실제 배포 URL 정책을 확인할 필요가 있다.
+
+### 10.3 인코딩 깨짐 흔적이 광범위함
+
+여러 파일에서 한글, 산스크리트, 특수문자가 심하게 깨진 흔적이 보인다.
+
+대표 위치:
+
+- `src/constants.ts`
+- `src/pages/VerseView.tsx`
+- `src/components/CompendiumModal.tsx`
+- `public/gita.json`
+- `public/lexicon.json`
+- 기존 `research.md`, `plan.md`
+
+영향:
+
+- UI 라벨 일부가 깨질 수 있음
+- 번역/주석 품질 저하
+- 정규식/문자열 처리 오류 가능
+- 유지보수 난이도 증가
+
+즉, 이 프로젝트는 단순 UI 이슈 외에 문자 인코딩 복구 작업이 상당히 중요하다.
+
+### 10.4 인증은 실질적 보안 장치가 아님
+
+비밀번호가 클라이언트 코드에 있고, 인증 상태도 `localStorage`에만 저장된다. 따라서 이 게이트는 콘텐츠 가리기 수준이지 보호된 서비스 수준의 인증이 아니다.
+
+### 10.5 빌드 검증 미완료 상태
+
+현재 워크스페이스에 `node_modules`가 없다. 따라서 이번 분석에서는 실제 `npm run build`를 돌려서 타입 오류나 번들 오류까지 확인하지는 못했다.
+
+다만 소스만 봐도 `index.html` 엔트리 경로 문제는 확실한 실행 리스크다.
+
+## 11. 파일별 역할 요약
+
+### 핵심 앱
+
+- `src/main.tsx`: 앱 진입, Provider 연결
+- `src/App.tsx`: 인증 분기, 라우팅, 메인 레이아웃 연결
+
+### 페이지
+
+- `src/pages/ChapterList.tsx`: 대문, 챕터 진입점
+- `src/pages/VerseView.tsx`: 구절 리더
+
+### 레이아웃/UI
+
+- `src/components/ui/AppShell.tsx`: 전체 화면 셸, 스크롤 컨테이너
+- `src/components/ui/ContentReader.tsx`: 구절 페이지용 본문 레이아웃
+- `src/components/Sidebar.tsx`: 챕터/구절 내비게이션
+- `src/components/Reflections.tsx`: 우측 메모 패널
+
+### 데이터
+
+- `src/utils/dataFetcher.ts`: `gita.json` 캐시 fetch
+- `src/constants.ts`: 챕터 메타데이터
+- `public/gita.json`: 본문/번역/단어/오디오 원본
+- `public/lexicon.json`: 용어 사전
+
+### 보조 기능
+
+- `src/components/PasswordGateway.tsx`: 비밀번호 게이트
+- `src/components/LexiconModal.tsx`: 사전 모달
+- `src/components/CompendiumModal.tsx`: 설명 모달
+- `src/components/ReflectionsModal.tsx`: 저장된 메모 전체 모달
+
+## 12. 결론
+
+이 프로젝트는 정적 데이터 기반의 독립형 경전 리더 앱으로 설계되어 있고, 전체 구조는 비교적 명확하다. 라우팅, 상태 관리, 모달, 오디오, 개인 메모까지 기능 축이 분리되어 있어 확장 가능성은 괜찮다.
+
+하지만 현재 상태에서 가장 중요한 사실은 세 가지다.
+
+1. 대문 페이지 상단 접근 불가 현상은 `AppShell`의 세로 중앙 정렬과 내부 스크롤 컨테이너 구조가 결합되며 생긴 레이아웃 문제다.
+2. 실제 스크롤 컨테이너가 `window`가 아니라 `main`이어서, 스크롤 리셋 로직도 구조와 어긋나 있다.
+3. 그 외에도 `index.html` 엔트리 경로 불일치, GitHub Pages 경로 리스크, 광범위한 인코딩 깨짐이 함께 존재한다.
+
+즉, 현재 가장 먼저 손봐야 하는 우선순위는 다음 순서로 보는 것이 맞다.
+
+1. 홈 스크롤 레이아웃 수정
+2. 엔트리 파일 경로 정정
+3. 배포 경로 정책 점검
+4. 문자열 인코딩 복구
+
+## 13. 이번 분석에서 직접 확인한 핵심 근거 파일
+
+- `C:\Users\roadsea\Desktop\nagham\src\App.tsx`
+- `C:\Users\roadsea\Desktop\nagham\src\components\ui\AppShell.tsx`
+- `C:\Users\roadsea\Desktop\nagham\src\components\ui\ContentReader.tsx`
+- `C:\Users\roadsea\Desktop\nagham\src\pages\ChapterList.tsx`
+- `C:\Users\roadsea\Desktop\nagham\src\pages\VerseView.tsx`
+- `C:\Users\roadsea\Desktop\nagham\src\components\Sidebar.tsx`
+- `C:\Users\roadsea\Desktop\nagham\src\components\Reflections.tsx`
+- `C:\Users\roadsea\Desktop\nagham\src\components\PasswordGateway.tsx`
+- `C:\Users\roadsea\Desktop\nagham\src\context\ThemeContext.tsx`
+- `C:\Users\roadsea\Desktop\nagham\src\context\UIContext.tsx`
+- `C:\Users\roadsea\Desktop\nagham\src\utils\dataFetcher.ts`
+- `C:\Users\roadsea\Desktop\nagham\index.html`
+- `C:\Users\roadsea\Desktop\nagham\vite.config.js`
+- `C:\Users\roadsea\Desktop\nagham\.github\workflows\deploy.yml`
+- `C:\Users\roadsea\Desktop\nagham\public\gita.json`
+- `C:\Users\roadsea\Desktop\nagham\public\lexicon.json`

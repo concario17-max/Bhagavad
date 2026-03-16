@@ -2,25 +2,35 @@ import { useState, useEffect, useRef } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Play, Pause, ChevronRight, ChevronLeft, ChevronDown, ChevronUp } from 'lucide-react';
 import { fetchGitaData } from '../utils/dataFetcher';
+import { scrollAppContainerToTop, withBasePath } from '../utils/paths';
 import { GitaData, GitaVerse } from '../types';
 import { ContentReader } from '../components/ui/ContentReader';
+
+const formatTime = (time: number): string => {
+    if (Number.isNaN(time)) {
+        return '0:00';
+    }
+
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+};
 
 const VerseView = () => {
     const { chapterNum, verseNum } = useParams<{ chapterNum: string; verseNum: string }>();
     const navigate = useNavigate();
     const [verseData, setVerseData] = useState<GitaVerse | null>(null);
     const [allChapters, setAllChapters] = useState<GitaData | null>(null);
-    const [isPlaying, setIsPlaying] = useState<boolean>(false);
-    const [currentTime, setCurrentTime] = useState<number>(0);
-    const [duration, setDuration] = useState<number>(0);
+    const [isPlaying, setIsPlaying] = useState(false);
+    const [currentTime, setCurrentTime] = useState(0);
+    const [duration, setDuration] = useState(0);
     const [showLexicon, setShowLexicon] = useState<boolean>(() => {
-        if (typeof window !== 'undefined') {
-            const saved = localStorage.getItem('gita-show-lexicon');
-            if (saved !== null) {
-                return JSON.parse(saved);
-            }
+        if (typeof window === 'undefined') {
+            return false;
         }
-        return false;
+
+        const saved = localStorage.getItem('gita-show-lexicon');
+        return saved !== null ? JSON.parse(saved) : false;
     });
     const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -29,123 +39,122 @@ const VerseView = () => {
     }, [showLexicon]);
 
     useEffect(() => {
-        if (!chapterNum || !verseNum) return;
-        fetchGitaData()
-            .then((data: any) => {
-                if (data) {
-                    const parsedData = data as GitaData;
-                    setAllChapters(parsedData);
-                    const chapter = parsedData[chapterNum];
-                    if (chapter) {
-                        const targetVerseNum = parseInt(verseNum);
-                        const verseIndex = chapter.verses.findIndex((v, i, arr) => {
-                            const nextV = arr[i + 1];
-                            if (nextV) {
-                                return v.verse <= targetVerseNum && targetVerseNum < nextV.verse;
-                            }
-                            return v.verse <= targetVerseNum;
-                        });
+        if (!chapterNum || !verseNum) {
+            return;
+        }
 
-                        if (verseIndex !== -1) {
-                            const foundVerse = chapter.verses[verseIndex];
-                            setVerseData(foundVerse);
-                            if (foundVerse.verse !== targetVerseNum) {
-                                navigate(`/chapter/${chapterNum}/verse/${foundVerse.verse}`, { replace: true });
-                            }
-                        } else {
-                            console.warn(`Verse ${verseNum} not found in Chapter ${chapterNum}`);
-                        }
-                    } else {
-                        console.warn(`Chapter ${chapterNum} not found`);
+        fetchGitaData()
+            .then((data: GitaData) => {
+                setAllChapters(data);
+                const chapter = data[chapterNum];
+
+                if (!chapter) {
+                    console.warn(`Chapter ${chapterNum} not found`);
+                    return;
+                }
+
+                const targetVerseNumber = Number.parseInt(verseNum, 10);
+                const verseIndex = chapter.verses.findIndex((verse, index, verses) => {
+                    const nextVerse = verses[index + 1];
+                    if (nextVerse) {
+                        return verse.verse <= targetVerseNumber && targetVerseNumber < nextVerse.verse;
                     }
+
+                    return verse.verse <= targetVerseNumber;
+                });
+
+                if (verseIndex === -1) {
+                    console.warn(`Verse ${verseNum} not found in Chapter ${chapterNum}`);
+                    return;
+                }
+
+                const resolvedVerse = chapter.verses[verseIndex];
+                setVerseData(resolvedVerse);
+
+                if (resolvedVerse.verse !== targetVerseNumber) {
+                    navigate(`/chapter/${chapterNum}/verse/${resolvedVerse.verse}`, { replace: true });
                 }
             })
             .catch(err => console.error('Failed to load verse data:', err));
     }, [chapterNum, verseNum, navigate]);
 
     useEffect(() => {
-        window.scrollTo(0, 0);
+        scrollAppContainerToTop();
         setIsPlaying(false);
         setCurrentTime(0);
         setDuration(0);
+
         if (audioRef.current) {
             audioRef.current.pause();
             audioRef.current.currentTime = 0;
         }
-    }, [chapterNum, verseNum]); // Keep this simple, it reacts to URL changes
+    }, [chapterNum, verseNum]);
 
-    const getAudioSrc = (remoteUrl?: string) => {
-        if (!remoteUrl) return undefined;
+    const getAudioSrc = (remoteUrl?: string): string | undefined => {
+        if (!remoteUrl) {
+            return undefined;
+        }
+
         const filename = remoteUrl.split('/').pop();
-        return `/mp3/${filename}`;
+        return filename ? withBasePath(`mp3/${filename}`) : undefined;
     };
 
-    const togglePlay = () => {
-        if (audioRef.current) {
-            if (isPlaying) {
-                audioRef.current.pause();
-            } else {
-                audioRef.current.play();
-            }
-            setIsPlaying(!isPlaying);
+    const togglePlay = (): void => {
+        const audioElement = audioRef.current;
+        if (!audioElement) {
+            return;
         }
-    };
 
-    const handleTimeUpdate = () => {
-        if (audioRef.current) {
-            setCurrentTime(audioRef.current.currentTime);
+        if (isPlaying) {
+            audioElement.pause();
+        } else {
+            void audioElement.play();
         }
+
+        setIsPlaying(!isPlaying);
     };
 
-    const handleLoadedMetadata = () => {
-        if (audioRef.current) {
-            setDuration(audioRef.current.duration);
+    const handlePrev = (): void => {
+        if (!allChapters || !verseData || !chapterNum) {
+            return;
         }
-    };
 
-    const handleAudioEnded = () => {
-        setIsPlaying(false);
-        setCurrentTime(0);
-    };
-
-    const formatTime = (time: number) => {
-        if (isNaN(time)) return "0:00";
-        const minutes = Math.floor(time / 60);
-        const seconds = Math.floor(time % 60);
-        return `${minutes}:${seconds.toString().padStart(2, '0')}`;
-    };
-
-    const handlePrev = () => {
-        if (!allChapters || !verseData || !chapterNum) return;
-
-        const currentC = parseInt(chapterNum);
-        const currentChapter = allChapters[currentC.toString()];
-        const currentIndex = currentChapter.verses.findIndex(v => v.verse === verseData.verse);
+        const currentChapterNumber = Number.parseInt(chapterNum, 10);
+        const currentChapter = allChapters[currentChapterNumber.toString()];
+        const currentIndex = currentChapter.verses.findIndex(verse => verse.verse === verseData.verse);
 
         if (currentIndex > 0) {
             const prevVerse = currentChapter.verses[currentIndex - 1];
-            navigate(`/chapter/${currentC}/verse/${prevVerse.verse}`);
-        } else if (currentC > 1) {
-            const prevChapter = allChapters[(currentC - 1).toString()];
+            navigate(`/chapter/${currentChapterNumber}/verse/${prevVerse.verse}`);
+            return;
+        }
+
+        if (currentChapterNumber > 1) {
+            const prevChapter = allChapters[(currentChapterNumber - 1).toString()];
             const lastVerse = prevChapter.verses[prevChapter.verses.length - 1];
-            navigate(`/chapter/${currentC - 1}/verse/${lastVerse.verse}`);
+            navigate(`/chapter/${currentChapterNumber - 1}/verse/${lastVerse.verse}`);
         }
     };
 
-    const handleNext = () => {
-        if (!allChapters || !verseData || !chapterNum) return;
+    const handleNext = (): void => {
+        if (!allChapters || !verseData || !chapterNum) {
+            return;
+        }
 
-        const currentC = parseInt(chapterNum);
-        const currentChapter = allChapters[currentC.toString()];
-        const currentIndex = currentChapter.verses.findIndex(v => v.verse === verseData.verse);
+        const currentChapterNumber = Number.parseInt(chapterNum, 10);
+        const currentChapter = allChapters[currentChapterNumber.toString()];
+        const currentIndex = currentChapter.verses.findIndex(verse => verse.verse === verseData.verse);
 
         if (currentIndex < currentChapter.verses.length - 1) {
             const nextVerse = currentChapter.verses[currentIndex + 1];
-            navigate(`/chapter/${currentC}/verse/${nextVerse.verse}`);
-        } else if (currentC < Object.keys(allChapters).length) {
-            const nextChapter = allChapters[(currentC + 1).toString()];
+            navigate(`/chapter/${currentChapterNumber}/verse/${nextVerse.verse}`);
+            return;
+        }
+
+        if (currentChapterNumber < Object.keys(allChapters).length) {
+            const nextChapter = allChapters[(currentChapterNumber + 1).toString()];
             const firstVerse = nextChapter.verses[0];
-            navigate(`/chapter/${currentC + 1}/verse/${firstVerse.verse}`);
+            navigate(`/chapter/${currentChapterNumber + 1}/verse/${firstVerse.verse}`);
         }
     };
 
@@ -154,13 +163,17 @@ const VerseView = () => {
     }
 
     const currentChapter = allChapters[chapterNum];
+    const currentChapterNumber = Number.parseInt(chapterNum, 10);
+    const currentVerseNumber = Number.parseInt(verseNum || `${verseData.verse}`, 10);
 
-    const getVerseRange = () => {
-        const idx = currentChapter.verses.findIndex(v => v.verse === verseData.verse);
-        const nextV = currentChapter.verses[idx + 1];
-        if (nextV && nextV.verse > verseData.verse + 1) {
-            return `${verseData.verse}-${nextV.verse - 1}`;
+    const getVerseRange = (): string => {
+        const currentIndex = currentChapter.verses.findIndex(verse => verse.verse === verseData.verse);
+        const nextVerse = currentChapter.verses[currentIndex + 1];
+
+        if (nextVerse && nextVerse.verse > verseData.verse + 1) {
+            return `${verseData.verse}-${nextVerse.verse - 1}`;
         }
+
         return verseData.verse.toString();
     };
 
@@ -172,13 +185,13 @@ const VerseView = () => {
             header={
                 <>
                     <nav className="flex items-center gap-2 text-[13px] text-text-secondary dark:text-dark-text-secondary font-inter mb-6">
-                        <Link to="/" className="hover:text-gold-primary dark:hover:text-gold-light transition-colors">Chapter {chapterNum}</Link>
-                        <span>›</span>
-                        <span className="text-text-primary dark:text-dark-text-primary font-bold">Sutra {verseRange}</span>
+                        <Link to="/" className="hover:text-gold-primary dark:hover:text-gold-light transition-colors">Home</Link>
+                        <span>/</span>
+                        <span className="text-text-primary dark:text-dark-text-primary font-bold">Chapter {chapterNum}, Verse {verseRange}</span>
                     </nav>
 
                     <div className="w-8 h-8 rounded-full bg-gold-border/20 flex items-center justify-center mb-2 text-gold-primary">
-                        <span className="font-serif leading-none">֍</span>
+                        <span className="font-serif leading-none">ॐ</span>
                     </div>
                 </>
             }
@@ -186,7 +199,7 @@ const VerseView = () => {
                 <div className="flex items-center justify-between bg-white/40 dark:bg-dark-surface/40 backdrop-blur-md border border-gold-primary/20 dark:border-dark-border/50 rounded-full px-3 py-1.5 shadow-sm min-w-[180px] hover:shadow-md transition-shadow">
                     <button
                         onClick={handlePrev}
-                        disabled={parseInt(chapterNum) === 1 && parseInt(verseNum || '1') === 1}
+                        disabled={currentChapterNumber === 1 && currentVerseNumber === 1}
                         className="p-2 rounded-full hover:bg-gold-surface/50 dark:hover:bg-[#222] transition-colors disabled:opacity-30 disabled:cursor-not-allowed group text-[#5B7282] dark:text-dark-text-secondary"
                     >
                         <ChevronLeft className="w-5 h-5 group-hover:scale-110 transition-transform stroke-[1.5]" />
@@ -198,7 +211,7 @@ const VerseView = () => {
 
                     <button
                         onClick={handleNext}
-                        disabled={parseInt(chapterNum) === 18 && parseInt(verseNum || '1') === 78}
+                        disabled={currentChapterNumber === 18 && currentVerseNumber === 78}
                         className="p-2 rounded-full hover:bg-gold-surface/50 dark:hover:bg-[#222] transition-colors disabled:opacity-30 disabled:cursor-not-allowed group text-[#5B7282] dark:text-dark-text-secondary"
                     >
                         <ChevronRight className="w-5 h-5 group-hover:scale-110 transition-transform stroke-[1.5]" />
@@ -230,9 +243,12 @@ const VerseView = () => {
                 <audio
                     ref={audioRef}
                     src={getAudioSrc(verseData.audio)}
-                    onTimeUpdate={handleTimeUpdate}
-                    onLoadedMetadata={handleLoadedMetadata}
-                    onEnded={handleAudioEnded}
+                    onTimeUpdate={() => setCurrentTime(audioRef.current?.currentTime ?? 0)}
+                    onLoadedMetadata={() => setDuration(audioRef.current?.duration ?? 0)}
+                    onEnded={() => {
+                        setIsPlaying(false);
+                        setCurrentTime(0);
+                    }}
                     className="hidden"
                 />
                 <div className="flex items-center justify-between w-full max-w-[400px] rounded-full border border-gold-primary/20 dark:border-dark-border/50 bg-white/40 dark:bg-[#111]/40 backdrop-blur-md px-5 py-2.5 shadow-sm hover:shadow-md transition-all hover:border-gold-primary/40">
@@ -248,18 +264,20 @@ const VerseView = () => {
                         {formatTime(currentTime)}
                     </span>
 
-                    <div className="relative flex-1 mx-4 h-[2px] bg-gold-border/30 dark:bg-dark-border rounded-full cursor-pointer group"
-                        onClick={(e) => {
-                            if (!audioRef.current) return;
-                            const rect = e.currentTarget.getBoundingClientRect();
-                            const x = e.clientX - rect.left;
-                            const percentage = x / rect.width;
+                    <div
+                        className="relative flex-1 mx-4 h-[2px] bg-gold-border/30 dark:bg-dark-border rounded-full cursor-pointer group"
+                        onClick={event => {
+                            if (!audioRef.current || duration === 0) {
+                                return;
+                            }
+
+                            const rect = event.currentTarget.getBoundingClientRect();
+                            const offset = event.clientX - rect.left;
+                            const percentage = offset / rect.width;
                             audioRef.current.currentTime = percentage * duration;
-                        }}>
-                        <div
-                            className="absolute top-0 left-0 h-full bg-[#A68B5C] transition-all"
-                            style={{ width: `${progressPercent}%` }}
-                        ></div>
+                        }}
+                    >
+                        <div className="absolute top-0 left-0 h-full bg-[#A68B5C] transition-all" style={{ width: `${progressPercent}%` }}></div>
                         <div
                             className="absolute top-1/2 -translate-y-1/2 w-2 h-2 bg-[#A68B5C] rounded-full shadow-sm opacity-0 group-hover:opacity-100 transition-opacity"
                             style={{ left: `calc(${progressPercent}% - 4px)` }}
@@ -279,7 +297,7 @@ const VerseView = () => {
                         className="group flex flex-col items-center gap-1.5 focus:outline-none"
                     >
                         <span className="text-xs font-semibold uppercase tracking-[0.2em] text-gold-muted dark:text-gold-muted group-hover:text-gold-primary transition-colors font-inter">
-                            Word-by-Word
+                            Word-by-word
                         </span>
                         <div className="w-6 h-6 rounded-full border border-gold-primary/20 bg-white/20 dark:bg-dark-surface/20 flex items-center justify-center group-hover:border-gold-primary/50 transition-colors">
                             {showLexicon ? (
@@ -293,16 +311,13 @@ const VerseView = () => {
 
                 <div className={`transition-all duration-500 overflow-hidden ${showLexicon ? 'max-h-[5000px] opacity-100' : 'max-h-0 opacity-0'}`}>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 w-full max-w-4xl mx-auto px-2 sm:px-4">
-                        {verseData.words?.map((word, i) => {
-                            const cleanMeaning = word.m.replace(/^—\s*/, '').trim();
-                            return (
-                                <div key={i} className="flex flex-col px-3 py-2 rounded-xl bg-white/30 dark:bg-dark-bg/40 backdrop-blur-sm border border-gold-primary/10 dark:border-dark-border/50 shadow-sm relative overflow-hidden group">
-                                    <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-transparent dark:from-white/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
-                                    <span className="font-bold text-text-primary dark:text-dark-text-primary text-[15px] font-crimson mb-0.5">{word.s}</span>
-                                    <span className="text-text-secondary dark:text-dark-text-secondary text-[13px] font-inter leading-relaxed break-keep">{cleanMeaning}</span>
-                                </div>
-                            );
-                        })}
+                        {verseData.words?.map((word, index) => (
+                            <div key={`${word.s}-${index}`} className="flex flex-col px-3 py-2 rounded-xl bg-white/30 dark:bg-dark-bg/40 backdrop-blur-sm border border-gold-primary/10 dark:border-dark-border/50 shadow-sm relative overflow-hidden group">
+                                <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-transparent dark:from-white/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+                                <span className="font-bold text-text-primary dark:text-dark-text-primary text-[15px] font-crimson mb-0.5">{word.s}</span>
+                                <span className="text-text-secondary dark:text-dark-text-secondary text-[13px] font-inter leading-relaxed break-keep">{word.m.trim()}</span>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </section>
@@ -324,7 +339,7 @@ const VerseView = () => {
 
                 {verseData.translation_ham && (
                     <div className="mb-8">
-                        <h3 className="text-xs font-semibold uppercase tracking-widest text-gold-primary/70 dark:text-gold-light/60 text-center mb-3 font-inter">함석헌 역</h3>
+                        <h3 className="text-xs font-semibold uppercase tracking-widest text-gold-primary/70 dark:text-gold-light/60 text-center mb-3 font-inter">Ham translation</h3>
                         <p className="font-noto-kr text-base sm:text-lg leading-loose text-text-primary dark:text-dark-text-primary min-h-[1.5em] text-center max-w-3xl mx-auto px-2 sm:px-0 whitespace-pre-line break-keep">
                             {verseData.translation_ham}
                         </p>
@@ -333,7 +348,7 @@ const VerseView = () => {
 
                 {verseData.translation_gil && (
                     <div className="mb-8">
-                        <h3 className="text-xs font-semibold uppercase tracking-widest text-gold-primary/70 dark:text-gold-light/60 text-center mb-3 font-inter">길희성 역</h3>
+                        <h3 className="text-xs font-semibold uppercase tracking-widest text-gold-primary/70 dark:text-gold-light/60 text-center mb-3 font-inter">Gil translation</h3>
                         <p className="font-noto-kr text-base sm:text-lg leading-loose text-text-primary dark:text-dark-text-primary min-h-[1.5em] text-center max-w-3xl mx-auto px-2 sm:px-0 whitespace-pre-line break-keep">
                             {verseData.translation_gil}
                         </p>
@@ -342,7 +357,7 @@ const VerseView = () => {
 
                 {verseData.translation_jimong && (
                     <div className="mb-4">
-                        <h3 className="text-xs font-semibold uppercase tracking-widest text-gold-primary/70 dark:text-gold-light/60 text-center mb-3 font-inter">박지명 역</h3>
+                        <h3 className="text-xs font-semibold uppercase tracking-widest text-gold-primary/70 dark:text-gold-light/60 text-center mb-3 font-inter">Jimong translation</h3>
                         <p className="font-noto-kr text-base sm:text-lg leading-loose text-text-primary dark:text-dark-text-primary min-h-[1.5em] text-center max-w-3xl mx-auto px-2 sm:px-0 whitespace-pre-line break-keep">
                             {verseData.translation_jimong}
                         </p>
@@ -351,7 +366,7 @@ const VerseView = () => {
 
                 {verseData.translation_suk && (
                     <div className="mb-4">
-                        <h3 className="text-xs font-semibold uppercase tracking-widest text-gold-primary/70 dark:text-gold-light/60 text-center mb-3 font-inter">박경숙 역</h3>
+                        <h3 className="text-xs font-semibold uppercase tracking-widest text-gold-primary/70 dark:text-gold-light/60 text-center mb-3 font-inter">Suk translation</h3>
                         <p className="font-noto-kr text-base sm:text-lg leading-loose text-text-primary dark:text-dark-text-primary min-h-[1.5em] text-center max-w-3xl mx-auto px-2 sm:px-0 whitespace-pre-line break-keep">
                             {verseData.translation_suk}
                         </p>

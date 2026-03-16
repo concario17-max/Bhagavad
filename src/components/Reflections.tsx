@@ -5,72 +5,75 @@ import { useUI } from '../context/UIContext';
 
 const Reflections = () => {
     const { chapterNum, verseNum } = useParams<{ chapterNum: string; verseNum: string }>();
-    const [note, setNote] = useState<string>('');
-    const [isSaving, setIsSaving] = useState<boolean>(false);
-    const [showExportMenu, setShowExportMenu] = useState<boolean>(false);
+    const [note, setNote] = useState('');
+    const [isSaving, setIsSaving] = useState(false);
+    const [showExportMenu, setShowExportMenu] = useState(false);
     const { isReflectionsOpen, setIsReflectionsOpen, isDesktopReflectionsOpen } = useUI();
 
     const noteKey = `gita-note-${chapterNum}-${verseNum}`;
 
     useEffect(() => {
         const savedNote = localStorage.getItem(noteKey);
-        if (savedNote) {
-            setNote(savedNote);
-        } else {
-            setNote('');
-        }
-    }, [chapterNum, verseNum, noteKey]);
+        setNote(savedNote ?? '');
+    }, [noteKey]);
 
-    const handleSave = () => {
+    const handleSave = (): void => {
         setIsSaving(true);
         localStorage.setItem(noteKey, note);
         setTimeout(() => setIsSaving(false), 1000);
     };
 
-    const handleExportCurrent = () => {
-        const element = document.createElement("a");
-        const file = new Blob([note], { type: 'text/plain' });
+    const downloadTextFile = (filename: string, content: string): void => {
+        const element = document.createElement('a');
+        const file = new Blob([content], { type: 'text/plain' });
         element.href = URL.createObjectURL(file);
-        element.download = `Bhagavad_Gita_Reflection_${chapterNum}_${verseNum}.txt`;
+        element.download = filename;
         document.body.appendChild(element);
         element.click();
+        element.remove();
+    };
+
+    const handleExportCurrent = (): void => {
+        downloadTextFile(`Bhagavad_Gita_Reflection_${chapterNum}_${verseNum}.txt`, note);
         setShowExportMenu(false);
     };
 
-    const handleExportAll = () => {
-        let allNotesText = `Bhagavad Gita - All Reflections\n\n`;
+    const handleExportAll = (): void => {
+        let allNotesText = 'Bhagavad Gita - All Reflections\n\n';
         const noteKeys = Object.keys(localStorage).filter(key => key.startsWith('gita-note-'));
 
-        noteKeys.sort((a, b) => {
-            const [, , chA, vA] = a.split('-');
-            const [, , chB, vB] = b.split('-');
-            if (parseInt(chA) !== parseInt(chB)) return parseInt(chA) - parseInt(chB);
-            return parseInt(vA) - parseInt(vB);
+        noteKeys.sort((left, right) => {
+            const [, , leftChapter, leftVerse] = left.split('-');
+            const [, , rightChapter, rightVerse] = right.split('-');
+            const chapterDifference = Number.parseInt(leftChapter, 10) - Number.parseInt(rightChapter, 10);
+
+            if (chapterDifference !== 0) {
+                return chapterDifference;
+            }
+
+            return Number.parseInt(leftVerse, 10) - Number.parseInt(rightVerse, 10);
         });
 
         noteKeys.forEach(key => {
-            const [, , ch, v] = key.split('-');
+            const [, , chapter, verse] = key.split('-');
             const content = localStorage.getItem(key);
             if (content && content.trim()) {
-                allNotesText += `--- Chapter ${ch}, Verse ${v} ---\n${content}\n\n`;
+                allNotesText += `--- Chapter ${chapter}, Verse ${verse} ---\n${content}\n\n`;
             }
         });
 
-        if (allNotesText === `Bhagavad Gita - All Reflections\n\n`) {
-            alert("No saved reflections found to export.");
+        if (allNotesText === 'Bhagavad Gita - All Reflections\n\n') {
+            alert('No saved reflections found to export.');
             return;
         }
 
-        const element = document.createElement("a");
-        const file = new Blob([allNotesText], { type: 'text/plain' });
-        element.href = URL.createObjectURL(file);
-        element.download = `Bhagavad_Gita_All_Reflections.txt`;
-        document.body.appendChild(element);
-        element.click();
+        downloadTextFile('Bhagavad_Gita_All_Reflections.txt', allNotesText);
         setShowExportMenu(false);
     };
 
-    if (!chapterNum || !verseNum) return null;
+    if (!chapterNum || !verseNum) {
+        return null;
+    }
 
     return (
         <>
@@ -94,7 +97,7 @@ const Reflections = () => {
                 <div className="p-6 relative flex flex-col h-full min-h-0">
                     <div className="flex items-center gap-2 mb-6 shrink-0 border-b border-gold-border/30 pb-4">
                         <Edit3 className="w-5 h-5 text-[#A68B5C] dark:text-gold-light" />
-                        <h2 className="text-sm font-bold text-[#1C2B36] dark:text-dark-text-primary tracking-wide">통찰 기록 (Reflections)</h2>
+                        <h2 className="text-sm font-bold text-[#1C2B36] dark:text-dark-text-primary tracking-wide">Reflections</h2>
                     </div>
 
                     <div className="mb-4 flex-1 flex flex-col min-h-0 space-y-2">
@@ -104,8 +107,8 @@ const Reflections = () => {
 
                         <textarea
                             value={note}
-                            onChange={(e) => setNote(e.target.value)}
-                            placeholder="수트라 관점. 개인적 통찰 및 논리 압축 기록 요망."
+                            onChange={event => setNote(event.target.value)}
+                            placeholder="Write your notes, reflections, or reading observations for this verse."
                             className="flex-1 w-full p-5 rounded-2xl border border-gold-primary/20 dark:border-dark-border/60 bg-white/70 dark:bg-dark-bg/60 text-text-primary dark:text-dark-text-primary focus:outline-none focus:border-gold-primary/50 focus:ring-1 focus:ring-gold-primary/20 shadow-inner backdrop-blur-sm transition-all resize-none font-inter text-[14px] leading-relaxed custom-scrollbar placeholder:text-text-secondary/40 dark:placeholder:text-dark-text-secondary/40"
                         />
                     </div>
@@ -126,13 +129,13 @@ const Reflections = () => {
                                         onClick={handleExportCurrent}
                                         className="w-full text-left px-4 py-2.5 text-xs font-medium text-text-primary dark:text-dark-text-primary hover:bg-gold-surface dark:hover:bg-[#222] transition-colors border-b border-gold-border/20 dark:border-[#333]"
                                     >
-                                        Current Verse
+                                        Current verse
                                     </button>
                                     <button
                                         onClick={handleExportAll}
                                         className="w-full text-left px-4 py-2.5 text-xs font-medium text-text-primary dark:text-dark-text-primary hover:bg-gold-surface dark:hover:bg-[#222] transition-colors"
                                     >
-                                        All Verses
+                                        All verses
                                     </button>
                                 </div>
                             )}
@@ -143,11 +146,11 @@ const Reflections = () => {
                             disabled={isSaving}
                             className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gold-primary hover:bg-gold-muted text-white transition-all text-xs font-bold shadow-md hover:shadow-lg hover:shadow-gold-primary/20 active:scale-95 disabled:opacity-70"
                         >
-                            {isSaving ? 'Saving...' : 'Save Note'}
+                            {isSaving ? 'Saving...' : 'Save note'}
                         </button>
                     </div>
                 </div>
-            </aside >
+            </aside>
         </>
     );
 };

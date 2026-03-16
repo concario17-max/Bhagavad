@@ -17,68 +17,55 @@ const Sidebar = () => {
     useEffect(() => {
         fetchGitaData()
             .then(data => {
-                if (data && typeof data === 'object') {
-                    const chapterArray = Object.values(data) as GitaChapter[];
-                    setChapters(chapterArray);
-                }
+                setChapters(Object.values(data));
             })
             .catch(err => console.error('Failed to load chapters:', err));
     }, []);
 
     useEffect(() => {
         if (chapterNum) {
-            setExpandedChapter(parseInt(chapterNum));
+            setExpandedChapter(Number.parseInt(chapterNum, 10));
         }
     }, [chapterNum]);
 
-    const toggleChapter = (chNum: number) => {
-        setExpandedChapter(chNum);
-        navigate(`/chapter/${chNum}/verse/1`);
+    const toggleChapter = (chapterNumber: number): void => {
+        setExpandedChapter(chapterNumber);
+        navigate(`/chapter/${chapterNumber}/verse/1`);
     };
 
-    const currentChapter = chapters.find(ch => ch.chapter === expandedChapter);
+    const currentChapter = chapters.find(chapter => chapter.chapter === expandedChapter);
 
-    // 라우팅 데이터를 범용 NavGroups 포맷으로 변환 (Zero Monolith Logic Extraction)
-    const groups: NavGroupType[] = chapters.map(ch => {
-        const titleRaw = CHAPTER_DATA[ch.chapter]?.name_korean || ch.name_translated || "";
-        const hasSub = titleRaw.includes('(');
-        const mainTitle = hasSub ? titleRaw.substring(0, titleRaw.indexOf('(')).trim() : titleRaw;
-        const subTitle = hasSub ? titleRaw.substring(titleRaw.indexOf('(')).trim() : undefined;
+    const groups: NavGroupType[] = chapters.map(chapter => {
+        const titleRaw = CHAPTER_DATA[chapter.chapter]?.name_korean || chapter.name_translated || '';
+        const hasSubtitle = titleRaw.includes('(');
+        const mainTitle = hasSubtitle ? titleRaw.substring(0, titleRaw.indexOf('(')).trim() : titleRaw;
+        const subtitle = hasSubtitle ? titleRaw.substring(titleRaw.indexOf('(')).trim() : undefined;
+        const isExpanded = expandedChapter === chapter.chapter;
 
-        const isExpanded = expandedChapter === ch.chapter;
-
-        // items are dynamically built if the chapter is expanded, to save processing, 
-        // or we build everything. Building what is current chapter is fine.
-        let items: NavItemType[] = [];
-        if (isExpanded && currentChapter) {
-            items = currentChapter.verses.map((v, idx) => {
-                const nextV = currentChapter.verses[idx + 1];
-                let displayVerse = `${currentChapter.chapter}.${v.verse}`;
-
-                if (nextV && nextV.verse > v.verse + 1) {
-                    displayVerse = `${currentChapter.chapter}.${v.verse}-${nextV.verse - 1}`;
-                }
-
-                const verseText = v.iast ? v.iast.split('\n')[0].substring(0, 40) + '...' : `Verse ${v.verse}`;
-                const isActive = v.chapter === parseInt(chapterNum || '1') && v.verse === parseInt(verseNum || '1');
+        const items: NavItemType[] = isExpanded && currentChapter
+            ? currentChapter.verses.map((verse, index) => {
+                const nextVerse = currentChapter.verses[index + 1];
+                const displayVerse = nextVerse && nextVerse.verse > verse.verse + 1
+                    ? `${currentChapter.chapter}.${verse.verse}-${nextVerse.verse - 1}`
+                    : `${currentChapter.chapter}.${verse.verse}`;
 
                 return {
-                    id: String(v.verse),
+                    id: String(verse.verse),
                     label: displayVerse,
-                    href: `/chapter/${currentChapter.chapter}/verse/${v.verse}`,
-                    description: verseText,
-                    isActive
+                    href: `/chapter/${currentChapter.chapter}/verse/${verse.verse}`,
+                    description: verse.iast ? `${verse.iast.split('\n')[0].slice(0, 40)}...` : `Verse ${verse.verse}`,
+                    isActive: verse.chapter === Number.parseInt(chapterNum || '1', 10) && verse.verse === Number.parseInt(verseNum || '1', 10)
                 };
-            });
-        }
+            })
+            : [];
 
         return {
-            id: ch.chapter,
-            title: `${ch.chapter}. ${mainTitle}`,
-            subtitle: subTitle,
-            badge: ch.verses.length,
+            id: chapter.chapter,
+            title: `${chapter.chapter}. ${mainTitle}`,
+            subtitle,
+            badge: chapter.verses.length,
             isExpanded,
-            onToggle: () => toggleChapter(ch.chapter),
+            onToggle: () => toggleChapter(chapter.chapter),
             items
         };
     });
@@ -88,14 +75,14 @@ const Sidebar = () => {
             isOpen={isSidebarOpen}
             isDesktopOpen={isDesktopSidebarOpen}
             onClose={() => setIsSidebarOpen(false)}
-            title="장 (Chapter)"
+            title="Chapters"
             position="left"
             widthClass="w-80"
         >
             <SidebarMenu
                 groups={groups}
                 onItemClick={() => setIsSidebarOpen(false)}
-                groupTitle="장 (Chapter)"
+                groupTitle="Chapters"
             />
         </SidebarLayout>
     );
