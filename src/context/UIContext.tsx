@@ -1,4 +1,13 @@
 import { createContext, useContext, useState, ReactNode, Dispatch, SetStateAction } from 'react';
+import {
+    STORAGE_KEYS,
+    getActiveVersePanel,
+    getBoolean,
+    setActiveVersePanelPreference,
+    setBoolean
+} from '../utils/storage';
+
+export type VersePanelMode = 'notes' | 'commentary';
 
 interface UIContextType {
     isSidebarOpen: boolean;
@@ -8,7 +17,9 @@ interface UIContextType {
     isReflectionsOpen: boolean;
     setIsReflectionsOpen: Dispatch<SetStateAction<boolean>>;
     isDesktopReflectionsOpen: boolean;
-    toggleReflections: () => void;
+    toggleReflections: (forceOpen?: boolean) => void;
+    activeVersePanel: VersePanelMode;
+    setActiveVersePanel: Dispatch<SetStateAction<VersePanelMode>>;
     closeAllDrawers: () => void;
 }
 
@@ -19,44 +30,40 @@ interface UIProviderProps {
 }
 
 export const UIProvider = ({ children }: UIProviderProps) => {
-    const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
-    const [isReflectionsOpen, setIsReflectionsOpen] = useState<boolean>(false);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [isReflectionsOpen, setIsReflectionsOpen] = useState(false);
+    const [activeVersePanel, setActiveVersePanelState] = useState<VersePanelMode>(() => getActiveVersePanel());
+    const [isDesktopSidebarOpen, setIsDesktopSidebarOpen] = useState<boolean>(() => getBoolean(STORAGE_KEYS.desktopSidebar, true));
+    const [isDesktopReflectionsOpen, setIsDesktopReflectionsOpen] = useState<boolean>(() => getBoolean(STORAGE_KEYS.desktopReflections, true));
 
-    // Desktop Panel States
-    const [isDesktopSidebarOpen, setIsDesktopSidebarOpen] = useState<boolean>(() => {
-        if (typeof window !== 'undefined') {
-            const saved = localStorage.getItem('gita-desktop-sidebar');
-            return saved !== null ? JSON.parse(saved) : true;
-        }
-        return true;
-    });
-
-    const [isDesktopReflectionsOpen, setIsDesktopReflectionsOpen] = useState<boolean>(() => {
-        if (typeof window !== 'undefined') {
-            const saved = localStorage.getItem('gita-desktop-reflections');
-            return saved !== null ? JSON.parse(saved) : true;
-        }
-        return true;
-    });
+    const setActiveVersePanel: Dispatch<SetStateAction<VersePanelMode>> = value => {
+        setActiveVersePanelState(previous => {
+            const nextValue = typeof value === 'function' ? value(previous) : value;
+            setActiveVersePanelPreference(nextValue);
+            return nextValue;
+        });
+    };
 
     const toggleSidebar = () => {
         if (window.innerWidth < 1024) {
             setIsSidebarOpen(prev => !prev);
-        } else {
-            const newState = !isDesktopSidebarOpen;
-            setIsDesktopSidebarOpen(newState);
-            localStorage.setItem('gita-desktop-sidebar', JSON.stringify(newState));
+            return;
         }
+
+        const newState = !isDesktopSidebarOpen;
+        setIsDesktopSidebarOpen(newState);
+        setBoolean(STORAGE_KEYS.desktopSidebar, newState);
     };
 
-    const toggleReflections = () => {
+    const toggleReflections = (forceOpen = false) => {
         if (window.innerWidth < 1024) {
-            setIsReflectionsOpen(prev => !prev);
-        } else {
-            const newState = !isDesktopReflectionsOpen;
-            setIsDesktopReflectionsOpen(newState);
-            localStorage.setItem('gita-desktop-reflections', JSON.stringify(newState));
+            setIsReflectionsOpen(prev => (forceOpen ? true : !prev));
+            return;
         }
+
+        const newState = forceOpen ? true : !isDesktopReflectionsOpen;
+        setIsDesktopReflectionsOpen(newState);
+        setBoolean(STORAGE_KEYS.desktopReflections, newState);
     };
 
     const closeAllDrawers = () => {
@@ -74,6 +81,8 @@ export const UIProvider = ({ children }: UIProviderProps) => {
             setIsReflectionsOpen,
             isDesktopReflectionsOpen,
             toggleReflections,
+            activeVersePanel,
+            setActiveVersePanel,
             closeAllDrawers
         }}>
             {children}

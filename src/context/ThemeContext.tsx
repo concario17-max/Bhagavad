@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { getThemePreference, setThemePreference } from '../utils/storage';
 
 type Theme = 'light' | 'dark';
 
@@ -14,27 +15,13 @@ interface ThemeProviderProps {
 }
 
 export const ThemeProvider = ({ children }: ThemeProviderProps) => {
-    const [theme, setTheme] = useState<Theme>(() => {
-        // Check local storage (default to 'light' to prevent forced mobile dark mode)
-        try {
-            if (typeof window !== 'undefined') {
-                const savedTheme = localStorage.getItem('theme');
-                if (savedTheme === 'dark' || savedTheme === 'light') {
-                    return savedTheme;
-                }
-            }
-        } catch (e) {
-            // Error access localStorage
-            console.warn('Unable to access localStorage:', e);
-        }
-        return 'light';
-    });
+    const [theme, setTheme] = useState<Theme>(() => getThemePreference());
 
     useEffect(() => {
         const root = window.document.documentElement;
         root.classList.remove('light', 'dark');
         root.classList.add(theme);
-        localStorage.setItem('theme', theme);
+        setThemePreference(theme);
     }, [theme]);
 
     const toggleTheme = () => {

@@ -1,25 +1,29 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Download, Edit3, X } from 'lucide-react';
-import { useUI } from '../context/UIContext';
+import { Download, Edit3 } from 'lucide-react';
+import { getAllReflectionNotes, getReflectionNote, setReflectionNote } from '../utils/storage';
 
 const Reflections = () => {
     const { chapterNum, verseNum } = useParams<{ chapterNum: string; verseNum: string }>();
     const [note, setNote] = useState('');
     const [isSaving, setIsSaving] = useState(false);
     const [showExportMenu, setShowExportMenu] = useState(false);
-    const { isReflectionsOpen, setIsReflectionsOpen, isDesktopReflectionsOpen } = useUI();
-
-    const noteKey = `gita-note-${chapterNum}-${verseNum}`;
 
     useEffect(() => {
-        const savedNote = localStorage.getItem(noteKey);
-        setNote(savedNote ?? '');
-    }, [noteKey]);
+        if (!chapterNum || !verseNum) {
+            return;
+        }
+
+        setNote(getReflectionNote(chapterNum, verseNum));
+    }, [chapterNum, verseNum]);
 
     const handleSave = (): void => {
+        if (!chapterNum || !verseNum) {
+            return;
+        }
+
         setIsSaving(true);
-        localStorage.setItem(noteKey, note);
+        setReflectionNote(chapterNum, verseNum, note);
         setTimeout(() => setIsSaving(false), 1000);
     };
 
@@ -40,26 +44,8 @@ const Reflections = () => {
 
     const handleExportAll = (): void => {
         let allNotesText = 'Bhagavad Gita - All Reflections\n\n';
-        const noteKeys = Object.keys(localStorage).filter(key => key.startsWith('gita-note-'));
-
-        noteKeys.sort((left, right) => {
-            const [, , leftChapter, leftVerse] = left.split('-');
-            const [, , rightChapter, rightVerse] = right.split('-');
-            const chapterDifference = Number.parseInt(leftChapter, 10) - Number.parseInt(rightChapter, 10);
-
-            if (chapterDifference !== 0) {
-                return chapterDifference;
-            }
-
-            return Number.parseInt(leftVerse, 10) - Number.parseInt(rightVerse, 10);
-        });
-
-        noteKeys.forEach(key => {
-            const [, , chapter, verse] = key.split('-');
-            const content = localStorage.getItem(key);
-            if (content && content.trim()) {
-                allNotesText += `--- Chapter ${chapter}, Verse ${verse} ---\n${content}\n\n`;
-            }
+        getAllReflectionNotes().forEach(noteEntry => {
+            allNotesText += `--- Chapter ${noteEntry.chapter}, Verse ${noteEntry.verse} ---\n${noteEntry.content}\n\n`;
         });
 
         if (allNotesText === 'Bhagavad Gita - All Reflections\n\n') {
@@ -76,82 +62,63 @@ const Reflections = () => {
     }
 
     return (
-        <>
-            {isReflectionsOpen && (
-                <div
-                    className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm lg:hidden transition-opacity duration-300"
-                    onClick={() => setIsReflectionsOpen(false)}
+        <div className="flex h-full min-h-0 flex-col">
+            <div className="mb-6 shrink-0 border-b border-gold-border/30 pb-4">
+                <div className="flex items-center gap-2">
+                    <Edit3 className="h-5 w-5 text-[#A68B5C] dark:text-gold-light" />
+                    <h2 className="text-sm font-bold tracking-wide text-[#1C2B36] dark:text-dark-text-primary">Reflections</h2>
+                </div>
+                <p className="mt-3 text-xs font-bold tracking-wider text-[#8FA0AD]">
+                    {chapterNum}.{verseNum}
+                </p>
+            </div>
+
+            <div className="mb-4 flex min-h-0 flex-1 flex-col space-y-2">
+                <textarea
+                    value={note}
+                    onChange={event => setNote(event.target.value)}
+                    placeholder="Write your notes, reflections, or reading observations for this verse."
+                    className="custom-scrollbar flex-1 w-full resize-none rounded-2xl border border-gold-primary/20 bg-white/70 p-5 text-[14px] leading-relaxed text-text-primary shadow-inner backdrop-blur-sm transition-all placeholder:text-text-secondary/40 focus:border-gold-primary/50 focus:outline-none focus:ring-1 focus:ring-gold-primary/20 dark:border-dark-border/60 dark:bg-dark-bg/60 dark:text-dark-text-primary dark:placeholder:text-dark-text-secondary/40"
                 />
-            )}
-            <aside className={`fixed inset-y-0 right-0 z-50 sm:w-[400px] bg-white/40 dark:bg-dark-surface/40 backdrop-blur-md border-l border-gold-primary/20 dark:border-dark-border/50 h-full lg:h-[calc(100vh-64px)] lg:sticky lg:top-16 transform transition-all duration-300 flex flex-col font-inter
-                ${isReflectionsOpen ? 'w-[90vw] translate-x-0 overflow-hidden shadow-2xl lg:shadow-none' : 'w-[90vw] translate-x-full lg:translate-x-0'}
-                ${isDesktopReflectionsOpen ? 'lg:w-[400px] lg:opacity-100' : 'lg:w-0 lg:opacity-0 lg:border-none lg:translate-x-10 px-0 overflow-hidden'}
-            `}>
+            </div>
 
-                <div className="lg:hidden absolute top-4 right-4 z-50">
-                    <button onClick={() => setIsReflectionsOpen(false)} className="p-2 rounded-full hover:bg-gold-surface dark:hover:bg-dark-surface text-text-secondary dark:text-dark-text-secondary transition-colors">
-                        <X className="w-5 h-5" />
+            <div className="relative mt-4 flex gap-3 pt-2">
+                <div className="relative flex-1">
+                    <button
+                        onClick={() => setShowExportMenu(!showExportMenu)}
+                        className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-gold-primary/20 dark:border-dark-border/60 text-text-secondary dark:text-dark-text-secondary hover:bg-gold-surface/60 dark:hover:bg-dark-bg transition-all text-xs font-bold bg-white/60 dark:bg-dark-surface/60 backdrop-blur-sm shadow-sm tracking-wide"
+                    >
+                        <Download className="h-3.5 w-3.5" />
+                        Export
                     </button>
-                </div>
 
-                <div className="p-6 relative flex flex-col h-full min-h-0">
-                    <div className="flex items-center gap-2 mb-6 shrink-0 border-b border-gold-border/30 pb-4">
-                        <Edit3 className="w-5 h-5 text-[#A68B5C] dark:text-gold-light" />
-                        <h2 className="text-sm font-bold text-[#1C2B36] dark:text-dark-text-primary tracking-wide">Reflections</h2>
-                    </div>
-
-                    <div className="mb-4 flex-1 flex flex-col min-h-0 space-y-2">
-                        <div className="text-xs font-bold text-[#8FA0AD] tracking-wider">
-                            {chapterNum}.{verseNum}
-                        </div>
-
-                        <textarea
-                            value={note}
-                            onChange={event => setNote(event.target.value)}
-                            placeholder="Write your notes, reflections, or reading observations for this verse."
-                            className="flex-1 w-full p-5 rounded-2xl border border-gold-primary/20 dark:border-dark-border/60 bg-white/70 dark:bg-dark-bg/60 text-text-primary dark:text-dark-text-primary focus:outline-none focus:border-gold-primary/50 focus:ring-1 focus:ring-gold-primary/20 shadow-inner backdrop-blur-sm transition-all resize-none font-inter text-[14px] leading-relaxed custom-scrollbar placeholder:text-text-secondary/40 dark:placeholder:text-dark-text-secondary/40"
-                        />
-                    </div>
-
-                    <div className="flex gap-3 mt-4 relative pt-2">
-                        <div className="flex-1 relative">
+                    {showExportMenu && (
+                        <div className="absolute bottom-full left-0 z-20 mb-2 w-full overflow-hidden rounded-lg border border-gold-border/50 bg-white shadow-lg dark:border-[#333] dark:bg-[#111]">
                             <button
-                                onClick={() => setShowExportMenu(!showExportMenu)}
-                                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-gold-primary/20 dark:border-dark-border/60 text-text-secondary dark:text-dark-text-secondary hover:bg-gold-surface/60 dark:hover:bg-dark-bg transition-all text-xs font-bold bg-white/60 dark:bg-dark-surface/60 backdrop-blur-sm shadow-sm tracking-wide"
+                                onClick={handleExportCurrent}
+                                className="w-full border-b border-gold-border/20 px-4 py-2.5 text-left text-xs font-medium text-text-primary transition-colors hover:bg-gold-surface dark:border-[#333] dark:text-dark-text-primary dark:hover:bg-[#222]"
                             >
-                                <Download className="w-3.5 h-3.5" />
-                                Export
+                                Current verse
                             </button>
-
-                            {showExportMenu && (
-                                <div className="absolute bottom-full left-0 w-full mb-2 bg-white dark:bg-[#111] border border-gold-border/50 dark:border-[#333] rounded-lg shadow-lg overflow-hidden z-20">
-                                    <button
-                                        onClick={handleExportCurrent}
-                                        className="w-full text-left px-4 py-2.5 text-xs font-medium text-text-primary dark:text-dark-text-primary hover:bg-gold-surface dark:hover:bg-[#222] transition-colors border-b border-gold-border/20 dark:border-[#333]"
-                                    >
-                                        Current verse
-                                    </button>
-                                    <button
-                                        onClick={handleExportAll}
-                                        className="w-full text-left px-4 py-2.5 text-xs font-medium text-text-primary dark:text-dark-text-primary hover:bg-gold-surface dark:hover:bg-[#222] transition-colors"
-                                    >
-                                        All verses
-                                    </button>
-                                </div>
-                            )}
+                            <button
+                                onClick={handleExportAll}
+                                className="w-full px-4 py-2.5 text-left text-xs font-medium text-text-primary transition-colors hover:bg-gold-surface dark:text-dark-text-primary dark:hover:bg-[#222]"
+                            >
+                                All verses
+                            </button>
                         </div>
-
-                        <button
-                            onClick={handleSave}
-                            disabled={isSaving}
-                            className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gold-primary hover:bg-gold-muted text-white transition-all text-xs font-bold shadow-md hover:shadow-lg hover:shadow-gold-primary/20 active:scale-95 disabled:opacity-70"
-                        >
-                            {isSaving ? 'Saving...' : 'Save note'}
-                        </button>
-                    </div>
+                    )}
                 </div>
-            </aside>
-        </>
+
+                <button
+                    onClick={handleSave}
+                    disabled={isSaving}
+                    className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gold-primary hover:bg-gold-muted text-white transition-all text-xs font-bold shadow-md hover:shadow-lg hover:shadow-gold-primary/20 active:scale-95 disabled:opacity-70"
+                >
+                    {isSaving ? 'Saving...' : 'Save note'}
+                </button>
+            </div>
+        </div>
     );
 };
 

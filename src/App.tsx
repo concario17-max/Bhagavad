@@ -5,10 +5,12 @@ const ChapterList = lazy(() => import('./pages/ChapterList'));
 const VerseView = lazy(() => import('./pages/VerseView'));
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
-import Reflections from './components/Reflections';
 import PasswordGateway from './components/PasswordGateway';
 import ThemeToggle from './components/ThemeToggle';
+import VersePanelToggle from './components/VersePanelToggle';
+import VerseSidePanel from './components/VerseSidePanel';
 import { useUI } from './context/UIContext';
+import { isAuthenticated as getAuthenticationState, setAuthenticated } from './utils/auth';
 
 import { AppShell } from './components/ui/AppShell';
 
@@ -19,9 +21,9 @@ const MainLayout = () => {
 
     return (
         <AppShell
-            header={isVerseView ? <Header /> : undefined}
+            header={isVerseView ? <Header rightContent={<VersePanelToggle />} /> : undefined}
             sidebar={isVerseView ? <Sidebar /> : undefined}
-            rightPanel={isVerseView ? <Reflections /> : undefined}
+            rightPanel={isVerseView ? <VerseSidePanel /> : undefined}
             isMobilePanelOpen={isSidebarOpen}
             floatingAction={
                 !isVerseView ? (
@@ -37,19 +39,17 @@ const MainLayout = () => {
 };
 
 function App() {
-    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-    const [isChecking, setIsChecking] = useState<boolean>(true);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isChecking, setIsChecking] = useState(true);
 
     useEffect(() => {
-        // 인증 상태 로컬 스토리지 로드.
-        const authStat = localStorage.getItem('gita_authenticated') === 'true';
-        setIsAuthenticated(authStat);
+        const authState = getAuthenticationState();
+        setIsAuthenticated(authState);
         setIsChecking(false);
     }, []);
 
     const handleAuthenticate = () => {
-        // 인증 상태 로컬 스토리지 저장 및 업데이트.
-        localStorage.setItem('gita_authenticated', 'true');
+        setAuthenticated(true);
         setIsAuthenticated(true);
     };
 

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 import { fetchGitaData } from '../utils/dataFetcher';
 import { GitaData } from '../types';
+import { getAllReflectionNotes } from '../utils/storage';
 
 interface ReflectionsModalProps {
     isOpen: boolean;
@@ -43,28 +44,8 @@ const ReflectionsModal = ({ isOpen, onClose }: ReflectionsModalProps) => {
 
         fetchGitaData()
             .then((data: GitaData) => {
-                const noteKeys = Object.keys(localStorage).filter(key => key.startsWith('gita-note-'));
-
-                noteKeys.sort((left, right) => {
-                    const [, , leftChapter, leftVerse] = left.split('-');
-                    const [, , rightChapter, rightVerse] = right.split('-');
-                    const chapterDifference = Number.parseInt(leftChapter, 10) - Number.parseInt(rightChapter, 10);
-
-                    if (chapterDifference !== 0) {
-                        return chapterDifference;
-                    }
-
-                    return Number.parseInt(leftVerse, 10) - Number.parseInt(rightVerse, 10);
-                });
-
-                const loadedNotes = noteKeys.reduce<ReflectionNote[]>((accumulator, key) => {
-                    const [, , chapter, verse] = key.split('-');
-                    const content = localStorage.getItem(key);
-
-                    if (!content || !content.trim()) {
-                        return accumulator;
-                    }
-
+                const loadedNotes = getAllReflectionNotes().reduce<ReflectionNote[]>((accumulator, noteEntry) => {
+                    const { key, chapter, verse, content } = noteEntry;
                     const chapterData = data[chapter];
                     const verseData = chapterData?.verses.find(entry => entry.verse.toString() === verse);
                     const sanskritPreview = verseData?.sanskrit ? getSanskritPreview(verseData.sanskrit) : '';
@@ -74,7 +55,7 @@ const ReflectionsModal = ({ isOpen, onClose }: ReflectionsModalProps) => {
                         chapter,
                         verse,
                         sanskrit: sanskritPreview,
-                        content: content.trim()
+                        content
                     });
 
                     return accumulator;

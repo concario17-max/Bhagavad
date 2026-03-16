@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { CHAPTER_DATA } from '../constants';
 import { useUI } from '../context/UIContext';
 import { fetchGitaData } from '../utils/dataFetcher';
+import { getChapterMeta } from '../utils/chapterMeta';
 import { GitaChapter } from '../types';
 import { SidebarLayout } from './ui/SidebarLayout';
 import { SidebarMenu, NavGroupType, NavItemType } from './ui/SidebarMenu';
@@ -36,10 +36,7 @@ const Sidebar = () => {
     const currentChapter = chapters.find(chapter => chapter.chapter === expandedChapter);
 
     const groups: NavGroupType[] = chapters.map(chapter => {
-        const titleRaw = CHAPTER_DATA[chapter.chapter]?.name_korean || chapter.name_translated || '';
-        const hasSubtitle = titleRaw.includes('(');
-        const mainTitle = hasSubtitle ? titleRaw.substring(0, titleRaw.indexOf('(')).trim() : titleRaw;
-        const subtitle = hasSubtitle ? titleRaw.substring(titleRaw.indexOf('(')).trim() : undefined;
+        const chapterMeta = getChapterMeta(chapter);
         const isExpanded = expandedChapter === chapter.chapter;
 
         const items: NavItemType[] = isExpanded && currentChapter
@@ -61,8 +58,8 @@ const Sidebar = () => {
 
         return {
             id: chapter.chapter,
-            title: `${chapter.chapter}. ${mainTitle}`,
-            subtitle,
+            title: `${chapter.chapter}. ${chapterMeta.mainTitle}`,
+            subtitle: chapterMeta.subtitle,
             badge: chapter.verses.length,
             isExpanded,
             onToggle: () => toggleChapter(chapter.chapter),

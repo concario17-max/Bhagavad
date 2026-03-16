@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { Lock, ChevronRight } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
 import GatewayInput from './GatewayInput';
+import { AUTH_NOTICE, getGatewayPassword } from '../utils/auth';
 
 interface PasswordGatewayProps {
     onAuthenticate: () => void;
@@ -13,7 +14,7 @@ const PasswordGateway = ({ onAuthenticate }: PasswordGatewayProps) => {
 
     const handleSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const correctPassword = import.meta.env.VITE_GATEWAY_PASSWORD || '0228';
+        const correctPassword = getGatewayPassword();
         if (password === correctPassword) {
             onAuthenticate();
         } else {
@@ -58,6 +59,10 @@ const PasswordGateway = ({ onAuthenticate }: PasswordGatewayProps) => {
                         onChange={(e) => setPassword(e.target.value)}
                         error={error}
                     />
+
+                    <p className="text-center font-inter text-[11px] leading-relaxed text-gold-muted/80">
+                        {AUTH_NOTICE}
+                    </p>
 
                     <button
                         type="submit"

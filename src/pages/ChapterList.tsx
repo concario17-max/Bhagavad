@@ -1,8 +1,8 @@
-import { useState, useEffect, lazy, Suspense } from 'react';
+﻿import { useState, useEffect, lazy, Suspense } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CHAPTER_DATA } from '../constants';
 import { fetchGitaData } from '../utils/dataFetcher';
 import { withBasePath } from '../utils/paths';
+import { getChapterMeta } from '../utils/chapterMeta';
 import { GitaChapter } from '../types';
 import { GlassCard } from '../components/ui/GlassCard';
 
@@ -113,9 +113,7 @@ const ChapterList = () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-7xl mx-auto px-4 relative z-10 pb-20">
                 {chapters.map(chapter => {
-                    const chapterInfo = CHAPTER_DATA[chapter.chapter];
-                    const title = chapterInfo?.name_korean || chapterInfo?.name || chapter.name_translated || '';
-                    const titleMatch = title.match(/^(.*?)\s*\((.*?)\)$/);
+                    const chapterMeta = getChapterMeta(chapter);
 
                     return (
                         <GlassCard
@@ -124,18 +122,18 @@ const ChapterList = () => {
                             icon={<span className="text-2xl font-serif leading-none opacity-90">ॐ</span>}
                             subtitle={`CHAPTER ${chapter.chapter}`}
                             title={
-                                titleMatch ? (
+                                chapterMeta.subtitle ? (
                                     <>
-                                        <span className="text-lg sm:text-xl md:text-2xl">{titleMatch[1].trim()}</span>
+                                        <span className="text-lg sm:text-xl md:text-2xl">{chapterMeta.mainTitle}</span>
                                         <span className="text-sm sm:text-base text-text-secondary dark:text-dark-text-secondary font-medium mt-1">
-                                            ({titleMatch[2].trim()})
+                                            {chapterMeta.subtitle}
                                         </span>
                                     </>
                                 ) : (
-                                    <span className="text-lg sm:text-xl md:text-2xl">{title}</span>
+                                    <span className="text-lg sm:text-xl md:text-2xl">{chapterMeta.displayTitle}</span>
                                 )
                             }
-                            description={chapterInfo?.description || 'Read verses of this chapter.'}
+                            description={chapterMeta.description}
                         />
                     );
                 })}

@@ -1,9 +1,11 @@
-import { useState, useEffect, useRef } from 'react';
+﻿import { useState, useEffect, useRef } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Play, Pause, ChevronRight, ChevronLeft, ChevronDown, ChevronUp } from 'lucide-react';
 import { fetchGitaData } from '../utils/dataFetcher';
 import { scrollAppContainerToTop, withBasePath } from '../utils/paths';
 import { GitaData, GitaVerse } from '../types';
+import { STORAGE_KEYS, getBoolean, setBoolean } from '../utils/storage';
+import { getVerseRange, resolveVerse } from '../utils/verse';
 import { ContentReader } from '../components/ui/ContentReader';
 
 const formatTime = (time: number): string => {
@@ -24,18 +26,11 @@ const VerseView = () => {
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
-    const [showLexicon, setShowLexicon] = useState<boolean>(() => {
-        if (typeof window === 'undefined') {
-            return false;
-        }
-
-        const saved = localStorage.getItem('gita-show-lexicon');
-        return saved !== null ? JSON.parse(saved) : false;
-    });
+    const [showLexicon, setShowLexicon] = useState<boolean>(() => getBoolean(STORAGE_KEYS.showLexicon, false));
     const audioRef = useRef<HTMLAudioElement>(null);
 
     useEffect(() => {
-        localStorage.setItem('gita-show-lexicon', JSON.stringify(showLexicon));
+        setBoolean(STORAGE_KEYS.showLexicon, showLexicon);
     }, [showLexicon]);
 
     useEffect(() => {
@@ -46,31 +41,21 @@ const VerseView = () => {
         fetchGitaData()
             .then((data: GitaData) => {
                 setAllChapters(data);
-                const chapter = data[chapterNum];
+                const resolvedVerse = resolveVerse(data, chapterNum, verseNum);
 
-                if (!chapter) {
-                    console.warn(`Chapter ${chapterNum} not found`);
-                    return;
-                }
-
-                const targetVerseNumber = Number.parseInt(verseNum, 10);
-                const verseIndex = chapter.verses.findIndex((verse, index, verses) => {
-                    const nextVerse = verses[index + 1];
-                    if (nextVerse) {
-                        return verse.verse <= targetVerseNumber && targetVerseNumber < nextVerse.verse;
+                if (!resolvedVerse) {
+                    const chapter = data[chapterNum];
+                    if (!chapter) {
+                        console.warn(`Chapter ${chapterNum} not found`);
+                    } else {
+                        console.warn(`Verse ${verseNum} not found in Chapter ${chapterNum}`);
                     }
-
-                    return verse.verse <= targetVerseNumber;
-                });
-
-                if (verseIndex === -1) {
-                    console.warn(`Verse ${verseNum} not found in Chapter ${chapterNum}`);
                     return;
                 }
 
-                const resolvedVerse = chapter.verses[verseIndex];
                 setVerseData(resolvedVerse);
 
+                const targetVerseNumber = Number.parseInt(verseNum, 10);
                 if (resolvedVerse.verse !== targetVerseNumber) {
                     navigate(`/chapter/${chapterNum}/verse/${resolvedVerse.verse}`, { replace: true });
                 }
@@ -166,18 +151,7 @@ const VerseView = () => {
     const currentChapterNumber = Number.parseInt(chapterNum, 10);
     const currentVerseNumber = Number.parseInt(verseNum || `${verseData.verse}`, 10);
 
-    const getVerseRange = (): string => {
-        const currentIndex = currentChapter.verses.findIndex(verse => verse.verse === verseData.verse);
-        const nextVerse = currentChapter.verses[currentIndex + 1];
-
-        if (nextVerse && nextVerse.verse > verseData.verse + 1) {
-            return `${verseData.verse}-${nextVerse.verse - 1}`;
-        }
-
-        return verseData.verse.toString();
-    };
-
-    const verseRange = getVerseRange();
+    const verseRange = getVerseRange(currentChapter, verseData);
     const progressPercent = duration ? (currentTime / duration) * 100 : 0;
 
     return (
@@ -374,19 +348,6 @@ const VerseView = () => {
                 )}
             </section>
 
-            {verseData.commentary_en &&
-                !verseData.commentary_en.startsWith('$') &&
-                !/[\u0900-\u097F]/.test(verseData.commentary_en) && (
-                    <section className="mb-12">
-                        <div className="flex items-center justify-center mb-6">
-                            <span className="text-gold-muted/40 dark:text-gold-muted/30 tracking-[8px] text-xs">•••</span>
-                        </div>
-                        <h2 className="mb-5 text-sm font-semibold uppercase tracking-[0.2em] text-gold-muted dark:text-gold-muted text-center font-inter">Commentary</h2>
-                        <div className="text-base sm:text-lg leading-loose text-text-secondary dark:text-dark-text-secondary space-y-4 font-inter min-h-[1.5em] max-w-2xl mx-auto px-2 sm:px-0 whitespace-pre-line break-keep">
-                            {verseData.commentary_en}
-                        </div>
-                    </section>
-                )}
         </ContentReader>
     );
 };

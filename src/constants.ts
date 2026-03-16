@@ -1,4 +1,4 @@
-export interface ChapterMeta {
+﻿export interface ChapterMeta {
     name: string;
     name_korean: string;
     description: string;
