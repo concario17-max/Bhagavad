@@ -34,7 +34,12 @@ const VerseSidePanel = () => {
                 `}
             >
                 <div className="lg:hidden absolute top-4 right-4 z-50">
-                    <button onClick={() => setIsReflectionsOpen(false)} className="p-2 rounded-full hover:bg-gold-surface dark:hover:bg-dark-surface text-text-secondary dark:text-dark-text-secondary transition-colors">
+                    <button
+                        type="button"
+                        onClick={() => setIsReflectionsOpen(false)}
+                        aria-label="Close verse panel"
+                        className="p-2 rounded-full hover:bg-gold-surface dark:hover:bg-dark-surface text-text-secondary dark:text-dark-text-secondary transition-colors"
+                    >
                         <X className="w-5 h-5" />
                     </button>
                 </div>
