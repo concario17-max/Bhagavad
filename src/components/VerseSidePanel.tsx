@@ -28,7 +28,7 @@ const VerseSidePanel = () => {
             )}
 
             <aside
-                className={`fixed inset-y-0 right-0 z-50 ${mobileWidthClass} bg-white/40 dark:bg-dark-surface/40 backdrop-blur-md border-l border-gold-primary/20 dark:border-dark-border/50 h-full lg:h-[calc(100vh-64px)] lg:sticky lg:top-16 transform transition-all duration-300 flex flex-col font-inter
+                className={`fixed inset-y-0 right-0 z-50 ${mobileWidthClass} bg-white/50 dark:bg-[#101010]/82 backdrop-blur-xl border-l border-gold-primary/14 dark:border-dark-border/70 h-full lg:h-[calc(100vh-72px)] lg:sticky lg:top-[72px] transform transition-all duration-300 flex flex-col font-inter
                     ${isReflectionsOpen ? 'translate-x-0 overflow-hidden shadow-2xl lg:shadow-none' : 'translate-x-full lg:translate-x-0'}
                     ${isDesktopReflectionsOpen ? `${desktopWidthClass} lg:opacity-100` : 'lg:w-0 lg:opacity-0 lg:border-none lg:translate-x-10 px-0 overflow-hidden'}
                 `}
@@ -44,7 +44,7 @@ const VerseSidePanel = () => {
                     </button>
                 </div>
 
-                <div className="relative flex h-full min-h-0 flex-col p-6">
+                <div className="relative flex h-full min-h-0 flex-col p-4 sm:p-5 lg:p-6">
                     {isCommentaryPanel ? <VerseCommentary /> : <Reflections />}
                 </div>
             </aside>

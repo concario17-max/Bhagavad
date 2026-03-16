@@ -8,6 +8,13 @@ import { STORAGE_KEYS, getBoolean, setBoolean } from '../utils/storage';
 import { getVerseRange, resolveVerse } from '../utils/verse';
 import { ContentReader } from '../components/ui/ContentReader';
 
+interface TranslationSection {
+    id: string;
+    title: string;
+    content: string;
+    className: string;
+}
+
 const formatTime = (time: number): string => {
     if (Number.isNaN(time)) {
         return '0:00';
@@ -153,24 +160,49 @@ const VerseView = () => {
 
     const verseRange = getVerseRange(currentChapter, verseData);
     const progressPercent = duration ? (currentTime / duration) * 100 : 0;
+    const translationSections: TranslationSection[] = [
+        { id: 'english', title: 'English', content: verseData.translation_en ?? '', className: 'font-inter' },
+        { id: 'ham', title: 'Ham translation', content: verseData.translation_ham ?? '', className: 'font-noto-kr' },
+        { id: 'gil', title: 'Gil translation', content: verseData.translation_gil ?? '', className: 'font-noto-kr' },
+        { id: 'jimong', title: 'Jimong translation', content: verseData.translation_jimong ?? '', className: 'font-noto-kr' },
+        { id: 'suk', title: 'Suk translation', content: verseData.translation_suk ?? '', className: 'font-noto-kr' }
+    ].filter(section => section.content.trim() !== '');
 
     return (
         <ContentReader
             header={
-                <>
-                    <nav className="flex items-center gap-2 text-[13px] text-text-secondary dark:text-dark-text-secondary font-inter mb-6">
+                <div className="w-full">
+                    <nav className="mb-4 flex items-center gap-2 text-[12px] font-inter uppercase tracking-[0.18em] text-text-secondary/70 dark:text-dark-text-secondary/70">
                         <Link to="/" className="hover:text-gold-primary dark:hover:text-gold-light transition-colors">Home</Link>
                         <span>/</span>
-                        <span className="text-text-primary dark:text-dark-text-primary font-bold">Chapter {chapterNum}, Verse {verseRange}</span>
+                        <span className="font-bold text-text-primary dark:text-dark-text-primary">Chapter {chapterNum}, Verse {verseRange}</span>
                     </nav>
 
-                    <div className="w-8 h-8 rounded-full bg-gold-border/20 flex items-center justify-center mb-2 text-gold-primary">
-                        <span className="font-serif leading-none">ॐ</span>
+                    <div className="relative overflow-hidden rounded-[32px] border border-gold-primary/15 bg-white/70 px-5 py-6 shadow-[0_20px_70px_-45px_rgba(78,56,22,0.55)] backdrop-blur-xl dark:border-dark-border/70 dark:bg-dark-surface/70 sm:px-8 sm:py-8">
+                        <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-[radial-gradient(circle_at_top,_rgba(166,139,92,0.18),_transparent_72%)] dark:bg-[radial-gradient(circle_at_top,_rgba(197,174,135,0.12),_transparent_72%)]" />
+                        <div className="relative flex flex-col items-center text-center">
+                            <div className="mb-4 flex items-center gap-3">
+                                <span className="flex h-11 w-11 items-center justify-center rounded-full border border-gold-primary/15 bg-gold-surface/80 text-gold-primary shadow-sm dark:border-dark-border/70 dark:bg-dark-bg/70 dark:text-gold-light">
+                                    <span className="font-serif text-xl leading-none">ॐ</span>
+                                </span>
+                                <div className="flex flex-col items-start text-left">
+                                    <span className="text-[10px] font-inter uppercase tracking-[0.32em] text-text-secondary/70 dark:text-dark-text-secondary/70">
+                                        Verse Focus
+                                    </span>
+                                    <span className="font-crimson text-xl tracking-[0.12em] text-text-primary dark:text-dark-text-primary">
+                                        Chapter {chapterNum}.{verseRange}
+                                    </span>
+                                </div>
+                            </div>
+                            <p className="max-w-2xl text-xs font-inter uppercase tracking-[0.26em] text-gold-muted dark:text-gold-light/80">
+                                Sacred text, transliteration, pronunciation, and layered commentary in one reading flow
+                            </p>
+                        </div>
                     </div>
-                </>
+                </div>
             }
             footer={
-                <div className="flex items-center justify-between bg-white/40 dark:bg-dark-surface/40 backdrop-blur-md border border-gold-primary/20 dark:border-dark-border/50 rounded-full px-3 py-1.5 shadow-sm min-w-[180px] hover:shadow-md transition-shadow">
+                <div className="flex items-center justify-between rounded-full border border-gold-primary/15 bg-white/75 px-3 py-1.5 shadow-lg shadow-black/5 backdrop-blur-md transition-shadow hover:shadow-xl dark:border-dark-border/70 dark:bg-dark-surface/75 min-w-[190px]">
                     <button
                         onClick={handlePrev}
                         disabled={currentChapterNumber === 1 && currentVerseNumber === 1}
@@ -193,27 +225,37 @@ const VerseView = () => {
                 </div>
             }
         >
-            <section className="mb-4 text-center px-2 sm:px-0">
-                <p className="font-noto text-[#8C3A3A] dark:text-[#E8A586] text-xl sm:text-2xl leading-normal whitespace-pre-line tracking-wide font-bold drop-shadow-sm">
-                    {verseData.sanskrit}
-                </p>
+            <section className="mb-8 overflow-hidden rounded-[34px] border border-gold-primary/15 bg-white/72 px-4 py-6 shadow-[0_22px_80px_-48px_rgba(78,56,22,0.52)] backdrop-blur-xl dark:border-dark-border/70 dark:bg-dark-surface/72 sm:px-7 sm:py-8">
+                <div className="mx-auto max-w-3xl">
+                    <div className="mb-6 flex justify-center">
+                        <span className="rounded-full border border-gold-primary/15 bg-gold-surface/80 px-4 py-1.5 text-[10px] font-inter uppercase tracking-[0.32em] text-gold-muted dark:border-dark-border/70 dark:bg-dark-bg/70 dark:text-gold-light/80">
+                            Primary Verse
+                        </span>
+                    </div>
+
+                    <div className="mb-5 text-center px-2 sm:px-0">
+                        <p className="font-noto text-[24px] font-bold leading-[1.95] tracking-[0.08em] text-[#7A3030] drop-shadow-sm dark:text-[#E3A28A] sm:text-[30px]">
+                            {verseData.sanskrit}
+                        </p>
+                    </div>
+
+                    <div className="mb-4 text-center">
+                        <p className="font-noto text-[13px] italic uppercase leading-[1.9] tracking-[0.22em] text-[#9A8868] dark:text-[#D4C3A3] sm:text-[14px]">
+                            {verseData.iast}
+                        </p>
+                    </div>
+
+                    {verseData.korean_pronunciation && (
+                        <div className="text-center">
+                            <p className="mx-auto max-w-2xl font-noto-kr text-[14px] italic leading-8 tracking-[0.08em] text-[#918067] dark:text-[#CBB89B]">
+                                {verseData.korean_pronunciation}
+                            </p>
+                        </div>
+                    )}
+                </div>
             </section>
 
-            <section className="mb-2 text-center flex flex-col items-center">
-                <p className="font-noto italic text-[#B0A084] dark:text-[#D4C3A3] text-[14px] leading-snug whitespace-pre-line tracking-[0.15em] uppercase mb-1 drop-shadow-sm">
-                    {verseData.iast}
-                </p>
-            </section>
-
-            {verseData.korean_pronunciation && (
-                <section className="mb-12 text-center">
-                    <p className="font-noto-kr italic text-[#B0A084] dark:text-[#D4C3A3] text-[14px] leading-relaxed whitespace-pre-line tracking-[0.15em] drop-shadow-sm">
-                        {verseData.korean_pronunciation}
-                    </p>
-                </section>
-            )}
-
-            <div className="mb-16 flex justify-center">
+            <div className="mb-14 flex justify-center">
                 <audio
                     ref={audioRef}
                     src={getAudioSrc(verseData.audio)}
@@ -225,7 +267,7 @@ const VerseView = () => {
                     }}
                     className="hidden"
                 />
-                <div className="flex items-center justify-between w-full max-w-[400px] rounded-full border border-gold-primary/20 dark:border-dark-border/50 bg-white/40 dark:bg-[#111]/40 backdrop-blur-md px-5 py-2.5 shadow-sm hover:shadow-md transition-all hover:border-gold-primary/40">
+                <div className="flex w-full max-w-[460px] items-center justify-between rounded-full border border-gold-primary/15 bg-white/75 px-5 py-3 shadow-lg shadow-black/5 backdrop-blur-md transition-all hover:border-gold-primary/35 hover:shadow-xl dark:border-dark-border/70 dark:bg-[#101010]/78">
                     <button
                         onClick={togglePlay}
                         disabled={!verseData.audio}
@@ -264,16 +306,16 @@ const VerseView = () => {
                 </div>
             </div>
 
-            <section className="mb-16">
-                <div className="flex items-center justify-center mb-6">
+            <section className="mb-14 rounded-[30px] border border-gold-primary/12 bg-white/60 px-4 py-6 backdrop-blur-md dark:border-dark-border/60 dark:bg-dark-surface/60 sm:px-6 sm:py-7">
+                <div className="mb-6 flex items-center justify-center">
                     <button
                         onClick={() => setShowLexicon(!showLexicon)}
                         className="group flex flex-col items-center gap-1.5 focus:outline-none"
                     >
-                        <span className="text-xs font-semibold uppercase tracking-[0.2em] text-gold-muted dark:text-gold-muted group-hover:text-gold-primary transition-colors font-inter">
+                        <span className="text-xs font-semibold uppercase tracking-[0.24em] text-gold-muted dark:text-gold-muted group-hover:text-gold-primary transition-colors font-inter">
                             Word-by-word
                         </span>
-                        <div className="w-6 h-6 rounded-full border border-gold-primary/20 bg-white/20 dark:bg-dark-surface/20 flex items-center justify-center group-hover:border-gold-primary/50 transition-colors">
+                        <div className="flex h-7 w-7 items-center justify-center rounded-full border border-gold-primary/20 bg-white/60 transition-colors group-hover:border-gold-primary/50 dark:bg-dark-bg/50">
                             {showLexicon ? (
                                 <ChevronUp className="w-3.5 h-3.5 text-gold-muted group-hover:text-gold-primary transition-colors" />
                             ) : (
@@ -284,68 +326,39 @@ const VerseView = () => {
                 </div>
 
                 <div className={`transition-all duration-500 overflow-hidden ${showLexicon ? 'max-h-[5000px] opacity-100' : 'max-h-0 opacity-0'}`}>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 w-full max-w-4xl mx-auto px-2 sm:px-4">
+                    <div className="mx-auto grid w-full max-w-4xl grid-cols-1 gap-2.5 px-1 sm:grid-cols-2 sm:px-2 lg:grid-cols-3">
                         {verseData.words?.map((word, index) => (
-                            <div key={`${word.s}-${index}`} className="flex flex-col px-3 py-2 rounded-xl bg-white/30 dark:bg-dark-bg/40 backdrop-blur-sm border border-gold-primary/10 dark:border-dark-border/50 shadow-sm relative overflow-hidden group">
+                            <div key={`${word.s}-${index}`} className="group relative overflow-hidden rounded-2xl border border-gold-primary/10 bg-white/72 px-4 py-3 shadow-sm backdrop-blur-sm dark:border-dark-border/50 dark:bg-dark-bg/42">
                                 <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-transparent dark:from-white/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
-                                <span className="font-bold text-text-primary dark:text-dark-text-primary text-[15px] font-crimson mb-0.5">{word.s}</span>
-                                <span className="text-text-secondary dark:text-dark-text-secondary text-[13px] font-inter leading-relaxed break-keep">{word.m.trim()}</span>
+                                <span className="mb-1 block font-crimson text-[16px] font-bold text-text-primary dark:text-dark-text-primary">{word.s}</span>
+                                <span className="font-inter text-[13px] leading-relaxed text-text-secondary dark:text-dark-text-secondary break-keep">{word.m.trim()}</span>
                             </div>
                         ))}
                     </div>
                 </div>
             </section>
 
-            <section className="mb-10">
-                <div className="flex items-center justify-center mb-6">
+            <section className="mb-10 rounded-[34px] border border-gold-primary/14 bg-white/70 px-4 py-7 shadow-[0_20px_80px_-52px_rgba(78,56,22,0.48)] backdrop-blur-xl dark:border-dark-border/70 dark:bg-dark-surface/72 sm:px-7 sm:py-8">
+                <div className="mb-6 flex items-center justify-center">
                     <span className="text-gold-muted/40 dark:text-gold-muted/30 tracking-[8px] text-xs">•••</span>
                 </div>
-                <h2 className="mb-5 text-sm font-semibold uppercase tracking-[0.2em] text-gold-muted dark:text-gold-muted text-center font-inter">Translation</h2>
+                <h2 className="mb-2 text-center font-inter text-[11px] font-semibold uppercase tracking-[0.3em] text-gold-muted dark:text-gold-muted">Translation</h2>
+                <p className="mx-auto mb-8 max-w-2xl text-center font-inter text-sm leading-7 text-text-secondary dark:text-dark-text-secondary">
+                    Multiple translation voices are arranged below so the verse can be read comparatively instead of as a single flat block.
+                </p>
 
-                {verseData.translation_en && (
-                    <div className="mb-8">
-                        <h3 className="text-xs font-semibold uppercase tracking-widest text-gold-primary/70 dark:text-gold-light/60 text-center mb-3 font-inter">English</h3>
-                        <p className="text-base sm:text-lg leading-loose text-text-primary dark:text-dark-text-primary font-inter min-h-[1.5em] text-center max-w-3xl mx-auto px-2 sm:px-0 whitespace-pre-line break-keep">
-                            {verseData.translation_en}
-                        </p>
-                    </div>
-                )}
-
-                {verseData.translation_ham && (
-                    <div className="mb-8">
-                        <h3 className="text-xs font-semibold uppercase tracking-widest text-gold-primary/70 dark:text-gold-light/60 text-center mb-3 font-inter">Ham translation</h3>
-                        <p className="font-noto-kr text-base sm:text-lg leading-loose text-text-primary dark:text-dark-text-primary min-h-[1.5em] text-center max-w-3xl mx-auto px-2 sm:px-0 whitespace-pre-line break-keep">
-                            {verseData.translation_ham}
-                        </p>
-                    </div>
-                )}
-
-                {verseData.translation_gil && (
-                    <div className="mb-8">
-                        <h3 className="text-xs font-semibold uppercase tracking-widest text-gold-primary/70 dark:text-gold-light/60 text-center mb-3 font-inter">Gil translation</h3>
-                        <p className="font-noto-kr text-base sm:text-lg leading-loose text-text-primary dark:text-dark-text-primary min-h-[1.5em] text-center max-w-3xl mx-auto px-2 sm:px-0 whitespace-pre-line break-keep">
-                            {verseData.translation_gil}
-                        </p>
-                    </div>
-                )}
-
-                {verseData.translation_jimong && (
-                    <div className="mb-4">
-                        <h3 className="text-xs font-semibold uppercase tracking-widest text-gold-primary/70 dark:text-gold-light/60 text-center mb-3 font-inter">Jimong translation</h3>
-                        <p className="font-noto-kr text-base sm:text-lg leading-loose text-text-primary dark:text-dark-text-primary min-h-[1.5em] text-center max-w-3xl mx-auto px-2 sm:px-0 whitespace-pre-line break-keep">
-                            {verseData.translation_jimong}
-                        </p>
-                    </div>
-                )}
-
-                {verseData.translation_suk && (
-                    <div className="mb-4">
-                        <h3 className="text-xs font-semibold uppercase tracking-widest text-gold-primary/70 dark:text-gold-light/60 text-center mb-3 font-inter">Suk translation</h3>
-                        <p className="font-noto-kr text-base sm:text-lg leading-loose text-text-primary dark:text-dark-text-primary min-h-[1.5em] text-center max-w-3xl mx-auto px-2 sm:px-0 whitespace-pre-line break-keep">
-                            {verseData.translation_suk}
-                        </p>
-                    </div>
-                )}
+                <div className="space-y-4">
+                    {translationSections.map(section => (
+                        <div key={section.id} className="rounded-2xl border border-gold-primary/10 bg-white/65 px-4 py-5 shadow-sm dark:border-dark-border/50 dark:bg-dark-bg/42 sm:px-6">
+                            <h3 className="mb-3 text-center font-inter text-[11px] font-semibold uppercase tracking-[0.24em] text-gold-primary/75 dark:text-gold-light/70">
+                                {section.title}
+                            </h3>
+                            <p className={`${section.className} mx-auto max-w-3xl whitespace-pre-line break-keep text-center text-[15px] leading-8 text-text-primary dark:text-dark-text-primary sm:text-[17px]`}>
+                                {section.content}
+                            </p>
+                        </div>
+                    ))}
+                </div>
             </section>
 
         </ContentReader>

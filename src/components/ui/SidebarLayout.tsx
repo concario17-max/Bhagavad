@@ -46,7 +46,7 @@ export const SidebarLayout = React.memo(({
                 />
             )}
 
-            <aside className={`fixed inset-y-0 ${placementClass} z-50 bg-white/40 dark:bg-dark-surface/40 backdrop-blur-md ${borderClass} border-gold-primary/20 dark:border-dark-border/50 h-[100dvh] lg:h-[calc(100vh-64px)] lg:sticky lg:top-16 transform transition-all duration-300 flex flex-col font-inter overscroll-contain
+            <aside className={`fixed inset-y-0 ${placementClass} z-50 bg-white/46 dark:bg-[#101010]/82 backdrop-blur-xl ${borderClass} border-gold-primary/14 dark:border-dark-border/70 h-[100dvh] lg:h-[calc(100vh-72px)] lg:sticky lg:top-[72px] transform transition-all duration-300 flex flex-col font-inter overscroll-contain
                 ${isOpen ? `${widthClass} translate-x-0 overflow-hidden shadow-2xl lg:shadow-none` : `w-[90vw] ${lgWidthClass} ${translateClosed} lg:translate-x-0`}
                 ${isDesktopOpen ? `${lgWidthClass} lg:opacity-100` : `lg:w-0 lg:opacity-0 lg:border-none p-0 px-0 overflow-hidden`}
             `}>

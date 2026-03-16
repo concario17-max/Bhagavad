@@ -18,14 +18,13 @@ export const ContentReader = React.memo(({
     children,
     footer,
     fontFamily = 'font-crimson',
-    maxWidth = 'max-w-[1000px]'
+    maxWidth = 'max-w-[920px]'
 }: ContentReaderProps) => {
     return (
         <div className={`flex flex-col flex-1 h-full bg-transparent ${fontFamily} text-text-primary dark:text-dark-text-primary transition-colors duration-500`}>
-            <div className={`mx-auto flex flex-col justify-center flex-1 w-full ${maxWidth} px-4 py-8 sm:px-6`}>
-                
+            <div className={`mx-auto flex flex-col flex-1 w-full ${maxWidth} px-4 py-6 sm:px-6 sm:py-8 lg:py-10`}>
                 {header && (
-                    <div className="flex flex-col items-center justify-center mb-2">
+                    <div className="flex flex-col items-center justify-center mb-6 sm:mb-8">
                         {header}
                     </div>
                 )}
@@ -33,11 +32,10 @@ export const ContentReader = React.memo(({
                 {children}
 
                 {footer && (
-                    <div className="mt-16 pb-8 flex justify-center font-inter">
+                    <div className="mt-12 pb-8 flex justify-center font-inter sm:mt-14">
                         {footer}
                     </div>
                 )}
-
             </div>
         </div>
     );
