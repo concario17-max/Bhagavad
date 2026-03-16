@@ -1,386 +1,355 @@
-# Bhagavad 프로젝트 심층 분석 보고서
+# 배포 구조 및 Preview 실패 원인 분석 보고서
 
-## 1. 분석 범위
+작성 기준일: 2026-03-16  
+분석 대상 경로: `C:\Users\roadsea\Desktop\nagham`
 
-이 문서는 `C:\Users\roadsea\Desktop\nagham` 전체를 기준으로 다음을 파악한 결과다.
+## 1. 결론 요약
 
-- 프로젝트가 어떤 구조로 동작하는지
-- 라우팅, 레이아웃, 데이터, 상태 관리가 어떻게 연결되는지
-- 대문 페이지에서 위쪽으로 이동이 안 되는 현상의 실제 원인
-- 현재 코드베이스에 있는 추가 리스크와 배포 전제
+현재 이 저장소는 **배포 시스템이 두 개 겹쳐서 동작**하고 있다.
 
-이번 분석은 코드와 정적 자산을 직접 읽어 정리한 것이며, `node_modules`가 없는 상태라 실제 빌드 실행 검증은 하지 못했다.
+1. `main` 브랜치
+   - 실제 소스 코드 브랜치
+   - `package.json`, `src/`, `vite.config.js`가 존재
+   - Cloudflare Pages가 이 브랜치를 직접 빌드하면 정상 동작 가능
 
-## 2. 프로젝트 한줄 요약
+2. `gh-pages` 브랜치
+   - GitHub Actions가 `dist/` 결과물만 밀어 넣는 정적 산출물 브랜치
+   - `package.json`이 없음
+   - Cloudflare Pages가 이 브랜치를 소스 브랜치처럼 다시 빌드하려 하면 무조건 실패
 
-이 저장소는 React 19 + Vite + Tailwind v4 + React Router 기반의 Bhagavad Gita 리더 앱이다. 서버 API 없이 `public/gita.json`, `public/lexicon.json`, `public/mp3/*` 같은 정적 파일을 직접 읽고, 사용자 설정과 메모는 `localStorage`에 저장한다.
+따라서 현재 보이는 현상은 정상적으로 설명된다.
 
-핵심 사용자 흐름은 아래와 같다.
+- `Production` 배포는 `main` 기준이라 성공
+- `Preview` 배포는 `gh-pages` 기준이라 실패
 
-1. 앱 진입
-2. 비밀번호 게이트 통과
-3. 대문(`/`)에서 챕터 선택
-4. 구절 페이지(`/chapter/:chapterNum/verse/:verseNum`)에서 본문, 번역, 오디오, 단어 해설, 개인 메모 사용
+즉, **Preview 오류의 핵심 원인은 코드 문제가 아니라 배포 구조 충돌**이다.
 
-## 3. 실행 구조
+## 2. 왜 배포가 두 개로 나뉘어 보이는가
 
-### 3.1 진입점
+스크린샷 기준으로 배포가 아래처럼 나뉘어 있다.
 
-- `src/main.tsx`
-  - `ThemeProvider`, `UIProvider`로 앱 전체를 감싼다.
-  - 전역 에러 이벤트를 `console.error`로 기록한다.
-- `src/App.tsx`
-  - `BrowserRouter`를 사용한다.
-  - 인증 여부를 `localStorage['gita_authenticated']`로 확인한다.
-  - 인증 전에는 `PasswordGateway`만 렌더링한다.
-  - 인증 후에는 `MainLayout` 안에서 실제 라우트를 렌더링한다.
+- `Production` -> source: `main`
+- `Preview` -> source: `gh-pages`
 
-### 3.2 라우트
+이건 보통 Cloudflare Pages에서 다음처럼 설정되어 있을 때 발생한다.
 
-`src/App.tsx` 기준 현재 라우트는 두 개다.
+- Production branch: `main`
+- Preview 대상: production 이외의 다른 브랜치들
 
-- `/` -> `ChapterList`
-- `/chapter/:chapterNum/verse/:verseNum` -> `VerseView`
+그런데 이 저장소는 `.github/workflows/deploy.yml` 때문에 `main`에 push가 올 때마다 `gh-pages` 브랜치도 자동으로 갱신된다.
 
-라우트 컴포넌트는 `React.lazy`로 지연 로딩된다.
+즉 실제 흐름은 이렇게 된다.
 
-## 4. 레이아웃 구조
+1. `main`에 커밋 push
+2. Cloudflare Pages가 `main`을 보고 production 배포 시작
+3. 동시에 GitHub Actions가 `main`을 checkout해서 `npm install`, `npm run build` 수행
+4. GitHub Actions가 `dist/` 결과물을 `gh-pages` 브랜치에 push
+5. Cloudflare Pages가 `gh-pages` 브랜치 push도 감지
+6. 이 `gh-pages` 브랜치를 preview 배포로 처리
+7. 그런데 `gh-pages`에는 `package.json`이 없어서 preview build 실패
 
-### 4.1 AppShell
+그래서 사용자 입장에서는 항상 이런 그림이 만들어진다.
 
-핵심 레이아웃은 `src/components/ui/AppShell.tsx`가 담당한다.
+- production: 성공
+- preview: 항상 실패
 
-중요한 구조:
+## 3. 실제 저장소 구조 확인 결과
 
-- 루트 컨테이너가 `h-[100dvh]` 고정 높이
-- 최상위와 내부 래퍼 모두 `overflow-hidden`
-- 실제 스크롤은 `main` 요소에서만 발생
-- `main`에 `flex flex-col justify-center min-h-full overflow-y-auto` 적용
+### 3.1 `main` 브랜치
 
-즉 이 앱은 브라우저 `window` 자체가 아니라, 내부 `main`을 스크롤 컨테이너로 쓰는 구조다.
+`main`에는 아래 파일이 있다.
 
-이 점이 대문 스크롤 이슈와 바로 연결된다.
+- `package.json`
+- `src/`
+- `index.html`
+- `vite.config.js`
+- `.github/workflows/deploy.yml`
 
-### 4.2 페이지별 레이아웃 차이
+즉, 빌드 가능한 진짜 소스 브랜치다.
 
-- 홈(`/`)
-  - `Header`, `Sidebar`, `Reflections` 없음
-  - 우하단에 `ThemeToggle`만 떠 있음
-- 구절 페이지
-  - 상단 `Header`
-  - 좌측 `Sidebar`
-  - 우측 `Reflections`
-  - 본문은 `ContentReader` 안에 들어감
+### 3.2 `gh-pages` 브랜치
 
-## 5. 페이지 동작 상세
+`origin/gh-pages` 트리 확인 결과, 루트에는 아래만 있다.
 
-### 5.1 ChapterList
+- `assets/`
+- `favicon.png`
+- `gita.json`
+- `gita_header_icon.png`
+- `index.html`
+- `lexicon.json`
+- `mp3/`
 
-`src/pages/ChapterList.tsx`
+없던 것:
 
-역할:
+- `package.json`
+- `src/`
+- `node_modules/`
+- Vite 소스 설정 파일들
 
-- `fetchGitaData()`로 챕터 목록을 불러옴
-- 상단 히어로 섹션과 챕터/구절 셀렉트 표시
-- 챕터 카드 그리드 렌더링
-- `Compendium`, `Lexicon`, `Commentaries` 모달 열기
+즉 `gh-pages`는 빌드 입력이 아니라 **빌드 결과만 있는 정적 배포 브랜치**다.
 
-특징:
+## 4. GitHub Actions가 실제로 하는 일
 
-- 데이터는 `Object.values(data)`로 배열화
-- 챕터를 선택하면 그 챕터의 verse 목록을 select에 채움
-- 구절 선택 시 `navigate('/chapter/...')`
-- 카드 클릭도 첫 구절로 이동
+`.github/workflows/deploy.yml` 내용 요약:
 
-### 5.2 VerseView
+- 트리거: `main` 브랜치 push
+- 실행:
+  - `actions/checkout@v4`
+  - `npm install`
+  - `npm run build`
+  - `JamesIves/github-pages-deploy-action@v4`
+- 배포 대상:
+  - `folder: dist`
+  - `branch: gh-pages`
 
-`src/pages/VerseView.tsx`
+즉 GitHub Actions는 `main`을 빌드해서 결과물만 `gh-pages`에 올린다.
 
-역할:
+이 구조는 원래 **GitHub Pages** 용으로 매우 전형적이다.
 
-- URL 파라미터로 현재 챕터/구절 결정
-- `gita.json`에서 실제 표시할 구절을 찾음
-- 산스크리트, IAST, 한국어 발음, 오디오, 단어별 해설, 번역, 해설 표시
-- 이전/다음 구절 이동
+하지만 지금은 Cloudflare Pages도 같은 저장소를 보고 있기 때문에 문제가 생긴다.
 
-특징:
+## 5. Preview 로그 해석
 
-- URL의 verse 번호가 구간 시작 verse가 아니어도 가장 가까운 실제 verse 시작점으로 보정
-- `showLexicon`은 `localStorage['gita-show-lexicon']`에 저장
-- 오디오 소스는 원격 URL에서 파일명만 뽑아 `/mp3/<filename>`로 재매핑
+사용자가 제공한 실패 로그 핵심:
 
-주의할 점:
+- `2026-03-16T13:21:22.052055Z Cloning repository...`
+- `HEAD is now at 26cc301 Deploying to gh-pages from @ concario17-max/Bhagavad@4c4aa375...`
+- `Executing user command: npm run build`
+- `npm error path /opt/buildhome/repo/package.json`
+- `ENOENT: no such file or directory, open '/opt/buildhome/repo/package.json'`
 
-- 스크롤 리셋이 `window.scrollTo(0, 0)`로 되어 있는데, 실제 스크롤 컨테이너는 `window`가 아니라 `main`이다. 따라서 현재 구현은 의도와 다르게 동작할 가능성이 높다.
+이 로그는 아주 명확하다.
 
-## 6. 상태 관리
+Cloudflare Pages가 한 일:
 
-### 6.1 ThemeContext
+1. `gh-pages` 브랜치를 클론함
+2. 그 브랜치를 일반 앱 소스 브랜치라고 가정함
+3. 설정된 build command인 `npm run build`를 실행함
+4. 루트에서 `package.json`을 찾으려 함
+5. `gh-pages`에는 `package.json`이 없어서 실패함
 
-`src/context/ThemeContext.tsx`
+즉 실패 원인은 아래 한 줄로 요약된다.
 
-- 테마는 `light`/`dark`
-- 기본값은 `light`
-- `localStorage['theme']`를 읽고 저장
-- `<html>`에 `dark` 클래스를 붙이는 방식
+**Cloudflare가 산출물 브랜치(`gh-pages`)를 다시 소스처럼 빌드하려고 해서 실패했다.**
 
-### 6.2 UIContext
+## 6. 왜 Production은 성공하는가
 
-`src/context/UIContext.tsx`
+스크린샷에서 production은 `main`의 커밋 `4c4aa37` 기준으로 성공했다.
 
-관리 상태:
+이건 당연하다.
 
-- 모바일 사이드바 열림 여부
-- 모바일 reflections 패널 열림 여부
-- 데스크탑 사이드바 열림 여부
-- 데스크탑 reflections 패널 열림 여부
+`main`에는 다음이 있기 때문이다.
 
-특징:
+- `package.json`
+- `src/`
+- Vite 설정
+- 빌드 스크립트
 
-- 데스크탑 패널 상태는 `localStorage`에 유지
-- 모바일에서는 drawer 토글
-- 데스크탑에서는 패널 폭 0/정상폭 전환
+즉 Cloudflare가 `main`을 빌드하면 정상적으로 `npm run build`가 가능하다.
 
-## 7. 데이터 계층
+반대로 `gh-pages`에는 정적 파일밖에 없으므로 실패한다.
 
-### 7.1 gita.json
+## 7. Preview가 항상 실패하는 구조적 이유
 
-`public/gita.json`
+현재 구조에서는 `main`에 push가 갈 때마다 거의 항상 아래가 연쇄 발생한다.
 
-구조:
+1. `main` push
+2. production build 시작
+3. GitHub Actions가 `gh-pages` 갱신
+4. `gh-pages` push
+5. Cloudflare가 `gh-pages`를 preview로 처리
+6. preview build 실패
 
-- 최상위는 챕터 번호 문자열 키
-- 각 챕터 안에 `verses` 배열
-- 각 verse는 다음 필드를 가질 수 있음
-  - `id`
-  - `chapter`
-  - `verse`
-  - `sanskrit`
-  - `iast`
-  - `korean_pronunciation`
-  - `audio`
-  - `words`
-  - 여러 번역 필드
-  - `commentary_en`
+그래서 preview 실패는 일회성 버그가 아니라 **설계상 반복될 수밖에 없는 상태**다.
 
-로딩 방식:
+즉 사용자가 말한 “프리뷰는 항상 오류가 난다”는 관찰은 정확하다.
 
-- `src/utils/dataFetcher.ts`에서 `/gita.json`을 fetch
-- Promise를 모듈 스코프에 캐시해서 중복 fetch를 줄임
+## 8. 현재 배포 구조를 깊게 해석하면
 
-### 7.2 lexicon.json
+이 저장소는 지금 사실상 두 가지 배포 모델을 동시에 쓰고 있다.
 
-`public/lexicon.json`
+### 모델 A: GitHub Pages 방식
 
-- 알파벳별 단어 배열 구조
-- `LexiconModal`이 처음 열릴 때만 fetch
+- `main`에서 빌드
+- `gh-pages`에 정적 결과물 push
+- 정적 호스팅은 `gh-pages`를 그대로 서빙
 
-### 7.3 mp3 자산
+이건 `.github/workflows/deploy.yml`이 담당한다.
 
-`public/mp3/*`
+### 모델 B: Cloudflare Pages 방식
 
-- verse 또는 verse range 기준 파일명
-- `VerseView`는 gita 데이터의 원격 URL을 직접 쓰지 않고 로컬 파일명으로 치환
+- 특정 브랜치를 직접 클론
+- 그 브랜치를 빌드
+- 결과물 생성 후 배포
 
-## 8. 기능별 요약
+이건 Cloudflare Pages가 담당한다.
 
-### 8.1 인증 게이트
+문제는 이 두 모델이 **서로 전제가 다르다**는 점이다.
 
-`src/components/PasswordGateway.tsx`
+- GitHub Pages 모델의 `gh-pages`는 “이미 빌드된 산출물”
+- Cloudflare Pages 모델의 브랜치는 “아직 빌드되지 않은 소스”
 
-- 비밀번호는 `import.meta.env.VITE_GATEWAY_PASSWORD` 또는 기본값 `0228`
-- 성공 시 `gita_authenticated=true`
+지금은 Cloudflare가 `gh-pages`를 후자로 오해하고 있다.
 
-보안 관점:
+## 9. 지금 상태에서 어떤 배포가 진짜 기준인가
 
-- 완전한 보안 기능이 아니라 프런트엔드 가드에 가깝다.
-- 소스 번들 안에서 우회 가능한 구조다.
+현재 기준에서 실제로 의미 있는 배포는 `main` 기반 production이다.
 
-### 8.2 개인 메모
+이유:
 
-`src/components/Reflections.tsx`
+- 사용자가 확인한 production URL은 정상 배포됨
+- 우리가 최근 수정한 코드도 `main` 기준으로 빌드 통과
+- preview는 소스 검증용이 아니라 `gh-pages` 산출물 브랜치를 잘못 주워서 깨지는 상태
 
-- 키 형식: `gita-note-<chapter>-<verse>`
-- 현재 verse 메모 저장
-- 현재 verse / 전체 verse 메모를 txt로 export 가능
+즉 지금 preview 실패는 “서비스 배포 실패”가 아니라 “잘못 구성된 보조 배포 실패”에 가깝다.
 
-### 8.3 메모 모달
+## 10. 왜 로그에 `Deploying to gh-pages from @ ...`가 보이는가
 
-`src/components/ReflectionsModal.tsx`
+이 메시지는 GitHub Actions가 `gh-pages` 브랜치에 넣은 커밋 메시지다.
 
-- `localStorage`의 모든 메모를 읽어 목록 표시
-- 각 메모에 대응하는 산스크리트 일부를 `gita.json`에서 찾아 함께 보여줌
+예:
 
-## 9. 대문 페이지 스크롤 이슈 분석
+- `Deploying to gh-pages from @ concario17-max/Bhagavad@4c4aa375...`
 
-### 9.1 사용자 증상
+즉 preview 배포가 바라본 커밋은 개발자가 직접 만든 앱 소스 커밋이 아니라,
+GitHub Action이 생성한 **배포용 결과물 커밋**이다.
 
-사용자 설명: "대문 페이지 들어가면 위쪽으로 안 넘어가진다."
+이 점이 매우 중요하다.
 
-이 설명과 현재 구조를 함께 보면, 홈 화면 상단이 잘려 있거나 스크롤을 올려도 진짜 맨 위까지 도달하지 못하는 현상으로 해석하는 것이 가장 자연스럽다.
+Cloudflare preview는 실제 앱 소스를 보는 게 아니라, 이미 만들어진 배포 산출물 브랜치를 다시 빌드하려 하고 있다.
 
-### 9.2 실제 원인
+## 11. 지금 구조에서 발생할 수 있는 부작용
 
-핵심 원인은 `AppShell`의 `main`에 들어간 `justify-center`다.
+### 11.1 배포 상태가 혼란스러움
 
-문제 코드:
+사용자 입장에서는:
 
-- `src/components/ui/AppShell.tsx`
-  - `main`이 `flex flex-col justify-center min-h-full overflow-y-auto`
+- production은 초록색 성공
+- preview는 빨간색 실패
 
-홈 페이지는 `ChapterList` 하나만 `main` 안에 들어간다. 그런데 `ChapterList`는 히어로 섹션 + 셀렉트 박스 + 카드 그리드까지 있어서 화면보다 세로 길이가 길어진다.
+이렇게 섞여 보여서 “최근 변경이 문제인가?”로 오해하기 쉽다.
 
-이때 스크롤 컨테이너 안에서 `justify-center`가 걸리면 콘텐츠가 세로 중앙 정렬 기준으로 배치된다. 콘텐츠 높이가 뷰포트보다 커지면, 위쪽 일부가 스크롤 시작점보다 바깥으로 밀려난다. 그런데 바깥 부모가 `overflow-hidden`이라 그 위쪽 영역은 접근할 수 없다.
+하지만 실제 원인은 최근 코드가 아니라 브랜치 역할 충돌이다.
 
-결과:
+### 11.2 불필요한 빌드 비용
 
-- 콘텐츠가 중앙 기준으로 배치됨
-- 위쪽 일부가 잘림
-- 사용자가 스크롤을 올려도 진짜 시작점까지 못 감
+`main`이 한 번 push될 때:
 
-즉, 이 이슈는 데이터 문제가 아니라 레이아웃 정렬 방식 때문에 생긴다.
+- Cloudflare production build
+- GitHub Actions build
+- Cloudflare preview build 실패
 
-### 9.3 왜 홈에서 더 잘 드러나는가
+최소 2~3개의 시스템이 동시에 반응한다.
 
-구절 페이지도 내부적으로 중앙 정렬 성향이 있지만, 홈은 카드 그리드 때문에 콘텐츠 높이가 더 빨리 커진다. 그래서 같은 `justify-center`라도 홈에서 "맨 위 접근 불가"가 더 눈에 띄게 드러난다.
+즉 빌드 시간이 낭비되고 로그도 지저분해진다.
 
-### 9.4 관련 2차 문제
+### 11.3 디버깅 방향이 왜곡됨
 
-`VerseView`의 아래 코드는 현재 구조와 맞지 않는다.
+실제 오류는 `package.json` 부재인데, 표면상으로는 “preview deploy failed”로 보인다.
 
-- `src/pages/VerseView.tsx`
-  - `window.scrollTo(0, 0)`
+그래서 앱 코드나 Vite 설정을 의심하게 되지만, 본질은 브랜치/배포 모델 충돌이다.
 
-실제 스크롤 컨테이너가 `window`가 아니라 `main`이므로, 페이지 이동 시 스크롤 초기화가 완전히 의도대로 동작하지 않을 가능성이 높다. 홈 스크롤 이슈와 같은 설계 결정에서 파생된 2차 증상이다.
+## 12. 해결 방향
 
-## 10. 추가로 발견한 중요 리스크
+구조적으로는 아래 셋 중 하나를 택해야 한다.
 
-### 10.1 index.html 엔트리 경로 불일치
+### 방향 1. Cloudflare Pages만 사용
 
-`index.html`은 아래 파일을 불러오도록 되어 있다.
+가장 깔끔한 방향이다.
 
-- `/src/main.jsx`
+- Cloudflare production branch를 `main`으로 유지
+- GitHub Actions의 `gh-pages` 배포를 제거
+- `gh-pages` 브랜치를 더 이상 쓰지 않음
 
-그런데 실제 파일은:
+장점:
 
-- `src/main.tsx`
+- 배포 경로 단순
+- preview/production이 같은 빌드 모델 사용
+- 실패 원인 추적이 쉬움
 
-즉, 현재 저장소 기준으로는 엔트리 경로가 맞지 않는다. 이 상태라면 로컬 개발이나 빌드에서 바로 실패할 가능성이 매우 높다.
+### 방향 2. GitHub Pages만 사용
 
-이건 스크롤 이슈와 별개로, 가장 먼저 정리해야 하는 실행 리스크다.
+- Cloudflare Pages 연결을 끊거나 build를 안 하게 설정
+- GitHub Actions가 `gh-pages`만 관리
 
-### 10.2 GitHub Pages 배포 경로 리스크
+장점:
 
-`vite.config.js`는 `base: '/'`로 고정되어 있고, 데이터/자산 fetch도 절대 경로를 사용한다.
+- 현재 workflow와 가장 잘 맞음
 
-- `/gita.json`
-- `/lexicon.json`
-- `/mp3/...`
-- `/favicon.png`
+단점:
 
-이 저장소는 `.github/workflows/deploy.yml`로 `gh-pages` 브랜치에 배포하도록 되어 있다. 만약 GitHub Pages의 일반적인 project page 형태로 배포된다면 URL은 보통 `/<repo-name>/` 하위가 된다. 그 경우 `base: '/'`와 절대 경로 fetch는 깨질 가능성이 높다.
+- Cloudflare preview/production 기능은 포기
 
-즉, 커스텀 도메인이나 user page가 아닌 일반 repo page라면 배포 환경에서 자산 경로 문제가 날 수 있다.
+### 방향 3. Cloudflare는 `main`만 보게 하고 `gh-pages`는 무시
 
-이 항목은 코드상 강한 리스크이며, 실제 배포 URL 정책을 확인할 필요가 있다.
+현실적인 절충안이다.
 
-### 10.3 인코딩 깨짐 흔적이 광범위함
+- Cloudflare production branch: `main`
+- Cloudflare preview branch rules에서 `gh-pages` 제외
+- GitHub Actions는 계속 유지 가능
 
-여러 파일에서 한글, 산스크리트, 특수문자가 심하게 깨진 흔적이 보인다.
+장점:
 
-대표 위치:
+- 현재 GitHub Actions 흐름을 크게 안 바꿔도 됨
 
-- `src/constants.ts`
-- `src/pages/VerseView.tsx`
-- `src/components/CompendiumModal.tsx`
-- `public/gita.json`
-- `public/lexicon.json`
-- 기존 `research.md`, `plan.md`
+단점:
 
-영향:
+- 시스템이 여전히 이중화되어 관리 복잡도는 남음
 
-- UI 라벨 일부가 깨질 수 있음
-- 번역/주석 품질 저하
-- 정규식/문자열 처리 오류 가능
-- 유지보수 난이도 증가
+## 13. 추천
 
-즉, 이 프로젝트는 단순 UI 이슈 외에 문자 인코딩 복구 작업이 상당히 중요하다.
+현재 상태에서는 **방향 1, 즉 Cloudflare Pages 단일화**가 가장 낫다.
 
-### 10.4 인증은 실질적 보안 장치가 아님
+이유:
 
-비밀번호가 클라이언트 코드에 있고, 인증 상태도 `localStorage`에만 저장된다. 따라서 이 게이트는 콘텐츠 가리기 수준이지 보호된 서비스 수준의 인증이 아니다.
+- 이미 production이 `main` 기준으로 잘 동작 중
+- 우리가 지금 맞춘 Vite base, hash routing, 정적 자산 경로도 Cloudflare 기준으로 정리됨
+- `gh-pages` 브랜치는 지금 Cloudflare 입장에서는 혼란만 만든다
 
-### 10.5 빌드 검증 미완료 상태
+즉 가장 단순한 정리는 이렇다.
 
-현재 워크스페이스에 `node_modules`가 없다. 따라서 이번 분석에서는 실제 `npm run build`를 돌려서 타입 오류나 번들 오류까지 확인하지는 못했다.
+1. GitHub Actions의 `gh-pages` 배포 중지
+2. Cloudflare Pages에서 `main`만 빌드
+3. preview도 feature branch나 PR branch만 대상으로 사용
+4. `gh-pages` 브랜치는 사용 중단 또는 삭제
 
-다만 소스만 봐도 `index.html` 엔트리 경로 문제는 확실한 실행 리스크다.
+## 14. “이렇게 나눠진 이유는 뭐지?”에 대한 직접 답변
 
-## 11. 파일별 역할 요약
+짧게 말하면 이거다.
 
-### 핵심 앱
+**`main`은 소스 브랜치이고, `gh-pages`는 GitHub Actions가 만든 결과물 브랜치인데, Cloudflare가 둘 다 배포 대상으로 보고 있어서 나뉘어 보인다.**
 
-- `src/main.tsx`: 앱 진입, Provider 연결
-- `src/App.tsx`: 인증 분기, 라우팅, 메인 레이아웃 연결
+더 정확히 말하면:
 
-### 페이지
+- `production`은 `main`을 직접 빌드
+- `preview`는 `gh-pages`를 잘못 소스 브랜치처럼 다시 빌드
 
-- `src/pages/ChapterList.tsx`: 대문, 챕터 진입점
-- `src/pages/VerseView.tsx`: 구절 리더
+그래서 둘이 분리되어 보이는 것이다.
 
-### 레이아웃/UI
+## 15. “프리뷰는 왜 항상 오류가 나지?”에 대한 직접 답변
 
-- `src/components/ui/AppShell.tsx`: 전체 화면 셸, 스크롤 컨테이너
-- `src/components/ui/ContentReader.tsx`: 구절 페이지용 본문 레이아웃
-- `src/components/Sidebar.tsx`: 챕터/구절 내비게이션
-- `src/components/Reflections.tsx`: 우측 메모 패널
+짧게 말하면 이거다.
 
-### 데이터
+**Cloudflare preview가 `gh-pages` 브랜치에서 `npm run build`를 실행하는데, 그 브랜치엔 `package.json`이 없어서 항상 실패한다.**
 
-- `src/utils/dataFetcher.ts`: `gita.json` 캐시 fetch
-- `src/constants.ts`: 챕터 메타데이터
-- `public/gita.json`: 본문/번역/단어/오디오 원본
-- `public/lexicon.json`: 용어 사전
+즉:
 
-### 보조 기능
+- preview 설정이 잘못된 것
+- 앱 코드가 깨져서가 아님
 
-- `src/components/PasswordGateway.tsx`: 비밀번호 게이트
-- `src/components/LexiconModal.tsx`: 사전 모달
-- `src/components/CompendiumModal.tsx`: 설명 모달
-- `src/components/ReflectionsModal.tsx`: 저장된 메모 전체 모달
+## 16. 최종 판단
 
-## 12. 결론
+2026-03-16 기준으로 이 저장소의 preview 실패는 다음으로 판정된다.
 
-이 프로젝트는 정적 데이터 기반의 독립형 경전 리더 앱으로 설계되어 있고, 전체 구조는 비교적 명확하다. 라우팅, 상태 관리, 모달, 오디오, 개인 메모까지 기능 축이 분리되어 있어 확장 가능성은 괜찮다.
+- 원인: 배포 시스템 중복 + 브랜치 역할 충돌
+- 재현성: 매우 높음, 구조상 반복됨
+- 영향도: production 자체에는 직접 영향 없음
+- 우선순위: 높음, 배포 신뢰도와 운영 가시성을 해침
 
-하지만 현재 상태에서 가장 중요한 사실은 세 가지다.
+## 17. 이번 분석에 사용한 핵심 근거
 
-1. 대문 페이지 상단 접근 불가 현상은 `AppShell`의 세로 중앙 정렬과 내부 스크롤 컨테이너 구조가 결합되며 생긴 레이아웃 문제다.
-2. 실제 스크롤 컨테이너가 `window`가 아니라 `main`이어서, 스크롤 리셋 로직도 구조와 어긋나 있다.
-3. 그 외에도 `index.html` 엔트리 경로 불일치, GitHub Pages 경로 리스크, 광범위한 인코딩 깨짐이 함께 존재한다.
-
-즉, 현재 가장 먼저 손봐야 하는 우선순위는 다음 순서로 보는 것이 맞다.
-
-1. 홈 스크롤 레이아웃 수정
-2. 엔트리 파일 경로 정정
-3. 배포 경로 정책 점검
-4. 문자열 인코딩 복구
-
-## 13. 이번 분석에서 직접 확인한 핵심 근거 파일
-
-- `C:\Users\roadsea\Desktop\nagham\src\App.tsx`
-- `C:\Users\roadsea\Desktop\nagham\src\components\ui\AppShell.tsx`
-- `C:\Users\roadsea\Desktop\nagham\src\components\ui\ContentReader.tsx`
-- `C:\Users\roadsea\Desktop\nagham\src\pages\ChapterList.tsx`
-- `C:\Users\roadsea\Desktop\nagham\src\pages\VerseView.tsx`
-- `C:\Users\roadsea\Desktop\nagham\src\components\Sidebar.tsx`
-- `C:\Users\roadsea\Desktop\nagham\src\components\Reflections.tsx`
-- `C:\Users\roadsea\Desktop\nagham\src\components\PasswordGateway.tsx`
-- `C:\Users\roadsea\Desktop\nagham\src\context\ThemeContext.tsx`
-- `C:\Users\roadsea\Desktop\nagham\src\context\UIContext.tsx`
-- `C:\Users\roadsea\Desktop\nagham\src\utils\dataFetcher.ts`
-- `C:\Users\roadsea\Desktop\nagham\index.html`
-- `C:\Users\roadsea\Desktop\nagham\vite.config.js`
 - `C:\Users\roadsea\Desktop\nagham\.github\workflows\deploy.yml`
-- `C:\Users\roadsea\Desktop\nagham\public\gita.json`
-- `C:\Users\roadsea\Desktop\nagham\public\lexicon.json`
+- `C:\Users\roadsea\Desktop\nagham\package.json`
+- `origin/gh-pages` 브랜치 루트 트리
+- 사용자가 제공한 2026-03-16 13:21 UTC 배포 로그
+- 사용자가 제공한 Cloudflare Pages 배포 화면 스크린샷
