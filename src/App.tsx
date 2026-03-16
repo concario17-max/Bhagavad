@@ -11,6 +11,7 @@ import VersePanelToggle from './components/VersePanelToggle';
 import VerseSidePanel from './components/VerseSidePanel';
 import { useUI } from './context/UIContext';
 import { isAuthenticated as getAuthenticationState, setAuthenticated } from './utils/auth';
+import { preloadGitaData } from './utils/dataFetcher';
 
 import { AppShell } from './components/ui/AppShell';
 
@@ -45,12 +46,18 @@ function App() {
     useEffect(() => {
         const authState = getAuthenticationState();
         setIsAuthenticated(authState);
+
+        if (authState) {
+            preloadGitaData();
+        }
+
         setIsChecking(false);
     }, []);
 
     const handleAuthenticate = () => {
         setAuthenticated(true);
         setIsAuthenticated(true);
+        preloadGitaData();
     };
 
     if (isChecking) {
