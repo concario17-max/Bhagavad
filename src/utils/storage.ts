@@ -79,7 +79,7 @@ export const setThemePreference = (theme: 'light' | 'dark'): void => {
 
 export const getActiveVersePanel = (): VersePanelMode => {
     const savedPanel = getString(STORAGE_KEYS.activeVersePanel);
-    return savedPanel === 'commentary' ? 'commentary' : 'notes';
+    return savedPanel === 'notes' ? 'notes' : 'commentary';
 };
 
 export const setActiveVersePanelPreference = (panel: VersePanelMode): void => {
