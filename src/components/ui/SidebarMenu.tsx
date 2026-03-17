@@ -33,7 +33,7 @@ export const SidebarMenu = React.memo(({ groups, onItemClick, groupTitle }: Side
     return (
         <>
             {/* Top Half: Groups */}
-            <div className="flex-1 overflow-y-auto border-b border-gold-border/40 dark:border-[#222] custom-scrollbar min-h-0 overscroll-contain">
+            <div className="basis-[30%] overflow-y-auto border-b border-gold-border/40 dark:border-[#222] custom-scrollbar min-h-0 overscroll-contain">
                 {groupTitle && (
                     <div className="p-4 bg-transparent sticky top-0 z-10 backdrop-blur-sm hidden lg:block">
                         <h2 className="text-xs font-bold text-text-primary/70 dark:text-dark-text-primary/70">
@@ -73,7 +73,7 @@ export const SidebarMenu = React.memo(({ groups, onItemClick, groupTitle }: Side
             </div>
 
             {/* Bottom Half: Items */}
-            <div className="flex-1 overflow-y-auto bg-transparent custom-scrollbar overscroll-contain">
+            <div className="basis-[70%] overflow-y-auto bg-transparent custom-scrollbar min-h-0 overscroll-contain">
                 <div className="py-1 px-2 space-y-0">
                     {groups.find(g => g.isExpanded) ? (
                         groups.find(g => g.isExpanded)?.items.map((item) => (
