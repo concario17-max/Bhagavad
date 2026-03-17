@@ -54,7 +54,7 @@ const ChapterList = () => {
                     </button>
                     <div className="w-1.5 h-1.5 rotate-45 bg-gold-border/50"></div>
                     <button type="button" onClick={() => setIsReflectionsOpen(true)} className="hover:text-gold-primary transition-colors italic">
-                        Reflections
+                        Notes
                     </button>
                 </div>
 

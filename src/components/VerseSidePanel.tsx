@@ -13,10 +13,8 @@ const VerseSidePanel = () => {
     } = useUI();
 
     const isCommentaryPanel = activeVersePanel === 'commentary';
-    const mobileWidthClass = isCommentaryPanel ? 'w-[94vw]' : 'w-[90vw]';
-    const desktopWidthClass = isCommentaryPanel
-        ? (isDesktopSidebarOpen ? 'lg:w-[460px]' : 'lg:w-[760px]')
-        : 'lg:w-[380px]';
+    const mobileWidthClass = 'w-[94vw]';
+    const desktopWidthClass = isDesktopSidebarOpen ? 'lg:w-[460px]' : 'lg:w-[760px]';
 
     return (
         <>

@@ -38,14 +38,14 @@ const CompendiumModal = ({ isOpen, onClose }: CompendiumModalProps) => {
                             <h3 className="font-bold text-[#1C2B36] dark:text-gold-light mb-2">How to use it</h3>
                             <p className="text-[#5B7282] m-0">
                                 Start from the chapter grid, open a verse, use the side navigation to move through the text,
-                                and save reflections in the right-hand panel as you read.
+                                and save notes in the right-hand panel as you read.
                             </p>
                         </div>
                         <ul className="list-disc pl-5 space-y-3 mb-0 text-[#5B7282] marker:text-gold-primary">
                             <li>Open a chapter from the home page.</li>
                             <li>Move between verses with the left navigation or footer controls.</li>
                             <li>Expand the word-by-word section when you need lexical context.</li>
-                            <li>Save and export reflections from the notes panel.</li>
+                            <li>Save and export notes from the notes panel.</li>
                         </ul>
                     </div>
                 </div>

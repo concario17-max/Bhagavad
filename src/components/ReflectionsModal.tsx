@@ -63,7 +63,7 @@ const ReflectionsModal = ({ isOpen, onClose }: ReflectionsModalProps) => {
 
                 setNotesData(loadedNotes);
             })
-            .catch(err => console.error('Failed to load gita data for reflections:', err));
+            .catch(err => console.error('Failed to load gita data for notes:', err));
     }, [isOpen]);
 
     if (!isOpen) {
@@ -74,7 +74,7 @@ const ReflectionsModal = ({ isOpen, onClose }: ReflectionsModalProps) => {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm transition-opacity duration-300 font-serif">
             <div className="relative w-full max-w-3xl bg-[#FDFBF7] dark:bg-dark-surface border border-gold-border rounded-lg shadow-2xl flex flex-col max-h-[90vh]">
                 <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gold-border/30">
-                    <h2 className="text-2xl sm:text-3xl text-[#A68B5C] tracking-wide font-medium">My Reflections</h2>
+                    <h2 className="text-2xl sm:text-3xl text-[#A68B5C] tracking-wide font-medium">My Notes</h2>
                     <button
                         onClick={onClose}
                         className="p-2 -mr-2 text-[#A68B5C] hover:bg-gold-surface dark:hover:bg-dark-bg rounded-full transition-colors"
@@ -87,7 +87,7 @@ const ReflectionsModal = ({ isOpen, onClose }: ReflectionsModalProps) => {
                 <div className="flex-1 overflow-y-auto px-4 sm:px-8 pt-6 pb-10 custom-scrollbar scroll-smooth">
                     {notesData.length === 0 ? (
                         <div className="text-center py-12 text-[#A68B5C]/60 italic">
-                            No reflections saved yet. Read a verse and save your thoughts.
+                            No notes saved yet. Read a verse and save your thoughts.
                         </div>
                     ) : (
                         <div className="space-y-6">

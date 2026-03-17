@@ -43,17 +43,17 @@ const Reflections = () => {
     };
 
     const handleExportAll = (): void => {
-        let allNotesText = 'Bhagavad Gita - All Reflections\n\n';
+        let allNotesText = 'Bhagavad Gita - All Notes\n\n';
         getAllReflectionNotes().forEach(noteEntry => {
             allNotesText += `--- Chapter ${noteEntry.chapter}, Verse ${noteEntry.verse} ---\n${noteEntry.content}\n\n`;
         });
 
-        if (allNotesText === 'Bhagavad Gita - All Reflections\n\n') {
-            alert('No saved reflections found to export.');
+        if (allNotesText === 'Bhagavad Gita - All Notes\n\n') {
+            alert('No saved notes found to export.');
             return;
         }
 
-        downloadTextFile('Bhagavad_Gita_All_Reflections.txt', allNotesText);
+        downloadTextFile('Bhagavad_Gita_All_Notes.txt', allNotesText);
         setShowExportMenu(false);
     };
 
@@ -66,7 +66,7 @@ const Reflections = () => {
             <div className="mb-6 shrink-0 border-b border-gold-border/30 pb-4">
                 <div className="flex items-center gap-2">
                     <Edit3 className="h-5 w-5 text-[#A68B5C] dark:text-gold-light" />
-                    <h2 className="text-sm font-bold tracking-wide text-[#1C2B36] dark:text-dark-text-primary">Reflections</h2>
+                    <h2 className="text-sm font-bold tracking-wide text-[#1C2B36] dark:text-dark-text-primary">Notes</h2>
                 </div>
                 <p className="mt-3 text-xs font-bold tracking-wider text-[#8FA0AD]">
                     {chapterNum}.{verseNum}
@@ -77,7 +77,7 @@ const Reflections = () => {
                 <textarea
                     value={note}
                     onChange={event => setNote(event.target.value)}
-                    placeholder="Write your notes, reflections, or reading observations for this verse."
+                    placeholder="Write your notes or reading observations for this verse."
                     className="custom-scrollbar flex-1 w-full resize-none rounded-2xl border border-gold-primary/20 bg-white/70 p-5 text-[14px] leading-relaxed text-text-primary shadow-inner backdrop-blur-sm transition-all placeholder:text-text-secondary/40 focus:border-gold-primary/50 focus:outline-none focus:ring-1 focus:ring-gold-primary/20 dark:border-dark-border/60 dark:bg-dark-bg/60 dark:text-dark-text-primary dark:placeholder:text-dark-text-secondary/40"
                 />
             </div>
