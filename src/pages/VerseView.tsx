@@ -161,11 +161,11 @@ const VerseView = () => {
     const verseRange = getVerseRange(currentChapter, verseData);
     const progressPercent = duration ? (currentTime / duration) * 100 : 0;
     const translationSections: TranslationSection[] = [
-        { id: 'english', title: 'English', content: verseData.translation_en ?? '', className: 'font-inter' },
-        { id: 'ham', title: 'Ham translation', content: verseData.translation_ham ?? '', className: 'font-noto-kr' },
-        { id: 'gil', title: 'Gil translation', content: verseData.translation_gil ?? '', className: 'font-noto-kr' },
-        { id: 'jimong', title: 'Myung translation', content: verseData.translation_jimong ?? '', className: 'font-noto-kr' },
-        { id: 'suk', title: 'Suk translation', content: verseData.translation_suk ?? '', className: 'font-noto-kr' }
+        { id: 'english', title: 'ENGLISH', content: verseData.translation_en ?? '', className: 'font-inter' },
+        { id: 'ham', title: 'HAM', content: verseData.translation_ham ?? '', className: 'font-noto-kr' },
+        { id: 'gil', title: 'GIL', content: verseData.translation_gil ?? '', className: 'font-noto-kr' },
+        { id: 'jimong', title: 'MYUNG', content: verseData.translation_jimong ?? '', className: 'font-noto-kr' },
+        { id: 'suk', title: 'SUK', content: verseData.translation_suk ?? '', className: 'font-noto-kr' }
     ].filter(section => section.content.trim() !== '');
 
     return (
