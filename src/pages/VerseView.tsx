@@ -164,7 +164,7 @@ const VerseView = () => {
         { id: 'english', title: 'English', content: verseData.translation_en ?? '', className: 'font-inter' },
         { id: 'ham', title: 'Ham translation', content: verseData.translation_ham ?? '', className: 'font-noto-kr' },
         { id: 'gil', title: 'Gil translation', content: verseData.translation_gil ?? '', className: 'font-noto-kr' },
-        { id: 'jimong', title: 'Jimong translation', content: verseData.translation_jimong ?? '', className: 'font-noto-kr' },
+        { id: 'jimong', title: 'Myung translation', content: verseData.translation_jimong ?? '', className: 'font-noto-kr' },
         { id: 'suk', title: 'Suk translation', content: verseData.translation_suk ?? '', className: 'font-noto-kr' }
     ].filter(section => section.content.trim() !== '');
 
@@ -177,28 +177,6 @@ const VerseView = () => {
                         <span>/</span>
                         <span className="font-bold text-text-primary dark:text-dark-text-primary">Chapter {chapterNum}, Verse {verseRange}</span>
                     </nav>
-
-                    <div className="relative overflow-hidden rounded-[32px] border border-gold-primary/15 bg-white/70 px-5 py-6 shadow-[0_20px_70px_-45px_rgba(78,56,22,0.55)] backdrop-blur-xl dark:border-dark-border/70 dark:bg-dark-surface/70 sm:px-8 sm:py-8">
-                        <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-[radial-gradient(circle_at_top,_rgba(166,139,92,0.18),_transparent_72%)] dark:bg-[radial-gradient(circle_at_top,_rgba(197,174,135,0.12),_transparent_72%)]" />
-                        <div className="relative flex flex-col items-center text-center">
-                            <div className="mb-4 flex items-center gap-3">
-                                <span className="flex h-11 w-11 items-center justify-center rounded-full border border-gold-primary/15 bg-gold-surface/80 text-gold-primary shadow-sm dark:border-dark-border/70 dark:bg-dark-bg/70 dark:text-gold-light">
-                                    <span className="font-serif text-xl leading-none">ॐ</span>
-                                </span>
-                                <div className="flex flex-col items-start text-left">
-                                    <span className="text-[10px] font-inter uppercase tracking-[0.32em] text-text-secondary/70 dark:text-dark-text-secondary/70">
-                                        Verse Focus
-                                    </span>
-                                    <span className="font-crimson text-xl tracking-[0.12em] text-text-primary dark:text-dark-text-primary">
-                                        Chapter {chapterNum}.{verseRange}
-                                    </span>
-                                </div>
-                            </div>
-                            <p className="max-w-2xl text-xs font-inter uppercase tracking-[0.26em] text-gold-muted dark:text-gold-light/80">
-                                Sacred text, transliteration, pronunciation, and layered commentary in one reading flow
-                            </p>
-                        </div>
-                    </div>
                 </div>
             }
             footer={
@@ -225,29 +203,29 @@ const VerseView = () => {
                 </div>
             }
         >
-            <section className="mb-8 overflow-hidden rounded-[34px] border border-gold-primary/15 bg-white/72 px-4 py-6 shadow-[0_22px_80px_-48px_rgba(78,56,22,0.52)] backdrop-blur-xl dark:border-dark-border/70 dark:bg-dark-surface/72 sm:px-7 sm:py-8">
+            <section className="mb-6 overflow-hidden rounded-[34px] border border-gold-primary/15 bg-white/72 px-4 py-4 shadow-[0_22px_80px_-48px_rgba(78,56,22,0.52)] backdrop-blur-xl dark:border-dark-border/70 dark:bg-dark-surface/72 sm:px-7 sm:py-5">
                 <div className="mx-auto max-w-3xl">
-                    <div className="mb-6 flex justify-center">
+                    <div className="mb-3 flex justify-center">
                         <span className="rounded-full border border-gold-primary/15 bg-gold-surface/80 px-4 py-1.5 text-[10px] font-inter uppercase tracking-[0.32em] text-gold-muted dark:border-dark-border/70 dark:bg-dark-bg/70 dark:text-gold-light/80">
                             Primary Verse
                         </span>
                     </div>
 
-                    <div className="mb-5 text-center px-2 sm:px-0">
-                        <p className="font-noto text-[24px] font-bold leading-[1.95] tracking-[0.08em] text-[#7A3030] drop-shadow-sm dark:text-[#E3A28A] sm:text-[30px]">
+                    <div className="mb-2 text-center px-2 sm:px-0">
+                        <p className="font-noto text-[24px] font-bold leading-[1.55] tracking-[0.08em] text-[#7A3030] drop-shadow-sm dark:text-[#E3A28A] sm:text-[30px] sm:leading-[1.5]">
                             {verseData.sanskrit}
                         </p>
                     </div>
 
-                    <div className="mb-4 text-center">
-                        <p className="font-noto text-[13px] italic uppercase leading-[1.9] tracking-[0.22em] text-[#9A8868] dark:text-[#D4C3A3] sm:text-[14px]">
+                    <div className="mb-2 text-center">
+                        <p className="font-noto text-[13px] italic uppercase leading-[1.55] tracking-[0.2em] text-[#9A8868] dark:text-[#D4C3A3] sm:text-[14px]">
                             {verseData.iast}
                         </p>
                     </div>
 
                     {verseData.korean_pronunciation && (
                         <div className="text-center">
-                            <p className="mx-auto max-w-2xl font-noto-kr text-[14px] italic leading-8 tracking-[0.08em] text-[#918067] dark:text-[#CBB89B]">
+                            <p className="mx-auto max-w-2xl font-noto-kr text-[14px] italic leading-[1.65] tracking-[0.06em] text-[#918067] dark:text-[#CBB89B]">
                                 {verseData.korean_pronunciation}
                             </p>
                         </div>
@@ -342,10 +320,7 @@ const VerseView = () => {
                 <div className="mb-6 flex items-center justify-center">
                     <span className="text-gold-muted/40 dark:text-gold-muted/30 tracking-[8px] text-xs">•••</span>
                 </div>
-                <h2 className="mb-2 text-center font-inter text-[11px] font-semibold uppercase tracking-[0.3em] text-gold-muted dark:text-gold-muted">Translation</h2>
-                <p className="mx-auto mb-8 max-w-2xl text-center font-inter text-sm leading-7 text-text-secondary dark:text-dark-text-secondary">
-                    Multiple translation voices are arranged below so the verse can be read comparatively instead of as a single flat block.
-                </p>
+                <h2 className="mb-6 text-center font-inter text-[11px] font-semibold uppercase tracking-[0.3em] text-gold-muted dark:text-gold-muted">Translation</h2>
 
                 <div className="space-y-4">
                     {translationSections.map(section => (
