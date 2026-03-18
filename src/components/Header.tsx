@@ -20,18 +20,12 @@ const Header = ({
     className = ''
 }: HeaderProps) => {
     const {
-        activeVersePanel,
         isDesktopNotesOpen,
-        isDesktopSidebarOpen,
         toggleSidebar
     } = useUI();
 
-    const leftPanelWidth = showSidebarToggle && isDesktopSidebarOpen ? 400 : 0;
-    const rightPanelWidth = isDesktopNotesOpen
-        ? (activeVersePanel === 'commentary'
-            ? (isDesktopSidebarOpen ? 400 : 800)
-            : 400)
-        : 0;
+    const leftPanelWidth = showSidebarToggle ? 400 : 0;
+    const rightPanelWidth = isDesktopNotesOpen ? 400 : 0;
 
     const headerContent = (
         <div className="flex h-[72px] items-center justify-between px-4 lg:px-6">
