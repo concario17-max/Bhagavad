@@ -11,7 +11,6 @@ const getStorage = (): Storage | null => {
 };
 
 export const STORAGE_KEYS = {
-    authenticated: 'gita_authenticated',
     theme: 'theme',
     activeVersePanel: 'gita-active-verse-panel',
     desktopSidebar: 'gita-desktop-sidebar',

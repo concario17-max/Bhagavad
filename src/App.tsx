@@ -1,16 +1,14 @@
-import { useState, useEffect, Suspense, lazy } from 'react';
+import { useEffect, Suspense, lazy } from 'react';
 import { HashRouter as Router, Routes, Route, useLocation, Outlet } from 'react-router-dom';
 
 const ChapterList = lazy(() => import('./pages/ChapterList'));
 const VerseView = lazy(() => import('./pages/VerseView'));
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
-import PasswordGateway from './components/PasswordGateway';
 import ThemeToggle from './components/ThemeToggle';
 import VersePanelToggle from './components/VersePanelToggle';
 import VerseSidePanel from './components/VerseSidePanel';
 import { useUI } from './context/UIContext';
-import { isAuthenticated as getAuthenticationState, setAuthenticated } from './utils/auth';
 import { preloadGitaData } from './utils/dataFetcher';
 
 import { AppShell } from './components/ui/AppShell';
@@ -40,33 +38,9 @@ const MainLayout = () => {
 };
 
 function App() {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [isChecking, setIsChecking] = useState(true);
-
     useEffect(() => {
-        const authState = getAuthenticationState();
-        setIsAuthenticated(authState);
-
-        if (authState) {
-            preloadGitaData();
-        }
-
-        setIsChecking(false);
-    }, []);
-
-    const handleAuthenticate = () => {
-        setAuthenticated(true);
-        setIsAuthenticated(true);
         preloadGitaData();
-    };
-
-    if (isChecking) {
-        return <div className="min-h-screen bg-gold-bg dark:bg-dark-bg"></div>;
-    }
-
-    if (!isAuthenticated) {
-        return <PasswordGateway onAuthenticate={handleAuthenticate} />;
-    }
+    }, []);
 
     return (
         <Router>
