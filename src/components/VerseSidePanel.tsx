@@ -14,7 +14,9 @@ const VerseSidePanel = () => {
 
     const isCommentaryPanel = activeVersePanel === 'commentary';
     const mobileWidthClass = 'w-[94vw]';
-    const desktopWidthClass = isDesktopSidebarOpen ? 'lg:w-[460px]' : 'lg:w-[760px]';
+    const desktopWidthClass = isCommentaryPanel
+        ? (isDesktopSidebarOpen ? 'lg:w-[400px]' : 'lg:w-[800px]')
+        : 'lg:w-[400px]';
 
     return (
         <>

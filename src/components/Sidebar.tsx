@@ -74,7 +74,7 @@ const Sidebar = () => {
             onClose={() => setIsSidebarOpen(false)}
             title="Chapters"
             position="left"
-            widthClass="w-72"
+            widthClass="w-[400px]"
         >
             <SidebarMenu
                 groups={groups}

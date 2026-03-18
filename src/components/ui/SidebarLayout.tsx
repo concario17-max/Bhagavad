@@ -34,7 +34,8 @@ export const SidebarLayout = React.memo(({
         'w-64': 'lg:w-64',
         'w-72': 'lg:w-72',
         'w-80': 'lg:w-80',
-        'w-96': 'lg:w-96'
+        'w-96': 'lg:w-96',
+        'w-[400px]': 'lg:w-[400px]'
     }[widthClass] || `lg:${widthClass}`;
 
     return (
