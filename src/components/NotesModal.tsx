@@ -2,14 +2,15 @@ import { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 import { fetchGitaData } from '../utils/dataFetcher';
 import { GitaData } from '../types';
-import { getAllReflectionNotes } from '../utils/storage';
+import { getSanskritPreview } from '../utils/content';
+import { getAllNotes } from '../utils/storage';
 
-interface ReflectionsModalProps {
+interface NotesModalProps {
     isOpen: boolean;
     onClose: () => void;
 }
 
-interface ReflectionNote {
+interface NoteItem {
     id: string;
     chapter: string;
     verse: string;
@@ -17,25 +18,8 @@ interface ReflectionNote {
     content: string;
 }
 
-const getSanskritPreview = (sanskrit: string): string => {
-    const nonEmptyLines = sanskrit
-        .split('\n')
-        .map(line => line.trim())
-        .filter(Boolean);
-
-    if (nonEmptyLines.length > 1) {
-        return nonEmptyLines[1];
-    }
-
-    if (nonEmptyLines.length === 1) {
-        return nonEmptyLines[0];
-    }
-
-    return sanskrit.trim().slice(0, 50);
-};
-
-const ReflectionsModal = ({ isOpen, onClose }: ReflectionsModalProps) => {
-    const [notesData, setNotesData] = useState<ReflectionNote[]>([]);
+const NotesModal = ({ isOpen, onClose }: NotesModalProps) => {
+    const [notesData, setNotesData] = useState<NoteItem[]>([]);
 
     useEffect(() => {
         if (!isOpen) {
@@ -44,7 +28,7 @@ const ReflectionsModal = ({ isOpen, onClose }: ReflectionsModalProps) => {
 
         fetchGitaData()
             .then((data: GitaData) => {
-                const loadedNotes = getAllReflectionNotes().reduce<ReflectionNote[]>((accumulator, noteEntry) => {
+                const loadedNotes = getAllNotes().reduce<NoteItem[]>((accumulator, noteEntry) => {
                     const { key, chapter, verse, content } = noteEntry;
                     const chapterData = data[chapter];
                     const verseData = chapterData?.verses.find(entry => entry.verse.toString() === verse);
@@ -117,4 +101,4 @@ const ReflectionsModal = ({ isOpen, onClose }: ReflectionsModalProps) => {
     );
 };
 
-export default ReflectionsModal;
+export default NotesModal;

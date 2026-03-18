@@ -1,120 +1,74 @@
-# Bhagavad 개선 우선순위 계획
+# Bhagavad Implementation Plan
 
-작성일: 2026-03-16
+Updated: 2026-03-18
+Workspace: `C:\Users\roadsea\Desktop\nagham`
 
-## 현재 진행 상태
+## Historical Work
 
-- [x] P0. 데이터 인코딩 정상화
-- [x] P1. 구절 해석 로직 공통화
-- [x] P2. 코멘터리 표시 위치 정리
-- [x] P3. 메타데이터 출처 정리
-- [x] P4. 로컬 스토리지 의존성 정리
-- [x] P5. 인증 구조 재평가
+- [x] P0. Encoding normalization
+- [x] P1. Shared verse resolution logic
+- [x] P2. Commentary display consolidation
+- [x] P3. Shared chapter metadata
+- [x] P4. Centralized local storage helpers
+- [x] P5. Authentication review and removal path
 
-## P0. 데이터 인코딩 정상화
+## 2026-03-18 Improvement TODO
 
-완료 항목:
+### T0. Internal naming alignment
 
-- [x] `src/constants.ts` 문자열 복구
-- [x] `public/gita.json` 텍스트 복구
-- [x] `public/lexicon.json` 텍스트 복구
-- [x] JSX 내부 깨진 기호 정리
-- [x] 복구 후 샘플 확인 및 빌드 검증
+- [x] Rename remaining `Reflections`-style component and state names to `Notes`
+- [x] Rename `UIContext` right-panel state to `isNotesOpen`, `isDesktopNotesOpen`, and `toggleNotesPanel`
+- [x] Replace file-level `Reflections` components with `NotesPanel` and `NotesModal`
+- [x] Keep legacy desktop storage migration for `gita-desktop-reflections`
+- [x] Preserve behavior while cleaning names
 
-## P1. 구절 해석 로직 공통화
+### T1. Notes data and export naming
 
-완료 항목:
+- [x] Rename note storage APIs to `getNote`, `setNote`, and `getAllNotes`
+- [x] Rename note type to `StoredNote`
+- [x] Align note export copy and filenames with `Notes`
+- [x] Verify `Notes` wording across home modal and right panel entry points
 
-- [x] `src/utils/verse.ts` 추가
-- [x] `resolveVerse()` 공용화
-- [x] `getVerseRange()` 공용화
-- [x] `VerseView.tsx` 공용 util 사용
-- [x] `VerseCommentary.tsx` 공용 util 사용
+### T2. Right panel state structure
 
-## P2. 코멘터리 표시 위치 정리
+- [x] Keep `commentary` as the default active right panel mode
+- [x] Confirm forced-open toggle behavior through `toggleNotesPanel(true)`
+- [x] Keep identical width rules for `Notes` and `Commentary`
+- [x] Keep expansion behavior identical when the left chapter panel closes
 
-완료 항목:
+### T3. Content integrity review
 
-- [x] 본문 하단 코멘터리 제거
-- [x] 우측 패널 코멘터리만 유지
-- [x] notes/commentary 토글 의미와 실제 UI 일치
+- [x] Re-check translation coverage in `public/gita.json`
+- [x] Re-check `lexicon.json` structural integrity
+- [x] Confirm translation label policy stays fixed as `ENGLISH / HAM / GIL / MYUNG / SUK`
+- [x] Document incomplete `SUK` coverage instead of hiding it silently
 
-## P3. 메타데이터 출처 정리
+### T4. Commentary rule audit
 
-완료 항목:
+- [x] Audit `commentary_en` values across the source dataset
+- [x] Confirm empty commentary states mainly come from source data
+- [x] Refine commentary visibility rules to hide metadata-only stubs
+- [x] Update placeholder copy to reflect actual source-data limitations
 
-- [x] `src/utils/chapterMeta.ts` 추가
-- [x] 홈 화면 챕터 카드가 공용 메타 resolver 사용
-- [x] 사이드바 챕터 제목이 공용 메타 resolver 사용
-- [x] 제목 분해 규칙(main/subtitle) 일원화
+### T5. UI and layout closing pass
 
-현재 기준:
+- [x] Keep left panel at real `30% / 70%` height split
+- [x] Keep tightened verse header spacing
+- [x] Keep removal of non-essential helper copy above verse content
+- [x] Keep parity between `Notes` and `Commentary` sizing rules
 
-- 챕터 제목과 설명은 공용 메타 레이어를 통해 읽는다.
-- 실제 우선 메타 소스는 `CHAPTER_DATA`
-- `gita.json`의 `name_translated`는 fallback으로만 사용
+### T6. Documentation and maintenance
 
-## P4. 로컬 스토리지 의존성 정리
+- [x] Rewrite `research.md` to match the current codebase
+- [x] Update `plan.md` with completed implementation status
+- [x] Refresh release documentation to match the no-password flow and `Notes` naming
 
-완료 항목:
-
-- [x] `src/utils/storage.ts` 추가
-- [x] 인증 상태 저장을 공용 storage util로 이동
-- [x] 테마 저장을 공용 storage util로 이동
-- [x] UI 패널 상태 저장을 공용 storage util로 이동
-- [x] word-by-word 토글 저장을 공용 storage util로 이동
-- [x] 메모 읽기/쓰기/전체 목록 조회를 공용 storage util로 이동
-
-정리 결과:
-
-- 저장 키가 `STORAGE_KEYS`로 모였다.
-- 메모 관련 반복 로직이 `getAllReflectionNotes()`로 통합되었다.
-- 개별 컴포넌트가 `localStorage` 세부 구현을 직접 다루지 않게 되었다.
-
-## P5. 인증 구조 재평가
-
-완료 항목:
-
-- [x] 인증 상태 읽기/쓰기를 `src/utils/auth.ts`로 정리
-- [x] 게이트 비밀번호 조회를 공용 auth util로 정리
-- [x] `PasswordGateway`에 클라이언트 게이트 한계 안내 문구 추가
-- [x] `research.md`에 현재 인증 구조의 목적과 한계 반영
-
-현재 결론:
-
-- 현 구조는 유지
-- 다만 보안 기능으로 간주하지 않음
-- 실제 보호가 필요하면 서버 인증 또는 배포 접근 제한이 필요
-
-## 남은 추천 실행 순서
-
-1. 육안 QA 및 실제 브라우저 확인
-
-## 검증 체크리스트
+## Validation
 
 - [x] `npx tsc --noEmit`
 - [x] `npm run build`
-- [x] 홈 화면 챕터 카드 동작 확인
-- [x] 대표 verse 3개 이상 진입 확인
-- [x] 우측 패널 notes/commentary 전환 확인
-- [x] 좌측 패널 열림/닫힘에 따른 폭 변화 확인
-- [x] 다크모드 토글 및 유지 확인
 
-## QA / 디버그 체크리스트
+## Outcome
 
-- [x] 로컬 개발 서버를 별도 포트(`4317`)로 실행해 실제 앱 기준으로 확인
-- [x] 인증 게이트가 자동 검증을 막지 않도록 `localStorage` 기반 진입 상태를 주입해 스모크 테스트 수행
-- [x] 홈 진입 확인
-- [x] 구절 페이지 진입 확인
-- [x] 우측 패널 `Notes -> Commentary` 전환 확인
-- [x] 좌측 챕터 패널 닫힘 시 코멘터리 패널 폭 확장 확인
-- [x] 모바일 폭에서 우측 패널 드로어가 화면 안으로 열리는지 확인
-- [x] 모바일 좌측/우측 패널 닫기 버튼 노출 확인
-
-## QA / 디버그 메모
-
-- 자동 스모크 테스트 기준 우측 코멘터리 패널 폭은 좌측 챕터 패널이 열려 있을 때 `460px`, 닫혀 있을 때 `760px`으로 확인되었다.
-- 모바일 뷰포트(`390px`)에서는 우측 패널이 약 `366.6px` 폭으로 열리며 화면 우측에 정상 정렬되었다.
-- 모바일 좌측 챕터 패널과 우측 구절 패널에는 각각 명시적인 닫기 버튼 라벨을 추가해 닫기 동선과 접근성을 보강했다.
-- 브라우저 자동화는 기본 인증 게이트 때문에 바로 진입되지 않으므로, 추후 E2E를 붙일 때는 테스트 전용 인증 우회 전략이 필요하다.
-- 육안 QA는 아직 남아 있다. 실제 폰트 렌더링, 다크모드 대비, 긴 코멘터리 스크롤 감각은 사람이 한 번 더 확인하는 편이 안전하다.
+The remaining 2026-03-18 cleanup work is complete.
+The codebase now uses `Notes` terminology consistently in implementation and documentation, commentary behavior matches the actual source data, and the current plan items are fully closed.

@@ -2,9 +2,11 @@ import { createContext, useContext, useState, ReactNode, Dispatch, SetStateActio
 import {
     STORAGE_KEYS,
     getActiveVersePanel,
+    getDesktopNotesPreference,
     getBoolean,
     setActiveVersePanelPreference,
-    setBoolean
+    setBoolean,
+    setDesktopNotesPreference
 } from '../utils/storage';
 
 export type VersePanelMode = 'notes' | 'commentary';
@@ -14,10 +16,10 @@ interface UIContextType {
     setIsSidebarOpen: Dispatch<SetStateAction<boolean>>;
     isDesktopSidebarOpen: boolean;
     toggleSidebar: () => void;
-    isReflectionsOpen: boolean;
-    setIsReflectionsOpen: Dispatch<SetStateAction<boolean>>;
-    isDesktopReflectionsOpen: boolean;
-    toggleReflections: (forceOpen?: boolean) => void;
+    isNotesOpen: boolean;
+    setIsNotesOpen: Dispatch<SetStateAction<boolean>>;
+    isDesktopNotesOpen: boolean;
+    toggleNotesPanel: (forceOpen?: boolean) => void;
     activeVersePanel: VersePanelMode;
     setActiveVersePanel: Dispatch<SetStateAction<VersePanelMode>>;
     closeAllDrawers: () => void;
@@ -31,10 +33,10 @@ interface UIProviderProps {
 
 export const UIProvider = ({ children }: UIProviderProps) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const [isReflectionsOpen, setIsReflectionsOpen] = useState(false);
+    const [isNotesOpen, setIsNotesOpen] = useState(false);
     const [activeVersePanel, setActiveVersePanelState] = useState<VersePanelMode>(() => getActiveVersePanel());
     const [isDesktopSidebarOpen, setIsDesktopSidebarOpen] = useState<boolean>(() => getBoolean(STORAGE_KEYS.desktopSidebar, true));
-    const [isDesktopReflectionsOpen, setIsDesktopReflectionsOpen] = useState<boolean>(() => getBoolean(STORAGE_KEYS.desktopReflections, true));
+    const [isDesktopNotesOpen, setIsDesktopNotesOpen] = useState<boolean>(() => getDesktopNotesPreference());
 
     const setActiveVersePanel: Dispatch<SetStateAction<VersePanelMode>> = value => {
         setActiveVersePanelState(previous => {
@@ -55,20 +57,20 @@ export const UIProvider = ({ children }: UIProviderProps) => {
         setBoolean(STORAGE_KEYS.desktopSidebar, newState);
     };
 
-    const toggleReflections = (forceOpen = false) => {
+    const toggleNotesPanel = (forceOpen = false): void => {
         if (window.innerWidth < 1024) {
-            setIsReflectionsOpen(prev => (forceOpen ? true : !prev));
+            setIsNotesOpen(prev => (forceOpen ? true : !prev));
             return;
         }
 
-        const newState = forceOpen ? true : !isDesktopReflectionsOpen;
-        setIsDesktopReflectionsOpen(newState);
-        setBoolean(STORAGE_KEYS.desktopReflections, newState);
+        const newState = forceOpen ? true : !isDesktopNotesOpen;
+        setIsDesktopNotesOpen(newState);
+        setDesktopNotesPreference(newState);
     };
 
     const closeAllDrawers = () => {
         setIsSidebarOpen(false);
-        setIsReflectionsOpen(false);
+        setIsNotesOpen(false);
     };
 
     return (
@@ -77,10 +79,10 @@ export const UIProvider = ({ children }: UIProviderProps) => {
             setIsSidebarOpen,
             isDesktopSidebarOpen,
             toggleSidebar,
-            isReflectionsOpen,
-            setIsReflectionsOpen,
-            isDesktopReflectionsOpen,
-            toggleReflections,
+            isNotesOpen,
+            setIsNotesOpen,
+            isDesktopNotesOpen,
+            toggleNotesPanel,
             activeVersePanel,
             setActiveVersePanel,
             closeAllDrawers

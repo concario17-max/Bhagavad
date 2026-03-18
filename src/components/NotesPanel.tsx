@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Download, Edit3 } from 'lucide-react';
-import { getAllReflectionNotes, getReflectionNote, setReflectionNote } from '../utils/storage';
+import { getAllNotes, getNote, setNote as saveNote } from '../utils/storage';
 
-const Reflections = () => {
+const NotesPanel = () => {
     const { chapterNum, verseNum } = useParams<{ chapterNum: string; verseNum: string }>();
-    const [note, setNote] = useState('');
+    const [note, setNoteValue] = useState('');
     const [isSaving, setIsSaving] = useState(false);
     const [showExportMenu, setShowExportMenu] = useState(false);
 
@@ -14,7 +14,7 @@ const Reflections = () => {
             return;
         }
 
-        setNote(getReflectionNote(chapterNum, verseNum));
+        setNoteValue(getNote(chapterNum, verseNum));
     }, [chapterNum, verseNum]);
 
     const handleSave = (): void => {
@@ -23,7 +23,7 @@ const Reflections = () => {
         }
 
         setIsSaving(true);
-        setReflectionNote(chapterNum, verseNum, note);
+        saveNote(chapterNum, verseNum, note);
         setTimeout(() => setIsSaving(false), 1000);
     };
 
@@ -38,13 +38,13 @@ const Reflections = () => {
     };
 
     const handleExportCurrent = (): void => {
-        downloadTextFile(`Bhagavad_Gita_Reflection_${chapterNum}_${verseNum}.txt`, note);
+        downloadTextFile(`Bhagavad_Gita_Note_${chapterNum}_${verseNum}.txt`, note);
         setShowExportMenu(false);
     };
 
     const handleExportAll = (): void => {
         let allNotesText = 'Bhagavad Gita - All Notes\n\n';
-        getAllReflectionNotes().forEach(noteEntry => {
+        getAllNotes().forEach(noteEntry => {
             allNotesText += `--- Chapter ${noteEntry.chapter}, Verse ${noteEntry.verse} ---\n${noteEntry.content}\n\n`;
         });
 
@@ -76,7 +76,7 @@ const Reflections = () => {
             <div className="mb-4 flex min-h-0 flex-1 flex-col space-y-2">
                 <textarea
                     value={note}
-                    onChange={event => setNote(event.target.value)}
+                    onChange={event => setNoteValue(event.target.value)}
                     placeholder="Write your notes or reading observations for this verse."
                     className="custom-scrollbar flex-1 w-full resize-none rounded-2xl border border-gold-primary/20 bg-white/70 p-5 text-[14px] leading-relaxed text-text-primary shadow-inner backdrop-blur-sm transition-all placeholder:text-text-secondary/40 focus:border-gold-primary/50 focus:outline-none focus:ring-1 focus:ring-gold-primary/20 dark:border-dark-border/60 dark:bg-dark-bg/60 dark:text-dark-text-primary dark:placeholder:text-dark-text-secondary/40"
                 />
@@ -122,4 +122,4 @@ const Reflections = () => {
     );
 };
 
-export default Reflections;
+export default NotesPanel;

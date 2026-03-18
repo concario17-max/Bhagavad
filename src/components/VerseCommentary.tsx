@@ -3,6 +3,7 @@ import { BookOpenText } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import { fetchGitaData } from '../utils/dataFetcher';
 import { GitaVerse } from '../types';
+import { isDisplayableCommentary } from '../utils/content';
 import { resolveVerse } from '../utils/verse';
 
 const VerseCommentary = () => {
@@ -22,7 +23,7 @@ const VerseCommentary = () => {
     }, [chapterNum, verseNum]);
 
     const commentary = verseData?.commentary_en?.trim() ?? '';
-    const hasCommentary = commentary !== '' && !commentary.startsWith('$') && !/[\u0900-\u097F]/.test(commentary);
+    const hasCommentary = isDisplayableCommentary(commentary);
 
     return (
         <div className="flex h-full min-h-0 flex-col">
@@ -47,7 +48,7 @@ const VerseCommentary = () => {
                     </div>
                 ) : (
                     <div className="rounded-2xl border border-dashed border-gold-primary/20 bg-white/40 px-5 py-8 text-center text-sm leading-relaxed text-text-secondary dark:border-dark-border/50 dark:bg-dark-bg/40 dark:text-dark-text-secondary">
-                        No commentary is available for this verse yet.
+                        This verse does not include a readable English commentary in the current source data.
                     </div>
                 )}
             </div>

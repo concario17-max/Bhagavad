@@ -14,13 +14,17 @@ export const STORAGE_KEYS = {
     theme: 'theme',
     activeVersePanel: 'gita-active-verse-panel',
     desktopSidebar: 'gita-desktop-sidebar',
-    desktopReflections: 'gita-desktop-reflections',
+    desktopNotes: 'gita-desktop-notes',
     showLexicon: 'gita-show-lexicon'
+} as const;
+
+const LEGACY_STORAGE_KEYS = {
+    desktopNotes: 'gita-desktop-reflections'
 } as const;
 
 const NOTE_PREFIX = 'gita-note-';
 
-export interface StoredReflectionNote {
+export interface StoredNote {
     key: string;
     chapter: string;
     verse: string;
@@ -76,6 +80,26 @@ export const setThemePreference = (theme: 'light' | 'dark'): void => {
     setString(STORAGE_KEYS.theme, theme);
 };
 
+export const getDesktopNotesPreference = (): boolean => {
+    const currentValue = getString(STORAGE_KEYS.desktopNotes);
+    if (currentValue !== null) {
+        return currentValue === 'true';
+    }
+
+    const legacyValue = getString(LEGACY_STORAGE_KEYS.desktopNotes);
+    if (legacyValue !== null) {
+        const nextValue = legacyValue === 'true';
+        setBoolean(STORAGE_KEYS.desktopNotes, nextValue);
+        return nextValue;
+    }
+
+    return true;
+};
+
+export const setDesktopNotesPreference = (value: boolean): void => {
+    setBoolean(STORAGE_KEYS.desktopNotes, value);
+};
+
 export const getActiveVersePanel = (): VersePanelMode => {
     const savedPanel = getString(STORAGE_KEYS.activeVersePanel);
     return savedPanel === 'notes' ? 'notes' : 'commentary';
@@ -85,21 +109,21 @@ export const setActiveVersePanelPreference = (panel: VersePanelMode): void => {
     setString(STORAGE_KEYS.activeVersePanel, panel);
 };
 
-export const getReflectionNoteKey = (chapterNum: string, verseNum: string): string => `${NOTE_PREFIX}${chapterNum}-${verseNum}`;
+export const getNoteKey = (chapterNum: string, verseNum: string): string => `${NOTE_PREFIX}${chapterNum}-${verseNum}`;
 
-export const getReflectionNote = (chapterNum: string, verseNum: string): string => getString(getReflectionNoteKey(chapterNum, verseNum)) ?? '';
+export const getNote = (chapterNum: string, verseNum: string): string => getString(getNoteKey(chapterNum, verseNum)) ?? '';
 
-export const setReflectionNote = (chapterNum: string, verseNum: string, note: string): void => {
-    setString(getReflectionNoteKey(chapterNum, verseNum), note);
+export const setNote = (chapterNum: string, verseNum: string, note: string): void => {
+    setString(getNoteKey(chapterNum, verseNum), note);
 };
 
-export const getAllReflectionNotes = (): StoredReflectionNote[] => {
+export const getAllNotes = (): StoredNote[] => {
     const storage = getStorage();
     if (!storage) {
         return [];
     }
 
-    const notes: StoredReflectionNote[] = [];
+    const notes: StoredNote[] = [];
 
     try {
         for (let index = 0; index < storage.length; index += 1) {
@@ -122,7 +146,7 @@ export const getAllReflectionNotes = (): StoredReflectionNote[] => {
             });
         }
     } catch (error) {
-        console.warn('Unable to read reflection notes from localStorage:', error);
+        console.warn('Unable to read notes from localStorage:', error);
         return [];
     }
 

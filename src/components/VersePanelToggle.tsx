@@ -2,12 +2,12 @@ import { MessageSquareText, NotebookPen } from 'lucide-react';
 import { useUI } from '../context/UIContext';
 
 const VersePanelToggle = () => {
-    const { activeVersePanel, setActiveVersePanel, toggleReflections } = useUI();
+    const { activeVersePanel, setActiveVersePanel, toggleNotesPanel } = useUI();
 
     const handleToggle = (): void => {
         const nextPanel = activeVersePanel === 'notes' ? 'commentary' : 'notes';
         setActiveVersePanel(nextPanel);
-        toggleReflections(true);
+        toggleNotesPanel(true);
     };
 
     const isNotesPanel = activeVersePanel === 'notes';

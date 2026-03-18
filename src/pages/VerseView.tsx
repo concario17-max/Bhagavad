@@ -5,15 +5,9 @@ import { fetchGitaData } from '../utils/dataFetcher';
 import { scrollAppContainerToTop, withBasePath } from '../utils/paths';
 import { GitaData, GitaVerse } from '../types';
 import { STORAGE_KEYS, getBoolean, setBoolean } from '../utils/storage';
+import { getTranslationDefinitions, TranslationDefinition } from '../utils/content';
 import { getVerseRange, resolveVerse } from '../utils/verse';
 import { ContentReader } from '../components/ui/ContentReader';
-
-interface TranslationSection {
-    id: string;
-    title: string;
-    content: string;
-    className: string;
-}
 
 const formatTime = (time: number): string => {
     if (Number.isNaN(time)) {
@@ -160,13 +154,7 @@ const VerseView = () => {
 
     const verseRange = getVerseRange(currentChapter, verseData);
     const progressPercent = duration ? (currentTime / duration) * 100 : 0;
-    const translationSections: TranslationSection[] = [
-        { id: 'english', title: 'ENGLISH', content: verseData.translation_en ?? '', className: 'font-inter' },
-        { id: 'ham', title: 'HAM', content: verseData.translation_ham ?? '', className: 'font-noto-kr' },
-        { id: 'gil', title: 'GIL', content: verseData.translation_gil ?? '', className: 'font-noto-kr' },
-        { id: 'jimong', title: 'MYUNG', content: verseData.translation_jimong ?? '', className: 'font-noto-kr' },
-        { id: 'suk', title: 'SUK', content: verseData.translation_suk ?? '', className: 'font-noto-kr' }
-    ].filter(section => section.content.trim() !== '');
+    const translationSections: TranslationDefinition[] = getTranslationDefinitions(verseData);
 
     return (
         <ContentReader
