@@ -44,7 +44,7 @@ export const GlassCard = React.memo(({
                     </span>
                 )}
 
-                <h2 className="font-bold tracking-wide mb-5 text-text-primary dark:text-dark-text-primary font-noto-kr flex flex-col gap-1.5 mt-1">
+                <h2 className="font-bold tracking-wide mb-5 text-text-primary dark:text-dark-text-primary font-pretendard flex flex-col gap-1.5 mt-1">
                     {title}
                 </h2>
 

@@ -213,7 +213,7 @@ const VerseView = () => {
 
                     {verseData.korean_pronunciation && (
                         <div className="text-center">
-                            <p className="mx-auto max-w-2xl font-noto-kr text-[14px] italic leading-[1.65] tracking-[0.06em] text-[#918067] dark:text-[#CBB89B]">
+                            <p className="mx-auto max-w-2xl font-pretendard text-[14px] leading-[1.7] tracking-[0.01em] text-[#918067] dark:text-[#CBB89B]">
                                 {verseData.korean_pronunciation}
                             </p>
                         </div>

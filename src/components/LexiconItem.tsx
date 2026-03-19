@@ -15,7 +15,7 @@ const LexiconItem = ({ word, meaning }: LexiconItemProps) => {
                 </span>
             </div>
             <div className="w-full sm:w-2/3">
-                <span className="text-text-secondary dark:text-dark-text-secondary font-noto-kr text-[15px] leading-relaxed break-keep group-hover:text-text-primary dark:group-hover:text-dark-text-primary transition-colors">
+                <span className="text-text-secondary dark:text-dark-text-secondary font-pretendard text-[15px] leading-relaxed break-keep group-hover:text-text-primary dark:group-hover:text-dark-text-primary transition-colors">
                     {meaning}
                 </span>
             </div>

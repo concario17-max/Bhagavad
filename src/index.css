@@ -26,7 +26,7 @@
   /* Fonts tuned for a contemplative, text-forward reading experience */
   --font-crimson: "Cormorant Garamond", "Garamond", "Georgia", "Times New Roman", serif;
   --font-noto: "Noto Serif", "Georgia", "Times New Roman", serif;
-  --font-noto-kr: "Gowun Batang", "Malgun Gothic", "Apple SD Gothic Neo", serif;
+  --font-pretendard: "Pretendard", "Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
   --font-inter: "Manrope", "Helvetica Neue", "Arial", sans-serif;
 }
 
