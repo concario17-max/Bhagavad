@@ -8,14 +8,12 @@ import { GlassCard } from '../components/ui/GlassCard';
 
 const CompendiumModal = lazy(() => import('../components/CompendiumModal'));
 const LexiconModal = lazy(() => import('../components/LexiconModal'));
-const NotesModal = lazy(() => import('../components/NotesModal'));
 
 const ChapterList = () => {
     const navigate = useNavigate();
     const [chapters, setChapters] = useState<GitaChapter[]>([]);
     const [isCompendiumOpen, setIsCompendiumOpen] = useState(false);
     const [isLexiconOpen, setIsLexiconOpen] = useState(false);
-    const [isNotesOpen, setIsNotesOpen] = useState(false);
     const [selectedChapter, setSelectedChapter] = useState('');
     const [selectedVerse, setSelectedVerse] = useState('');
 
@@ -51,10 +49,6 @@ const ChapterList = () => {
                     <div className="w-1.5 h-1.5 rotate-45 bg-gold-border/50"></div>
                     <button type="button" onClick={() => setIsLexiconOpen(true)} className="hover:text-gold-primary transition-colors italic">
                         Lexicon
-                    </button>
-                    <div className="w-1.5 h-1.5 rotate-45 bg-gold-border/50"></div>
-                    <button type="button" onClick={() => setIsNotesOpen(true)} className="hover:text-gold-primary transition-colors italic">
-                        Notes
                     </button>
                 </div>
 
@@ -142,7 +136,6 @@ const ChapterList = () => {
             <Suspense fallback={null}>
                 {isCompendiumOpen && <CompendiumModal isOpen={isCompendiumOpen} onClose={() => setIsCompendiumOpen(false)} />}
                 {isLexiconOpen && <LexiconModal isOpen={isLexiconOpen} onClose={() => setIsLexiconOpen(false)} />}
-                {isNotesOpen && <NotesModal isOpen={isNotesOpen} onClose={() => setIsNotesOpen(false)} />}
             </Suspense>
         </div>
     );

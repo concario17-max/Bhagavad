@@ -1,27 +1,21 @@
 import { createContext, useContext, useState, ReactNode, Dispatch, SetStateAction } from 'react';
 import {
     STORAGE_KEYS,
-    getActiveVersePanel,
-    getDesktopNotesPreference,
+    getDesktopCommentaryPreference,
     getBoolean,
-    setActiveVersePanelPreference,
     setBoolean,
-    setDesktopNotesPreference
+    setDesktopCommentaryPreference
 } from '../utils/storage';
-
-export type VersePanelMode = 'notes' | 'commentary';
 
 interface UIContextType {
     isSidebarOpen: boolean;
     setIsSidebarOpen: Dispatch<SetStateAction<boolean>>;
     isDesktopSidebarOpen: boolean;
     toggleSidebar: () => void;
-    isNotesOpen: boolean;
-    setIsNotesOpen: Dispatch<SetStateAction<boolean>>;
-    isDesktopNotesOpen: boolean;
-    toggleNotesPanel: (forceOpen?: boolean) => void;
-    activeVersePanel: VersePanelMode;
-    setActiveVersePanel: Dispatch<SetStateAction<VersePanelMode>>;
+    isCommentaryPanelOpen: boolean;
+    setIsCommentaryPanelOpen: Dispatch<SetStateAction<boolean>>;
+    isDesktopCommentaryPanelOpen: boolean;
+    toggleCommentaryPanel: (forceOpen?: boolean) => void;
     closeAllDrawers: () => void;
 }
 
@@ -33,18 +27,9 @@ interface UIProviderProps {
 
 export const UIProvider = ({ children }: UIProviderProps) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const [isNotesOpen, setIsNotesOpen] = useState(false);
-    const [activeVersePanel, setActiveVersePanelState] = useState<VersePanelMode>(() => getActiveVersePanel());
+    const [isCommentaryPanelOpen, setIsCommentaryPanelOpen] = useState(false);
     const [isDesktopSidebarOpen, setIsDesktopSidebarOpen] = useState<boolean>(() => getBoolean(STORAGE_KEYS.desktopSidebar, true));
-    const [isDesktopNotesOpen, setIsDesktopNotesOpen] = useState<boolean>(() => getDesktopNotesPreference());
-
-    const setActiveVersePanel: Dispatch<SetStateAction<VersePanelMode>> = value => {
-        setActiveVersePanelState(previous => {
-            const nextValue = typeof value === 'function' ? value(previous) : value;
-            setActiveVersePanelPreference(nextValue);
-            return nextValue;
-        });
-    };
+    const [isDesktopCommentaryPanelOpen, setIsDesktopCommentaryPanelOpen] = useState<boolean>(() => getDesktopCommentaryPreference());
 
     const toggleSidebar = () => {
         if (window.innerWidth < 1024) {
@@ -57,20 +42,20 @@ export const UIProvider = ({ children }: UIProviderProps) => {
         setBoolean(STORAGE_KEYS.desktopSidebar, newState);
     };
 
-    const toggleNotesPanel = (forceOpen = false): void => {
+    const toggleCommentaryPanel = (forceOpen = false): void => {
         if (window.innerWidth < 1024) {
-            setIsNotesOpen(prev => (forceOpen ? true : !prev));
+            setIsCommentaryPanelOpen(prev => (forceOpen ? true : !prev));
             return;
         }
 
-        const newState = forceOpen ? true : !isDesktopNotesOpen;
-        setIsDesktopNotesOpen(newState);
-        setDesktopNotesPreference(newState);
+        const newState = forceOpen ? true : !isDesktopCommentaryPanelOpen;
+        setIsDesktopCommentaryPanelOpen(newState);
+        setDesktopCommentaryPreference(newState);
     };
 
     const closeAllDrawers = () => {
         setIsSidebarOpen(false);
-        setIsNotesOpen(false);
+        setIsCommentaryPanelOpen(false);
     };
 
     return (
@@ -79,12 +64,10 @@ export const UIProvider = ({ children }: UIProviderProps) => {
             setIsSidebarOpen,
             isDesktopSidebarOpen,
             toggleSidebar,
-            isNotesOpen,
-            setIsNotesOpen,
-            isDesktopNotesOpen,
-            toggleNotesPanel,
-            activeVersePanel,
-            setActiveVersePanel,
+            isCommentaryPanelOpen,
+            setIsCommentaryPanelOpen,
+            isDesktopCommentaryPanelOpen,
+            toggleCommentaryPanel,
             closeAllDrawers
         }}>
             {children}

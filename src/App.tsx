@@ -16,14 +16,14 @@ import { AppShell } from './components/ui/AppShell';
 const MainLayout = () => {
     const location = useLocation();
     const isVerseView = location.pathname.includes('/chapter/') && location.pathname.includes('/verse/');
-    const { isSidebarOpen } = useUI();
+    const { isSidebarOpen, isCommentaryPanelOpen } = useUI();
 
     return (
         <AppShell
             header={isVerseView ? <Header rightContent={<VersePanelToggle />} /> : undefined}
             sidebar={isVerseView ? <Sidebar /> : undefined}
             rightPanel={isVerseView ? <VerseSidePanel /> : undefined}
-            isMobilePanelOpen={isSidebarOpen}
+            isMobilePanelOpen={isSidebarOpen || isCommentaryPanelOpen}
             floatingAction={
                 !isVerseView ? (
                     <ThemeToggle className="p-3 bg-white/80 dark:bg-[#111]/80 backdrop-blur-md border border-gold-primary/20 dark:border-gold-primary/10 hover:border-gold-primary/40 shadow-xl shadow-black/5 dark:shadow-[0_8px_30px_-5px_rgba(0,0,0,0.6)] hover:-translate-y-1" />
