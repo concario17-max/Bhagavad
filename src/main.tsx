@@ -5,8 +5,6 @@ import './index.css';
 import { ThemeProvider } from './context/ThemeContext';
 import { UIProvider } from './context/UIContext';
 
-window.addEventListener('error', (e: ErrorEvent) => console.error('Global error:', e.error));
-
 const rootElement = document.getElementById('root');
 if (!rootElement) throw new Error('Failed to find the root element');
 

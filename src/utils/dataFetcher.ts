@@ -23,7 +23,6 @@ export const fetchGitaData = (): Promise<GitaData> => {
     if (!gitaDataPromise) {
         gitaDataPromise = requestGitaData()
             .catch(error => {
-                console.error('Fetch Gita Data Error:', error);
                 gitaDataPromise = null;
                 throw error;
             });

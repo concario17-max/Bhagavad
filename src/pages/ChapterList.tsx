@@ -12,6 +12,7 @@ const LexiconModal = lazy(() => import('../components/LexiconModal'));
 const ChapterList = () => {
     const navigate = useNavigate();
     const [chapters, setChapters] = useState<GitaChapter[]>([]);
+    const [loadState, setLoadState] = useState<'loading' | 'ready' | 'error'>('loading');
     const [isCompendiumOpen, setIsCompendiumOpen] = useState(false);
     const [isLexiconOpen, setIsLexiconOpen] = useState(false);
     const [selectedChapter, setSelectedChapter] = useState('');
@@ -21,8 +22,11 @@ const ChapterList = () => {
         fetchGitaData()
             .then(data => {
                 setChapters(Object.values(data));
+                setLoadState('ready');
             })
-            .catch(err => console.error('Failed to load chapters:', err));
+            .catch(() => {
+                setLoadState('error');
+            });
     }, []);
 
     const selectedChapterData = selectedChapter
@@ -104,6 +108,12 @@ const ChapterList = () => {
                     </div>
                 </div>
             </div>
+
+            {loadState === 'error' && (
+                <div className="mx-auto mb-10 max-w-3xl rounded-2xl border border-dashed border-gold-primary/20 bg-white/55 px-6 py-5 text-center text-sm leading-relaxed text-text-secondary dark:border-dark-border/50 dark:bg-dark-surface/45 dark:text-dark-text-secondary">
+                    Chapter data could not be loaded from the local source files. Please refresh and try again.
+                </div>
+            )}
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-7xl mx-auto px-4 relative z-10 pb-20">
                 {chapters.map(chapter => {

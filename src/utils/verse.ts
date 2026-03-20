@@ -36,3 +36,59 @@ export const getVerseRange = (chapter: GitaChapter, verse: GitaVerse): string =>
 
     return verse.verse.toString();
 };
+
+const buildVersePath = (chapterNumber: number, verseNumber: number): string => `/chapter/${chapterNumber}/verse/${verseNumber}`;
+
+export const getPreviousVersePath = (data: GitaData, chapterNum: string, verse: GitaVerse): string | null => {
+    const currentChapterNumber = Number.parseInt(chapterNum, 10);
+    const currentChapter = data[currentChapterNumber.toString()];
+
+    if (!currentChapter) {
+        return null;
+    }
+
+    const currentIndex = currentChapter.verses.findIndex(entry => entry.verse === verse.verse);
+    if (currentIndex === -1) {
+        return null;
+    }
+
+    if (currentIndex > 0) {
+        return buildVersePath(currentChapterNumber, currentChapter.verses[currentIndex - 1].verse);
+    }
+
+    if (currentChapterNumber <= 1) {
+        return null;
+    }
+
+    const previousChapter = data[(currentChapterNumber - 1).toString()];
+    if (!previousChapter || previousChapter.verses.length === 0) {
+        return null;
+    }
+
+    return buildVersePath(currentChapterNumber - 1, previousChapter.verses[previousChapter.verses.length - 1].verse);
+};
+
+export const getNextVersePath = (data: GitaData, chapterNum: string, verse: GitaVerse): string | null => {
+    const currentChapterNumber = Number.parseInt(chapterNum, 10);
+    const currentChapter = data[currentChapterNumber.toString()];
+
+    if (!currentChapter) {
+        return null;
+    }
+
+    const currentIndex = currentChapter.verses.findIndex(entry => entry.verse === verse.verse);
+    if (currentIndex === -1) {
+        return null;
+    }
+
+    if (currentIndex < currentChapter.verses.length - 1) {
+        return buildVersePath(currentChapterNumber, currentChapter.verses[currentIndex + 1].verse);
+    }
+
+    const nextChapter = data[(currentChapterNumber + 1).toString()];
+    if (!nextChapter || nextChapter.verses.length === 0) {
+        return null;
+    }
+
+    return buildVersePath(currentChapterNumber + 1, nextChapter.verses[0].verse);
+};

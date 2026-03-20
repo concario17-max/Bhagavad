@@ -1,389 +1,307 @@
-# Bhagavad Research Report
+# Bhagavad Gita Project Research Report
 
-Updated: 2026-03-18
+Updated: 2026-03-20
 Workspace: `C:\Users\roadsea\Desktop\nagham`
 
-## 1. Project Summary
+## 1. Current Product Shape
 
-This project is a static Bhagavad Gita reading application built with React, Vite, and TypeScript.
-It now opens directly to the home screen with no password gate.
+This repository is a static Bhagavad Gita reading application built with React 19, Vite 7, TypeScript, Tailwind CSS v4, and `react-router-dom` 7.
 
-The main reading flow is:
+Runtime content is driven by:
 
-1. Open the chapter grid on the home page.
-2. Enter a verse page from a chapter card or chapter/verse selector.
-3. Navigate verses from the left chapter panel or footer controls.
-4. Read the verse in the center column.
-5. Use the right panel for `Commentary` or `Notes`.
+- `public/gita.json`
+- `public/lexicon.json`
+- `public/mp3/*`
 
-The app is structured as a reading-first interface rather than a general-purpose dashboard.
+The app has two user-facing screens:
 
-## 2. Runtime Stack
+1. chapter home
+2. verse reader
 
-- React 19
-- React DOM 19
-- TypeScript 5
-- Vite 7
-- `react-router-dom` 7
-- Tailwind CSS v4
-- `lucide-react`
-- `framer-motion`
+Current feature set:
 
-Build commands in active use:
+- chapter cards and chapter/verse quick-jump
+- responsive verse reader
+- desktop three-column reading frame
+- mobile left/right drawers
+- Sanskrit, IAST, Korean pronunciation, audio, lexicon, translations
+- commentary side panel with graceful empty-state handling
+- light/dark theme
 
-- `npm run dev`
-- `npm run build`
-- `npx tsc --noEmit`
+## 2. Runtime Architecture
 
-## 3. Entry and App Shell
+### Entry and providers
 
-Entry point: [src/main.tsx](C:/Users/roadsea/Desktop/nagham/src/main.tsx)
+Entry file: [src/main.tsx](C:/Users/roadsea/Desktop/nagham/src/main.tsx)
 
-The app boot sequence:
+Startup order:
 
-1. Load global CSS from [src/index.css](C:/Users/roadsea/Desktop/nagham/src/index.css)
-2. Mount `ThemeProvider`
-3. Mount `UIProvider`
-4. Render `App`
+1. global CSS
+2. `ThemeProvider`
+3. `UIProvider`
+4. `App`
 
-[src/App.tsx](C:/Users/roadsea/Desktop/nagham/src/App.tsx) uses `HashRouter`, which is appropriate for static hosting on Cloudflare Pages because deep links do not rely on origin-side route rewrites.
+There is no longer a global browser error listener printing uncaught errors to `console.error`.
 
-The app also preloads `gita.json` on startup through `preloadGitaData()`, reducing repeat fetch latency after the first screen.
+### Router and route ownership
 
-## 4. Routing
+Router file: [src/App.tsx](C:/Users/roadsea/Desktop/nagham/src/App.tsx)
 
 Routes:
 
 - `/`
 - `/chapter/:chapterNum/verse/:verseNum`
 
-Because routing is hash-based, shared links remain stable on static hosting and direct verse links work without server-side route configuration.
+Key architectural change:
 
-## 5. Global State
+- verse routes now mount [src/context/VerseDataContext.tsx](C:/Users/roadsea/Desktop/nagham/src/context/VerseDataContext.tsx)
+- route-level verse data is shared by the reader, sidebar, and commentary
+- grouped verse aliases still redirect to the stored base verse URL
 
-### 5.1 Theme
+### Shared verse data
 
-Provider: [src/context/ThemeContext.tsx](C:/Users/roadsea/Desktop/nagham/src/context/ThemeContext.tsx)
-
-Responsibilities:
-
-- store `light | dark`
-- toggle theme
-- sync the active class to the root document
-- persist user preference
-
-Storage helper: [src/utils/storage.ts](C:/Users/roadsea/Desktop/nagham/src/utils/storage.ts)
-
-### 5.2 UI
-
-Provider: [src/context/UIContext.tsx](C:/Users/roadsea/Desktop/nagham/src/context/UIContext.tsx)
+File: [src/context/VerseDataContext.tsx](C:/Users/roadsea/Desktop/nagham/src/context/VerseDataContext.tsx)
 
 Responsibilities:
 
-- mobile left drawer open state
-- mobile right drawer open state
-- desktop left panel visibility
-- desktop right panel visibility
-- active right panel mode: `notes | commentary`
+- load `gita.json` through the shared fetch cache
+- resolve grouped verses
+- expose chapter, verse, range, status, and commentary availability
+- provide a single source of truth for verse-route consumers
 
-Current naming is now aligned with the real UX:
+This removed the old repeated fetch pattern from `VerseView`, `Sidebar`, and `VerseCommentary`.
 
-- `isNotesOpen`
-- `isDesktopNotesOpen`
-- `toggleNotesPanel()`
-- `activeVersePanel`
+### Reader composition
 
-Default right panel mode is `commentary` unless the browser already has a saved user preference.
+Main reader file: [src/pages/VerseView.tsx](C:/Users/roadsea/Desktop/nagham/src/pages/VerseView.tsx)
 
-## 6. Local Storage Model
+The reader is now decomposed into explicit subcomponents:
 
-Central helper: [src/utils/storage.ts](C:/Users/roadsea/Desktop/nagham/src/utils/storage.ts)
+- [src/components/verse/VerseBreadcrumb.tsx](C:/Users/roadsea/Desktop/nagham/src/components/verse/VerseBreadcrumb.tsx)
+- [src/components/verse/VersePrimaryCard.tsx](C:/Users/roadsea/Desktop/nagham/src/components/verse/VersePrimaryCard.tsx)
+- [src/components/verse/VerseAudioPlayer.tsx](C:/Users/roadsea/Desktop/nagham/src/components/verse/VerseAudioPlayer.tsx)
+- [src/components/verse/VerseLexiconSection.tsx](C:/Users/roadsea/Desktop/nagham/src/components/verse/VerseLexiconSection.tsx)
+- [src/components/verse/VerseTranslationsSection.tsx](C:/Users/roadsea/Desktop/nagham/src/components/verse/VerseTranslationsSection.tsx)
+- [src/components/verse/VerseNavigationFooter.tsx](C:/Users/roadsea/Desktop/nagham/src/components/verse/VerseNavigationFooter.tsx)
+- [src/components/verse/VerseMessageState.tsx](C:/Users/roadsea/Desktop/nagham/src/components/verse/VerseMessageState.tsx)
 
-Current active keys:
+This keeps the same reading flow while removing the original monolithic view structure.
 
-- `theme`
-- `gita-active-verse-panel`
-- `gita-desktop-sidebar`
-- `gita-desktop-notes`
-- `gita-show-lexicon`
-- `gita-note-{chapter}-{verse}`
+## 3. Layout and UI State
 
-Migration note:
-
-- the app still reads legacy key `gita-desktop-reflections`
-- if found, it migrates that value into `gita-desktop-notes`
-
-Note APIs are now consistently named:
-
-- `getNote()`
-- `setNote()`
-- `getAllNotes()`
-- `StoredNote`
-
-This is now much cleaner than the older mixed `Reflections` naming.
-
-## 7. Data Loading and Caching
-
-Fetcher: [src/utils/dataFetcher.ts](C:/Users/roadsea/Desktop/nagham/src/utils/dataFetcher.ts)
-
-Behavior:
-
-- keeps a resolved in-memory cache
-- keeps an in-flight promise cache
-- retries cleanly after a failed request by clearing the promise cache
-
-This prevents duplicate fetches from home, sidebar, verse view, and notes modal.
-
-## 8. Home Page
-
-Page: [src/pages/ChapterList.tsx](C:/Users/roadsea/Desktop/nagham/src/pages/ChapterList.tsx)
-
-Responsibilities:
-
-- render the 18 chapter cards
-- provide chapter and verse selector controls
-- open `Compendium`, `Lexicon`, and `Notes` modals
-
-Metadata is resolved through [src/utils/chapterMeta.ts](C:/Users/roadsea/Desktop/nagham/src/utils/chapterMeta.ts), so the home cards and sidebar use the same chapter naming rules.
-
-## 9. Verse Page
-
-Page: [src/pages/VerseView.tsx](C:/Users/roadsea/Desktop/nagham/src/pages/VerseView.tsx)
-
-This is the main reader page.
-
-Responsibilities:
-
-- fetch the current verse
-- resolve verse ranges through shared verse utilities
-- redirect range aliases to the correct verse URL
-- show Sanskrit, IAST, Korean pronunciation, audio, word-by-word, and translations
-- support previous and next verse navigation
-
-Notable current UI behavior:
-
-- the earlier intro card above the verse has been removed
-- Sanskrit block spacing has been tightened
-- translation helper copy above the translation cards has been removed
-- translation labels are standardized and uppercase
-
-Current translation labels:
-
-- `ENGLISH`
-- `HAM`
-- `GIL`
-- `MYUNG`
-- `SUK`
-
-Translation definitions are centralized in [src/utils/content.ts](C:/Users/roadsea/Desktop/nagham/src/utils/content.ts).
-
-## 10. Left Panel
+### Shell and desktop frame
 
 Files:
 
-- [src/components/Sidebar.tsx](C:/Users/roadsea/Desktop/nagham/src/components/Sidebar.tsx)
+- [src/components/ui/AppShell.tsx](C:/Users/roadsea/Desktop/nagham/src/components/ui/AppShell.tsx)
+- [src/components/ui/desktopVerseLayout.ts](C:/Users/roadsea/Desktop/nagham/src/components/ui/desktopVerseLayout.ts)
+- [src/components/Header.tsx](C:/Users/roadsea/Desktop/nagham/src/components/Header.tsx)
 - [src/components/ui/SidebarLayout.tsx](C:/Users/roadsea/Desktop/nagham/src/components/ui/SidebarLayout.tsx)
-- [src/components/ui/SidebarMenu.tsx](C:/Users/roadsea/Desktop/nagham/src/components/ui/SidebarMenu.tsx)
+
+Desktop frame rules:
+
+- left open + right open: `20 / 60 / 20`
+- left closed + right open: `0 / 60 / 40`
+- left open + right closed: `20 / 80 / 0`
+- left closed + right closed: `0 / 100 / 0`
 
 Current behavior:
 
-- chapter list and verse list share a fixed left panel
-- the top chapter region now uses about `30%` of the panel height
-- the bottom verse region uses about `70%`
+- header aligns to the same frame model
+- fake panel gaps from leftover translate state are removed
+- the main reading column keeps its own readable inner max width
+- side panels expose stable test attributes for width and state verification
 
-This directly reflects the most recent user request.
+### UI state contract
 
-## 11. Right Panel
+File: [src/context/UIContext.tsx](C:/Users/roadsea/Desktop/nagham/src/context/UIContext.tsx)
+
+Separate state is maintained for:
+
+- mobile left drawer
+- mobile right drawer
+- desktop left panel
+- desktop right panel
+
+That separation still holds after the desktop frame refactor.
+
+## 4. Data Access and Content Logic
+
+### Shared fetch/cache
+
+File: [src/utils/dataFetcher.ts](C:/Users/roadsea/Desktop/nagham/src/utils/dataFetcher.ts)
+
+Behavior:
+
+- in-memory cache
+- in-flight promise cache
+- retry on failed fetch by clearing the stored promise
+
+### Verse helpers
+
+File: [src/utils/verse.ts](C:/Users/roadsea/Desktop/nagham/src/utils/verse.ts)
+
+Current responsibilities:
+
+- grouped verse resolution
+- range label generation
+- previous/next verse path generation across chapter boundaries
+
+### Commentary handling
 
 Files:
 
-- [src/components/VersePanelToggle.tsx](C:/Users/roadsea/Desktop/nagham/src/components/VersePanelToggle.tsx)
-- [src/components/VerseSidePanel.tsx](C:/Users/roadsea/Desktop/nagham/src/components/VerseSidePanel.tsx)
-- [src/components/NotesPanel.tsx](C:/Users/roadsea/Desktop/nagham/src/components/NotesPanel.tsx)
 - [src/components/VerseCommentary.tsx](C:/Users/roadsea/Desktop/nagham/src/components/VerseCommentary.tsx)
+- [src/utils/content.ts](C:/Users/roadsea/Desktop/nagham/src/utils/content.ts)
 
-Current UX:
+Current product decision:
 
-- the header toggle switches between `Notes` and `Commentary`
-- default visible mode is `Commentary`
-- `Notes` and `Commentary` use the same width rules
-- when the left chapter panel is closed on desktop, the right panel expands from `460px` to `760px`
-- this wider behavior now applies equally to both `Notes` and `Commentary`
+- keep the commentary toggle visible
+- keep the panel available in desktop and mobile layouts
+- show a clearer empty-state when the current source payload is not readable
 
-### 11.1 Notes Panel
+This preserves layout consistency and keeps the UI contract ready for future commentary sources.
 
-[src/components/NotesPanel.tsx](C:/Users/roadsea/Desktop/nagham/src/components/NotesPanel.tsx)
+## 5. Runtime Error Handling and Text Integrity
 
-Responsibilities:
+### Runtime logging cleanup
 
-- edit the current verse note
-- save to local storage
-- export current note
-- export all notes
+`src/` no longer contains scattered `console.warn` / `console.error` runtime noise for expected data-miss cases.
 
-Current export names:
+Notable cleanup:
 
-- `Bhagavad_Gita_Note_{chapter}_{verse}.txt`
-- `Bhagavad_Gita_All_Notes.txt`
+- `storage.ts` now fails silently for storage access exceptions
+- home and lexicon loading failures render UI states instead of logging
+- the global error listener was removed from `main.tsx`
 
-### 11.2 Notes Modal
+### Encoding cleanup
 
-[src/components/NotesModal.tsx](C:/Users/roadsea/Desktop/nagham/src/components/NotesModal.tsx)
+Shared UI files and visible literals were normalized:
 
-Responsibilities:
+- broken header icon text fixed
+- mojibake comments removed from shared UI components
+- lexicon generation punctuation cleanup no longer contains corrupted characters
 
-- gather all saved notes from local storage
-- join them with verse data from `gita.json`
-- show a Sanskrit preview and stored note text
+Some old one-off data-prep scripts still contain historic encoding noise, but the runtime source and the primary maintained paths were cleaned.
 
-### 11.3 Commentary Panel
+## 6. Commentary Reality
 
-[src/components/VerseCommentary.tsx](C:/Users/roadsea/Desktop/nagham/src/components/VerseCommentary.tsx)
+The current source data still exposes commentary fields structurally, but practically the dataset is not readable commentary content for end users.
 
-Commentary visibility is controlled by [src/utils/content.ts](C:/Users/roadsea/Desktop/nagham/src/utils/content.ts).
+Observed filtered outcome from `gita.json`:
 
-Current display rules:
+- many entries are dollar-prefixed placeholders
+- many entries are Devanagari blocks
+- one entry is effectively source metadata
+- displayable English commentary remains absent
 
-- hide empty commentary
-- hide values starting with `$`
-- hide values containing Devanagari script
-- hide metadata-only stubs starting with `Hindi Commentary By `
+So the panel behavior is now:
 
-This matters because the source field `commentary_en` is not actually a clean English commentary dataset.
+- openable everywhere
+- readable when real commentary exists in the future
+- explanatory when the current dataset does not support it
 
-## 12. Data Audit
+## 7. Tests and Verification
 
-Primary content file: `public/gita.json`
+The repository now has a real baseline verification layer.
 
-Lexicon file: `public/lexicon.json`
+Added files:
 
-### 12.1 Translation Coverage
+- [tests/run-unit.ts](C:/Users/roadsea/Desktop/nagham/tests/run-unit.ts)
+- [tests/run-e2e.ts](C:/Users/roadsea/Desktop/nagham/tests/run-e2e.ts)
+- [tsconfig.test.json](C:/Users/roadsea/Desktop/nagham/tsconfig.test.json)
 
-Full verse count: `640`
+Package scripts:
 
-Coverage found in current source data:
+- `npm run test:compile`
+- `npm run test:unit`
+- `npm run test:e2e`
+- `npm run test`
 
-- `translation_en`: `640`
-- `translation_ham`: `640`
-- `translation_gil`: `640`
-- `translation_jimong` shown as `MYUNG`: `640`
-- `translation_suk`: `580`
+Coverage now includes:
 
-This means `SUK` is the only translation stream with incomplete coverage.
+- `getDesktopVerseColumns()`
+- `resolveVerse()`
+- `getVerseRange()`
+- `isDisplayableCommentary()`
+- home route render
+- direct verse route render
+- desktop 4-state frame verification
+- mobile left/right drawer smoke
+- commentary toggle smoke
 
-### 12.2 Commentary Coverage
+Validated during this implementation:
 
-Audit result across all `640` verses:
+- `npx tsc --noEmit`
+- `npm run build`
+- `npm run test:unit`
+- Playwright smoke flow via compiled `tests/run-e2e.ts`
 
-- blank: `1`
-- dollar-placeholder values: `431`
-- Devanagari commentary blocks: `207`
-- readable English commentary blocks: `0`
-- metadata-only English stub after filtering: excluded
+## 8. Dependency and Repo Hygiene
 
-One raw entry previously passed the older filter:
+Current runtime dependencies:
 
-- `18.2`: `Hindi Commentary By Swami Ramsukhdas`
+- `react`
+- `react-dom`
+- `react-router-dom`
+- `lucide-react`
+- `@vitejs/plugin-react`
+- `@tailwindcss/vite`
+- `vite`
 
-That string is a label, not readable commentary content, so the commentary rule now excludes it as well.
+Changes completed:
 
-Conclusion:
+- removed unused `framer-motion`
+- removed unused [src/components/Footer.tsx](C:/Users/roadsea/Desktop/nagham/src/components/Footer.tsx)
 
-The current empty commentary states are mainly a source-data limitation, not a UI rendering bug.
+Current tracked cleanup outcome:
 
-### 12.3 Lexicon Integrity
+- no runtime Notes system
+- no unused footer component
+- no unused animation dependency
 
-Quick audit results:
+## 9. Documentation and Workflow Decisions
 
-- `21` top-level lexicon buckets
-- all buckets are arrays
-- no sampled entries were missing `word` or `meaning`
+Files updated as part of this tranche:
 
-## 13. Typography and Visual Direction
+- [plan.md](C:/Users/roadsea/Desktop/nagham/plan.md)
+- [release-checklist.md](C:/Users/roadsea/Desktop/nagham/release-checklist.md)
+- [research.md](C:/Users/roadsea/Desktop/nagham/research.md)
+- [data-pipeline.md](C:/Users/roadsea/Desktop/nagham/data-pipeline.md)
 
-Primary fonts in [src/index.css](C:/Users/roadsea/Desktop/nagham/src/index.css):
+Decision on local workflow files:
 
-- `Cormorant Garamond`
-- `Noto Serif`
-- `Gowun Batang`
-- `Manrope`
+- `reuse-guide.md` remains an untracked local workflow reference
+- `.agents/` remains an untracked local operator/agent configuration folder
 
-Role split:
+Reason:
 
-- brand and display headings: `Cormorant Garamond`
-- interface text: `Manrope`
-- Sanskrit and IAST: `Noto Serif`
-- Korean reading text: `Gowun Batang`
+- neither file set affects runtime
+- they are environment-specific working aids, not required application source
 
-This palette now matches the reading-focused, archival tone of the product better than the earlier font stack.
+## 10. Content Pipeline Reference
 
-## 14. Deployment
+Detailed source-to-JSON notes now live in:
 
-Static host target: Cloudflare Pages
+- [data-pipeline.md](C:/Users/roadsea/Desktop/nagham/data-pipeline.md)
 
-Relevant files:
+That document covers:
 
-- [vite.config.js](C:/Users/roadsea/Desktop/nagham/vite.config.js)
-- [.github/workflows/deploy.yml](C:/Users/roadsea/Desktop/nagham/.github/workflows/deploy.yml)
+- root text/markdown source mapping
+- active vs overlapping scripts
+- recommended refresh order
+- reproducible content refresh checklist
 
-Current deployment model:
+## 11. Final Assessment
 
-- Cloudflare Pages serves the production app
-- GitHub Actions acts as a CI build check only
-- the old `gh-pages` deployment path has been removed
+The project now has a cleaner runtime architecture than the version described in the previous report:
 
-This fixed the earlier preview failure pattern where a built artifact branch was being treated like a source branch.
+- reader responsibilities are split
+- verse data ownership is centralized
+- desktop/mobile panel logic is cleaner
+- runtime logging noise is removed
+- commentary UX is honest about source limitations
+- tests exist and exercise the main reading paths
+- unused code and dependencies were pruned
 
-## 15. Metadata and Sharing
-
-HTML entry: [index.html](C:/Users/roadsea/Desktop/nagham/index.html)
-
-Current metadata includes:
-
-- favicon
-- apple touch icon
-- description
-- `theme-color`
-- `color-scheme`
-- Open Graph tags
-- Twitter card tags
-
-User-facing wording now says `notes`, not `reflections`.
-
-## 16. Current Risks
-
-### 16.1 Commentary Source Quality
-
-The right-side commentary UI is stable, but the data behind `commentary_en` is mostly placeholders or Hindi/Devanagari commentary.
-This is the biggest remaining content limitation in the project.
-
-### 16.2 Local-Only Notes
-
-Notes are stored only in browser local storage.
-They do not sync across devices or browsers.
-
-### 16.3 Partial Translation Coverage
-
-`SUK` is missing on 60 verses, so that card will not appear consistently across the full text.
-
-### 16.4 Legacy Support Still Present
-
-There is still a legacy storage migration path for `gita-desktop-reflections`.
-That is intentional and low-risk, but it is one remaining trace of the older naming model.
-
-## 17. Overall Assessment
-
-The project is now in a coherent and production-usable state.
-
-The biggest improvements over its earlier state are:
-
-- no password gate
-- clean `Notes / Commentary` panel model
-- stable internal scroll container behavior
-- equalized right panel sizing
-- centralized storage helpers
-- centralized translation and commentary presentation rules
-- Cloudflare-friendly routing and deployment
-- cleaner typography and metadata
-
-The main remaining issues are now content quality and product depth, not structural instability.
+The remaining strategic limitation is still content quality, especially commentary completeness, not frontend structure.

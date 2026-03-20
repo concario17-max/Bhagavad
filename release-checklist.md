@@ -1,40 +1,48 @@
 # Bhagavad Release Checklist
 
-Updated: 2026-03-18
+Updated: 2026-03-20
 Production URL: [https://bhagavad-9yk.pages.dev](https://bhagavad-9yk.pages.dev)
 
-## Build Status
+## Build and Test Commands
 
 - [x] `npx tsc --noEmit`
 - [x] `npm run build`
+- [x] `npm run test:unit`
+- [x] Playwright smoke verification via `tests/run-e2e.ts`
 
-## Production QA
+## Product QA
 
 - [x] Home page loads directly with no password gate
 - [x] `BHAGAVAD GITA` home title renders correctly
 - [x] 18 chapter cards render
-- [x] Chapter card click opens a verse page
+- [x] Chapter and verse selectors navigate correctly
 - [x] Verse page breadcrumb renders
 - [x] Word-by-word section expands and collapses
 - [x] Translation cards render
-- [x] Right panel switches between `Notes` and `Commentary`
-- [x] Right panel expands when the left chapter panel is closed
+- [x] Commentary toggle opens and closes the right panel
+- [x] Commentary empty-state explains current source limitations
+- [x] Desktop layout supports all four frame states
 - [x] Dark mode toggle works
 - [x] Direct hash URL entry works, for example `/#/chapter/1/verse/1`
 
-## Mobile and Accessibility
+## Mobile QA
 
-- [x] Mobile left chapter panel opens
-- [x] Mobile right verse panel opens
-- [x] `Close Chapters` button is visible
-- [x] `Close verse panel` button is visible
+- [x] Mobile left chapter drawer opens and closes
+- [x] Mobile right commentary drawer opens and closes
+- [x] Main reader scroll lock still engages while mobile drawers are open
 
 ## Operational Notes
 
 - Cloudflare Pages is the production host
 - GitHub Actions is a CI validation path, not the live deployment target
-- Notes are local to the browser because they use local storage
-- Commentary availability depends on the current source dataset, not just the panel UI
+- Commentary visibility is a UI affordance, not proof of commentary data quality
+- `reuse-guide.md` and `.agents/` remain untracked local workflow files
+
+## Documentation Maintenance
+
+- [x] Refresh `research.md` after structural runtime changes
+- [x] Refresh `plan.md` after each completed implementation tranche
+- [x] Keep [data-pipeline.md](C:/Users/roadsea/Desktop/nagham/data-pipeline.md) aligned with any script or source-file workflow changes
 
 ## Recommended Final Manual QA
 

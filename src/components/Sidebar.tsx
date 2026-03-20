@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useEffect, useMemo, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useUI } from '../context/UIContext';
-import { fetchGitaData } from '../utils/dataFetcher';
+import { useVerseData } from '../context/VerseDataContext';
 import { getChapterMeta } from '../utils/chapterMeta';
 import { GitaChapter } from '../types';
 import { SidebarLayout } from './ui/SidebarLayout';
@@ -10,23 +10,17 @@ import { SidebarMenu, NavGroupType, NavItemType } from './ui/SidebarMenu';
 const Sidebar = () => {
     const { chapterNum, verseNum } = useParams<{ chapterNum: string; verseNum: string }>();
     const { isSidebarOpen, setIsSidebarOpen, isDesktopSidebarOpen } = useUI();
-    const [chapters, setChapters] = useState<GitaChapter[]>([]);
+    const { allChapters, status } = useVerseData();
     const [expandedChapter, setExpandedChapter] = useState<number | null>(null);
     const navigate = useNavigate();
-
-    useEffect(() => {
-        fetchGitaData()
-            .then(data => {
-                setChapters(Object.values(data));
-            })
-            .catch(err => console.error('Failed to load chapters:', err));
-    }, []);
 
     useEffect(() => {
         if (chapterNum) {
             setExpandedChapter(Number.parseInt(chapterNum, 10));
         }
     }, [chapterNum]);
+
+    const chapters = useMemo<GitaChapter[]>(() => allChapters ? Object.values(allChapters) : [], [allChapters]);
 
     const toggleChapter = (chapterNumber: number): void => {
         setExpandedChapter(chapterNumber);
@@ -35,37 +29,39 @@ const Sidebar = () => {
 
     const currentChapter = chapters.find(chapter => chapter.chapter === expandedChapter);
 
-    const groups: NavGroupType[] = chapters.map(chapter => {
-        const chapterMeta = getChapterMeta(chapter);
-        const isExpanded = expandedChapter === chapter.chapter;
+    const groups = useMemo<NavGroupType[]>(() => {
+        return chapters.map(chapter => {
+            const chapterMeta = getChapterMeta(chapter);
+            const isExpanded = expandedChapter === chapter.chapter;
 
-        const items: NavItemType[] = isExpanded && currentChapter
-            ? currentChapter.verses.map((verse, index) => {
-                const nextVerse = currentChapter.verses[index + 1];
-                const displayVerse = nextVerse && nextVerse.verse > verse.verse + 1
-                    ? `${currentChapter.chapter}.${verse.verse}-${nextVerse.verse - 1}`
-                    : `${currentChapter.chapter}.${verse.verse}`;
+            const items: NavItemType[] = isExpanded && currentChapter
+                ? currentChapter.verses.map((verse, index) => {
+                    const nextVerse = currentChapter.verses[index + 1];
+                    const displayVerse = nextVerse && nextVerse.verse > verse.verse + 1
+                        ? `${currentChapter.chapter}.${verse.verse}-${nextVerse.verse - 1}`
+                        : `${currentChapter.chapter}.${verse.verse}`;
 
-                return {
-                    id: String(verse.verse),
-                    label: displayVerse,
-                    href: `/chapter/${currentChapter.chapter}/verse/${verse.verse}`,
-                    description: verse.iast ? `${verse.iast.split('\n')[0].slice(0, 40)}...` : `Verse ${verse.verse}`,
-                    isActive: verse.chapter === Number.parseInt(chapterNum || '1', 10) && verse.verse === Number.parseInt(verseNum || '1', 10)
-                };
-            })
-            : [];
+                    return {
+                        id: String(verse.verse),
+                        label: displayVerse,
+                        href: `/chapter/${currentChapter.chapter}/verse/${verse.verse}`,
+                        description: verse.iast ? `${verse.iast.split('\n')[0].slice(0, 40)}...` : `Verse ${verse.verse}`,
+                        isActive: verse.chapter === Number.parseInt(chapterNum || '1', 10) && verse.verse === Number.parseInt(verseNum || '1', 10)
+                    };
+                })
+                : [];
 
-        return {
-            id: chapter.chapter,
-            title: `${chapter.chapter}. ${chapterMeta.mainTitle}`,
-            subtitle: chapterMeta.subtitle,
-            badge: chapter.verses.length,
-            isExpanded,
-            onToggle: () => toggleChapter(chapter.chapter),
-            items
-        };
-    });
+            return {
+                id: chapter.chapter,
+                title: `${chapter.chapter}. ${chapterMeta.mainTitle}`,
+                subtitle: chapterMeta.subtitle,
+                badge: chapter.verses.length,
+                isExpanded,
+                onToggle: () => toggleChapter(chapter.chapter),
+                items
+            };
+        });
+    }, [chapterNum, chapters, currentChapter, expandedChapter, verseNum]);
 
     return (
         <SidebarLayout
@@ -77,11 +73,19 @@ const Sidebar = () => {
             widthClass="w-[400px]"
             desktopWidthClass="lg:col-start-1 lg:w-full"
         >
-            <SidebarMenu
-                groups={groups}
-                onItemClick={() => setIsSidebarOpen(false)}
-                groupTitle="Chapters"
-            />
+            {status === 'error' ? (
+                <div className="flex h-full items-center justify-center px-6 text-center">
+                    <p className="font-pretendard text-sm leading-7 text-text-secondary dark:text-dark-text-secondary">
+                        Chapter navigation is temporarily unavailable because the source data could not be loaded.
+                    </p>
+                </div>
+            ) : (
+                <SidebarMenu
+                    groups={groups}
+                    onItemClick={() => setIsSidebarOpen(false)}
+                    groupTitle="Chapters"
+                />
+            )}
         </SidebarLayout>
     );
 };

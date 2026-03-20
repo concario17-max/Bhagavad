@@ -28,8 +28,7 @@ export const getString = (key: string): string | null => {
 
     try {
         return storage.getItem(key);
-    } catch (error) {
-        console.warn(`Unable to read localStorage key "${key}":`, error);
+    } catch {
         return null;
     }
 };
@@ -42,8 +41,8 @@ export const setString = (key: string, value: string): void => {
 
     try {
         storage.setItem(key, value);
-    } catch (error) {
-        console.warn(`Unable to write localStorage key "${key}":`, error);
+    } catch {
+        return;
     }
 };
 

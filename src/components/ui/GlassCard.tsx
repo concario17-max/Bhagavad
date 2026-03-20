@@ -11,11 +11,6 @@ export interface GlassCardProps {
     className?: string;
 }
 
-/**
- * 범용 Glassmorphism 카드 (Zero Monolith)
- * - 프리미엄 다크/골드 테마 글래스 카드 
- * - 호버 그래디언트 및 그림자 트랜지션 내장
- */
 export const GlassCard = React.memo(({
     href,
     onClick,
@@ -23,12 +18,11 @@ export const GlassCard = React.memo(({
     subtitle,
     title,
     description,
-    className = ""
+    className = ''
 }: GlassCardProps) => {
-
     const content = (
         <>
-            {/* Inner Hover Gradient Spotlight */}
+            {/* Soft hover highlight for the card surface. */}
             <div className="absolute inset-0 bg-gradient-to-b from-white/60 to-transparent dark:from-white/[0.03] dark:to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-0 pointer-events-none"></div>
 
             {icon && (

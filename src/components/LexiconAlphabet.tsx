@@ -6,11 +6,11 @@ interface LexiconAlphabetProps {
     onLetterClick: (letter: string) => void;
 }
 
-// 알파벳 필터 렌더링 컴포넌트.
+// Alphabet filter for the lexicon modal.
 const LexiconAlphabet = ({ alphabet, lexiconData, onLetterClick }: LexiconAlphabetProps) => {
     return (
         <div className="flex flex-wrap gap-2 mb-12">
-            {alphabet.map((letter) => {
+            {alphabet.map(letter => {
                 const hasWords = lexiconData[letter] && lexiconData[letter].length > 0;
                 return (
                     <button

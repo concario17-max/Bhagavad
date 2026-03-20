@@ -1,4 +1,4 @@
-﻿import React, { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import { X } from 'lucide-react';
 
 export interface SidebarLayoutProps {
@@ -26,7 +26,6 @@ export const SidebarLayout = React.memo(({
     widthClass = 'w-80',
     desktopWidthClass = 'lg:w-80'
 }: SidebarLayoutProps) => {
-
     const isLeft = position === 'left';
     const mobileTranslateClosed = isLeft ? '-translate-x-full' : 'translate-x-full';
     const borderClass = isLeft ? 'border-r' : 'border-l';
@@ -47,11 +46,16 @@ export const SidebarLayout = React.memo(({
                 />
             )}
 
-            <aside className={`fixed inset-y-0 ${placementClass} z-50 bg-white/46 dark:bg-[#101010]/82 backdrop-blur-xl ${borderClass} border-gold-primary/14 dark:border-dark-border/70 h-[100dvh] lg:h-[calc(100vh-72px)] lg:sticky lg:top-[72px] transform transition-all duration-300 flex flex-col font-inter overscroll-contain
+            <aside
+                data-testid={isLeft ? 'left-panel' : 'right-panel'}
+                data-panel-position={position}
+                data-desktop-open={isDesktopOpen ? 'true' : 'false'}
+                data-mobile-open={isOpen ? 'true' : 'false'}
+                className={`fixed inset-y-0 ${placementClass} z-50 bg-white/46 dark:bg-[#101010]/82 backdrop-blur-xl ${borderClass} border-gold-primary/14 dark:border-dark-border/70 h-[100dvh] lg:h-[calc(100vh-72px)] lg:sticky lg:top-[72px] transform transition-all duration-300 flex flex-col font-inter overscroll-contain
                 ${mobileStateClass}
                 ${desktopStateClass}
-            `}>
-
+            `}
+            >
                 {title && (
                     <div className="lg:hidden flex items-center justify-between p-4 border-b border-gold-border/30 dark:border-[#333] shrink-0">
                         <span className="font-crimson font-bold text-lg text-text-primary dark:text-dark-text-primary w-full">{title}</span>

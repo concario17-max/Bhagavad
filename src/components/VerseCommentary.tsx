@@ -1,29 +1,9 @@
-import { useEffect, useState } from 'react';
 import { BookOpenText } from 'lucide-react';
-import { useParams } from 'react-router-dom';
-import { fetchGitaData } from '../utils/dataFetcher';
-import { GitaVerse } from '../types';
-import { isDisplayableCommentary } from '../utils/content';
-import { resolveVerse } from '../utils/verse';
+import { useVerseData } from '../context/VerseDataContext';
 
 const VerseCommentary = () => {
-    const { chapterNum, verseNum } = useParams<{ chapterNum: string; verseNum: string }>();
-    const [verseData, setVerseData] = useState<GitaVerse | null>(null);
-
-    useEffect(() => {
-        if (!chapterNum || !verseNum) {
-            return;
-        }
-
-        fetchGitaData()
-            .then(data => {
-                setVerseData(resolveVerse(data, chapterNum, verseNum));
-            })
-            .catch(err => console.error('Failed to load commentary data:', err));
-    }, [chapterNum, verseNum]);
-
+    const { chapterNum, verseNum, errorMessage, hasDisplayableCommentary, status, verseData } = useVerseData();
     const commentary = verseData?.commentary_en?.trim() ?? '';
-    const hasCommentary = isDisplayableCommentary(commentary);
 
     return (
         <div className="flex h-full min-h-0 flex-col">
@@ -40,7 +20,11 @@ const VerseCommentary = () => {
             </div>
 
             <div className="custom-scrollbar flex-1 overflow-y-auto pr-1">
-                {hasCommentary ? (
+                {status === 'error' ? (
+                    <div className="rounded-2xl border border-dashed border-gold-primary/20 bg-white/40 px-5 py-8 text-center text-sm leading-relaxed text-text-secondary dark:border-dark-border/50 dark:bg-dark-bg/40 dark:text-dark-text-secondary">
+                        {errorMessage ?? 'Commentary is unavailable because the verse data could not be loaded.'}
+                    </div>
+                ) : hasDisplayableCommentary ? (
                     <div className="space-y-4 rounded-2xl border border-gold-primary/15 bg-white/65 p-5 text-[14px] leading-relaxed text-text-primary shadow-inner dark:border-dark-border/50 dark:bg-dark-bg/60 dark:text-dark-text-primary">
                         {commentary.split('\n').filter(Boolean).map((paragraph, index) => (
                             <p key={`${paragraph.slice(0, 24)}-${index}`}>{paragraph}</p>
@@ -48,7 +32,10 @@ const VerseCommentary = () => {
                     </div>
                 ) : (
                     <div className="rounded-2xl border border-dashed border-gold-primary/20 bg-white/40 px-5 py-8 text-center text-sm leading-relaxed text-text-secondary dark:border-dark-border/50 dark:bg-dark-bg/40 dark:text-dark-text-secondary">
-                        This verse does not include a readable English commentary in the current source data.
+                        The current source data does not include readable commentary for this verse yet.
+                        <p className="mt-3 text-xs leading-6 text-text-secondary/80 dark:text-dark-text-secondary/80">
+                            This panel stays available so upgraded commentary sources can appear here without changing the reading layout.
+                        </p>
                     </div>
                 )}
             </div>

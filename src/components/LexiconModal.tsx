@@ -18,13 +18,20 @@ type LexiconData = Record<string, LexiconWord[]>;
 
 const LexiconModal = ({ isOpen, onClose }: LexiconModalProps) => {
     const [lexiconData, setLexiconData] = useState<LexiconData>({});
+    const [loadState, setLoadState] = useState<'idle' | 'loading' | 'ready' | 'error'>('idle');
 
     useEffect(() => {
         if (isOpen && Object.keys(lexiconData).length === 0) {
+            setLoadState('loading');
             fetch(withBasePath('lexicon.json'))
                 .then(res => res.json())
-                .then(data => setLexiconData(data as LexiconData))
-                .catch(err => console.error("Failed to load lexicon data:", err));
+                .then((data: LexiconData) => {
+                    setLexiconData(data);
+                    setLoadState('ready');
+                })
+                .catch(() => {
+                    setLoadState('error');
+                });
         }
     }, [isOpen, lexiconData]);
 
@@ -70,32 +77,37 @@ const LexiconModal = ({ isOpen, onClose }: LexiconModalProps) => {
                         onLetterClick={scrollToLetter}
                     />
 
-                    {/* Dictionary List */}
-                    <div className="space-y-16">
-                        {alphabet.map(letter => {
-                            const words = lexiconData[letter];
-                            if (!words || words.length === 0) return null;
+                    {loadState === 'error' ? (
+                        <div className="rounded-2xl border border-dashed border-gold-primary/20 bg-white/45 px-5 py-8 text-center text-sm leading-relaxed text-text-secondary dark:border-dark-border/50 dark:bg-dark-bg/40 dark:text-dark-text-secondary">
+                            Lexicon data could not be loaded from the local source files.
+                        </div>
+                    ) : (
+                        <div className="space-y-16">
+                            {alphabet.map(letter => {
+                                const words = lexiconData[letter];
+                                if (!words || words.length === 0) return null;
 
-                            return (
-                                <div key={letter} id={`lexicon-${letter}`} className="scroll-mt-12 group">
-                                    <div className="flex items-center gap-4 mb-8">
-                                        <h3 className="text-gold-primary font-crimson italic text-3xl">{letter}</h3>
-                                        <div className="h-px flex-1 bg-gradient-to-r from-gold-border/40 to-transparent"></div>
-                                    </div>
+                                return (
+                                    <div key={letter} id={`lexicon-${letter}`} className="scroll-mt-12 group">
+                                        <div className="flex items-center gap-4 mb-8">
+                                            <h3 className="text-gold-primary font-crimson italic text-3xl">{letter}</h3>
+                                            <div className="h-px flex-1 bg-gradient-to-r from-gold-border/40 to-transparent"></div>
+                                        </div>
 
-                                    <div className="flex flex-col gap-2">
-                                        {words.map((item, idx) => (
-                                            <LexiconItem
-                                                key={`${item.word}-${idx}`}
-                                                word={item.word}
-                                                meaning={item.meaning}
-                                            />
-                                        ))}
+                                        <div className="flex flex-col gap-2">
+                                            {words.map((item, idx) => (
+                                                <LexiconItem
+                                                    key={`${item.word}-${idx}`}
+                                                    word={item.word}
+                                                    meaning={item.meaning}
+                                                />
+                                            ))}
+                                        </div>
                                     </div>
-                                </div>
-                            );
-                        })}
-                    </div>
+                                );
+                            })}
+                        </div>
+                    )}
 
                 </div>
             </div>
