@@ -9,6 +9,7 @@ export interface SidebarLayoutProps {
     children: ReactNode;
     position?: 'left' | 'right';
     widthClass?: string;
+    desktopWidthClass?: string;
 }
 
 /**
@@ -22,21 +23,20 @@ export const SidebarLayout = React.memo(({
     title,
     children,
     position = 'left',
-    widthClass = 'w-80'
+    widthClass = 'w-80',
+    desktopWidthClass = 'lg:w-80'
 }: SidebarLayoutProps) => {
 
     const isLeft = position === 'left';
-    const translateClosed = isLeft ? '-translate-x-full lg:-translate-x-10' : 'translate-x-full lg:translate-x-10';
+    const mobileTranslateClosed = isLeft ? '-translate-x-full' : 'translate-x-full';
     const borderClass = isLeft ? 'border-r' : 'border-l';
     const placementClass = isLeft ? 'left-0' : 'right-0';
-
-    const lgWidthClass = {
-        'w-64': 'lg:w-64',
-        'w-72': 'lg:w-72',
-        'w-80': 'lg:w-80',
-        'w-96': 'lg:w-96',
-        'w-[400px]': 'lg:w-[400px]'
-    }[widthClass] || `lg:${widthClass}`;
+    const mobileStateClass = isOpen
+        ? `${widthClass} translate-x-0 overflow-hidden shadow-2xl lg:shadow-none`
+        : `w-[90vw] ${mobileTranslateClosed}`;
+    const desktopStateClass = isDesktopOpen
+        ? `${desktopWidthClass} lg:translate-x-0 lg:opacity-100`
+        : 'overflow-hidden p-0 px-0 lg:w-0 lg:border-none lg:translate-x-0 lg:opacity-0';
 
     return (
         <>
@@ -48,8 +48,8 @@ export const SidebarLayout = React.memo(({
             )}
 
             <aside className={`fixed inset-y-0 ${placementClass} z-50 bg-white/46 dark:bg-[#101010]/82 backdrop-blur-xl ${borderClass} border-gold-primary/14 dark:border-dark-border/70 h-[100dvh] lg:h-[calc(100vh-72px)] lg:sticky lg:top-[72px] transform transition-all duration-300 flex flex-col font-inter overscroll-contain
-                ${isOpen ? `${widthClass} translate-x-0 overflow-hidden shadow-2xl lg:shadow-none` : `w-[90vw] ${lgWidthClass} ${translateClosed} lg:translate-x-0`}
-                ${isDesktopOpen ? `${lgWidthClass} lg:opacity-100` : `lg:w-0 lg:opacity-0 lg:border-none p-0 px-0 overflow-hidden`}
+                ${mobileStateClass}
+                ${desktopStateClass}
             `}>
 
                 {title && (

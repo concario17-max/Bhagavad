@@ -12,18 +12,34 @@ import { useUI } from './context/UIContext';
 import { preloadGitaData } from './utils/dataFetcher';
 
 import { AppShell } from './components/ui/AppShell';
+import { getDesktopVerseColumns } from './components/ui/desktopVerseLayout';
 
 const MainLayout = () => {
     const location = useLocation();
     const isVerseView = location.pathname.includes('/chapter/') && location.pathname.includes('/verse/');
-    const { isSidebarOpen, isCommentaryPanelOpen } = useUI();
+    const {
+        isSidebarOpen,
+        isCommentaryPanelOpen,
+        isDesktopSidebarOpen,
+        isDesktopCommentaryPanelOpen,
+        closeAllDrawers
+    } = useUI();
+    const shouldRenderCommentary = isVerseView && (isCommentaryPanelOpen || isDesktopCommentaryPanelOpen);
+    const desktopGridColumns = isVerseView
+        ? getDesktopVerseColumns(isDesktopSidebarOpen, isDesktopCommentaryPanelOpen)
+        : undefined;
+
+    useEffect(() => {
+        closeAllDrawers();
+    }, [closeAllDrawers, location.pathname]);
 
     return (
         <AppShell
             header={isVerseView ? <Header rightContent={<VersePanelToggle />} /> : undefined}
             sidebar={isVerseView ? <Sidebar /> : undefined}
-            rightPanel={isVerseView ? <VerseSidePanel /> : undefined}
+            rightPanel={shouldRenderCommentary ? <VerseSidePanel /> : undefined}
             isMobilePanelOpen={isSidebarOpen || isCommentaryPanelOpen}
+            desktopGridColumns={desktopGridColumns}
             floatingAction={
                 !isVerseView ? (
                     <ThemeToggle className="p-3 bg-white/80 dark:bg-[#111]/80 backdrop-blur-md border border-gold-primary/20 dark:border-gold-primary/10 hover:border-gold-primary/40 shadow-xl shadow-black/5 dark:shadow-[0_8px_30px_-5px_rgba(0,0,0,0.6)] hover:-translate-y-1" />

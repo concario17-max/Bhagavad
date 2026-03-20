@@ -75,6 +75,7 @@ const Sidebar = () => {
             title="Chapters"
             position="left"
             widthClass="w-[400px]"
+            desktopWidthClass="lg:col-start-1 lg:w-full"
         >
             <SidebarMenu
                 groups={groups}

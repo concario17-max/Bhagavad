@@ -1,8 +1,9 @@
-﻿import { ReactNode } from 'react';
+import { CSSProperties, ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu } from 'lucide-react';
 import { useUI } from '../context/UIContext';
 import ThemeToggle from './ThemeToggle';
+import { DESKTOP_VERSE_COLUMNS_DEFAULT } from './ui/desktopVerseLayout';
 
 interface HeaderProps {
     title?: ReactNode;
@@ -19,12 +20,10 @@ const Header = ({
     rightContent,
     className = ''
 }: HeaderProps) => {
-    const {
-        toggleSidebar
-    } = useUI();
-
-    const leftPanelWidth = showSidebarToggle ? 400 : 0;
-    const rightPanelWidth = rightContent ? 400 : 0;
+    const { toggleSidebar } = useUI();
+    const desktopGridStyle = showSidebarToggle
+        ? ({ '--desktop-verse-columns': DESKTOP_VERSE_COLUMNS_DEFAULT } as CSSProperties)
+        : undefined;
 
     const headerContent = (
         <div className="flex h-[72px] items-center justify-between px-4 lg:px-6">
@@ -66,14 +65,12 @@ const Header = ({
                 {headerContent}
             </div>
             <div
-                className="mx-auto hidden w-full lg:grid"
-                style={{ gridTemplateColumns: `${leftPanelWidth}px minmax(0, 1fr) ${rightPanelWidth}px` }}
+                className={`hidden w-full lg:grid ${showSidebarToggle ? 'lg:[grid-template-columns:var(--desktop-verse-columns)]' : 'lg:grid-cols-1'}`}
+                style={desktopGridStyle}
             >
-                <div aria-hidden="true" />
-                <div className="min-w-0">
+                <div className="min-w-0 lg:col-start-2">
                     {headerContent}
                 </div>
-                <div aria-hidden="true" />
             </div>
         </header>
     );

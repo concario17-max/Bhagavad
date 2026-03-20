@@ -12,7 +12,7 @@ export const withBasePath = (path: string): string => {
 };
 
 export const scrollAppContainerToTop = (): void => {
-    const scrollContainer = document.getElementById('app-scroll-container');
+    const scrollContainer = document.getElementById('main-scroll-container');
     if (scrollContainer instanceof HTMLElement) {
         scrollContainer.scrollTo({ top: 0, behavior: 'auto' });
         return;

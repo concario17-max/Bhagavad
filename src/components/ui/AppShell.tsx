@@ -7,6 +7,7 @@ export interface AppShellProps {
     floatingAction?: ReactNode;
     children: ReactNode;
     isMobilePanelOpen?: boolean; // to apply touch-none overflow-hidden to main content when mobile panels are open
+    desktopGridColumns?: string;
 }
 
 /**
@@ -20,8 +21,13 @@ export const AppShell = React.memo(({
     rightPanel,
     floatingAction,
     children,
-    isMobilePanelOpen = false
+    isMobilePanelOpen = false,
+    desktopGridColumns
 }: AppShellProps) => {
+    const desktopGridStyle = desktopGridColumns
+        ? ({ '--desktop-verse-columns': desktopGridColumns } as React.CSSProperties)
+        : undefined;
+
     return (
         <div className="h-[100dvh] flex flex-col bg-gold-bg dark:bg-dark-bg transition-colors duration-500 relative selection:bg-gold-primary/20 selection:text-text-primary dark:selection:text-dark-text-primary overflow-hidden">
             {/* Ambient luxury spotlight overlay. */}
@@ -29,11 +35,14 @@ export const AppShell = React.memo(({
 
             <div className="relative z-10 flex flex-col flex-1 h-full overflow-hidden">
                 {header}
-                <div className="flex flex-1 relative overflow-hidden">
+                <div
+                    className={`flex flex-1 relative overflow-hidden ${desktopGridColumns ? 'lg:grid lg:[grid-template-columns:var(--desktop-verse-columns)]' : ''}`}
+                    style={desktopGridStyle}
+                >
                     {sidebar}
                     <main
-                        id="app-scroll-container"
-                        className={`flex-1 min-w-0 w-full lg:w-auto custom-scrollbar flex flex-col min-h-full ${isMobilePanelOpen ? 'overflow-hidden touch-none' : 'overflow-y-auto'}`}
+                        id="main-scroll-container"
+                        className={`flex-1 min-w-0 w-full lg:w-auto custom-scrollbar flex flex-col min-h-full ${isMobilePanelOpen ? 'overflow-hidden touch-none' : 'overflow-y-auto'} ${desktopGridColumns ? 'lg:col-start-2 lg:w-full' : ''}`}
                     >
                         {children}
                     </main>

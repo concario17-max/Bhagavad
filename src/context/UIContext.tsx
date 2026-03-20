@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode, Dispatch, SetStateAction } from 'react';
+import { createContext, useCallback, useContext, useState, ReactNode, Dispatch, SetStateAction } from 'react';
 import {
     STORAGE_KEYS,
     getDesktopCommentaryPreference,
@@ -31,7 +31,7 @@ export const UIProvider = ({ children }: UIProviderProps) => {
     const [isDesktopSidebarOpen, setIsDesktopSidebarOpen] = useState<boolean>(() => getBoolean(STORAGE_KEYS.desktopSidebar, true));
     const [isDesktopCommentaryPanelOpen, setIsDesktopCommentaryPanelOpen] = useState<boolean>(() => getDesktopCommentaryPreference());
 
-    const toggleSidebar = () => {
+    const toggleSidebar = useCallback(() => {
         if (window.innerWidth < 1024) {
             setIsSidebarOpen(prev => !prev);
             return;
@@ -40,9 +40,9 @@ export const UIProvider = ({ children }: UIProviderProps) => {
         const newState = !isDesktopSidebarOpen;
         setIsDesktopSidebarOpen(newState);
         setBoolean(STORAGE_KEYS.desktopSidebar, newState);
-    };
+    }, [isDesktopSidebarOpen]);
 
-    const toggleCommentaryPanel = (forceOpen = false): void => {
+    const toggleCommentaryPanel = useCallback((forceOpen = false): void => {
         if (window.innerWidth < 1024) {
             setIsCommentaryPanelOpen(prev => (forceOpen ? true : !prev));
             return;
@@ -51,12 +51,12 @@ export const UIProvider = ({ children }: UIProviderProps) => {
         const newState = forceOpen ? true : !isDesktopCommentaryPanelOpen;
         setIsDesktopCommentaryPanelOpen(newState);
         setDesktopCommentaryPreference(newState);
-    };
+    }, [isDesktopCommentaryPanelOpen]);
 
-    const closeAllDrawers = () => {
+    const closeAllDrawers = useCallback(() => {
         setIsSidebarOpen(false);
         setIsCommentaryPanelOpen(false);
-    };
+    }, []);
 
     return (
         <UIContext.Provider value={{

@@ -158,6 +158,7 @@ const VerseView = () => {
 
     return (
         <ContentReader
+            maxWidth="max-w-[1120px]"
             header={
                 <div className="w-full">
                     <nav className="mb-4 flex items-center gap-2 text-[12px] font-inter uppercase tracking-[0.18em] text-text-secondary/70 dark:text-dark-text-secondary/70">
