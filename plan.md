@@ -1,7 +1,7 @@
 # Bhagavad Implementation Plan
 
-Updated: 2026-03-20
-Workspace: `C:\Users\roadsea\Desktop\nagham`
+Updated: 2026-04-03
+Workspace: `C:\Users\roadsea\Desktop\gita`
 
 ## Historical Work
 
@@ -147,3 +147,107 @@ Make the content-generation side of the repo easier to understand and maintain.
 
 This implementation tranche is complete.
 The plan now reflects shipped work rather than future-only backlog.
+
+## 2026-04-03 Commentary Import TODO
+
+Approval gate:
+Do not implement until the user explicitly approves after reviewing this breakdown.
+
+### T0. Source-scope confirmation and backup plan
+
+Goal:
+Lock the actual import scope before touching `public/gita.json`.
+
+- [ ] Confirm implementation scope from provided assets is chapter 1 only unless more commentary source files are supplied
+- [ ] Snapshot the current commentary field behavior and grouped-verse layout assumptions
+- [ ] Create a safe backup path for `public/gita.json` before commentary replacement work
+
+### T1. ODT structure reconnaissance
+
+Goal:
+Understand how the provided ODT encodes verse boundaries and formatting semantics.
+
+- [ ] Extract `content.xml` from `바가바드 기타_1장 해설.odt`
+- [ ] Identify how verse headers are represented in the document
+- [ ] Identify how the first heading inside each verse block is represented
+- [ ] Identify how ordered lists are represented
+- [ ] Identify how bullet lists are represented
+- [ ] Identify how tables are represented
+- [ ] Identify any recurring meta block labels that must be stripped
+
+### T2. Commentary import data model design
+
+Goal:
+Define a stable intermediate representation before mutating runtime data.
+
+- [ ] Decide whether commentary will remain stored as normalized plaintext or as a lightweight structured markup format
+- [ ] Define how inline heading content will be represented beside the verse number
+- [ ] Define how tables will be serialized so they can be rendered faithfully
+- [ ] Define how ordered lists preserve `1. 2. 3.`
+- [ ] Define how general lists preserve `·`
+- [ ] Keep the model fully typed without `any` or `unknown`
+
+### T3. Verse key mapping plan
+
+Goal:
+Prevent grouped-verse commentary from landing on the wrong runtime entry.
+
+- [ ] Inventory grouped verse entries for chapter 1 in `public/gita.json`
+- [ ] Map each imported commentary block to the stored first-verse key used by `resolveVerse()`
+- [ ] Define how verse-range commentary is attached when the source document refers to grouped verses
+- [ ] Add validation that requested verse numbers resolve to the expected stored key
+
+### T4. Import parser implementation
+
+Goal:
+Build a local parser for the user-provided ODT source.
+
+- [ ] Implement ODT unzip/read support from local files
+- [ ] Parse `content.xml` into typed nodes
+- [ ] Reconstruct paragraph, ordered-list, bullet-list, and table blocks
+- [ ] Strip all banned meta sections and residue labels during parse
+- [ ] Extract per-verse commentary blocks for chapter 1
+
+### T5. Commentary cleanup and replacement
+
+Goal:
+Replace existing commentary content for the target scope cleanly.
+
+- [ ] Remove all existing `commentary_en` content for the affected verses before writing new content
+- [ ] Replace chapter 1 commentary with imported normalized commentary
+- [ ] Ensure no placeholder markers such as `$15` or `$16` remain in the affected scope
+- [ ] Ensure banned meta labels do not survive in imported output
+- [ ] Ensure inline heading extraction does not leak duplicate heading text into the body
+
+### T6. Runtime rendering upgrade
+
+Goal:
+Render imported structured commentary faithfully in the UI.
+
+- [ ] Extend the commentary type contract as needed for structured blocks
+- [ ] Update `VerseDataContext` derived commentary state if the new model requires it
+- [ ] Update `VerseCommentary` to render paragraphs, ordered lists, bullet lists, and tables
+- [ ] Render the first heading inline beside the verse label
+- [ ] Preserve graceful empty/error states
+
+### T7. Residue audit across the repository
+
+Goal:
+Catch mapping errors and leftover meta content after import.
+
+- [ ] Scan all affected commentary entries for banned meta text
+- [ ] Scan all affected commentary entries for placeholder remnants
+- [ ] Verify grouped-verse entries do not have duplicate or shifted commentary
+- [ ] Verify route access for grouped ranges still resolves to the correct commentary payload
+
+### T8. Verification
+
+Goal:
+Keep the work safe while implementing.
+
+- [ ] Run type checking throughout implementation without introducing `any` or `unknown`
+- [ ] Add or update unit coverage for commentary mapping and filtering
+- [ ] Add or update unit coverage for grouped-verse commentary resolution
+- [ ] Add or update rendering checks for ordered lists, bullet lists, and tables
+- [ ] Run `npm run build`
+- [ ] Do not commit or push without explicit user approval

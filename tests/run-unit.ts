@@ -6,6 +6,7 @@ import {
     DESKTOP_VERSE_COLUMNS_NO_RIGHT,
     getDesktopVerseColumns
 } from '../src/components/ui/desktopVerseLayout';
+import { parseCommentaryDocument } from '../src/utils/commentary';
 import { isDisplayableCommentary } from '../src/utils/content';
 import { getNextVersePath, getPreviousVersePath, getVerseRange, resolveVerse } from '../src/utils/verse';
 import { GitaData } from '../src/types';
@@ -80,7 +81,32 @@ const runUnitChecks = (): void => {
     assert.equal(isDisplayableCommentary(''), false);
     assert.equal(isDisplayableCommentary('$placeholder block'), false);
     assert.equal(isDisplayableCommentary('Hindi commentary by source metadata'), false);
-    assert.equal(isDisplayableCommentary('धर्मक्षेत्रे कुरुक्षेत्रे'), false);
+    assert.equal(isDisplayableCommentary('देवनागरी टिप्पणी'), false);
+
+    const parsedCommentary = parseCommentaryDocument([
+        '# Main heading',
+        '',
+        'Intro paragraph.',
+        '',
+        '## Section title',
+        '',
+        '1. First item',
+        '2. Second item',
+        '',
+        '\u00B7 Bullet one',
+        '\u00B7 Bullet two',
+        '',
+        '| Name | Meaning |',
+        '| --- | --- |',
+        '| Karma | Action |'
+    ].join('\n'));
+
+    assert.equal(parsedCommentary.inlineHeading, 'Main heading');
+    assert.equal(parsedCommentary.blocks[0].type, 'paragraph');
+    assert.equal(parsedCommentary.blocks[1].type, 'heading');
+    assert.equal(parsedCommentary.blocks[2].type, 'ordered_list');
+    assert.equal(parsedCommentary.blocks[3].type, 'bullet_list');
+    assert.equal(parsedCommentary.blocks[4].type, 'table');
 };
 
 runUnitChecks();

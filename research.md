@@ -1,7 +1,7 @@
 # Bhagavad Gita Project Research Report
 
-Updated: 2026-03-20
-Workspace: `C:\Users\roadsea\Desktop\nagham`
+Updated: 2026-04-03
+Workspace: `C:\Users\roadsea\Desktop\gita`
 
 ## 1. Current Product Shape
 
@@ -305,3 +305,127 @@ The project now has a cleaner runtime architecture than the version described in
 - unused code and dependencies were pruned
 
 The remaining strategic limitation is still content quality, especially commentary completeness, not frontend structure.
+
+## 12. Commentary Import Audit (2026-04-03)
+
+### Current source of truth
+
+Commentary is currently stored inline inside [public/gita.json](C:/Users/roadsea/Desktop/gita/public/gita.json) as the optional `commentary_en` field on each `GitaVerse` record.
+
+Relevant type contract:
+
+- [src/types/index.ts](C:/Users/roadsea/Desktop/gita/src/types/index.ts)
+  `GitaVerse.commentary_en?: string`
+
+There is no dedicated tracked commentary import pipeline in the current repository:
+
+- no maintained script targeting `commentary_en`
+- no tracked ODT/DOCX parser
+- no commentary-specific normalization utility
+
+The user-provided import source currently present in the workspace is:
+
+- `C:\Users\roadsea\Desktop\gita\바가바드 기타_1장 해설.odt`
+
+That `.odt` file is a standard OpenDocument zip container and includes `content.xml`, embedded fonts, and table markup, so direct extraction is feasible in a local script without external services.
+
+### Runtime rendering path
+
+Commentary is resolved and rendered through the verse route stack:
+
+1. [src/context/VerseDataContext.tsx](C:/Users/roadsea/Desktop/gita/src/context/VerseDataContext.tsx)
+   loads `gita.json`, resolves the requested verse, computes `verseRange`, and derives `hasDisplayableCommentary`
+2. [src/components/VerseSidePanel.tsx](C:/Users/roadsea/Desktop/gita/src/components/VerseSidePanel.tsx)
+   mounts the right-side commentary panel
+3. [src/components/VerseCommentary.tsx](C:/Users/roadsea/Desktop/gita/src/components/VerseCommentary.tsx)
+   reads `verseData.commentary_en` and renders it
+
+Important current rendering limitation:
+
+- [src/components/VerseCommentary.tsx](C:/Users/roadsea/Desktop/gita/src/components/VerseCommentary.tsx) only splits commentary on newline boundaries and renders plain `<p>` blocks
+- there is no structured rendering for tables
+- there is no structured rendering for ordered lists
+- there is no structured rendering for bullet lists
+- there is no inline heading treatment beside the verse label
+
+So the current UI cannot faithfully display the requested import rules without additional formatting or parsing work.
+
+### Current display filter
+
+Commentary visibility is not based on raw presence alone.
+
+[src/utils/content.ts](C:/Users/roadsea/Desktop/gita/src/utils/content.ts) currently marks commentary as displayable only when it:
+
+- is non-empty
+- does not start with `$`
+- does not start with `Hindi commentary by `
+- does not contain Devanagari characters
+
+This means a newly imported Korean commentary source would be displayable under the current filter, but imported structured blocks still need renderer support.
+
+### Verse key mapping behavior
+
+Verse route resolution is gap-based, not strict-id based.
+
+[src/utils/verse.ts](C:/Users/roadsea/Desktop/gita/src/utils/verse.ts):
+
+- `resolveVerse()` finds the stored verse entry whose `verse` number covers the requested number up to the next stored verse
+- `getVerseRange()` infers grouped ranges by looking at numeric gaps between adjacent stored entries
+
+Important implication:
+
+- grouped verses are stored under the first verse number only
+- the `id` field does not reliably encode the full grouped range
+- grouped audio filenames do encode the range, for example `001_004-006.mp3`
+
+Observed chapter 1 grouped entries:
+
+- `1.4` represents verses `1.4-1.6`
+- `1.16` represents verses `1.16-1.18`
+- `1.21` represents verses `1.21-1.22`
+- `1.29` represents verses `1.29-1.31`
+- `1.32` represents verses `1.32-1.33`
+- `1.34` represents verses `1.34-1.35`
+- `1.36` represents verses `1.36-1.37`
+- `1.38` represents verses `1.38-1.39`
+- `1.45` represents verses `1.45-1.46`
+
+So any commentary import must map commentary blocks to the stored first-verse key, not to every verse number independently, or route resolution will drift.
+
+### Current data reality
+
+Repository inspection of [public/gita.json](C:/Users/roadsea/Desktop/gita/public/gita.json) shows:
+
+- `18` chapters
+- `640` stored verse entries
+- `639` entries with a non-empty `commentary_en`
+- `431` entries using dollar-prefixed placeholders such as `$15` or `$16`
+- `1` entry that is source-metadata text (`Hindi Commentary By ...`)
+- `0` entries that pass the current displayability rule
+
+Chapter 1 currently has `35` stored verse entries, and all `35` contain some `commentary_en` payload, but that payload is a mix of placeholders and Hindi commentary text rather than the desired imported Korean commentary.
+
+### Import-rule impact
+
+The requested rule set implies more than a text replacement:
+
+- all existing `commentary_en` values must be replaced for the target scope
+- meta blocks must be stripped during import, not only hidden in the UI
+- numbering and bullet semantics must survive extraction
+- tables must be preserved in a structured form
+- the first title in a commentary block must be exposed as an inline heading beside the verse number
+
+That likely requires both:
+
+1. a commentary import/cleanup pipeline
+2. a richer commentary rendering contract than raw newline-delimited text
+
+### Risks
+
+Primary implementation risks:
+
+- The repository currently has only one supplied commentary source file, and it covers chapter 1 only. Full-repository commentary replacement cannot be completed for chapters 2-18 unless additional source files are supplied or the intended scope is explicitly chapter 1 only.
+- Grouped verse storage is gap-based. A naive per-verse import could misassign commentary for combined verse entries.
+- The current renderer cannot preserve table or list semantics, so import-only work would still lose structure at display time.
+- The cleanup rules remove several classes of meta text. Overly broad filtering could delete valid commentary unless the parser distinguishes true content from import scaffolding.
+- Existing unit tests currently only validate commentary visibility heuristics, not commentary import mapping, structured rendering, or full-repository residue cleanup.
