@@ -145,6 +145,9 @@ function Is-MetaLine {
     )
 
     $globeEmoji = [System.Char]::ConvertFromUtf32(0x1F310)
+    $normalized = $Line.Trim()
+    $normalized = $normalized.TrimStart([char]0x00B7, ' ', '·')
+
     if ($Line -eq 'Plaintext') {
         return $true
     }
@@ -153,7 +156,19 @@ function Is-MetaLine {
         return $true
     }
 
-    if ($Line -like '*Search Strategy*') {
+    if ($normalized -like '*Search Strategy*') {
+        return $true
+    }
+
+    if ($normalized -like '*사용자 제공 텍스트*' -or $normalized -like '*사용자 제공 자료*') {
+        return $true
+    }
+
+    if ($normalized -like '*제공 자료*' -or $normalized -like '*강연록*' -or $normalized -like '*텍스트 섹션*') {
+        return $true
+    }
+
+    if ($normalized -like '*원문 - *' -and $normalized -like '*(20*' ) {
         return $true
     }
 
@@ -161,15 +176,15 @@ function Is-MetaLine {
         return $true
     }
 
-    if ($Line -like '*Verified Sources*') {
+    if ($normalized -like '*Verified Sources*') {
         return $true
     }
 
-    if ($Line -like '*Online Mode*' -or $Line -like '*Offline Mode*' -or $Line -like '*Online/Offline Mode*') {
+    if ($normalized -like '*Online Mode*' -or $normalized -like '*Offline Mode*' -or $normalized -like '*Online/Offline Mode*') {
         return $true
     }
 
-    if ($Line -like '*User Input*') {
+    if ($normalized -like '*User Input*') {
         return $true
     }
 
@@ -456,23 +471,17 @@ $namespaceManager = New-OdtNamespaceManager -Document $contentDocument
 $stylesNamespaceManager = New-OdtNamespaceManager -Document $stylesDocument
 $listStyleKinds = Get-ListStyleKinds -StylesDocument $stylesDocument -NamespaceManager $stylesNamespaceManager
 
-$markerMap = @{}
-for ($index = 0; $index -lt $chapterVerses.Length; $index += 1) {
-    $rangeLabel = Get-RangeLabel -Verses $chapterVerses -Index $index
-    $markerMap["$rangeLabel."] = [int]$chapterVerses[$index].verse
-}
-
 $body = $contentDocument.SelectSingleNode('//office:body/office:text', $namespaceManager)
 if ($null -eq $body) {
     throw 'Failed to locate office:text in content.xml.'
 }
 
-$commentaryByVerse = @{}
-$currentVerse = 0
+$commentaryBlocks = New-Object System.Collections.Generic.List[string]
 $currentLines = New-Object System.Collections.Generic.List[string]
 $pendingLines = New-Object System.Collections.Generic.List[string]
 $titleEmitted = $false
 $skipMetaSection = $false
+$blockStarted = $false
 $referencePrefix = [System.Char]::ConvertFromUtf32(0x1F517)
 
 function Append-Lines {
@@ -496,16 +505,16 @@ foreach ($childNode in $body.ChildNodes) {
         }
 
         $markerMatch = [regex]::Match($text, '^(?<marker>\d+(?:-\d+)?\.)(?<rest>.*)$')
-        if ($markerMatch.Success -and $markerMap.ContainsKey($markerMatch.Groups['marker'].Value)) {
-            if ($currentVerse -ne 0) {
+        if ($markerMatch.Success) {
+            if ($blockStarted) {
                 if (-not $titleEmitted) {
                     $currentLines = $pendingLines
                 }
 
-                $commentaryByVerse[$currentVerse] = Finalize-Lines -Lines $currentLines
+                $commentaryBlocks.Add((Finalize-Lines -Lines $currentLines))
             }
 
-            $currentVerse = [int]$markerMap[$markerMatch.Groups['marker'].Value]
+            $blockStarted = $true
             $currentLines = New-Object System.Collections.Generic.List[string]
             $pendingLines = New-Object System.Collections.Generic.List[string]
             $titleEmitted = $false
@@ -524,7 +533,7 @@ foreach ($childNode in $body.ChildNodes) {
             continue
         }
 
-        if ($currentVerse -eq 0) {
+        if (-not $blockStarted) {
             continue
         }
 
@@ -542,7 +551,7 @@ foreach ($childNode in $body.ChildNodes) {
         }
 
         $styleName = Get-StyleName -Node $childNode -NamespaceManager $namespaceManager
-        if (-not $titleEmitted -and $styleName -eq 'P611') {
+        if (-not $titleEmitted -and $styleName -ne 'P1' -and $styleName -ne 'P2') {
             Add-Line -Lines $currentLines -Line "# $text"
             if ($pendingLines.Count -gt 0) {
                 Add-BlankLine -Lines $currentLines
@@ -563,7 +572,7 @@ foreach ($childNode in $body.ChildNodes) {
         continue
     }
 
-    if ($currentVerse -eq 0 -or $skipMetaSection) {
+    if (-not $blockStarted -or $skipMetaSection) {
         continue
     }
 
@@ -587,21 +596,25 @@ foreach ($childNode in $body.ChildNodes) {
     }
 }
 
-if ($currentVerse -ne 0) {
+if ($blockStarted) {
     if (-not $titleEmitted) {
         $currentLines = $pendingLines
     }
 
-    $commentaryByVerse[$currentVerse] = Finalize-Lines -Lines $currentLines
+    $commentaryBlocks.Add((Finalize-Lines -Lines $currentLines))
+}
+
+if ($commentaryBlocks.Count -ne $chapterVerses.Length) {
+    throw "Imported commentary block count ($($commentaryBlocks.Count)) does not match chapter $targetChapterNumber verse count ($($chapterVerses.Length))."
 }
 
 foreach ($verse in $chapterVerses) {
-    $verseNumber = [int]$verse.verse
-    if (-not $commentaryByVerse.ContainsKey($verseNumber)) {
-        throw "No imported commentary block found for chapter $targetChapterNumber verse key $verseNumber."
+    $verseIndex = [array]::IndexOf($chapterVerses, $verse)
+    if ($verseIndex -lt 0 -or $verseIndex -ge $commentaryBlocks.Count) {
+        throw "No imported commentary block found for chapter $targetChapterNumber verse key $($verse.verse)."
     }
 
-    $verse.commentary_en = [string]$commentaryByVerse[$verseNumber]
+    $verse.commentary_en = [string]$commentaryBlocks[$verseIndex]
 }
 
 $jsonOutput = $gitaData | ConvertTo-Json -Depth 100
@@ -611,6 +624,6 @@ $summary = [ordered]@{
     chapter = $targetChapterNumber
     source = [System.IO.Path]::GetFileName($resolvedOdtPath)
     storedVerseEntries = $chapterVerses.Length
-    importedBlocks = $commentaryByVerse.Count
+    importedBlocks = $commentaryBlocks.Count
 }
 $summary | ConvertTo-Json
