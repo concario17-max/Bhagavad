@@ -138,6 +138,20 @@ function Get-NodeText {
     return Normalize-Text $Node.InnerText
 }
 
+function New-TextFromCodePoints {
+    param(
+        [Parameter(Mandatory = $true)]
+        [int[]]$CodePoints
+    )
+
+    $builder = New-Object System.Text.StringBuilder
+    foreach ($codePoint in $CodePoints) {
+        [void]$builder.Append([char]$codePoint)
+    }
+
+    return $builder.ToString()
+}
+
 function Is-MetaLine {
     param(
         [Parameter(Mandatory = $true)]
@@ -147,6 +161,19 @@ function Is-MetaLine {
     $globeEmoji = [System.Char]::ConvertFromUtf32(0x1F310)
     $normalized = $Line.Trim()
     $normalized = $normalized.TrimStart([char]0x00B7, ' ', '·')
+
+    $sourceTitle = New-TextFromCodePoints @(48148, 44032, 48148, 46300, 32, 44592, 53440)
+    $academicWord = New-TextFromCodePoints @(54617, 49696)
+    $reviewWord = New-TextFromCodePoints @(44428, 50948)
+    $commentaryWord = New-TextFromCodePoints @(51452, 49437, 49436)
+    $sourceWord = New-TextFromCodePoints @(52636, 52376)
+    $searchWord = New-TextFromCodePoints @(53456, 49353)
+    $userWord = New-TextFromCodePoints @(49324, 50857)
+    $provideWord = New-TextFromCodePoints @(51228, 44277)
+    $textWord = New-TextFromCodePoints @(53581, 49828, 53944)
+    $backgroundWord = New-TextFromCodePoints @(48124, 44221)
+    $infoWord = New-TextFromCodePoints @(51221, 48372)
+    $tenPlusWord = '10'
 
     if ($Line -eq 'Plaintext') {
         return $true
@@ -160,19 +187,38 @@ function Is-MetaLine {
         return $true
     }
 
-    if ($normalized -like '*사용자 제공 텍스트*' -or $normalized -like '*사용자 제공 자료*') {
+    if ($normalized -like ('*{0}*' -f $academicWord) -or $normalized -like ('*{0}*' -f $reviewWord) -or $normalized -like ('*{0}*' -f $commentaryWord)) {
+        return $true
+    }
+
+    if ($normalized -like ('*{0}*' -f $sourceTitle) -and (
+        $normalized -like ('*{0}*' -f $academicWord) -or
+        $normalized -like ('*{0}*' -f $reviewWord) -or
+        $normalized -like ('*{0}*' -f $commentaryWord) -or
+        $normalized -like ('*{0}*' -f $sourceWord) -or
+        $normalized -like ('*{0}*' -f $searchWord) -or
+        $normalized -like ('*{0}*' -f $userWord) -or
+        $normalized -like ('*{0}*' -f $provideWord) -or
+        $normalized -like ('*{0}*' -f $textWord) -or
+        $normalized -like ('*{0}*' -f $backgroundWord) -or
+        $normalized -like ('*{0}*' -f $infoWord)
+    )) {
+        return $true
+    }
+
+    if ($normalized -like ('*{0}*' -f $sourceWord) -and ($normalized -like ('*{0}*' -f $academicWord) -or $normalized -like ('*{0}*' -f $searchWord) -or $normalized -like ('*{0}*' -f $backgroundWord))) {
+        return $true
+    }
+
+    if ($normalized -like '*신뢰할 수 있는*출처*' -or $normalized -like '*신뢰할 수 있는 10개 이상의 출처*' -or $normalized -like '*탐색하여*' -or $normalized -like '*배경 정보를 확인*' -or $normalized -like '*출처를 확보*') {
+        return $true
+    }
+
+    if ($normalized -like '*사용자가 제공한 텍스트*' -or $normalized -like '*사용자가 제공한 텍스트의 배경 정보*' -or $normalized -like '*사용자 제공 텍스트*' -or $normalized -like '*사용자 제공 자료*') {
         return $true
     }
 
     if ($normalized -like '*제공 자료*' -or $normalized -like '*강연록*' -or $normalized -like '*텍스트 섹션*') {
-        return $true
-    }
-
-    if ($normalized -like '*원문 - *' -and $normalized -like '*(20*' ) {
-        return $true
-    }
-
-    if ($Line.StartsWith('[') -and $Line.Contains($globeEmoji)) {
         return $true
     }
 
@@ -185,6 +231,10 @@ function Is-MetaLine {
     }
 
     if ($normalized -like '*User Input*') {
+        return $true
+    }
+
+    if ($Line.StartsWith('[') -and $Line.Contains($globeEmoji)) {
         return $true
     }
 
