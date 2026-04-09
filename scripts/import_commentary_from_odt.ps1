@@ -234,6 +234,21 @@ function Is-MetaLine {
         return $true
     }
 
+    if (
+        $normalized -like '사용자가 제공한 텍스트 자료만을 분석하여 요약함*' -or
+        $normalized -like '*외부 웹 검색은 수행하지 않음*' -or
+        $normalized -like '제공된 본문 텍스트만을 바탕으로*' -or
+        $normalized -like '사용자 제공 텍스트*' -or
+        $normalized -like '사용자 공유 텍스트*' -or
+        $normalized -like '제공된 텍스트 원문*' -or
+        $normalized -like '사용자 제공 텍스트 데이터*' -or
+        $normalized -like '사용자 제공 원문*' -or
+        $normalized -like '제공된 텍스트 자료*' -or
+        $normalized -like '사용자가 제공한 텍스트 자료만을 분석하여 요약함*'
+    ) {
+        return $true
+    }
+
     if ($Line.StartsWith('[') -and $Line.Contains($globeEmoji)) {
         return $true
     }
@@ -555,7 +570,9 @@ foreach ($childNode in $body.ChildNodes) {
         }
 
         $markerMatch = [regex]::Match($text, '^(?<marker>\d+(?:-\d+)?\.)(?<rest>.*)$')
-        if ($markerMatch.Success) {
+        $styleName = Get-StyleName -Node $childNode -NamespaceManager $namespaceManager
+        $isVerseMarker = $markerMatch.Success -and $styleName -ne 'Standard'
+        if ($isVerseMarker) {
             if ($blockStarted) {
                 if (-not $titleEmitted) {
                     $currentLines = $pendingLines
@@ -600,7 +617,6 @@ foreach ($childNode in $body.ChildNodes) {
             continue
         }
 
-        $styleName = Get-StyleName -Node $childNode -NamespaceManager $namespaceManager
         if (-not $titleEmitted -and $styleName -ne 'P1' -and $styleName -ne 'P2') {
             Add-Line -Lines $currentLines -Line "# $text"
             if ($pendingLines.Count -gt 0) {
