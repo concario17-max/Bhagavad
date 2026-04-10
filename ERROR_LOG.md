@@ -4,3 +4,16 @@
 - summary: chapter 8 import hit a transient write lock
 - details: `WriteAllText` failed once with "user-mapped section open" while writing `public/gita.json` during the chapter 8 import; the same import succeeded on retry and chapters 7-9 were verified afterward.
 - status: resolved
+
+## 2026-04-10
+- time: 2026-04-10 16:45 KST
+- location: verification -> `npm run build`
+- summary: PowerShell execution policy blocked the initial build command
+- details: `npm run build` failed once because `npm.ps1` was blocked by the local execution policy; the build was rerun successfully with `cmd /c npm run build`.
+- status: resolved
+
+- time: 2026-04-10 00:00 KST
+- location: scripts/import_commentary_from_odt.ps1 -> public/gita.json
+- summary: chapter 3 reimport stopped on verse-block count mismatch
+- details: after adding summary-heading preservation for `h` nodes, the chapter 3 ODT reimport returned 40 imported blocks for 41 verses, so the chapter was not rewritten during the bulk refresh.
+- status: deferred

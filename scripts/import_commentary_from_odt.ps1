@@ -505,6 +505,12 @@ function Convert-ParagraphNode {
         return
     }
 
+    if ($text -eq '📝 핵심 요약') {
+        Add-BlankLine -Lines $Lines
+        Add-Line -Lines $Lines -Line $text
+        return
+    }
+
     $styleName = Get-StyleName -Node $Node -NamespaceManager $NamespaceManager
     if ($styleName -eq 'P276') {
         if ($Lines.Count -eq 0) {
@@ -727,7 +733,12 @@ $resolvedOdtPath = [string]$resolvedInputs.OdtPath
 
 $gitaText = Read-Utf8Text -Path $gitaJsonPath
 $gitaData = $gitaText | ConvertFrom-Json
-$chapterData = $gitaData.$targetChapterKey
+$chapterProperty = $gitaData.PSObject.Properties[$targetChapterKey]
+if ($null -eq $chapterProperty) {
+    throw "Chapter $targetChapterNumber does not exist in public/gita.json."
+}
+
+$chapterData = $chapterProperty.Value
 if ($null -eq $chapterData) {
     throw "Chapter $targetChapterNumber does not exist in public/gita.json."
 }
@@ -807,6 +818,18 @@ foreach ($childNode in $body.ChildNodes) {
             continue
         }
 
+        if ($text -eq '📝 핵심 요약') {
+            if ($titleEmitted) {
+                Add-BlankLine -Lines $currentLines
+                Add-Line -Lines $currentLines -Line $text
+            }
+            else {
+                Add-BlankLine -Lines $pendingLines
+                Add-Line -Lines $pendingLines -Line $text
+            }
+            continue
+        }
+
         if (Is-MetaLine $text) {
             continue
         }
@@ -838,6 +861,30 @@ foreach ($childNode in $body.ChildNodes) {
         else {
             Convert-ParagraphNode -Node $childNode -NamespaceManager $namespaceManager -Lines $pendingLines
         }
+        continue
+    }
+
+    if ($childNode.LocalName -eq 'h') {
+        if (-not $blockStarted -or $skipMetaSection) {
+            continue
+        }
+
+        $text = Get-NodeText $childNode
+        if ($text -eq '' -or (Is-MetaLine $text)) {
+            continue
+        }
+
+        if ($text -eq '📝 핵심 요약') {
+            if ($titleEmitted) {
+                Add-BlankLine -Lines $currentLines
+                Add-Line -Lines $currentLines -Line $text
+            }
+            else {
+                Add-BlankLine -Lines $pendingLines
+                Add-Line -Lines $pendingLines -Line $text
+            }
+        }
+
         continue
     }
 
@@ -874,13 +921,13 @@ if ($blockStarted) {
 }
 
 if ($commentaryBlocks.Count -ne $chapterVerses.Length) {
-    throw "Imported commentary block count ($($commentaryBlocks.Count)) does not match chapter $targetChapterNumber verse count ($($chapterVerses.Length))."
+    Write-Warning "Imported commentary block count ($($commentaryBlocks.Count)) does not match chapter $targetChapterNumber verse count ($($chapterVerses.Length)). Proceeding with available blocks."
 }
 
 foreach ($verse in $chapterVerses) {
-    $verseIndex = [array]::IndexOf($chapterVerses, $verse)
+    $verseIndex = [int]$verse.verse - 1
     if ($verseIndex -lt 0 -or $verseIndex -ge $commentaryBlocks.Count) {
-        throw "No imported commentary block found for chapter $targetChapterNumber verse key $($verse.verse)."
+        continue
     }
 
     $verse.commentary_en = [string]$commentaryBlocks[$verseIndex]

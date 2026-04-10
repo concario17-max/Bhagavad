@@ -1,25 +1,24 @@
 Current Task
-- task: remove date-tagged source/meta residue from imported commentary
+- task: normalize remaining question-mark placeholders in `public/gita.json`
 - phase: completed
-- scope: remove date-tagged commentary residue across all imported chapters, harden the import filter, and add a save-time cleanup pass so stored data does not keep the residue
+- scope: remove or normalize all remaining `??` placeholder patterns in commentary text across chapters 5, 10, 11, 13, 14, 15, and 18 while preserving valid Korean punctuation and bullets
 
 Route
 - route: Route B
-- reason: touches shared asset data plus the import script across multiple directories and requires verification, so it exceeds Route A limits in this workspace
+- reason: the remaining placeholder cleanup spans 258 hits across many verses in the shared commentary JSON, so it is no longer a tight single-file hotfix
 
 Writer Slot
 - main: planner-only
-- worker_shared: `scripts/import_commentary_from_odt.ps1`, `public/gita.json`
+- worker_shared: `public/gita.json`
 
 Contract Freeze
-- freeze: remove date-tagged residue from commentary and harden the import filter against those variants, including reference-section headings and bibliography-like lines in saved commentary
+- freeze: remove or normalize all remaining `??` placeholder patterns in `public/gita.json` without changing the intended commentary structure or the summary headings already fixed
 - write_sets:
-  - worker_shared: `scripts/import_commentary_from_odt.ps1`, `public/gita.json`
-  - split_note: one worker is required because all cleanup converges on the same shared files
+  - worker_shared: `public/gita.json`
 
 Reviewer
-- reviewer: Avicenna (`019d74d4-555b-7f31-931b-56682c39f8f3`)
+- reviewer: Einstein (`019d7657-aaae-7461-9691-6fd01db59246`)
 
 Last Update
-- time: 2026-04-10 10:15 KST
-- note: worker reran chapter 18 import to trigger global saved-data cleanup, local regex audit reached zero date-tag matches, and reviewer reported no blocking findings
+- time: 2026-04-10 16:54 KST
+- note: remaining placeholder cleanup completed; scan is 0 and build passed
