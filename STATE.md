@@ -1,25 +1,25 @@
 Current Task
-- task: import commentary from user-provided ODTs for chapters 11-18
+- task: remove date-tagged source/meta residue from imported commentary
 - phase: completed
-- scope: update chapter 11 through 18 commentary data from the local ODT files using the approved import rules, then verify typecheck/build
+- scope: remove date-tagged commentary residue across all imported chapters, harden the import filter, and add a save-time cleanup pass so stored data does not keep the residue
 
 Route
 - route: Route B
-- reason: touches shared asset data plus the import script across multiple directories, spans eight chapter datasets, and requires multiple verification steps (`tsc`, unit test, build), which exceeds Route A limits in this workspace
+- reason: touches shared asset data plus the import script across multiple directories and requires verification, so it exceeds Route A limits in this workspace
 
 Writer Slot
 - main: planner-only
 - worker_shared: `scripts/import_commentary_from_odt.ps1`, `public/gita.json`
 
 Contract Freeze
-- freeze: apply the same commentary import rules already approved for chapters 1-10 to chapters 11-18 only
+- freeze: remove date-tagged residue from commentary and harden the import filter against those variants, including reference-section headings and bibliography-like lines in saved commentary
 - write_sets:
   - worker_shared: `scripts/import_commentary_from_odt.ps1`, `public/gita.json`
-  - split_note: one worker is required because all chapter imports converge on the same shared files and cannot be safely split into disjoint write sets
+  - split_note: one worker is required because all cleanup converges on the same shared files
 
 Reviewer
-- reviewer: `019d7147-e4d4-7e70-82d1-3104d279050c` (Godel)
+- reviewer: Avicenna (`019d74d4-555b-7f31-931b-56682c39f8f3`)
 
 Last Update
-- time: 2026-04-09 18:05 KST
-- note: chapters 11-18 import completed, Korean prompt/source-description residue removed, reviewer pass received, and validation passed (`tsc`, `test:unit`, `build`)
+- time: 2026-04-10 10:15 KST
+- note: worker reran chapter 18 import to trigger global saved-data cleanup, local regex audit reached zero date-tag matches, and reviewer reported no blocking findings

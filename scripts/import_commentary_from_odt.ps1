@@ -1,4 +1,4 @@
-param(
+﻿param(
     [int]$ChapterNumber = 0,
     [string]$OdtPath = ''
 )
@@ -152,6 +152,164 @@ function New-TextFromCodePoints {
     return $builder.ToString()
 }
 
+function Remove-DateTagSuffix {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Text
+    )
+
+    $trimmed = $Text.Trim()
+    $patterns = @(
+        '\s*[\(\[]?(?:20\d{2}|\d{2})(?:[-.]\d{2}){2}[\)\]]?\s*',
+        '\s*[\(\[]?(?:20\d{2}|\d{2})[\)\]]?\s*'
+    )
+
+    foreach ($pattern in $patterns) {
+        $trimmed = [regex]::Replace($trimmed, $pattern, ' ')
+    }
+
+    $trimmed = [regex]::Replace($trimmed, '\s{2,}', ' ')
+    $trimmed = $trimmed.Trim(" `t`r`n-:·•[]()")
+
+    return $trimmed
+}
+
+function Test-ReferenceHeading {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Text
+    )
+
+    $normalized = $Text.Normalize([System.Text.NormalizationForm]::FormKC)
+    $normalized = $normalized.Replace([char]0x00A0, ' ').Trim()
+    $normalized = $normalized.TrimStart('#', ' ', [char]0x00B7, [char]0x2022, '-', '[', ']', ':')
+
+    $headings = @(
+        '참조 출처',
+        '참고문헌',
+        '참고 자료',
+        '참고자료',
+        '출처',
+        'Verified Sources',
+        'Search Strategy'
+    )
+
+    foreach ($heading in $headings) {
+        if ($normalized.StartsWith($heading)) {
+            return $true
+        }
+    }
+
+    return $false
+}
+
+function Test-CommentaryMetaLine {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Text
+    )
+
+    $normalized = $Text.Normalize([System.Text.NormalizationForm]::FormKC)
+    $normalized = $normalized.Replace([char]0x00A0, ' ').Trim()
+
+    if ($normalized -eq '') {
+        return $true
+    }
+
+    if ([regex]::IsMatch($normalized, '\((?:20\d{2}|\d{2})(?:[-.]\d{2}){2}\)|\((?:20\d{2}|\d{2})\)')) {
+        return $true
+    }
+
+    if (Test-ReferenceHeading -Text $normalized) {
+        return $true
+    }
+
+    $metaFragments = @(
+        'Search Strategy',
+        'Verified Sources',
+        'User Provided Text',
+        'Holy Bhagavad Gita',
+        '사용자 제공',
+        '사용자가 제공',
+        '사용자 입력',
+        '사용자 데이터',
+        '공유된 텍스트',
+        '제공된 텍스트',
+        '제공된 원문',
+        '원문 데이터',
+        '텍스트 기반',
+        '내부 자료',
+        '내부 데이터',
+        '내부 기록',
+        '지식 베이스',
+        '보고서',
+        '가이드',
+        '강의록',
+        '강의 요약',
+        '강의 기록',
+        '강연록',
+        '강연 텍스트',
+        '강독 자료',
+        '출처',
+        '참고문헌',
+        '참고 자료',
+        '참고자료',
+        '참조 출처'
+    )
+
+    foreach ($fragment in $metaFragments) {
+        if ($normalized.Contains($fragment)) {
+            return $true
+        }
+    }
+
+    if ($normalized -match '^(?:[#\s\[\]·•\-\–—🛡📝📚🧾⚠🔗🏛]*)(?:User Provided Text|사용자 제공|제공된 텍스트|제공된 원문|내부 자료|내부 데이터|보고서|가이드|강의록|강의 요약|강의 기록|강연록|강연 텍스트|강독 자료|원문 데이터|텍스트 기반|참고문헌|참고 자료|참고자료|참조 출처)') {
+        return $true
+    }
+
+    return $false
+}
+
+function Remove-CommentaryResidue {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Text
+    )
+
+    if ($Text -eq '') {
+        return ''
+    }
+
+    $cleanedLines = New-Object System.Collections.Generic.List[string]
+    $lines = $Text -split "`r?`n"
+    foreach ($line in $lines) {
+        $trimmed = $line.Trim()
+        if ($trimmed -eq '') {
+            if ($cleanedLines.Count -gt 0 -and $cleanedLines[$cleanedLines.Count - 1] -ne '') {
+                $cleanedLines.Add('')
+            }
+
+            continue
+        }
+
+        if (Test-CommentaryMetaLine -Text $trimmed) {
+            continue
+        }
+
+        $cleanedLines.Add($trimmed)
+    }
+
+    while ($cleanedLines.Count -gt 0 -and $cleanedLines[$cleanedLines.Count - 1] -eq '') {
+        $cleanedLines.RemoveAt($cleanedLines.Count - 1)
+    }
+
+    while ($cleanedLines.Count -gt 0 -and $cleanedLines[0] -eq '') {
+        $cleanedLines.RemoveAt(0)
+    }
+
+    return ($cleanedLines -join "`n").Trim()
+}
+
 function Is-MetaLine {
     param(
         [Parameter(Mandatory = $true)]
@@ -160,7 +318,19 @@ function Is-MetaLine {
 
     $globeEmoji = [System.Char]::ConvertFromUtf32(0x1F310)
     $normalized = $Line.Trim()
+    if (Test-CommentaryMetaLine -Text $normalized) {
+        return $true
+    }
+    $normalized = Remove-DateTagSuffix -Text $normalized
+
+    if ($normalized -eq '') {
+        return $true
+    }
     $normalized = $normalized.TrimStart([char]0x00B7, ' ', '·')
+
+    if ($normalized -eq '') {
+        return $true
+    }
 
     $sourceTitle = New-TextFromCodePoints @(48148, 44032, 48148, 46300, 32, 44592, 53440)
     $academicWord = New-TextFromCodePoints @(54617, 49696)
@@ -183,6 +353,39 @@ function Is-MetaLine {
         return $true
     }
 
+    if (
+        $normalized -match '^사용자 제공 텍스트(\s|$)' -or
+        $normalized -match '^사용자 공유 텍스트(\s|$)' -or
+        $normalized -match '^제공된 텍스트 원문(\s|$)' -or
+        $normalized -match '^사용자가 제공한 텍스트 자료만을 분석하여 요약함(\s|$)' -or
+        $normalized -match '^외부 웹 검색은 수행하지 않음(\s|$)' -or
+        $normalized -match '^제공된 본문 텍스트만을 바탕으로(\s|$)'
+    ) {
+        return $true
+    }
+
+    $compact = $normalized.Normalize([System.Text.NormalizationForm]::FormKC)
+    $compact = $compact.Replace([char]0x00A0, ' ')
+    $compact = $compact -replace '\s+', ''
+    $compact = $compact -replace '[\p{P}\p{S}]', ''
+
+    $userProvidedText = New-TextFromCodePoints @(49324, 50857, 51088, 51228, 44277, 53581, 49828, 53944)
+    $userSharedText = New-TextFromCodePoints @(49324, 50857, 51088, 44277, 50976, 53581, 49828, 53944)
+    $providedRawText = New-TextFromCodePoints @(51228, 44277, 46108, 53581, 49828, 53944, 50896, 47928)
+    $userProvidedTextAnalysis = New-TextFromCodePoints @(49324, 50857, 51088, 44032, 51228, 44277, 54620, 53581, 49828, 53944, 51088, 47308, 47564, 51012, 48516, 49437, 54616, 50668, 50836, 50557, 54632)
+    $noExternalWebSearch = New-TextFromCodePoints @(50808, 48512, 50976, 44160, 49353, 51008, 49688, 54665, 54616, 51648, 50506, 51020)
+    $providedBodyOnly = New-TextFromCodePoints @(51228, 44277, 46108, 48376, 47928, 53581, 49828, 53944, 47564, 51012, 48148, 53461, 51004, 47196)
+
+    if (
+        $compact.StartsWith($userProvidedText) -or
+        $compact.StartsWith($userSharedText) -or
+        $compact.StartsWith($providedRawText) -or
+        $compact.StartsWith($userProvidedTextAnalysis) -or
+        $compact.StartsWith($noExternalWebSearch) -or
+        $compact.StartsWith($providedBodyOnly)
+    ) {
+        return $true
+    }
     if ($normalized -like '*Search Strategy*') {
         return $true
     }
@@ -683,6 +886,19 @@ foreach ($verse in $chapterVerses) {
     $verse.commentary_en = [string]$commentaryBlocks[$verseIndex]
 }
 
+$cleanupCount = 0
+foreach ($chapterProperty in $gitaData.PSObject.Properties) {
+    $chapter = $chapterProperty.Value
+    foreach ($verse in @($chapter.verses)) {
+        $originalCommentary = [string]$verse.commentary_en
+        $cleanedCommentary = Remove-CommentaryResidue -Text $originalCommentary
+        if ($cleanedCommentary -ne $originalCommentary) {
+            $verse.commentary_en = $cleanedCommentary
+            $cleanupCount += 1
+        }
+    }
+}
+
 $jsonOutput = $gitaData | ConvertTo-Json -Depth 100
 [System.IO.File]::WriteAllText($gitaJsonPath, $jsonOutput)
 
@@ -691,5 +907,6 @@ $summary = [ordered]@{
     source = [System.IO.Path]::GetFileName($resolvedOdtPath)
     storedVerseEntries = $chapterVerses.Length
     importedBlocks = $commentaryBlocks.Count
+    cleanedCommentaries = $cleanupCount
 }
 $summary | ConvertTo-Json
