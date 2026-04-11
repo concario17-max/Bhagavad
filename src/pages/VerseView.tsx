@@ -7,6 +7,7 @@ import VerseMessageState from '../components/verse/VerseMessageState';
 import VerseNavigationFooter from '../components/verse/VerseNavigationFooter';
 import VersePrimaryCard from '../components/verse/VersePrimaryCard';
 import VerseTranslationsSection from '../components/verse/VerseTranslationsSection';
+import VerseCommentary from '../components/VerseCommentary';
 import { ContentReader } from '../components/ui/ContentReader';
 import { useVerseData } from '../context/VerseDataContext';
 import { getTranslationDefinitions } from '../utils/content';
@@ -58,32 +59,36 @@ const VerseView = () => {
     const translationSections = getTranslationDefinitions(verseData);
 
     return (
-        <ContentReader
-            maxWidth="max-w-[1120px]"
-            header={<VerseBreadcrumb chapterNum={chapterNum} verseRange={verseRange} />}
-            footer={
-                <VerseNavigationFooter
-                    canGoPrevious={previousVersePath !== null}
-                    canGoNext={nextVersePath !== null}
-                    onPrevious={() => {
-                        if (previousVersePath) {
-                            navigate(previousVersePath);
-                        }
-                    }}
-                    onNext={() => {
-                        if (nextVersePath) {
-                            navigate(nextVersePath);
-                        }
-                    }}
-                    verseLabel={`${currentChapterNumber}.${verseRange}`}
-                />
-            }
-        >
-            <VersePrimaryCard verse={verseData} />
-            <VerseAudioPlayer audioSrc={audioSrc} />
-            <VerseLexiconSection words={verseData.words} />
-            <VerseTranslationsSection sections={translationSections} />
-        </ContentReader>
+        <div className="mx-auto w-full max-w-[1600px] px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
+            <div className="grid gap-8 lg:grid-cols-2">
+                <div className="min-w-0 space-y-6">
+                    <VerseBreadcrumb chapterNum={chapterNum} verseRange={verseRange} />
+                    <VersePrimaryCard verse={verseData} />
+                    <VerseAudioPlayer audioSrc={audioSrc} />
+                    <VerseLexiconSection words={verseData.words} />
+                    <VerseTranslationsSection sections={translationSections} />
+                    <VerseNavigationFooter
+                        canGoPrevious={previousVersePath !== null}
+                        canGoNext={nextVersePath !== null}
+                        onPrevious={() => {
+                            if (previousVersePath) {
+                                navigate(previousVersePath);
+                            }
+                        }}
+                        onNext={() => {
+                            if (nextVersePath) {
+                                navigate(nextVersePath);
+                            }
+                        }}
+                        verseLabel={`${currentChapterNumber}.${verseRange}`}
+                    />
+                </div>
+
+                <div className="min-w-0">
+                    <VerseCommentary />
+                </div>
+            </div>
+        </div>
     );
 };
 

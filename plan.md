@@ -1,7 +1,38 @@
 # Bhagavad Implementation Plan
 
-Updated: 2026-04-03
+Updated: 2026-04-11
 Workspace: `C:\Users\roadsea\Desktop\gita`
+
+## Current Work
+
+### 2026-04-11 Verse-page split layout TODO
+
+Approval gate:
+Do not implement beyond the verse-page split slice until the current reader layout change is reviewed.
+
+- [ ] Remove the verse commentary right sidebar dependency from the route shell
+- [ ] Reflow `VerseView` into a desktop 50:50 body/commentary split
+- [ ] Stack the verse body above the commentary on mobile
+- [ ] Keep the existing verse reader content intact on the left side
+- [ ] Keep the existing commentary rendering intact on the right side
+- [ ] Update `VerseCommentary` spacing and container styles so it fits the new column layout cleanly
+- [ ] Verify the verse page still renders loading and error states correctly
+- [ ] Run `npm run build`
+
+### 2026-04-11 Reader layout redesign TODO
+
+Approval gate:
+Do not expand beyond the reader layout redesign until the selector/header change is reviewed.
+
+- [ ] Remove the left sidebar from the reader shell
+- [ ] Move chapter and verse selection into the header center
+- [ ] Reuse the existing sidebar menu data for chapter and verse options
+- [ ] Simplify the header to title, icon, and theme toggle only
+- [ ] Create the desktop 50:50 verse and commentary split
+- [ ] Create the mobile stacked fallback without tab switching
+- [ ] Verify the chapter list page no longer duplicates the large selector block
+- [ ] Verify the selector still navigates to grouped verse ranges correctly
+- [ ] Run `npm run build`
 
 ## Historical Work
 
@@ -148,106 +179,59 @@ Make the content-generation side of the repo easier to understand and maintain.
 This implementation tranche is complete.
 The plan now reflects shipped work rather than future-only backlog.
 
-## 2026-04-03 Commentary Import TODO
+## 2026-04-11 Reader Layout Redesign TODO
 
 Approval gate:
-Do not implement until the user explicitly approves after reviewing this breakdown.
+Proceed only after the user confirms the sketch and mobile behavior.
 
-### T0. Source-scope confirmation and backup plan
-
-Goal:
-Lock the actual import scope before touching `public/gita.json`.
-
-- [ ] Confirm implementation scope from provided assets is chapter 1 only unless more commentary source files are supplied
-- [ ] Snapshot the current commentary field behavior and grouped-verse layout assumptions
-- [ ] Create a safe backup path for `public/gita.json` before commentary replacement work
-
-### T1. ODT structure reconnaissance
+### T0. Header selector shell
 
 Goal:
-Understand how the provided ODT encodes verse boundaries and formatting semantics.
+Move chapter and verse selection into the header center and remove drawer chrome from the reader shell.
 
-- [ ] Extract `content.xml` from `바가바드 기타_1장 해설.odt`
-- [ ] Identify how verse headers are represented in the document
-- [ ] Identify how the first heading inside each verse block is represented
-- [ ] Identify how ordered lists are represented
-- [ ] Identify how bullet lists are represented
-- [ ] Identify how tables are represented
-- [ ] Identify any recurring meta block labels that must be stripped
+- [ ] Add a reusable centered chapter/verse selector component
+- [ ] Reuse the existing chapter data and grouped verse labels for selector options
+- [ ] Keep the title/icon anchored on the left and the theme toggle anchored on the right
+- [ ] Remove the sidebar toggle, reader drawer chrome, and commentary toggle from the header
+- [ ] Confirm the selector stays usable on narrow screens without overflow
 
-### T2. Commentary import data model design
+### T1. Route shell cleanup
 
 Goal:
-Define a stable intermediate representation before mutating runtime data.
+Stop mounting the old sidebar and commentary drawer layout on verse routes.
 
-- [ ] Decide whether commentary will remain stored as normalized plaintext or as a lightweight structured markup format
-- [ ] Define how inline heading content will be represented beside the verse number
-- [ ] Define how tables will be serialized so they can be rendered faithfully
-- [ ] Define how ordered lists preserve `1. 2. 3.`
-- [ ] Define how general lists preserve `·`
-- [ ] Keep the model fully typed without `any` or `unknown`
+- [ ] Remove the left sidebar panel from the verse route shell
+- [ ] Remove the right commentary drawer from the verse route shell
+- [ ] Keep the home route working with the new header selector
+- [ ] Preserve route-based verse loading and navigation
 
-### T3. Verse key mapping plan
+### T2. Verse page split layout
 
 Goal:
-Prevent grouped-verse commentary from landing on the wrong runtime entry.
+Render the verse body and commentary side by side on desktop.
 
-- [ ] Inventory grouped verse entries for chapter 1 in `public/gita.json`
-- [ ] Map each imported commentary block to the stored first-verse key used by `resolveVerse()`
-- [ ] Define how verse-range commentary is attached when the source document refers to grouped verses
-- [ ] Add validation that requested verse numbers resolve to the expected stored key
+- [ ] Rebuild the verse page as a 50:50 desktop split
+- [ ] Stack the same content vertically on mobile
+- [ ] Keep verse body content, audio, translations, lexicon, and navigation intact
+- [ ] Keep commentary rendering intact in the new layout
+- [ ] Verify grouped-verse ranges still resolve correctly
 
-### T4. Import parser implementation
-
-Goal:
-Build a local parser for the user-provided ODT source.
-
-- [ ] Implement ODT unzip/read support from local files
-- [ ] Parse `content.xml` into typed nodes
-- [ ] Reconstruct paragraph, ordered-list, bullet-list, and table blocks
-- [ ] Strip all banned meta sections and residue labels during parse
-- [ ] Extract per-verse commentary blocks for chapter 1
-
-### T5. Commentary cleanup and replacement
+### T3. Home page cleanup
 
 Goal:
-Replace existing commentary content for the target scope cleanly.
+Remove redundant selector chrome from the home page body.
 
-- [ ] Remove all existing `commentary_en` content for the affected verses before writing new content
-- [ ] Replace chapter 1 commentary with imported normalized commentary
-- [ ] Ensure no placeholder markers such as `$15` or `$16` remain in the affected scope
-- [ ] Ensure banned meta labels do not survive in imported output
-- [ ] Ensure inline heading extraction does not leak duplicate heading text into the body
+- [ ] Remove the large chapter/verse selector card from the home page content
+- [ ] Keep the chapter grid and supporting modals intact
+- [ ] Keep the hero/title section intact
 
-### T6. Runtime rendering upgrade
+### T4. Verification
 
 Goal:
-Render imported structured commentary faithfully in the UI.
+Keep the layout change safe while it lands.
 
-- [ ] Extend the commentary type contract as needed for structured blocks
-- [ ] Update `VerseDataContext` derived commentary state if the new model requires it
-- [ ] Update `VerseCommentary` to render paragraphs, ordered lists, bullet lists, and tables
-- [ ] Render the first heading inline beside the verse label
-- [ ] Preserve graceful empty/error states
-
-### T7. Residue audit across the repository
-
-Goal:
-Catch mapping errors and leftover meta content after import.
-
-- [ ] Scan all affected commentary entries for banned meta text
-- [ ] Scan all affected commentary entries for placeholder remnants
-- [ ] Verify grouped-verse entries do not have duplicate or shifted commentary
-- [ ] Verify route access for grouped ranges still resolves to the correct commentary payload
-
-### T8. Verification
-
-Goal:
-Keep the work safe while implementing.
-
-- [ ] Run type checking throughout implementation without introducing `any` or `unknown`
-- [ ] Add or update unit coverage for commentary mapping and filtering
-- [ ] Add or update unit coverage for grouped-verse commentary resolution
-- [ ] Add or update rendering checks for ordered lists, bullet lists, and tables
+- [ ] Run typecheck during the refactor
 - [ ] Run `npm run build`
+- [ ] Verify the header selector works on home and verse routes
+- [ ] Verify mobile layout stacks cleanly without tabs
 - [ ] Do not commit or push without explicit user approval

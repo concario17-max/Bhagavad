@@ -1,5 +1,4 @@
-﻿import { useState, useEffect, lazy, Suspense } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { fetchGitaData } from '../utils/dataFetcher';
 import { withBasePath } from '../utils/paths';
 import { getChapterMeta } from '../utils/chapterMeta';
@@ -10,13 +9,10 @@ const CompendiumModal = lazy(() => import('../components/CompendiumModal'));
 const LexiconModal = lazy(() => import('../components/LexiconModal'));
 
 const ChapterList = () => {
-    const navigate = useNavigate();
     const [chapters, setChapters] = useState<GitaChapter[]>([]);
     const [loadState, setLoadState] = useState<'loading' | 'ready' | 'error'>('loading');
     const [isCompendiumOpen, setIsCompendiumOpen] = useState(false);
     const [isLexiconOpen, setIsLexiconOpen] = useState(false);
-    const [selectedChapter, setSelectedChapter] = useState('');
-    const [selectedVerse, setSelectedVerse] = useState('');
 
     useEffect(() => {
         fetchGitaData()
@@ -28,10 +24,6 @@ const ChapterList = () => {
                 setLoadState('error');
             });
     }, []);
-
-    const selectedChapterData = selectedChapter
-        ? chapters.find(chapter => chapter.chapter === Number.parseInt(selectedChapter, 10))
-        : undefined;
 
     return (
         <div className="container mx-auto max-w-5xl px-4 py-8 md:py-12 transition-colors duration-500">
@@ -60,52 +52,6 @@ const ChapterList = () => {
                     <div className="flex-1 h-px bg-gold-border"></div>
                     <div className="mx-4 text-gold-primary text-xl font-serif leading-none">✦</div>
                     <div className="flex-1 h-px bg-gold-border"></div>
-                </div>
-
-                <div className="bg-white dark:bg-dark-surface backdrop-blur-sm border border-gold-primary/30 rounded-2xl shadow-xl shadow-gold-primary/10 dark:shadow-[0_8px_30px_-5px_rgba(0,0,0,0.5)] p-5 sm:p-6 mb-16 relative z-10 w-full max-w-3xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-0">
-                    <div className="flex-1 w-full flex flex-col items-start px-2 sm:px-6 border-b sm:border-b-0 sm:border-r border-gold-border/40 pb-4 sm:pb-0">
-                        <span className="text-[11px] font-black text-gold-primary tracking-[0.25em] uppercase mb-2 drop-shadow-sm">Chapter</span>
-                        <select
-                            className="text-base sm:text-lg font-crimson font-medium text-text-primary bg-transparent outline-none w-full cursor-pointer appearance-none dark:text-dark-text-primary transition-colors focus:text-gold-primary"
-                            value={selectedChapter}
-                            onChange={event => {
-                                const chapterValue = event.target.value;
-                                setSelectedChapter(chapterValue);
-                                setSelectedVerse('');
-                            }}
-                        >
-                            <option value="">Select a chapter</option>
-                            {chapters.map(chapter => (
-                                <option key={chapter.chapter} value={chapter.chapter} className="text-base">
-                                    Chapter {chapter.chapter}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-
-                    <div className="flex-1 w-full flex flex-col items-start px-2 sm:px-8 pt-2 sm:pt-0">
-                        <span className="text-[11px] font-black text-gold-primary tracking-[0.25em] uppercase mb-2 drop-shadow-sm">Verse</span>
-                        <select
-                            className="text-base sm:text-lg font-crimson font-medium text-text-primary bg-transparent outline-none w-full cursor-pointer appearance-none dark:text-dark-text-primary transition-colors focus:text-gold-primary disabled:opacity-50"
-                            value={selectedVerse}
-                            disabled={!selectedChapter}
-                            onChange={event => {
-                                const verseValue = event.target.value;
-                                setSelectedVerse(verseValue);
-
-                                if (selectedChapter && verseValue) {
-                                    navigate(`/chapter/${selectedChapter}/verse/${verseValue}`);
-                                }
-                            }}
-                        >
-                            <option value="">{selectedChapter ? 'Select a verse' : 'Select chapter first'}</option>
-                            {selectedChapterData?.verses.map(verse => (
-                                <option key={verse.verse} value={verse.verse} className="text-base">
-                                    Verse {verse.verse}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
                 </div>
             </div>
 
