@@ -16,7 +16,7 @@ const VerseNavigationFooter = ({
     verseLabel
 }: VerseNavigationFooterProps) => {
     return (
-        <div className="flex items-center justify-between rounded-full border border-gold-primary/15 bg-white/75 px-2.5 py-1.5 shadow-lg shadow-black/5 backdrop-blur-md transition-shadow hover:shadow-xl dark:border-dark-border/70 dark:bg-dark-surface/75 min-w-[168px] sm:px-3">
+        <div className="mx-auto inline-flex w-fit items-center justify-between rounded-full border border-gold-primary/15 bg-white/75 px-2 py-1.5 shadow-lg shadow-black/5 backdrop-blur-md transition-shadow hover:shadow-xl dark:border-dark-border/70 dark:bg-dark-surface/75 sm:px-2.5">
             <button
                 onClick={onPrevious}
                 disabled={!canGoPrevious}

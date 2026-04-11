@@ -1,7 +1,7 @@
 Current Task
-- task: tighten the verse navigation footer horizontal padding
+- task: shrink the verse navigation footer width
 - phase: completed
-- scope: reduce the left and right spacing of the verse navigation footer without changing its controls or behavior
+- scope: make the verse navigation footer fit its content width instead of stretching across the available column
 
 Route
 - route: Route A
@@ -12,7 +12,7 @@ Writer Slot
 - writer: `src/components/verse/VerseNavigationFooter.tsx`
 
 Contract Freeze
-- freeze: reduce the horizontal padding and minimum width of the verse navigation footer while keeping the controls and behavior unchanged
+- freeze: make the verse navigation footer shrink to its content width while keeping the controls and behavior unchanged
 - write_sets:
   - writer: `src/components/verse/VerseNavigationFooter.tsx`
 
@@ -21,4 +21,4 @@ Reviewer
 
 Last Update
 - time: 2026-04-12 00:00 KST
-- note: verse navigation footer spacing tightened and build passed
+- note: verse navigation footer width now fits content and build passed
