@@ -19,25 +19,23 @@ const VerseLexiconSection = ({ words, embedded = false }: VerseLexiconSectionPro
         ? 'rounded-[26px] border border-gold-primary/10 bg-white/54 px-2.5 py-3 backdrop-blur-md dark:border-dark-border/50 dark:bg-dark-surface/54 sm:px-3 sm:py-4'
         : 'mb-14 rounded-[30px] border border-gold-primary/12 bg-white/60 px-4 py-6 backdrop-blur-md dark:border-dark-border/60 dark:bg-dark-surface/60 sm:px-6 sm:py-7';
 
-    const headerClasses = embedded ? 'mb-3 flex items-center justify-center' : 'mb-6 flex items-center justify-center';
+    const headerClasses = embedded ? 'mb-3 flex items-center justify-between gap-3' : 'mb-6 flex items-center justify-center';
 
     return (
         <section className={sectionClasses}>
             <div className={headerClasses}>
+                <span className="text-xs font-semibold uppercase tracking-[0.24em] text-gold-muted transition-colors font-inter dark:text-gold-muted">
+                    Word-by-word
+                </span>
                 <button
                     onClick={() => setShowLexicon(previous => !previous)}
-                    className="group flex flex-col items-center gap-1.5 focus:outline-none"
+                    className="group flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full border border-gold-primary/20 bg-white/60 transition-colors hover:border-gold-primary/50 dark:bg-dark-bg/50 focus:outline-none"
                 >
-                    <span className="text-xs font-semibold uppercase tracking-[0.24em] text-gold-muted dark:text-gold-muted group-hover:text-gold-primary transition-colors font-inter">
-                        Word-by-word
-                    </span>
-                    <div className="flex h-7 w-7 items-center justify-center rounded-full border border-gold-primary/20 bg-white/60 transition-colors group-hover:border-gold-primary/50 dark:bg-dark-bg/50">
-                        {showLexicon ? (
-                            <ChevronUp className="w-3.5 h-3.5 text-gold-muted group-hover:text-gold-primary transition-colors" />
-                        ) : (
-                            <ChevronDown className="w-3.5 h-3.5 text-gold-muted group-hover:text-gold-primary transition-colors" />
-                        )}
-                    </div>
+                    {showLexicon ? (
+                        <ChevronUp className="w-3.5 h-3.5 text-gold-muted transition-colors group-hover:text-gold-primary" />
+                    ) : (
+                        <ChevronDown className="w-3.5 h-3.5 text-gold-muted transition-colors group-hover:text-gold-primary" />
+                    )}
                 </button>
             </div>
 
