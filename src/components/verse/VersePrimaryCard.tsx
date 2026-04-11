@@ -35,7 +35,9 @@ const VersePrimaryCard = ({ verse }: VersePrimaryCardProps) => {
                     </div>
                 )}
 
-                <VerseLexiconSection embedded words={verse.words} />
+                <div className="mt-3">
+                    <VerseLexiconSection embedded words={verse.words} />
+                </div>
             </div>
         </section>
     );

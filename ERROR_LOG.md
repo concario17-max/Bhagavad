@@ -23,3 +23,10 @@
 - summary: chapter 3 reimport stopped on verse-block count mismatch
 - details: after adding summary-heading preservation for `h` nodes, the chapter 3 ODT reimport returned 40 imported blocks for 41 verses, so the chapter was not rewritten during the bulk refresh.
 - status: deferred
+
+## 2026-04-12
+- time: 2026-04-12 00:00 KST
+- location: verification -> `npx tsc --noEmit`
+- summary: PowerShell execution policy blocked the initial typecheck command
+- details: `npx tsc --noEmit` failed once because `npx.ps1` was blocked by the local execution policy; the check will be rerun through the `.cmd` binary.
+- status: resolved

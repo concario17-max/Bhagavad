@@ -16,10 +16,10 @@ const VerseLexiconSection = ({ words, embedded = false }: VerseLexiconSectionPro
     }, [showLexicon]);
 
     const sectionClasses = embedded
-        ? 'mt-5 rounded-[28px] border border-gold-primary/10 bg-white/54 px-3 py-4 backdrop-blur-md dark:border-dark-border/50 dark:bg-dark-surface/54 sm:px-4 sm:py-5'
+        ? 'rounded-[26px] border border-gold-primary/10 bg-white/54 px-2.5 py-3 backdrop-blur-md dark:border-dark-border/50 dark:bg-dark-surface/54 sm:px-3 sm:py-4'
         : 'mb-14 rounded-[30px] border border-gold-primary/12 bg-white/60 px-4 py-6 backdrop-blur-md dark:border-dark-border/60 dark:bg-dark-surface/60 sm:px-6 sm:py-7';
 
-    const headerClasses = embedded ? 'mb-4 flex items-center justify-center' : 'mb-6 flex items-center justify-center';
+    const headerClasses = embedded ? 'mb-3 flex items-center justify-center' : 'mb-6 flex items-center justify-center';
 
     return (
         <section className={sectionClasses}>
@@ -42,11 +42,15 @@ const VerseLexiconSection = ({ words, embedded = false }: VerseLexiconSectionPro
             </div>
 
             <div className={`transition-all duration-500 overflow-hidden ${showLexicon ? 'max-h-[5000px] opacity-100' : 'max-h-0 opacity-0'}`}>
-                <div className={`mx-auto grid w-full grid-cols-1 gap-2.5 px-1 sm:grid-cols-2 sm:px-2 lg:grid-cols-3 ${embedded ? 'max-w-none' : 'max-w-4xl'}`}>
+                <div
+                    className={`mx-auto grid w-full grid-cols-1 gap-2 px-1 sm:px-2 ${
+                        embedded ? 'max-w-[760px] sm:grid-cols-2 lg:grid-cols-2' : 'max-w-4xl sm:grid-cols-2 lg:grid-cols-3'
+                    }`}
+                >
                     {words?.map((word, index) => (
-                        <div key={`${word.s}-${index}`} className="group relative overflow-hidden rounded-2xl border border-gold-primary/10 bg-white/72 px-4 py-3 shadow-sm backdrop-blur-sm dark:border-dark-border/50 dark:bg-dark-bg/42">
+                        <div key={`${word.s}-${index}`} className="group relative overflow-hidden rounded-xl border border-gold-primary/10 bg-white/72 px-3 py-2.5 shadow-sm backdrop-blur-sm dark:border-dark-border/50 dark:bg-dark-bg/42">
                             <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-transparent dark:from-white/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
-                            <span className="mb-1 block font-crimson text-[16px] font-bold text-text-primary dark:text-dark-text-primary">{word.s}</span>
+                            <span className="mb-0.5 block font-crimson text-[16px] font-bold text-text-primary dark:text-dark-text-primary">{word.s}</span>
                             <span className="font-inter text-[13px] leading-relaxed text-text-secondary dark:text-dark-text-secondary break-keep">{word.m.trim()}</span>
                         </div>
                     ))}
