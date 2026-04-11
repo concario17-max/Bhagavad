@@ -1,24 +1,24 @@
 Current Task
-- task: split the verse reader into independent body and commentary scroll areas
+- task: widen the commentary column in the verse reader
 - phase: completed
-- scope: make the verse body and commentary columns scroll independently on desktop while keeping mobile behavior intact
+- scope: give the commentary column a little more width than the verse body while preserving the independent desktop scroll layout
 
 Route
-- route: Route B
-- reason: the requested change spans the verse reader page layout and needs coordinated scroll container changes
+- route: Route A
+- reason: the requested change is a small one-file layout ratio tweak in the verse reader page
 
 Writer Slot
-- main: planner-only
-- worker_layout: `src/pages/VerseView.tsx`
+- main: active
+- writer: `src/pages/VerseView.tsx`
 
 Contract Freeze
-- freeze: make the body and commentary columns independently scrollable on desktop while preserving the existing mobile stacking behavior
+- freeze: widen the commentary column slightly relative to the verse body while keeping the independent desktop scroll layout intact
 - write_sets:
-  - worker_layout: `src/pages/VerseView.tsx`
+  - writer: `src/pages/VerseView.tsx`
 
 Reviewer
 - reviewer: none
 
 Last Update
 - time: 2026-04-12 00:00 KST
-- note: independent desktop scroll areas implemented and build passed
+- note: commentary column widened and build passed
