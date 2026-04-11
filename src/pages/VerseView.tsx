@@ -58,7 +58,7 @@ const VerseView = () => {
     const translationSections = getTranslationDefinitions(verseData);
 
     return (
-        <div className="mx-auto h-full min-h-0 w-full max-w-[1840px] px-3 py-6 sm:px-5 lg:px-6 lg:py-8 lg:overflow-hidden">
+        <div className="mx-auto h-full min-h-0 w-full max-w-[1840px] px-3 py-6 sm:px-5 lg:px-6 lg:py-6 lg:overflow-hidden">
             <div className="flex min-h-0 w-full flex-col gap-8 lg:grid lg:h-full lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
                 <div className="min-w-0 space-y-6 lg:min-h-0 lg:overflow-y-auto lg:pr-2">
                     <VerseBreadcrumb chapterNum={chapterNum} verseRange={verseRange} />
