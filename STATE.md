@@ -1,7 +1,7 @@
 Current Task
-- task: tune the verse reader scroll height balance
+- task: fine tune the verse reader desktop scroll height feel
 - phase: completed
-- scope: keep the independent desktop scroll layout but make the body and commentary columns feel more evenly filled vertically
+- scope: tighten the desktop outer padding and gap so the independent body and commentary scroll areas fill the viewport more evenly
 
 Route
 - route: Route A
@@ -12,7 +12,7 @@ Writer Slot
 - writer: `src/pages/VerseView.tsx`
 
 Contract Freeze
-- freeze: keep the independent desktop scroll layout intact while adjusting the scroll area height balance so both columns feel more evenly filled
+- freeze: keep the independent desktop scroll layout intact while tightening the outer desktop padding and gap so both columns feel more evenly filled
 - write_sets:
   - writer: `src/pages/VerseView.tsx`
 
@@ -21,4 +21,4 @@ Reviewer
 
 Last Update
 - time: 2026-04-12 00:00 KST
-- note: verse reader scroll height balance adjusted and build passed
+- note: verse reader desktop scroll height feel tuned and build passed
