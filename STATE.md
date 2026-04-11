@@ -1,24 +1,24 @@
 Current Task
-- task: increase the Sanskrit text size in the verse primary card
+- task: move the word-by-word section into the primary verse card
 - phase: completed
-- scope: raise the Sanskrit line by 2px in the verse primary card without changing the rest of the typography
+- scope: embed the word-by-word section inside the primary verse card and remove the separate outer section from the verse reader layout
 
 Route
-- route: Route A
-- reason: the requested change is a one-file typography tweak in the verse primary card
+- route: Route B
+- reason: the requested change spans the verse reader page and the primary verse component, so it needs coordinated multi-file layout work
 
 Writer Slot
-- main: active
-- writer: `src/components/verse/VersePrimaryCard.tsx`
+- main: planner-only
+- worker_layout: `src/pages/VerseView.tsx`, `src/components/verse/VersePrimaryCard.tsx`, `src/components/verse/VerseLexiconSection.tsx`
 
 Contract Freeze
-- freeze: raise the Sanskrit line from 13px/14px to 15px/16px while keeping the rest of the layout unchanged
+- freeze: render the word-by-word section inside the primary verse card, remove the separate outer word-by-word block from the verse reader page, and keep the existing collapse behavior and content styling intact
 - write_sets:
-  - writer: `src/components/verse/VersePrimaryCard.tsx`
+  - worker_layout: `src/pages/VerseView.tsx`, `src/components/verse/VersePrimaryCard.tsx`, `src/components/verse/VerseLexiconSection.tsx`
 
 Reviewer
-- reviewer: pending
+- reviewer: Ptolemy (`019d7d3c-2ad7-7361-aa9b-4b75d35e339f`)
 
 Last Update
 - time: 2026-04-12 00:00 KST
-- note: Sanskrit text increased to 15px/16px and build passed
+- note: word-by-word section moved inside the primary verse card and reviewer found no blockers

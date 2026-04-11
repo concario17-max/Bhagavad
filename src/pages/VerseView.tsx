@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import VerseAudioPlayer from '../components/verse/VerseAudioPlayer';
 import VerseBreadcrumb from '../components/verse/VerseBreadcrumb';
-import VerseLexiconSection from '../components/verse/VerseLexiconSection';
 import VerseMessageState from '../components/verse/VerseMessageState';
 import VerseNavigationFooter from '../components/verse/VerseNavigationFooter';
 import VersePrimaryCard from '../components/verse/VersePrimaryCard';
@@ -65,7 +64,6 @@ const VerseView = () => {
                     <VerseBreadcrumb chapterNum={chapterNum} verseRange={verseRange} />
                     <VersePrimaryCard verse={verseData} />
                     <VerseAudioPlayer audioSrc={audioSrc} />
-                    <VerseLexiconSection words={verseData.words} />
                     <VerseTranslationsSection sections={translationSections} />
                     <VerseNavigationFooter
                         canGoPrevious={previousVersePath !== null}

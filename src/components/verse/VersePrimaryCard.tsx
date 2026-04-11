@@ -1,4 +1,5 @@
 import { GitaVerse } from '../../types';
+import VerseLexiconSection from './VerseLexiconSection';
 
 interface VersePrimaryCardProps {
     verse: GitaVerse;
@@ -33,6 +34,8 @@ const VersePrimaryCard = ({ verse }: VersePrimaryCardProps) => {
                         </p>
                     </div>
                 )}
+
+                <VerseLexiconSection embedded words={verse.words} />
             </div>
         </section>
     );
