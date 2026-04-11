@@ -1,24 +1,24 @@
 Current Task
-- task: center the word-by-word title with the toggle button on the right
+- task: remove the decorative dots above the translation section title
 - phase: completed
-- scope: keep the embedded word-by-word title centered and move the toggle button to the right on the same row
+- scope: remove the three decorative dots above the Translation heading without changing the rest of the section layout
 
 Route
 - route: Route A
-- reason: the requested change is a small one-file layout tweak inside the embedded lexicon component
+- reason: the requested change is a small one-file content decoration tweak
 
 Writer Slot
 - main: active
-- writer: `src/components/verse/VerseLexiconSection.tsx`
+- writer: `src/components/verse/VerseTranslationsSection.tsx`
 
 Contract Freeze
-- freeze: keep the embedded word-by-word title centered and place the toggle button on the right while keeping the collapse behavior and content styling intact
+- freeze: remove the three decorative dots above the Translation heading while keeping the rest of the section layout intact
 - write_sets:
-  - writer: `src/components/verse/VerseLexiconSection.tsx`
+  - writer: `src/components/verse/VerseTranslationsSection.tsx`
 
 Reviewer
 - reviewer: none
 
 Last Update
 - time: 2026-04-12 00:00 KST
-- note: word-by-word title centered with right-aligned toggle button and build passed
+- note: translation decorative dots removed and build passed
