@@ -16,7 +16,8 @@ const VerseNavigationFooter = ({
     verseLabel
 }: VerseNavigationFooterProps) => {
     return (
-        <div className="mx-auto inline-flex w-fit items-center justify-between rounded-full border border-gold-primary/15 bg-white/75 px-2 py-1.5 shadow-lg shadow-black/5 backdrop-blur-md transition-shadow hover:shadow-xl dark:border-dark-border/70 dark:bg-dark-surface/75 sm:px-2.5">
+        <div className="flex justify-center">
+            <div className="inline-flex w-fit items-center justify-between rounded-full border border-gold-primary/15 bg-white/75 px-2 py-1.5 shadow-lg shadow-black/5 backdrop-blur-md transition-shadow hover:shadow-xl dark:border-dark-border/70 dark:bg-dark-surface/75 sm:px-2.5">
             <button
                 onClick={onPrevious}
                 disabled={!canGoPrevious}
@@ -36,6 +37,7 @@ const VerseNavigationFooter = ({
             >
                 <ChevronRight className="h-4.5 w-4.5 stroke-[1.5] transition-transform group-hover:scale-110" />
             </button>
+            </div>
         </div>
     );
 };

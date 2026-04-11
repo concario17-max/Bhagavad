@@ -1,7 +1,7 @@
 Current Task
-- task: shrink the verse navigation footer width
+- task: center the verse navigation footer
 - phase: completed
-- scope: make the verse navigation footer fit its content width instead of stretching across the available column
+- scope: keep the verse navigation footer compact and place it centered within its column
 
 Route
 - route: Route A
@@ -12,7 +12,7 @@ Writer Slot
 - writer: `src/components/verse/VerseNavigationFooter.tsx`
 
 Contract Freeze
-- freeze: make the verse navigation footer shrink to its content width while keeping the controls and behavior unchanged
+- freeze: keep the verse navigation footer compact and centered while keeping the controls and behavior unchanged
 - write_sets:
   - writer: `src/components/verse/VerseNavigationFooter.tsx`
 
@@ -21,4 +21,4 @@ Reviewer
 
 Last Update
 - time: 2026-04-12 00:00 KST
-- note: verse navigation footer width now fits content and build passed
+- note: verse navigation footer centered and build passed
