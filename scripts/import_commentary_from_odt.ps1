@@ -682,6 +682,51 @@ function Finalize-Lines {
     return ($cleaned -join "`n").Trim()
 }
 
+function Normalize-TitleKeywordSpacing {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Text
+    )
+
+    if ($Text -eq '') {
+        return ''
+    }
+
+    $keyEmoji = [System.Char]::ConvertFromUtf32(0x1F511)
+    $lines = $Text -split "`r?`n"
+    $titleIndex = -1
+    $keywordIndex = -1
+
+    for ($index = 0; $index -lt $lines.Count; $index += 1) {
+        $trimmed = $lines[$index].Trim()
+        if ($titleIndex -lt 0 -and $trimmed.StartsWith('#')) {
+            $titleIndex = $index
+            continue
+        }
+
+        if ($titleIndex -ge 0 -and $keywordIndex -lt 0 -and $trimmed.StartsWith($keyEmoji)) {
+            $keywordIndex = $index
+            break
+        }
+    }
+
+    if ($titleIndex -lt 0 -or $keywordIndex -lt 0 -or $keywordIndex -le $titleIndex) {
+        return $Text
+    }
+
+    $normalized = New-Object System.Collections.Generic.List[string]
+    for ($index = 0; $index -lt $lines.Count; $index += 1) {
+        $trimmed = $lines[$index].Trim()
+        if ($index -gt $titleIndex -and $index -lt $keywordIndex -and $trimmed -ne '') {
+            continue
+        }
+
+        $normalized.Add($trimmed)
+    }
+
+    return (Finalize-Lines -Lines $normalized)
+}
+
 function Resolve-ChapterInputs {
     param(
         [Parameter(Mandatory = $true)]
@@ -917,7 +962,7 @@ if ($blockStarted) {
         $currentLines = $pendingLines
     }
 
-    $commentaryBlocks.Add((Finalize-Lines -Lines $currentLines))
+    $commentaryBlocks.Add((Normalize-TitleKeywordSpacing -Text (Finalize-Lines -Lines $currentLines)))
 }
 
 if ($commentaryBlocks.Count -ne $chapterVerses.Length) {
@@ -939,6 +984,7 @@ foreach ($chapterProperty in $gitaData.PSObject.Properties) {
     foreach ($verse in @($chapter.verses)) {
         $originalCommentary = [string]$verse.commentary_en
         $cleanedCommentary = Remove-CommentaryResidue -Text $originalCommentary
+        $cleanedCommentary = Normalize-TitleKeywordSpacing -Text $cleanedCommentary
         if ($cleanedCommentary -ne $originalCommentary) {
             $verse.commentary_en = $cleanedCommentary
             $cleanupCount += 1
