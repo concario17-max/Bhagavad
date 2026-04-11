@@ -15,7 +15,7 @@ const VersePrimaryCard = ({ verse }: VersePrimaryCardProps) => {
                 </div>
 
                 <div className="mb-2 text-center px-2 sm:px-0">
-                    <p className="font-noto text-[13px] font-bold leading-[1.55] tracking-[0.08em] text-[#7A3030] drop-shadow-sm dark:text-[#E3A28A] sm:text-[14px] sm:leading-[1.5]">
+                    <p className="font-noto text-[15px] font-bold leading-[1.55] tracking-[0.08em] text-[#7A3030] drop-shadow-sm dark:text-[#E3A28A] sm:text-[16px] sm:leading-[1.5]">
                         {verse.sanskrit}
                     </p>
                 </div>

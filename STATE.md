@@ -1,7 +1,7 @@
 Current Task
-- task: tune the IAST styling in the verse primary card
+- task: increase the Sanskrit text size in the verse primary card
 - phase: completed
-- scope: remove uppercase from the IAST line and reduce its tracking to better match the Sanskrit line without changing layout structure
+- scope: raise the Sanskrit line by 2px in the verse primary card without changing the rest of the typography
 
 Route
 - route: Route A
@@ -12,7 +12,7 @@ Writer Slot
 - writer: `src/components/verse/VersePrimaryCard.tsx`
 
 Contract Freeze
-- freeze: remove uppercase from the IAST line and reduce its tracking to better match the Sanskrit line while keeping the rest of the layout unchanged
+- freeze: raise the Sanskrit line from 13px/14px to 15px/16px while keeping the rest of the layout unchanged
 - write_sets:
   - writer: `src/components/verse/VersePrimaryCard.tsx`
 
@@ -21,4 +21,4 @@ Reviewer
 
 Last Update
 - time: 2026-04-12 00:00 KST
-- note: IAST uppercase removed and tracking reduced to better match Sanskrit, build passed
+- note: Sanskrit text increased to 15px/16px and build passed
