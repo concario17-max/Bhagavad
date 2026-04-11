@@ -1,7 +1,7 @@
 Current Task
-- task: align the word-by-word header and toggle button on one row
+- task: center the word-by-word title with the toggle button on the right
 - phase: completed
-- scope: place the embedded word-by-word title and toggle button on a single horizontal row to reduce vertical space inside the primary verse card
+- scope: keep the embedded word-by-word title centered and move the toggle button to the right on the same row
 
 Route
 - route: Route A
@@ -12,7 +12,7 @@ Writer Slot
 - writer: `src/components/verse/VerseLexiconSection.tsx`
 
 Contract Freeze
-- freeze: render the embedded word-by-word title and toggle button on one row while keeping the collapse behavior and content styling intact
+- freeze: keep the embedded word-by-word title centered and place the toggle button on the right while keeping the collapse behavior and content styling intact
 - write_sets:
   - writer: `src/components/verse/VerseLexiconSection.tsx`
 
@@ -21,4 +21,4 @@ Reviewer
 
 Last Update
 - time: 2026-04-12 00:00 KST
-- note: word-by-word header aligned on one row and build passed
+- note: word-by-word title centered with right-aligned toggle button and build passed

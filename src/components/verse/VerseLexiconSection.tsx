@@ -19,12 +19,12 @@ const VerseLexiconSection = ({ words, embedded = false }: VerseLexiconSectionPro
         ? 'rounded-[26px] border border-gold-primary/10 bg-white/54 px-2.5 py-3 backdrop-blur-md dark:border-dark-border/50 dark:bg-dark-surface/54 sm:px-3 sm:py-4'
         : 'mb-14 rounded-[30px] border border-gold-primary/12 bg-white/60 px-4 py-6 backdrop-blur-md dark:border-dark-border/60 dark:bg-dark-surface/60 sm:px-6 sm:py-7';
 
-    const headerClasses = embedded ? 'mb-3 flex items-center justify-between gap-3' : 'mb-6 flex items-center justify-center';
+    const headerClasses = embedded ? 'relative mb-3 flex items-center justify-end' : 'mb-6 flex items-center justify-center';
 
     return (
         <section className={sectionClasses}>
             <div className={headerClasses}>
-                <span className="text-xs font-semibold uppercase tracking-[0.24em] text-gold-muted transition-colors font-inter dark:text-gold-muted">
+                <span className="pointer-events-none absolute left-1/2 -translate-x-1/2 text-xs font-semibold uppercase tracking-[0.24em] text-gold-muted transition-colors font-inter dark:text-gold-muted">
                     Word-by-word
                 </span>
                 <button
