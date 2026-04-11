@@ -1,24 +1,24 @@
 Current Task
-- task: remove the decorative dots above the translation section title
+- task: tighten the verse navigation footer horizontal padding
 - phase: completed
-- scope: remove the three decorative dots above the Translation heading without changing the rest of the section layout
+- scope: reduce the left and right spacing of the verse navigation footer without changing its controls or behavior
 
 Route
 - route: Route A
-- reason: the requested change is a small one-file content decoration tweak
+- reason: the requested change is a small one-file layout tweak in the navigation footer
 
 Writer Slot
 - main: active
-- writer: `src/components/verse/VerseTranslationsSection.tsx`
+- writer: `src/components/verse/VerseNavigationFooter.tsx`
 
 Contract Freeze
-- freeze: remove the three decorative dots above the Translation heading while keeping the rest of the section layout intact
+- freeze: reduce the horizontal padding and minimum width of the verse navigation footer while keeping the controls and behavior unchanged
 - write_sets:
-  - writer: `src/components/verse/VerseTranslationsSection.tsx`
+  - writer: `src/components/verse/VerseNavigationFooter.tsx`
 
 Reviewer
 - reviewer: none
 
 Last Update
 - time: 2026-04-12 00:00 KST
-- note: translation decorative dots removed and build passed
+- note: verse navigation footer spacing tightened and build passed
