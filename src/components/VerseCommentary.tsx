@@ -8,8 +8,8 @@ const VerseCommentary = () => {
     const parsedCommentary = hasDisplayableCommentary ? parseCommentaryDocument(commentary) : null;
 
     return (
-        <section className="rounded-[34px] border border-gold-primary/15 bg-white/72 p-5 shadow-[0_22px_80px_-48px_rgba(78,56,22,0.52)] backdrop-blur-xl dark:border-dark-border/70 dark:bg-dark-surface/72 sm:p-7">
-            <div className="mb-6 border-b border-gold-border/30 pb-4">
+        <section className="rounded-[34px] border border-gold-primary/15 bg-white/72 p-4 shadow-[0_22px_80px_-48px_rgba(78,56,22,0.52)] backdrop-blur-xl dark:border-dark-border/70 dark:bg-dark-surface/72 sm:p-6">
+            <div className="mb-5 border-b border-gold-border/30 pb-3">
                 <div className="flex items-center gap-2">
                     <BookOpenText className="h-5 w-5 text-[#A68B5C] dark:text-gold-light" />
                     <h2 className="text-sm font-bold tracking-wide text-[#1C2B36] dark:text-dark-text-primary">Commentary</h2>

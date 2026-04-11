@@ -5,6 +5,20 @@ Workspace: `C:\Users\roadsea\Desktop\gita`
 
 ## Current Work
 
+### 2026-04-11 Verse reader whitespace reduction TODO
+
+Approval gate:
+Do not widen the verse reader until the body and commentary columns are reviewed together.
+
+- [x] Widen the verse reader content area
+- [x] Trim nested max-width and padding constraints in the verse body
+- [x] Preserve the desktop 50:50 split and stacked mobile layout
+- [x] Verify the body column reads open instead of boxed in
+- [x] Run `npx tsc --noEmit`
+- [x] Run `npm run build`
+
+Status: completed.
+
 ### 2026-04-11 Verse-page split layout TODO
 
 Approval gate:

@@ -12,6 +12,12 @@
 - details: `npm run build` failed once because `npm.ps1` was blocked by the local execution policy; the build was rerun successfully with `cmd /c npm run build`.
 - status: resolved
 
+- time: 2026-04-11 11:45 KST
+- location: verification -> `npx tsc --noEmit`, `npm run build`
+- summary: PowerShell execution policy blocked the initial verification commands
+- details: `npx tsc --noEmit` and `npm run build` failed once because `npx.ps1` and `npm.ps1` were blocked by the local execution policy; both commands were rerun successfully through `cmd /c`.
+- status: resolved
+
 - time: 2026-04-10 00:00 KST
 - location: scripts/import_commentary_from_odt.ps1 -> public/gita.json
 - summary: chapter 3 reimport stopped on verse-block count mismatch
