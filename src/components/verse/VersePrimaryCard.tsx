@@ -21,7 +21,7 @@ const VersePrimaryCard = ({ verse }: VersePrimaryCardProps) => {
                 </div>
 
                 <div className="mb-2 text-center">
-                    <p className="font-noto text-[13px] italic uppercase leading-[1.55] tracking-[0.2em] text-[#9A8868] dark:text-[#D4C3A3] sm:text-[14px]">
+                    <p className="font-noto text-[13px] italic leading-[1.55] tracking-[0.08em] text-[#9A8868] dark:text-[#D4C3A3] sm:text-[14px]">
                         {verse.iast}
                     </p>
                 </div>
