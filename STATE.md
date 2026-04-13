@@ -17,8 +17,8 @@ Contract Freeze
   - worker_layout: `src/components/Header.tsx`, `src/components/ChapterVerseSelector.tsx`
 
 Reviewer
-- reviewer: none
+- reviewer: Sagan (`019d8447-bece-7a21-aca3-55b912eccc70`)
 
 Last Update
 - time: 2026-04-12 00:00 KST
-- note: mobile floating selector implemented and build passed
+- note: mobile floating selector now listens to the real scroll container and build passed

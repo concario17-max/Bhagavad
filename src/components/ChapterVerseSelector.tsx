@@ -69,10 +69,13 @@ const ChapterVerseSelector = () => {
         }
 
         setIsMobileVisible(true);
-        lastScrollYRef.current = window.scrollY;
+        const scrollContainer = document.getElementById('main-scroll-container');
+        const isElementScrollTarget = scrollContainer instanceof HTMLElement;
+
+        lastScrollYRef.current = isElementScrollTarget ? scrollContainer.scrollTop : window.scrollY;
 
         const handleScroll = () => {
-            const currentScrollY = window.scrollY;
+            const currentScrollY = isElementScrollTarget ? scrollContainer.scrollTop : window.scrollY;
             const delta = currentScrollY - lastScrollYRef.current;
 
             if (currentScrollY < 24) {
@@ -86,10 +89,11 @@ const ChapterVerseSelector = () => {
             lastScrollYRef.current = currentScrollY;
         };
 
-        window.addEventListener('scroll', handleScroll, { passive: true });
+        const scrollTarget = isElementScrollTarget ? scrollContainer : window;
+        scrollTarget.addEventListener('scroll', handleScroll, { passive: true });
 
         return () => {
-            window.removeEventListener('scroll', handleScroll);
+            scrollTarget.removeEventListener('scroll', handleScroll);
         };
     }, [isMobile]);
 
@@ -99,7 +103,8 @@ const ChapterVerseSelector = () => {
         }
 
         setIsMobileVisible(true);
-        lastScrollYRef.current = window.scrollY;
+        const scrollContainer = document.getElementById('main-scroll-container');
+        lastScrollYRef.current = scrollContainer instanceof HTMLElement ? scrollContainer.scrollTop : window.scrollY;
     }, [isMobile, location.pathname]);
 
     useEffect(() => {
