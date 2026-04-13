@@ -37,10 +37,6 @@ const Header = ({
                     </div>
                 </div>
 
-                <div className="lg:hidden">
-                    <ChapterVerseSelector />
-                </div>
-
                 <div className="hidden lg:flex lg:min-w-0 lg:justify-center lg:px-6">
                     <ChapterVerseSelector />
                 </div>

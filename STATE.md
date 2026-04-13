@@ -1,24 +1,24 @@
 Current Task
-- task: fine tune the verse reader desktop scroll height feel
+- task: make the mobile chapter and verse selector floating and auto-hide on scroll
 - phase: completed
-- scope: tighten the desktop outer padding and gap so the independent body and commentary scroll areas fill the viewport more evenly
+- scope: move the mobile chapter and verse selector out of the normal flow so it floats over content and hides while scrolling down, while leaving desktop behavior unchanged
 
 Route
-- route: Route A
-- reason: the requested change is a small one-file layout tweak in the verse reader page
+- route: Route B
+- reason: the requested change needs coordinated header and selector component changes plus scroll-state handling
 
 Writer Slot
-- main: active
-- writer: `src/pages/VerseView.tsx`
+- main: planner-only
+- worker_layout: `src/components/Header.tsx`, `src/components/ChapterVerseSelector.tsx`
 
 Contract Freeze
-- freeze: keep the independent desktop scroll layout intact while tightening the outer desktop padding and gap so both columns feel more evenly filled
+- freeze: keep the desktop selector flow unchanged, but render the mobile selector as a floating overlay that hides on downward scroll and reappears on upward scroll
 - write_sets:
-  - writer: `src/pages/VerseView.tsx`
+  - worker_layout: `src/components/Header.tsx`, `src/components/ChapterVerseSelector.tsx`
 
 Reviewer
 - reviewer: none
 
 Last Update
 - time: 2026-04-12 00:00 KST
-- note: verse reader desktop scroll height feel tuned and build passed
+- note: mobile floating selector implemented and build passed
