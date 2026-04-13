@@ -1,24 +1,24 @@
 Current Task
-- task: make the mobile chapter and verse selector floating and auto-hide on scroll
+- task: refine the mobile floating chapter and verse selector
 - phase: completed
-- scope: move the mobile chapter and verse selector out of the normal flow so it floats over content and hides while scrolling down, while leaving desktop behavior unchanged
+- scope: make the floating mobile selector smaller and hide it more decisively on downward scroll while leaving desktop behavior unchanged
 
 Route
-- route: Route B
-- reason: the requested change needs coordinated header and selector component changes plus scroll-state handling
+- route: Route A
+- reason: the requested change is a small one-file adjustment inside the mobile selector component
 
 Writer Slot
-- main: planner-only
-- worker_layout: `src/components/Header.tsx`, `src/components/ChapterVerseSelector.tsx`
+- main: active
+- writer: `src/components/ChapterVerseSelector.tsx`
 
 Contract Freeze
-- freeze: keep the desktop selector flow unchanged, but render the mobile selector as a floating overlay that hides on downward scroll and reappears on upward scroll
+- freeze: keep the desktop selector flow unchanged while tightening the mobile floating selector size and hide transition
 - write_sets:
-  - worker_layout: `src/components/Header.tsx`, `src/components/ChapterVerseSelector.tsx`
+  - writer: `src/components/ChapterVerseSelector.tsx`
 
 Reviewer
-- reviewer: Sagan (`019d8447-bece-7a21-aca3-55b912eccc70`)
+- reviewer: none
 
 Last Update
 - time: 2026-04-12 00:00 KST
-- note: mobile floating selector now listens to the real scroll container and build passed
+- note: mobile floating selector tightened and build passed

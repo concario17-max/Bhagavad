@@ -171,11 +171,11 @@ const ChapterVerseSelector = () => {
     const selectorFields = (
         <>
             <label className="flex flex-col gap-1.5 rounded-2xl border border-gold-primary/14 bg-white/70 px-3 py-2.5 text-left shadow-sm dark:border-dark-border/60 dark:bg-dark-surface/70">
-                <span className="text-[10px] font-black uppercase tracking-[0.28em] text-gold-primary/80 dark:text-gold-light/80">
+                <span className="text-[9px] font-black uppercase tracking-[0.24em] text-gold-primary/80 dark:text-gold-light/80">
                     Chapter
                 </span>
                 <select
-                    className="w-full appearance-none bg-transparent text-[14px] font-semibold text-text-primary outline-none transition-colors focus:text-gold-primary dark:text-dark-text-primary"
+                    className="w-full appearance-none bg-transparent text-[13px] font-semibold text-text-primary outline-none transition-colors focus:text-gold-primary dark:text-dark-text-primary"
                     value={selectedChapter}
                     disabled={isLoading}
                     onChange={event => handleChapterChange(event.target.value)}
@@ -191,11 +191,11 @@ const ChapterVerseSelector = () => {
             </label>
 
             <label className="flex flex-col gap-1.5 rounded-2xl border border-gold-primary/14 bg-white/70 px-3 py-2.5 text-left shadow-sm dark:border-dark-border/60 dark:bg-dark-surface/70">
-                <span className="text-[10px] font-black uppercase tracking-[0.28em] text-gold-primary/80 dark:text-gold-light/80">
+                <span className="text-[9px] font-black uppercase tracking-[0.24em] text-gold-primary/80 dark:text-gold-light/80">
                     Verse
                 </span>
                 <select
-                    className="w-full appearance-none bg-transparent text-[14px] font-semibold text-text-primary outline-none transition-colors focus:text-gold-primary disabled:cursor-not-allowed disabled:opacity-50 dark:text-dark-text-primary"
+                    className="w-full appearance-none bg-transparent text-[13px] font-semibold text-text-primary outline-none transition-colors focus:text-gold-primary disabled:cursor-not-allowed disabled:opacity-50 dark:text-dark-text-primary"
                     value={selectedVerse}
                     disabled={!selectedChapter || isLoading}
                     onChange={event => handleVerseChange(event.target.value)}
@@ -215,11 +215,11 @@ const ChapterVerseSelector = () => {
     if (isMobile) {
         return createPortal(
             <div
-                className={`fixed left-1/2 top-[calc(env(safe-area-inset-top)+4.5rem)] z-40 w-[min(92vw,28rem)] -translate-x-1/2 transition-all duration-300 ease-out ${isMobileVisible ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0 pointer-events-none'}`}
+                className={`fixed left-1/2 top-[calc(env(safe-area-inset-top)+3.75rem)] z-40 w-[min(88vw,24rem)] -translate-x-1/2 transition-all duration-300 ease-out ${isMobileVisible ? 'translate-y-0 scale-100 opacity-100' : '-translate-y-6 scale-95 opacity-0 pointer-events-none'}`}
                 aria-hidden={!isMobileVisible}
             >
-                <div className="rounded-[26px] border border-gold-primary/12 bg-white/90 px-2.5 py-2 shadow-[0_20px_60px_-36px_rgba(78,56,22,0.42)] backdrop-blur-xl dark:border-dark-border/70 dark:bg-dark-surface/88">
-                    <div className="grid grid-cols-2 gap-2">
+                <div className="rounded-[24px] border border-gold-primary/12 bg-white/90 px-2 py-1.5 shadow-[0_20px_60px_-36px_rgba(78,56,22,0.42)] backdrop-blur-xl dark:border-dark-border/70 dark:bg-dark-surface/88">
+                    <div className="grid grid-cols-2 gap-1.5">
                         {selectorFields}
                     </div>
                 </div>
