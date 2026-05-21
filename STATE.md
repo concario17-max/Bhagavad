@@ -1,25 +1,24 @@
 ﻿Current Task
-- task: move the deep-dive toggle from the right panel into the header
+- task: remove the redundant right-panel section label
 - phase: completed
-- scope: keep the right-panel content switch between commentary and deep-dive, but render the `심화` toggle in the header instead of inside the right panel, and keep the left translations-only layout intact
+- scope: remove the extra `Commentary` / `심화` label strip above the right panel content while keeping the header toggle and panel mode switching intact
 
 Route
-- route: Route B
-- reason: the toggle location change requires shared state between the header and verse panel across multiple files
+- route: Route A
+- reason: this is a single-file UI cleanup confined to the verse page shell
 
 Writer Slot
 - main: active
 - writer: `main` planner
 
 Contract Freeze
-- freeze: move the `심화` toggle UI into the header, keep the right panel driven by shared mode state, preserve the translations-only left panel, and leave comic/commentary behavior unchanged unless needed for the new shared state
+- freeze: remove the redundant section label strip above the right panel content and keep the shared header toggle, right-panel mode switching, and left translations-only layout unchanged
 - write_sets:
-  - worker_shared: `src/context/UIContext.tsx`, `src/components/Header.tsx`
-  - worker_feature: `src/pages/VerseView.tsx`, `src/components/verse/VerseDeepDivePanel.tsx`, `src/components/VerseCommentary.tsx` if the old toggle needs removal
+  - main: `src/pages/VerseView.tsx`
 
 Reviewer
-- reviewer: Mencius
+- reviewer: none
 
 Last Update
-- time: 2026-05-21 16:40 KST
-- note: header-hosted deep-dive toggle completed and build verified successfully
+- time: 2026-05-21 16:45 KST
+- note: redundant right-panel label cleanup completed; build passed

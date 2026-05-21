@@ -93,12 +93,6 @@ const VerseView = () => {
                 </div>
 
                 <div className="min-w-0 lg:min-h-0 lg:overflow-y-auto lg:pl-2">
-                    <div className="mb-4 flex items-center justify-between gap-3 rounded-[26px] border border-gold-primary/14 bg-white/70 px-4 py-3 shadow-[0_16px_54px_-36px_rgba(78,56,22,0.48)] backdrop-blur-xl dark:border-dark-border/70 dark:bg-dark-surface/72">
-                        <span className="text-[11px] font-semibold uppercase tracking-[0.24em] text-gold-muted dark:text-gold-muted">
-                            {isCommentaryMode ? 'Commentary' : '심화'}
-                        </span>
-                    </div>
-
                     {isCommentaryMode ? (
                         <VerseCommentary />
                     ) : (
