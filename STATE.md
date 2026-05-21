@@ -1,24 +1,27 @@
-﻿Current Task
-- task: remove the duplicate inline title for verse 1.1 comic view
+Current Task
+- task: move non-English/HAM translations into the deep-dive panel
 - phase: implementation
-- scope: hide the redundant `1.1` inline commentary title line in the right panel while keeping the rest of the commentary and comic rendering unchanged
+- scope: keep the left panel limited to ENGLISH/HAM and render GIL/MYUNG/SUK translations inside the right-side deep-dive view
 
 Route
-- route: Route A
-- reason: this is a single-file UI cleanup confined to the commentary renderer
+- route: Route B
+- reason: the change spans left and right panel components plus shared translation rendering, so it crosses multiple files and layout behavior
 
 Writer Slot
 - main: active
 - writer: `main` planner
 
 Contract Freeze
-- freeze: hide the redundant inline title line for verse `1.1` in the right panel and keep the shared header toggle, right-panel mode switching, and left translations-only layout unchanged
+- freeze: left panel renders only ENGLISH/HAM, right deep-dive panel renders the remaining translation blocks, and the shared header mode toggle remains the entry point for commentary vs deep-dive
 - write_sets:
-  - main: `src/components/VerseCommentary.tsx`
+  - main: `src/components/verse/VerseTranslationsSection.tsx`
+  - worker_shared: `src/components/verse/VerseDeepDivePanel.tsx`
+  - worker_shared: `src/pages/VerseView.tsx`
+  - worker_shared: `src/utils/content.ts`
 
 Reviewer
-- reviewer: none
+- reviewer: reviewer-pending
 
 Last Update
-- time: 2026-05-21 16:47 KST
-- note: duplicate inline title cleanup for verse 1.1 started
+- time: 2026-05-21 17:25 KST
+- note: implemented translation split, cleaned the deep-dive panel copy, and verified with `npm run test:compile` and `npm run build`

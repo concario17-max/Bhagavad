@@ -80,3 +80,16 @@ location: verification -> `npm run build`
 summary: PowerShell execution policy blocked the initial build command for this toggle refactor
 details: `npm run build` failed once because `npm.ps1` was blocked by the local execution policy; the build was rerun successfully with `npm.cmd run build`.
 status: resolved
+## 2026-05-21 17:25 KST
+- time: 2026-05-21 17:25 KST
+- location: `npm run test:compile`
+- summary: PowerShell blocked `npm.ps1` execution
+- details: `npm run test:compile` failed before TypeScript ran because the local PowerShell execution policy disallows loading `C:\Program Files\nodejs\npm.ps1`. The check will be retried with `npm.cmd`.
+- status: open
+
+## 2026-05-21 17:25 KST
+- time: 2026-05-21 17:25 KST
+- location: `cmd /c npm run test:compile`
+- summary: Verification completed after PowerShell policy fallback
+- details: The TypeScript compile check succeeded when rerun through `npm.cmd`, confirming the translation split changes compile cleanly.
+- status: resolved

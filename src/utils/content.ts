@@ -7,7 +7,12 @@ export interface TranslationDefinition {
     className: 'font-inter' | 'font-pretendard';
 }
 
-export const getTranslationDefinitions = (verse: GitaVerse): TranslationDefinition[] => {
+const translationDefinitionIds = {
+    left: ['english', 'ham'],
+    deepDive: ['gil', 'jimong', 'suk']
+} as const;
+
+const getTranslationDefinitions = (verse: GitaVerse): TranslationDefinition[] => {
     const definitions: TranslationDefinition[] = [
         { id: 'english', title: 'ENGLISH', content: verse.translation_en ?? '', className: 'font-inter' },
         { id: 'ham', title: 'HAM', content: verse.translation_ham ?? '', className: 'font-pretendard' },
@@ -18,6 +23,17 @@ export const getTranslationDefinitions = (verse: GitaVerse): TranslationDefiniti
 
     return definitions.filter(definition => definition.content.trim() !== '');
 };
+
+const getFilteredTranslationDefinitions = (
+    verse: GitaVerse,
+    ids: readonly TranslationDefinition['id'][]
+): TranslationDefinition[] => getTranslationDefinitions(verse).filter(definition => ids.includes(definition.id));
+
+export const getLeftTranslationDefinitions = (verse: GitaVerse): TranslationDefinition[] =>
+    getFilteredTranslationDefinitions(verse, translationDefinitionIds.left);
+
+export const getDeepDiveTranslationDefinitions = (verse: GitaVerse): TranslationDefinition[] =>
+    getFilteredTranslationDefinitions(verse, translationDefinitionIds.deepDive);
 
 export const isDisplayableCommentary = (commentary: string): boolean => (
     commentary !== '' &&

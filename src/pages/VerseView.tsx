@@ -7,7 +7,7 @@ import VerseTranslationsSection from '../components/verse/VerseTranslationsSecti
 import { ContentReader } from '../components/ui/ContentReader';
 import { useUI } from '../context/UIContext';
 import { useVerseData } from '../context/VerseDataContext';
-import { getTranslationDefinitions } from '../utils/content';
+import { getDeepDiveTranslationDefinitions, getLeftTranslationDefinitions } from '../utils/content';
 import { withBasePath } from '../utils/paths';
 import { getNextVersePath, getPreviousVersePath } from '../utils/verse';
 
@@ -82,14 +82,15 @@ const VerseView = () => {
     const nextVersePath = getNextVersePath(allChapters, chapterNum, verseData);
     const audioFilename = verseData.audio?.split('/').pop();
     const audioSrc = audioFilename ? withBasePath(`mp3/${audioFilename}`) : undefined;
-    const translationSections = getTranslationDefinitions(verseData);
+    const leftTranslationSections = getLeftTranslationDefinitions(verseData);
+    const deepDiveTranslationSections = getDeepDiveTranslationDefinitions(verseData);
     const isCommentaryMode = rightPanelMode === 'commentary';
 
     return (
         <div className="mx-auto h-full min-h-0 w-full max-w-[1840px] px-3 py-6 sm:px-5 lg:px-6 lg:py-4 lg:overflow-hidden">
             <div className="flex min-h-0 w-full flex-col gap-8 lg:grid lg:h-full lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:gap-6">
                 <div className="min-w-0 lg:min-h-0 lg:overflow-y-auto lg:pr-2">
-                    <VerseTranslationsSection sections={translationSections} />
+                    <VerseTranslationsSection sections={leftTranslationSections} />
                 </div>
 
                 <div className="min-w-0 lg:min-h-0 lg:overflow-y-auto lg:pl-2">
@@ -110,6 +111,7 @@ const VerseView = () => {
                                     navigate(previousVersePath);
                                 }
                             }}
+                            translationSections={deepDiveTranslationSections}
                             verse={verseData}
                             verseLabel={`${currentChapterNumber}.${verseRange}`}
                         />
