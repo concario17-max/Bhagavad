@@ -1,7 +1,6 @@
 import { useEffect, Suspense, lazy } from 'react';
-import { HashRouter as Router, Routes, Route, matchPath, useLocation, Outlet } from 'react-router-dom';
+import { HashRouter as Router, Navigate, Routes, Route, matchPath, useLocation, Outlet } from 'react-router-dom';
 
-const ChapterList = lazy(() => import('./pages/ChapterList'));
 const VerseView = lazy(() => import('./pages/VerseView'));
 import Header from './components/Header';
 import { AppShell } from './components/ui/AppShell';
@@ -39,8 +38,8 @@ function App() {
     return (
         <Router>
             <Routes>
+                <Route path="/" element={<Navigate to="/chapter/1/verse/1" replace />} />
                 <Route element={<MainLayout />}>
-                    <Route path="/" element={<ChapterList />} />
                     <Route path="/chapter/:chapterNum/verse/:verseNum" element={<VerseView />} />
                 </Route>
             </Routes>

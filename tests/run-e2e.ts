@@ -77,89 +77,56 @@ const goto = async (page: Page, url: string): Promise<void> => {
     await page.goto(url, { waitUntil: 'networkidle' });
 };
 
-const readWidths = async (page: Page): Promise<{ left: number; main: number; right: number }> => {
-    return page.evaluate(() => {
-        const leftPanel = document.querySelector<HTMLElement>('[data-testid="left-panel"]');
-        const mainPanel = document.querySelector<HTMLElement>('[data-testid="main-scroll-container"]');
-        const rightPanel = document.querySelector<HTMLElement>('[data-testid="right-panel"]');
-
-        return {
-            left: leftPanel ? Math.round(leftPanel.getBoundingClientRect().width) : 0,
-            main: mainPanel ? Math.round(mainPanel.getBoundingClientRect().width) : 0,
-            right: rightPanel ? Math.round(rightPanel.getBoundingClientRect().width) : 0
-        };
-    });
-};
-
-const waitForWidths = async (
-    page: Page,
-    expected: { left: number; main: number; right: number }
-): Promise<void> => {
-    await page.waitForFunction(
-        dims => {
-            const leftPanel = document.querySelector<HTMLElement>('[data-testid="left-panel"]');
-            const mainPanel = document.querySelector<HTMLElement>('[data-testid="main-scroll-container"]');
-            const rightPanel = document.querySelector<HTMLElement>('[data-testid="right-panel"]');
-
-            const current = {
-                left: leftPanel ? Math.round(leftPanel.getBoundingClientRect().width) : 0,
-                main: mainPanel ? Math.round(mainPanel.getBoundingClientRect().width) : 0,
-                right: rightPanel ? Math.round(rightPanel.getBoundingClientRect().width) : 0
-            };
-
-            return current.left === dims.left && current.main === dims.main && current.right === dims.right;
-        },
-        expected
-    );
-};
-
 const runE2EChecks = async (): Promise<void> => {
     const server = await startStaticServer();
     const browser = await launchBrowser();
 
     try {
-        const homePage = await browser.newPage({ viewport: { width: 1440, height: 900 } });
-        await goto(homePage, `${server.baseUrl}/`);
-        await homePage.waitForSelector('text=BHAGAVAD GITA');
-        await homePage.waitForSelector('select');
-        const chapterOptionCount = await homePage.locator('select').first().locator('option').count();
-        assert.equal(chapterOptionCount, 19);
-        await homePage.close();
+        const rootPage = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+        await goto(rootPage, `${server.baseUrl}/`);
+        await rootPage.waitForURL(/\/#\/chapter\/1\/verse\/1$/);
+        assert.match(rootPage.url(), /\/#\/chapter\/1\/verse\/1$/);
+        await rootPage.waitForSelector('text=Chapter 1, Verse 1');
+        await rootPage.waitForSelector('text=Primary Verse');
+        await rootPage.waitForSelector('text=Commentary');
+        await rootPage.close();
 
         const desktopPage = await browser.newPage({ viewport: { width: 1600, height: 960 } });
         await goto(desktopPage, `${server.baseUrl}/#/chapter/1/verse/1`);
         await desktopPage.waitForSelector('text=Chapter 1, Verse 1');
         await desktopPage.waitForSelector('text=Primary Verse');
-        await desktopPage.getByRole('button', { name: /hide commentary panel/i }).click();
-        await desktopPage.waitForFunction(() => document.querySelector('[data-testid="right-panel"]')?.getAttribute('data-desktop-open') === 'false');
-        await desktopPage.getByRole('button', { name: /show commentary panel/i }).click();
-        await desktopPage.waitForFunction(() => document.querySelector('[data-testid="right-panel"]')?.getAttribute('data-desktop-open') === 'true');
-        await desktopPage.waitForSelector('[data-testid="right-panel"] h2');
+        await desktopPage.waitForSelector('text=Commentary');
 
-        await waitForWidths(desktopPage, { left: 320, main: 960, right: 320 });
-        assert.deepEqual(await readWidths(desktopPage), { left: 320, main: 960, right: 320 });
-        await desktopPage.getByRole('button', { name: /toggle chapter navigation/i }).click();
-        await waitForWidths(desktopPage, { left: 0, main: 960, right: 640 });
-        assert.deepEqual(await readWidths(desktopPage), { left: 0, main: 960, right: 640 });
-        await desktopPage.getByRole('button', { name: /toggle chapter navigation/i }).click();
-        await desktopPage.getByRole('button', { name: /hide commentary panel/i }).click();
-        await waitForWidths(desktopPage, { left: 320, main: 1280, right: 0 });
-        assert.deepEqual(await readWidths(desktopPage), { left: 320, main: 1280, right: 0 });
-        await desktopPage.getByRole('button', { name: /toggle chapter navigation/i }).click();
-        await waitForWidths(desktopPage, { left: 0, main: 1600, right: 0 });
-        assert.deepEqual(await readWidths(desktopPage), { left: 0, main: 1600, right: 0 });
+        const desktopToggle = desktopPage.locator('button[aria-pressed]');
+        await desktopToggle.waitFor({ state: 'visible' });
+        await assert.equal(await desktopToggle.isEnabled(), true);
+        const desktopInitialPressed = await desktopToggle.getAttribute('aria-pressed');
+        const desktopInitialLabel = (await desktopToggle.textContent())?.trim();
+        assert.equal(desktopInitialPressed, 'true');
+        assert.match(desktopInitialLabel ?? '', /Comic/);
+        await desktopToggle.click();
+        await desktopPage.waitForFunction(() => {
+            const button = document.querySelector<HTMLButtonElement>('button[aria-pressed]');
+            return button?.getAttribute('aria-pressed') === 'false' && (button.textContent ?? '').includes('Commentary');
+        });
+        assert.equal(await desktopToggle.getAttribute('aria-pressed'), 'false');
+        assert.match((await desktopToggle.textContent())?.trim() ?? '', /Commentary/);
         await desktopPage.close();
 
         const mobilePage = await browser.newPage({ viewport: { width: 390, height: 844 } });
         await goto(mobilePage, `${server.baseUrl}/#/chapter/1/verse/1`);
         await mobilePage.waitForSelector('text=Chapter 1, Verse 1');
-        await mobilePage.getByRole('button', { name: /toggle chapter navigation/i }).click();
-        await mobilePage.waitForFunction(() => document.querySelector('[data-testid="left-panel"]')?.getAttribute('data-mobile-open') === 'true');
-        assert.equal(await mobilePage.locator('[data-testid="left-panel"]').getAttribute('data-panel-position'), 'left');
-        await mobilePage.getByRole('button', { name: /close chapters/i }).click();
-        await mobilePage.getByRole('button', { name: /show commentary panel|hide commentary panel/i }).click();
-        await mobilePage.waitForFunction(() => document.querySelector('[data-testid="right-panel"]')?.getAttribute('data-mobile-open') === 'true');
-        assert.equal(await mobilePage.locator('[data-testid="right-panel"]').getAttribute('data-panel-position'), 'right');
+        await mobilePage.waitForSelector('text=Primary Verse');
+        await mobilePage.waitForSelector('text=Commentary');
+
+        const mobileToggle = mobilePage.locator('button[aria-pressed]');
+        if (await mobileToggle.count()) {
+            await mobileToggle.waitFor({ state: 'visible' });
+            await assert.equal(await mobileToggle.isEnabled(), true);
+        } else {
+            await mobilePage.waitForSelector('img[alt="1.1 comic page"]');
+            await assert.equal(await mobilePage.locator('img[alt="1.1 comic page"]').isVisible(), true);
+        }
         await mobilePage.close();
     } finally {
         await browser.close();

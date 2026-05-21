@@ -1,24 +1,24 @@
 Current Task
-- task: implement comic-first mode toggle in VerseCommentary only
+- task: remove home page and redirect root to the chapter-verse reader
 - phase: completed
-- scope: make the right commentary panel default to comic mode when a matched comic exists, fall back to commentary when no comic exists, remember the choice per verse in localStorage, and remove debug diagnostics from the UI
+- scope: replace the landing page with an immediate redirect to `/chapter/1/verse/1`, remove the chapter-list home route from normal navigation, and update the verification flow so it no longer expects a home screen
 
 Route
-- route: Route A
-- reason: the implementation is now confined to a single-file slice in VerseCommentary.tsx with one direct verification pass
+- route: Route B
+- reason: the scope touches routing and test expectations across more than one file, so it needs a frozen contract and delegated implementation
 
 Writer Slot
 - main: active
 - writer: `main` planner
 
 Contract Freeze
-- freeze: keep the left body unchanged, default the right panel to comic when a matched comic image exists, fall back to commentary when comic is unavailable, persist the user's choice per verse in localStorage, and remove all debug diagnostics from the UI
+- freeze: make `/` immediately redirect to `/chapter/1/verse/1`, remove the home-page route from the normal app flow, keep the verse reader and selector behavior unchanged, and update any tests or checks that still assume a landing page exists
 - write_sets:
-  - main: `src/components/VerseCommentary.tsx`
+  - worker: `src/App.tsx`, `tests/run-e2e.ts`
 
 Reviewer
-- reviewer: none
+- reviewer: Lovelace
 
 Last Update
 - time: 2026-05-21 00:00 KST
-- note: comic-first VerseCommentary toggle implemented and production build passed
+- note: root redirect, reader-focused e2e, build, and e2e verification all passed
