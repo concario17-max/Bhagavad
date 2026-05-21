@@ -108,22 +108,20 @@ const VerseCommentary = () => {
                     </div>
                 )}
 
-                {import.meta.env.DEV && (
-                    <div className="mt-3 rounded-2xl border border-gold-primary/10 bg-white/45 px-3 py-2 text-[11px] leading-5 text-text-secondary dark:border-dark-border/50 dark:bg-dark-bg/35 dark:text-dark-text-secondary">
-                        <div>
-                            comic files: <span className="font-semibold text-text-primary dark:text-dark-text-primary">{comicImageCount}</span>
-                        </div>
-                        <div>
-                            comic key: <span className="font-semibold text-text-primary dark:text-dark-text-primary">{comicImageKey ?? 'missing'}</span>
-                        </div>
-                        <div>
-                            comic match: <span className="font-semibold text-text-primary dark:text-dark-text-primary">{comicImageSrc ? 'found' : 'missing'}</span>
-                        </div>
-                        <div>
-                            button: <span className="font-semibold text-text-primary dark:text-dark-text-primary">{comicImageSrc ? (showComicMode ? 'comic' : 'commentary') : 'disabled'}</span>
-                        </div>
+                <div className="mt-3 rounded-2xl border border-gold-primary/10 bg-white/45 px-3 py-2 text-[11px] leading-5 text-text-secondary dark:border-dark-border/50 dark:bg-dark-bg/35 dark:text-dark-text-secondary">
+                    <div>
+                        comic files: <span className="font-semibold text-text-primary dark:text-dark-text-primary">{comicImageCount}</span>
                     </div>
-                )}
+                    <div>
+                        comic key: <span className="font-semibold text-text-primary dark:text-dark-text-primary">{comicImageKey ?? 'missing'}</span>
+                    </div>
+                    <div>
+                        comic match: <span className="font-semibold text-text-primary dark:text-dark-text-primary">{comicImageSrc ? 'found' : 'missing'}</span>
+                    </div>
+                    <div>
+                        button: <span className="font-semibold text-text-primary dark:text-dark-text-primary">{comicImageSrc ? (showComicMode ? 'comic' : 'commentary') : 'disabled'}</span>
+                    </div>
+                </div>
             </div>
 
             {showComicMode && comicImageSrc ? (
