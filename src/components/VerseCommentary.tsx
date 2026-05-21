@@ -9,13 +9,13 @@ type ComicImageModule = {
     default: string;
 };
 
-const comicImageModules = import.meta.glob<ComicImageModule>('../../학습만화/*/*.png', {
+const comicImageModules = import.meta.glob<ComicImageModule>('../../comics/*/*.png', {
     eager: true
 }) as Record<string, ComicImageModule>;
 
 const comicImageByKey: Record<string, string> = Object.entries(comicImageModules).reduce<Record<string, string>>((accumulator, [path, module]) => {
     const normalizedPath = path.replace(/\\/g, '/');
-    const match = normalizedPath.match(/학습만화\/(\d+)\/(.+)\.png$/);
+    const match = normalizedPath.match(/comics\/(\d+)\/(.+)\.png$/);
 
     if (!match) {
         return accumulator;

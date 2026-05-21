@@ -1,4 +1,11 @@
 ## 2026-05-21
+- time: 2026-05-21 16:10 KST
+- location: verification -> `npm run build`
+- summary: PowerShell execution policy blocked the initial build command during review
+- details: `npm run build` failed once because `npm.ps1` was blocked by the local execution policy; the build was rerun successfully through `cmd /c npm run build`.
+- status: resolved
+
+## 2026-05-21
 - time: 2026-05-21 15:38 KST
 - location: verification -> `cmd /c npm run test:e2e`
 - summary: e2e validation failed on a missing commentary-panel toggle

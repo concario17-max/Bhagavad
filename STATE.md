@@ -1,24 +1,24 @@
-Current Task
-- task: remove dark mode from the app
+﻿Current Task
+- task: rename 학습만화 folder to comics and update comic image references
 - phase: completed
-- scope: remove the theme toggle from the UI, force the app to stay in the light theme, and clean up any theme state that only exists to support dark mode
+- scope: move the comic asset folder to `comics`, update the glob and any path references, and verify the chapter image mapping still resolves correctly
 
 Route
 - route: Route B
-- reason: the scope touches theme state, header UI, and app bootstrap across multiple files, so it needs a frozen contract and delegated implementation
+- reason: the scope touches asset paths and at least one implementation file, so it needs a frozen contract and delegated implementation
 
 Writer Slot
 - main: active
 - writer: `main` planner
 
 Contract Freeze
-- freeze: remove the visible dark-mode control, keep the app locked to the light theme, preserve the existing reading layout, and update any tests or bootstrap code that still depends on theme toggling
+- freeze: rename the comic asset folder to `comics`, update the comic glob/path logic to match, keep the reader behavior unchanged, and verify chapter 1 still resolves the expected comic images
 - write_sets:
-  - worker: `src/main.tsx`, `src/context/ThemeContext.tsx`, `src/components/ThemeToggle.tsx`, `src/components/Header.tsx`
+  - worker: `src/components/VerseCommentary.tsx`, `학습만화 -> comics`
 
 Reviewer
-- reviewer: Lovelace
+- reviewer: Volta
 
 Last Update
 - time: 2026-05-21 00:00 KST
-- note: dark-mode removal task completed; light mode is fixed at DOM and browser meta levels, toggle removed, and build passed
+- note: comic asset folder rename completed; comics folder and path logic are aligned and build passed
