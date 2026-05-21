@@ -1,24 +1,24 @@
 Current Task
-- task: refine the mobile floating chapter and verse selector
+- task: implement comic-first mode toggle in VerseCommentary only
 - phase: completed
-- scope: make the floating mobile selector smaller and hide it more decisively on downward scroll while leaving desktop behavior unchanged
+- scope: make the right commentary panel default to comic mode when a matched comic exists, fall back to commentary when no comic exists, remember the choice per verse in localStorage, and remove debug diagnostics from the UI
 
 Route
 - route: Route A
-- reason: the requested change is a small one-file adjustment inside the mobile selector component
+- reason: the implementation is now confined to a single-file slice in VerseCommentary.tsx with one direct verification pass
 
 Writer Slot
 - main: active
-- writer: `src/components/ChapterVerseSelector.tsx`
+- writer: `main` planner
 
 Contract Freeze
-- freeze: keep the desktop selector flow unchanged while tightening the mobile floating selector size and hide transition
+- freeze: keep the left body unchanged, default the right panel to comic when a matched comic image exists, fall back to commentary when comic is unavailable, persist the user's choice per verse in localStorage, and remove all debug diagnostics from the UI
 - write_sets:
-  - writer: `src/components/ChapterVerseSelector.tsx`
+  - main: `src/components/VerseCommentary.tsx`
 
 Reviewer
 - reviewer: none
 
 Last Update
-- time: 2026-04-12 00:00 KST
-- note: mobile floating selector tightened and build passed
+- time: 2026-05-21 00:00 KST
+- note: comic-first VerseCommentary toggle implemented and production build passed
