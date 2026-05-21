@@ -42,7 +42,22 @@ const VerseCommentary = () => {
     const { chapterNum, errorMessage, hasDisplayableCommentary, status, verseData, verseRange } = useVerseData();
     const commentary = verseData?.commentary_en?.trim() ?? '';
     const parsedCommentary = hasDisplayableCommentary ? parseCommentaryDocument(commentary) : null;
-    const comicImageSrc = useMemo(() => resolveComicImage(chapterNum, verseRange), [chapterNum, verseRange]);
+    const comicImageKey = useMemo(() => {
+        if (chapterNum === null || chapterNum === undefined || !verseRange) {
+            return null;
+        }
+
+        const normalizedChapter = Number.parseInt(String(chapterNum), 10);
+        if (Number.isNaN(normalizedChapter)) {
+            return null;
+        }
+
+        return `${normalizedChapter}:${verseRange}`;
+    }, [chapterNum, verseRange]);
+    const comicImageSrc = useMemo(
+        () => resolveComicImage(chapterNum, verseRange),
+        [chapterNum, verseRange]
+    );
     const [showComicMode, setShowComicMode] = useState(false);
 
     useEffect(() => {
@@ -85,6 +100,20 @@ const VerseCommentary = () => {
                                 {parsedCommentary.inlineHeading}
                             </span>
                         )}
+                    </div>
+                )}
+
+                {import.meta.env.DEV && (
+                    <div className="mt-3 rounded-2xl border border-gold-primary/10 bg-white/45 px-3 py-2 text-[11px] leading-5 text-text-secondary dark:border-dark-border/50 dark:bg-dark-bg/35 dark:text-dark-text-secondary">
+                        <div>
+                            comic key: <span className="font-semibold text-text-primary dark:text-dark-text-primary">{comicImageKey ?? 'missing'}</span>
+                        </div>
+                        <div>
+                            comic match: <span className="font-semibold text-text-primary dark:text-dark-text-primary">{comicImageSrc ? 'found' : 'missing'}</span>
+                        </div>
+                        <div>
+                            button: <span className="font-semibold text-text-primary dark:text-dark-text-primary">{comicImageSrc ? (showComicMode ? 'comic' : 'commentary') : 'disabled'}</span>
+                        </div>
                     </div>
                 )}
             </div>
