@@ -91,6 +91,7 @@ const VerseCommentary = () => {
             ? 'Switch to commentary'
             : 'Switch to comic'
         : 'Comic unavailable for this verse';
+    const shouldShowInlineHeading = !(chapterNum === '1' && verseRange === '15') && parsedCommentary?.inlineHeading !== null;
 
     return (
         <section className="rounded-[34px] border border-gold-primary/15 bg-white/72 p-4 shadow-[0_22px_80px_-48px_rgba(78,56,22,0.52)] backdrop-blur-xl dark:border-dark-border/70 dark:bg-dark-surface/72 sm:p-6">
@@ -121,7 +122,7 @@ const VerseCommentary = () => {
                         <span>
                             {chapterNum}.{verseRange}
                         </span>
-                        {parsedCommentary?.inlineHeading && (
+                        {shouldShowInlineHeading && parsedCommentary?.inlineHeading && (
                             <span className="text-[11px] font-semibold tracking-normal text-text-secondary dark:text-dark-text-secondary">
                                 {parsedCommentary.inlineHeading}
                             </span>

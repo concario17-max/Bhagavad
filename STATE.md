@@ -1,24 +1,24 @@
 ﻿Current Task
-- task: rename 학습만화 folder to comics and update comic image references
+- task: remove duplicate commentary title line for verse 1.15
 - phase: completed
-- scope: move the comic asset folder to `comics`, update the glob and any path references, and verify the chapter image mapping still resolves correctly
+- scope: remove the redundant inline commentary title display so the right panel only shows the verse reference line for the affected verse
 
 Route
-- route: Route B
-- reason: the scope touches asset paths and at least one implementation file, so it needs a frozen contract and delegated implementation
+- route: Route A
+- reason: the change is confined to a single UI file and one direct verification pass
 
 Writer Slot
 - main: active
 - writer: `main` planner
 
 Contract Freeze
-- freeze: rename the comic asset folder to `comics`, update the comic glob/path logic to match, keep the reader behavior unchanged, and verify chapter 1 still resolves the expected comic images
+- freeze: remove the redundant inline commentary title display from the right panel for verse 1.15, keep the rest of the commentary rendering unchanged, and verify the header no longer shows the duplicate line
 - write_sets:
-  - worker: `src/components/VerseCommentary.tsx`, `학습만화 -> comics`
+  - main: `src/components/VerseCommentary.tsx`
 
 Reviewer
-- reviewer: Volta
+- reviewer: none
 
 Last Update
 - time: 2026-05-21 00:00 KST
-- note: comic asset folder rename completed; comics folder and path logic are aligned and build passed
+- note: duplicate commentary title cleanup completed; build passed
