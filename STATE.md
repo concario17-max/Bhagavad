@@ -1,25 +1,25 @@
 ﻿Current Task
-- task: move translations to the left panel and add a right-panel deep-dive toggle
+- task: move the deep-dive toggle from the right panel into the header
 - phase: completed
-- scope: keep ENGLISH and HAM on the left, move the remaining verse-reading content into the right panel, add a top-bar toggle labeled `심화` to switch the right panel between commentary and deep-dive, and remove the breadcrumb line `Home / Chapter 1, Verse 1`
+- scope: keep the right-panel content switch between commentary and deep-dive, but render the `심화` toggle in the header instead of inside the right panel, and keep the left translations-only layout intact
 
 Route
 - route: Route B
-- reason: the requested layout split spans multiple shared UI files and needs coordinated changes across the verse page and the right-panel renderer
+- reason: the toggle location change requires shared state between the header and verse panel across multiple files
 
 Writer Slot
 - main: active
 - writer: `main` planner
 
 Contract Freeze
-- freeze: left panel shows only the readable translation blocks, right panel toggles between commentary and a deep-dive view containing the moved verse-reading content, the breadcrumb is removed, and the existing comic/commentary toggle behavior stays intact unless the new layout requires a minimal compatibility adjustment
+- freeze: move the `심화` toggle UI into the header, keep the right panel driven by shared mode state, preserve the translations-only left panel, and leave comic/commentary behavior unchanged unless needed for the new shared state
 - write_sets:
-  - worker_left: `src/pages/VerseView.tsx`, `src/components/verse/VerseTranslationsSection.tsx`, `src/components/verse/VerseBreadcrumb.tsx`
-  - worker_right: `src/components/VerseCommentary.tsx`, `src/components/verse/VersePrimaryCard.tsx`, `src/components/verse/VerseAudioPlayer.tsx`, `src/components/verse/VerseNavigationFooter.tsx`, `src/components/verse/VerseLexiconSection.tsx`, `src/components/verse/VerseDeepDivePanel.tsx` if needed
+  - worker_shared: `src/context/UIContext.tsx`, `src/components/Header.tsx`
+  - worker_feature: `src/pages/VerseView.tsx`, `src/components/verse/VerseDeepDivePanel.tsx`, `src/components/VerseCommentary.tsx` if the old toggle needs removal
 
 Reviewer
-- reviewer: main-review
+- reviewer: Mencius
 
 Last Update
-- time: 2026-05-21 16:08 KST
-- note: layout split completed and build verified successfully
+- time: 2026-05-21 16:40 KST
+- note: header-hosted deep-dive toggle completed and build verified successfully

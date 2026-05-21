@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import VerseCommentary from '../components/VerseCommentary';
 import VerseDeepDivePanel from '../components/verse/VerseDeepDivePanel';
 import VerseMessageState from '../components/verse/VerseMessageState';
 import VerseTranslationsSection from '../components/verse/VerseTranslationsSection';
 import { ContentReader } from '../components/ui/ContentReader';
+import { useUI } from '../context/UIContext';
 import { useVerseData } from '../context/VerseDataContext';
 import { getTranslationDefinitions } from '../utils/content';
 import { withBasePath } from '../utils/paths';
@@ -30,7 +31,7 @@ const VerseView = () => {
         verseData,
         verseRange
     } = useVerseData();
-    const [rightPanelMode, setRightPanelMode] = useState<RightPanelMode>('commentary');
+    const { rightPanelMode, setRightPanelMode } = useUI();
 
     useEffect(() => {
         if (!resolvedVerseNumber || resolvedVerseNumber === requestedVerseNumber) {
@@ -40,20 +41,19 @@ const VerseView = () => {
         navigate(`/chapter/${chapterNum}/verse/${resolvedVerseNumber}`, { replace: true });
     }, [chapterNum, navigate, requestedVerseNumber, resolvedVerseNumber]);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (typeof window === 'undefined' || !chapterNum || !verseRange) {
-            setRightPanelMode('commentary');
             return;
         }
 
         const savedMode = window.localStorage.getItem(getRightPanelStorageKey(chapterNum, verseRange));
         if (savedMode === 'commentary' || savedMode === 'deep-dive') {
-            setRightPanelMode(savedMode);
+            setRightPanelMode(savedMode as RightPanelMode);
             return;
         }
 
         setRightPanelMode('commentary');
-    }, [chapterNum, verseRange]);
+    }, [chapterNum, setRightPanelMode, verseRange]);
 
     useEffect(() => {
         if (typeof window === 'undefined' || !chapterNum || !verseRange) {
@@ -83,6 +83,7 @@ const VerseView = () => {
     const audioFilename = verseData.audio?.split('/').pop();
     const audioSrc = audioFilename ? withBasePath(`mp3/${audioFilename}`) : undefined;
     const translationSections = getTranslationDefinitions(verseData);
+    const isCommentaryMode = rightPanelMode === 'commentary';
 
     return (
         <div className="mx-auto h-full min-h-0 w-full max-w-[1840px] px-3 py-6 sm:px-5 lg:px-6 lg:py-4 lg:overflow-hidden">
@@ -94,19 +95,11 @@ const VerseView = () => {
                 <div className="min-w-0 lg:min-h-0 lg:overflow-y-auto lg:pl-2">
                     <div className="mb-4 flex items-center justify-between gap-3 rounded-[26px] border border-gold-primary/14 bg-white/70 px-4 py-3 shadow-[0_16px_54px_-36px_rgba(78,56,22,0.48)] backdrop-blur-xl dark:border-dark-border/70 dark:bg-dark-surface/72">
                         <span className="text-[11px] font-semibold uppercase tracking-[0.24em] text-gold-muted dark:text-gold-muted">
-                            {rightPanelMode === 'commentary' ? 'Commentary' : '심화'}
+                            {isCommentaryMode ? 'Commentary' : '심화'}
                         </span>
-                        <button
-                            type="button"
-                            onClick={() => setRightPanelMode(previous => (previous === 'commentary' ? 'deep-dive' : 'commentary'))}
-                            aria-pressed={rightPanelMode === 'deep-dive'}
-                            className="inline-flex items-center rounded-full border border-gold-primary/20 bg-white/80 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.18em] text-text-secondary transition-colors hover:border-gold-primary/40 hover:text-gold-primary aria-pressed:border-gold-primary/45 aria-pressed:bg-gold-surface/90 aria-pressed:text-gold-primary dark:border-dark-border/70 dark:bg-dark-bg/50 dark:text-dark-text-secondary dark:hover:text-gold-light dark:aria-pressed:border-gold-light/40 dark:aria-pressed:bg-dark-surface/90 dark:aria-pressed:text-gold-light"
-                        >
-                            심화
-                        </button>
                     </div>
 
-                    {rightPanelMode === 'commentary' ? (
+                    {isCommentaryMode ? (
                         <VerseCommentary />
                     ) : (
                         <VerseDeepDivePanel

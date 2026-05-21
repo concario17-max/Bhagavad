@@ -74,3 +74,9 @@ location: build verification
 summary: build rerun succeeded with `npm.cmd run build`
 details: The project built successfully after bypassing the PowerShell wrapper.
 status: resolved
+
+time: 2026-05-21 16:28 KST
+location: verification -> `npm run build`
+summary: PowerShell execution policy blocked the initial build command for this toggle refactor
+details: `npm run build` failed once because `npm.ps1` was blocked by the local execution policy; the build was rerun successfully with `npm.cmd run build`.
+status: resolved

@@ -7,6 +7,8 @@ import {
     setDesktopCommentaryPreference
 } from '../utils/storage';
 
+type RightPanelMode = 'commentary' | 'deep-dive';
+
 interface UIContextType {
     isSidebarOpen: boolean;
     setIsSidebarOpen: Dispatch<SetStateAction<boolean>>;
@@ -16,6 +18,9 @@ interface UIContextType {
     setIsCommentaryPanelOpen: Dispatch<SetStateAction<boolean>>;
     isDesktopCommentaryPanelOpen: boolean;
     toggleCommentaryPanel: (forceOpen?: boolean) => void;
+    rightPanelMode: RightPanelMode;
+    setRightPanelMode: Dispatch<SetStateAction<RightPanelMode>>;
+    toggleRightPanelMode: () => void;
     closeAllDrawers: () => void;
 }
 
@@ -30,6 +35,7 @@ export const UIProvider = ({ children }: UIProviderProps) => {
     const [isCommentaryPanelOpen, setIsCommentaryPanelOpen] = useState(false);
     const [isDesktopSidebarOpen, setIsDesktopSidebarOpen] = useState<boolean>(() => getBoolean(STORAGE_KEYS.desktopSidebar, true));
     const [isDesktopCommentaryPanelOpen, setIsDesktopCommentaryPanelOpen] = useState<boolean>(() => getDesktopCommentaryPreference());
+    const [rightPanelMode, setRightPanelMode] = useState<RightPanelMode>('commentary');
 
     const toggleSidebar = useCallback(() => {
         if (window.innerWidth < 1024) {
@@ -53,6 +59,10 @@ export const UIProvider = ({ children }: UIProviderProps) => {
         setDesktopCommentaryPreference(newState);
     }, [isDesktopCommentaryPanelOpen]);
 
+    const toggleRightPanelMode = useCallback(() => {
+        setRightPanelMode(previous => (previous === 'commentary' ? 'deep-dive' : 'commentary'));
+    }, []);
+
     const closeAllDrawers = useCallback(() => {
         setIsSidebarOpen(false);
         setIsCommentaryPanelOpen(false);
@@ -68,6 +78,9 @@ export const UIProvider = ({ children }: UIProviderProps) => {
             setIsCommentaryPanelOpen,
             isDesktopCommentaryPanelOpen,
             toggleCommentaryPanel,
+            rightPanelMode,
+            setRightPanelMode,
+            toggleRightPanelMode,
             closeAllDrawers
         }}>
             {children}
