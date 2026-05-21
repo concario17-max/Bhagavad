@@ -1,18 +1,18 @@
 Current Task
-- task: fix comic image button resolution
+- task: add comic match debug output
 - phase: implementation
-- scope: make the commentary panel comic toggle resolve uploaded learning-comic images reliably and expose dev-only match diagnostics
+- scope: show the computed comic image key and whether it matched an uploaded learning-comic image
 
 Route
 - route: Route A
-- reason: the requested change is still a small one-file commentary-panel fix
+- reason: the requested change is a small one-file debug tweak in the commentary panel
 
 Writer Slot
 - main: active
 - writer: `src/components/VerseCommentary.tsx`
 
 Contract Freeze
-- freeze: keep the left body unchanged while the right commentary panel resolves and toggles uploaded learning-comic images
+- freeze: keep the left body unchanged and surface comic match diagnostics in the right commentary panel
 - write_sets:
   - writer: `src/components/VerseCommentary.tsx`
 
@@ -21,4 +21,4 @@ Reviewer
 
 Last Update
 - time: 2026-05-21 00:00 KST
-- note: switched comic image lookup to folder/file-based matching and added dev-only diagnostics
+- note: preparing comic match debug output
