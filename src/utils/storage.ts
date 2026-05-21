@@ -9,7 +9,6 @@ const getStorage = (): Storage | null => {
 };
 
 export const STORAGE_KEYS = {
-    theme: 'theme',
     desktopSidebar: 'gita-desktop-sidebar',
     desktopCommentary: 'gita-desktop-commentary',
     showLexicon: 'gita-show-lexicon'
@@ -57,15 +56,6 @@ export const getBoolean = (key: string, fallback: boolean): boolean => {
 
 export const setBoolean = (key: string, value: boolean): void => {
     setString(key, value ? 'true' : 'false');
-};
-
-export const getThemePreference = (): 'light' | 'dark' => {
-    const savedTheme = getString(STORAGE_KEYS.theme);
-    return savedTheme === 'dark' ? 'dark' : 'light';
-};
-
-export const setThemePreference = (theme: 'light' | 'dark'): void => {
-    setString(STORAGE_KEYS.theme, theme);
 };
 
 export const getDesktopCommentaryPreference = (): boolean => {
