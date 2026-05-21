@@ -12,10 +12,18 @@ const comicImageModules = import.meta.glob<ComicImageModule>('../../학습만화
 }) as Record<string, ComicImageModule>;
 
 const comicImageByKey = Object.entries(comicImageModules).reduce<Record<string, string>>((accumulator, [path, module]) => {
-    const match = path.match(/학습만화\/([^/]+)\/([^/]+)\.png$/);
+    const normalizedPath = path.replace(/\\/g, '/');
+    const parts = normalizedPath.split('/');
+    const chapterFolder = parts[parts.length - 2];
+    const fileName = parts[parts.length - 1];
 
-    if (match) {
-        accumulator[`${match[1]}:${match[2]}`] = module.default;
+    if (!chapterFolder || !fileName) {
+        return accumulator;
+    }
+
+    const verseKey = fileName.replace(/\.png$/i, '');
+    if (verseKey !== '') {
+        accumulator[`${chapterFolder}:${verseKey}`] = module.default;
     }
 
     return accumulator;
@@ -30,7 +38,6 @@ const resolveComicImage = (
     }
 
     const normalizedChapter = Number.parseInt(String(chapterNum), 10);
-
     if (Number.isNaN(normalizedChapter)) {
         return null;
     }
@@ -54,10 +61,8 @@ const VerseCommentary = () => {
 
         return `${normalizedChapter}:${verseRange}`;
     }, [chapterNum, verseRange]);
-    const comicImageSrc = useMemo(
-        () => resolveComicImage(chapterNum, verseRange),
-        [chapterNum, verseRange]
-    );
+    const comicImageSrc = useMemo(() => resolveComicImage(chapterNum, verseRange), [chapterNum, verseRange]);
+    const comicImageCount = Object.keys(comicImageByKey).length;
     const [showComicMode, setShowComicMode] = useState(false);
 
     useEffect(() => {
@@ -106,6 +111,9 @@ const VerseCommentary = () => {
                 {import.meta.env.DEV && (
                     <div className="mt-3 rounded-2xl border border-gold-primary/10 bg-white/45 px-3 py-2 text-[11px] leading-5 text-text-secondary dark:border-dark-border/50 dark:bg-dark-bg/35 dark:text-dark-text-secondary">
                         <div>
+                            comic files: <span className="font-semibold text-text-primary dark:text-dark-text-primary">{comicImageCount}</span>
+                        </div>
+                        <div>
                             comic key: <span className="font-semibold text-text-primary dark:text-dark-text-primary">{comicImageKey ?? 'missing'}</span>
                         </div>
                         <div>
@@ -135,34 +143,51 @@ const VerseCommentary = () => {
                 </div>
             ) : hasDisplayableCommentary && parsedCommentary ? (
                 <div className="space-y-4 text-[14px] leading-relaxed text-text-primary dark:text-dark-text-primary">
-                    {parsedCommentary.blocks.map((block, index) => (
-                        block.type === 'paragraph' ? (
-                            <p key={`paragraph-${index}`}>{block.text}</p>
-                        ) : block.type === 'heading' ? (
-                            <h3 key={`heading-${index}`} className="pt-1 text-sm font-bold tracking-wide text-gold-primary dark:text-gold-light">
-                                {block.text}
-                            </h3>
-                        ) : block.type === 'ordered_list' ? (
-                            <ol key={`ordered-${index}`} className="list-decimal space-y-2 pl-5">
-                                {block.items.map((item, itemIndex) => (
-                                    <li key={`ordered-item-${index}-${itemIndex}`}>{item}</li>
-                                ))}
-                            </ol>
-                        ) : block.type === 'bullet_list' ? (
-                            <ul key={`bullet-${index}`} className="space-y-2">
-                                {block.items.map((item, itemIndex) => (
-                                    <li key={`bullet-item-${index}-${itemIndex}`} className="flex gap-2">
-                                        <span className="shrink-0 text-gold-primary dark:text-gold-light">쨌</span>
-                                        <span>{item}</span>
-                                    </li>
-                                ))}
-                            </ul>
-                        ) : (
+                    {parsedCommentary.blocks.map((block, index) => {
+                        if (block.type === 'paragraph') {
+                            return <p key={`paragraph-${index}`}>{block.text}</p>;
+                        }
+
+                        if (block.type === 'heading') {
+                            return (
+                                <h3 key={`heading-${index}`} className="pt-1 text-sm font-bold tracking-wide text-gold-primary dark:text-gold-light">
+                                    {block.text}
+                                </h3>
+                            );
+                        }
+
+                        if (block.type === 'ordered_list') {
+                            return (
+                                <ol key={`ordered-${index}`} className="list-decimal space-y-2 pl-5">
+                                    {block.items.map((item, itemIndex) => (
+                                        <li key={`ordered-item-${index}-${itemIndex}`}>{item}</li>
+                                    ))}
+                                </ol>
+                            );
+                        }
+
+                        if (block.type === 'bullet_list') {
+                            return (
+                                <ul key={`bullet-${index}`} className="space-y-2">
+                                    {block.items.map((item, itemIndex) => (
+                                        <li key={`bullet-item-${index}-${itemIndex}`} className="flex gap-2">
+                                            <span className="shrink-0 text-gold-primary dark:text-gold-light">·</span>
+                                            <span>{item}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            );
+                        }
+
+                        return (
                             <div key={`table-${index}`} className="overflow-x-auto rounded-xl border border-gold-primary/10">
                                 <table className="min-w-full border-collapse text-left text-[13px]">
                                     <tbody>
                                         {block.rows.map((row, rowIndex) => (
-                                            <tr key={`table-row-${index}-${rowIndex}`} className={rowIndex === 0 ? 'bg-gold-surface/40 dark:bg-dark-surface/60' : ''}>
+                                            <tr
+                                                key={`table-row-${index}-${rowIndex}`}
+                                                className={rowIndex === 0 ? 'bg-gold-surface/40 dark:bg-dark-surface/60' : ''}
+                                            >
                                                 {row.map((cell, cellIndex) => (
                                                     <td
                                                         key={`table-cell-${index}-${rowIndex}-${cellIndex}`}
@@ -176,8 +201,8 @@ const VerseCommentary = () => {
                                     </tbody>
                                 </table>
                             </div>
-                        )
-                    ))}
+                        );
+                    })}
                 </div>
             ) : (
                 <div className="rounded-2xl border border-dashed border-gold-primary/20 bg-white/40 px-5 py-8 text-center text-sm leading-relaxed text-text-secondary dark:border-dark-border/50 dark:bg-dark-bg/40 dark:text-dark-text-secondary">
