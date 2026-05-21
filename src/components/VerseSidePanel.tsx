@@ -18,7 +18,7 @@ const VerseSidePanel = () => {
             widthClass="w-[94vw]"
             desktopWidthClass="lg:col-start-3 lg:w-full"
         >
-            <div className="relative flex h-full min-h-0 flex-col overflow-y-auto overscroll-contain p-4 sm:p-5 lg:p-6">
+            <div className="relative flex h-full min-h-0 flex-col p-4 sm:p-5 lg:p-6">
                 <VerseCommentary />
             </div>
         </SidebarLayout>
