@@ -13,7 +13,7 @@ const Header = ({
     title = 'Bhagavad Gita',
     className = ''
 }: HeaderProps) => {
-    const { rightPanelMode, toggleRightPanelMode } = useUI();
+    const { rightPanelMode, setRightPanelMode } = useUI();
     const isDeepDive = rightPanelMode === 'deep-dive';
 
     const brand = (
@@ -34,38 +34,53 @@ const Header = ({
     );
 
     const modeToggle = (
-        <button
-            type="button"
-            onClick={toggleRightPanelMode}
-            aria-pressed={isDeepDive}
-            title={isDeepDive ? 'Switch to commentary' : 'Switch to deep-dive'}
-            className="inline-flex items-center rounded-full border border-gold-primary/20 bg-white/80 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.18em] text-text-secondary transition-colors hover:border-gold-primary/40 hover:text-gold-primary aria-pressed:border-gold-primary/45 aria-pressed:bg-gold-surface/90 aria-pressed:text-gold-primary dark:border-dark-border/70 dark:bg-dark-bg/50 dark:text-dark-text-secondary dark:hover:text-gold-light dark:aria-pressed:border-gold-light/40 dark:aria-pressed:bg-dark-surface/90 dark:aria-pressed:text-gold-light"
-        >
-            {isDeepDive ? '심화' : 'Commentary'}
-        </button>
+        <div className="inline-flex items-stretch border-l border-gold-primary/12 dark:border-dark-border/70">
+            <button
+                type="button"
+                onClick={() => setRightPanelMode('commentary')}
+                aria-pressed={!isDeepDive}
+                title="Switch to commentary"
+                className={`inline-flex items-center justify-center px-3.5 py-2.5 text-[11px] font-bold uppercase tracking-[0.18em] transition-colors sm:px-4 ${
+                    !isDeepDive
+                        ? 'bg-gold-primary text-white dark:bg-gold-light dark:text-[#1C2B36]'
+                        : 'bg-white/80 text-text-secondary hover:text-gold-primary dark:bg-dark-bg/40 dark:text-dark-text-secondary dark:hover:text-gold-light'
+                }`}
+            >
+                Commentary
+            </button>
+            <button
+                type="button"
+                onClick={() => setRightPanelMode('deep-dive')}
+                aria-pressed={isDeepDive}
+                title="Switch to text"
+                className={`inline-flex items-center justify-center px-3.5 py-2.5 text-[11px] font-bold uppercase tracking-[0.18em] transition-colors sm:px-4 ${
+                    isDeepDive
+                        ? 'bg-gold-primary text-white dark:bg-gold-light dark:text-[#1C2B36]'
+                        : 'bg-white/80 text-text-secondary hover:text-gold-primary dark:bg-dark-bg/40 dark:text-dark-text-secondary dark:hover:text-gold-light'
+                }`}
+            >
+                Text
+            </button>
+        </div>
     );
 
     return (
-        <header className={`sticky top-0 z-50 w-full border-b border-gold-primary/10 dark:border-dark-border/60 bg-white/72 dark:bg-[#070707]/72 backdrop-blur-2xl transition-colors duration-500 shadow-[0_10px_35px_-24px_rgba(0,0,0,0.45)] ${className}`}>
+        <header className={`sticky top-0 z-50 w-full border-b border-gold-primary/10 bg-white/72 shadow-[0_10px_35px_-24px_rgba(0,0,0,0.45)] backdrop-blur-2xl transition-colors duration-500 dark:border-dark-border/60 dark:bg-[#070707]/72 ${className}`}>
             <div className="mx-auto w-full max-w-7xl px-4 py-3 lg:px-6">
-                <div className="flex items-center justify-between gap-3 lg:hidden">
-                    {brand}
-                    {modeToggle}
-                </div>
-
-                <div className="mt-3 flex justify-center lg:hidden">
-                    <ChapterVerseSelector />
-                </div>
-
-                <div className="hidden lg:grid lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:items-center lg:gap-6">
-                    {brand}
-
-                    <div className="flex min-w-0 justify-center px-6">
-                        <ChapterVerseSelector />
+                <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+                    <div className="flex items-center justify-between gap-3 lg:min-w-0">
+                        {brand}
                     </div>
 
-                    <div className="flex justify-end">
-                        {modeToggle}
+                    <div className="w-full lg:w-auto">
+                        <div className="overflow-hidden rounded-[28px] border border-gold-primary/12 bg-white/90 shadow-[0_20px_60px_-36px_rgba(78,56,22,0.42)] backdrop-blur-xl dark:border-dark-border/70 dark:bg-dark-surface/88">
+                            <div className="flex min-w-0 items-stretch">
+                                <div className="min-w-0 flex-1">
+                                    <ChapterVerseSelector />
+                                </div>
+                                {modeToggle}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
