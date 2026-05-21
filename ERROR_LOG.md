@@ -58,3 +58,19 @@
 - summary: PowerShell execution policy blocked the initial typecheck command
 - details: `npx tsc --noEmit` failed once because `npx.ps1` was blocked by the local execution policy; the check will be rerun through the `.cmd` binary.
 - status: resolved
+
+- time: 2026-05-21 00:00 KST
+- location: verification -> `npm run build`
+- summary: PowerShell execution policy blocked the initial build command
+- details: `npm run build` failed once because `npm.ps1` was blocked by the local execution policy; the build was rerun successfully through `npm.cmd run build`.
+- status: resolved
+time: 2026-05-21 16:00 KST
+location: build verification
+summary: `npm run build` was blocked by PowerShell execution policy
+details: PowerShell refused to load `C:\Program Files\nodejs\npm.ps1`, so the verification command did not start. Re-run with `npm.cmd` instead.
+status: open
+time: 2026-05-21 16:01 KST
+location: build verification
+summary: build rerun succeeded with `npm.cmd run build`
+details: The project built successfully after bypassing the PowerShell wrapper.
+status: resolved

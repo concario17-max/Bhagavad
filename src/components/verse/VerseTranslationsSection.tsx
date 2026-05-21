@@ -5,6 +5,12 @@ interface VerseTranslationsSectionProps {
 }
 
 const VerseTranslationsSection = ({ sections }: VerseTranslationsSectionProps) => {
+    const translationSections = sections.filter(section => section.id === 'english' || section.id === 'ham');
+
+    if (translationSections.length === 0) {
+        return null;
+    }
+
     return (
         <section className="mb-10 rounded-[34px] border border-gold-primary/14 bg-white/70 px-4 py-7 shadow-[0_20px_80px_-52px_rgba(78,56,22,0.48)] backdrop-blur-xl dark:border-dark-border/70 dark:bg-dark-surface/72 sm:px-6 sm:py-8">
             <h2 className="mb-6 text-center font-inter text-[11px] font-semibold uppercase tracking-[0.3em] text-gold-muted dark:text-gold-muted">
@@ -12,7 +18,7 @@ const VerseTranslationsSection = ({ sections }: VerseTranslationsSectionProps) =
             </h2>
 
             <div className="space-y-4">
-                {sections.map(section => (
+                {translationSections.map(section => (
                     <div
                         key={section.id}
                         className="rounded-2xl border border-gold-primary/10 bg-white/65 px-4 py-5 shadow-sm dark:border-dark-border/50 dark:bg-dark-bg/42 sm:px-5"
