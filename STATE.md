@@ -1,28 +1,26 @@
 Current Task
-- task: merge chapter selector and mode toggle into one header pill
+- task: sync comics folders 6 through 8 into the repository
 - phase: implementation
-- scope: combine the chapter/verse selector with the commentary/text toggle into one segmented header control using `Text` for the right-side mode label
+- scope: add the new `comics/6`, `comics/7`, and `comics/8` image assets so the existing comic glob picks them up without code changes
 
 Route
 - route: Route B
-- reason: the change spans shared header UI, selector logic, and right-panel mode switching, so it crosses multiple files and shared state behavior
+- reason: the change spans shared asset directories with multiple new files, so it needs coordinated verification and repo publication
 
 Writer Slot
 - main: active
 - writer: `main` planner
 
 Contract Freeze
-- freeze: the header exposes one segmented control that combines chapter/verse selection with `Commentary/Text` mode switching, while the page layout and panel content stay functionally equivalent
+- freeze: keep the current `import.meta.glob('../../comics/*/*.png')` integration unchanged and only add the new chapter asset folders to the tracked repository state
 - write_sets:
-  - worker_shared: `src/components/Header.tsx`
-  - worker_shared: `src/components/ChapterVerseSelector.tsx`
-  - worker_shared: `src/context/UIContext.tsx`
-  - worker_shared: `src/pages/VerseView.tsx`
-  - worker_shared: `src/components/verse/VerseDeepDivePanel.tsx`
+  - worker_shared: `comics/6`
+  - worker_shared: `comics/7`
+  - worker_shared: `comics/8`
 
 Reviewer
 - reviewer: reviewer-pending
 
 Last Update
-- time: 2026-05-21 17:35 KST
-- note: merged header pill controls into explicit Commentary/Text chips and verified production build
+- time: 2026-05-22 00:00 KST
+- note: comics asset sync verified and queued for commit/push
