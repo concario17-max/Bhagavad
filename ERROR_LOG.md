@@ -93,3 +93,17 @@ status: resolved
 - summary: Verification completed after PowerShell policy fallback
 - details: The TypeScript compile check succeeded when rerun through `npm.cmd`, confirming the translation split changes compile cleanly.
 - status: resolved
+
+## 2026-05-23 12:30 KST
+- time: 2026-05-23 12:30 KST
+- location: `npm run build`
+- summary: PowerShell execution policy blocked the initial build command
+- details: `npm run build` failed before Vite started because `npm.ps1` is blocked by the local PowerShell execution policy. Re-run with `npm.cmd`.
+- status: open
+
+## 2026-05-23 12:30 KST
+- time: 2026-05-23 12:30 KST
+- location: `npm.cmd run build`
+- summary: Build verification succeeded after PowerShell fallback
+- details: The Vite production build completed successfully when rerun through `npm.cmd`, confirming the new comic assets are included in the bundle.
+- status: resolved

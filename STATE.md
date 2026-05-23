@@ -1,7 +1,7 @@
 Current Task
-- task: sync comics folders 6 through 8 into the repository
+- task: sync comics folders 9 through 11 into the repository
 - phase: implementation
-- scope: add the new `comics/6`, `comics/7`, and `comics/8` image assets so the existing comic glob picks them up without code changes
+- scope: add the new `comics/9`, `comics/10`, and `comics/11` image assets so the existing comic glob picks them up without code changes
 
 Route
 - route: Route B
@@ -14,13 +14,13 @@ Writer Slot
 Contract Freeze
 - freeze: keep the current `import.meta.glob('../../comics/*/*.png')` integration unchanged and only add the new chapter asset folders to the tracked repository state
 - write_sets:
-  - worker_shared: `comics/6`
-  - worker_shared: `comics/7`
-  - worker_shared: `comics/8`
+  - worker_shared: `comics/9`
+  - worker_shared: `comics/10`
+  - worker_shared: `comics/11`
 
 Reviewer
 - reviewer: reviewer-pending
 
 Last Update
-- time: 2026-05-22 00:00 KST
-- note: comics asset sync verified and queued for commit/push
+- time: 2026-05-23 12:30 KST
+- note: comics 9 through 11 asset sync is verified; existing glob already covers the integration path and the production build passed
