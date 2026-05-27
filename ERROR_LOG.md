@@ -122,3 +122,15 @@ location: npm run build
 summary: PowerShell execution policy blocked npm.ps1
 details: running the build via npm in PowerShell failed before compilation because script execution is disabled; will retry through npm.cmd
 status: resolved
+## 2026-05-27
+- time: 2026-05-27 12:53 KST
+- location: verification -> `npm run build`
+- summary: PowerShell execution policy blocked the initial build command
+- details: `npm run build` failed before compilation because `npm.ps1` is blocked by the local execution policy; rerun with `npm.cmd`.
+- status: resolved
+## 2026-05-27
+- time: 2026-05-27 12:57 KST
+- location: shell -> git add && git commit
+- summary: PowerShell rejected `&&` as a command separator
+- details: the combined git command failed because this shell version does not accept `&&`; rerun the same steps with `;` separators.
+- status: resolved
