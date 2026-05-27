@@ -7,7 +7,7 @@ import {
     setDesktopCommentaryPreference
 } from '../utils/storage';
 
-type RightPanelMode = 'summary' | 'translation' | 'keywords';
+type RightPanelMode = 'commentary' | 'deep-dive';
 
 interface UIContextType {
     isSidebarOpen: boolean;
@@ -35,7 +35,7 @@ export const UIProvider = ({ children }: UIProviderProps) => {
     const [isCommentaryPanelOpen, setIsCommentaryPanelOpen] = useState(false);
     const [isDesktopSidebarOpen, setIsDesktopSidebarOpen] = useState<boolean>(() => getBoolean(STORAGE_KEYS.desktopSidebar, true));
     const [isDesktopCommentaryPanelOpen, setIsDesktopCommentaryPanelOpen] = useState<boolean>(() => getDesktopCommentaryPreference());
-    const [rightPanelMode, setRightPanelMode] = useState<RightPanelMode>('summary');
+    const [rightPanelMode, setRightPanelMode] = useState<RightPanelMode>('commentary');
 
     const toggleSidebar = useCallback(() => {
         if (window.innerWidth < 1024) {
@@ -60,17 +60,7 @@ export const UIProvider = ({ children }: UIProviderProps) => {
     }, [isDesktopCommentaryPanelOpen]);
 
     const toggleRightPanelMode = useCallback(() => {
-        setRightPanelMode(previous => {
-            if (previous === 'summary') {
-                return 'translation';
-            }
-
-            if (previous === 'translation') {
-                return 'keywords';
-            }
-
-            return 'summary';
-        });
+        setRightPanelMode(previous => (previous === 'commentary' ? 'deep-dive' : 'commentary'));
     }, []);
 
     const closeAllDrawers = useCallback(() => {
