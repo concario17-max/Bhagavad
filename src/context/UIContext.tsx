@@ -1,8 +1,9 @@
-import { createContext, useCallback, useContext, useState, ReactNode, Dispatch, SetStateAction } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState, ReactNode, Dispatch, SetStateAction } from 'react';
+
 import {
     STORAGE_KEYS,
-    getDesktopCommentaryPreference,
     getBoolean,
+    getDesktopCommentaryPreference,
     setBoolean,
     setDesktopCommentaryPreference
 } from '../utils/storage';
@@ -30,34 +31,48 @@ interface UIProviderProps {
     children: ReactNode;
 }
 
+const isDesktopViewport = (): boolean => typeof window !== 'undefined' && window.innerWidth >= 1024;
+
 export const UIProvider = ({ children }: UIProviderProps) => {
-    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const [isCommentaryPanelOpen, setIsCommentaryPanelOpen] = useState(false);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(() => getBoolean(STORAGE_KEYS.mobileSidebar, false));
+    const [isCommentaryPanelOpen, setIsCommentaryPanelOpen] = useState(() => getBoolean(STORAGE_KEYS.mobileCommentary, false));
     const [isDesktopSidebarOpen, setIsDesktopSidebarOpen] = useState<boolean>(() => getBoolean(STORAGE_KEYS.desktopSidebar, true));
     const [isDesktopCommentaryPanelOpen, setIsDesktopCommentaryPanelOpen] = useState<boolean>(() => getDesktopCommentaryPreference());
     const [rightPanelMode, setRightPanelMode] = useState<RightPanelMode>('commentary');
 
-    const toggleSidebar = useCallback(() => {
-        if (window.innerWidth < 1024) {
-            setIsSidebarOpen(prev => !prev);
-            return;
-        }
+    useEffect(() => {
+        setBoolean(STORAGE_KEYS.mobileSidebar, isSidebarOpen);
+    }, [isSidebarOpen]);
 
-        const newState = !isDesktopSidebarOpen;
-        setIsDesktopSidebarOpen(newState);
-        setBoolean(STORAGE_KEYS.desktopSidebar, newState);
+    useEffect(() => {
+        setBoolean(STORAGE_KEYS.mobileCommentary, isCommentaryPanelOpen);
+    }, [isCommentaryPanelOpen]);
+
+    useEffect(() => {
+        setBoolean(STORAGE_KEYS.desktopSidebar, isDesktopSidebarOpen);
     }, [isDesktopSidebarOpen]);
 
-    const toggleCommentaryPanel = useCallback((forceOpen = false): void => {
-        if (window.innerWidth < 1024) {
-            setIsCommentaryPanelOpen(prev => (forceOpen ? true : !prev));
+    useEffect(() => {
+        setDesktopCommentaryPreference(isDesktopCommentaryPanelOpen);
+    }, [isDesktopCommentaryPanelOpen]);
+
+    const toggleSidebar = useCallback(() => {
+        if (!isDesktopViewport()) {
+            setIsSidebarOpen(previous => !previous);
             return;
         }
 
-        const newState = forceOpen ? true : !isDesktopCommentaryPanelOpen;
-        setIsDesktopCommentaryPanelOpen(newState);
-        setDesktopCommentaryPreference(newState);
-    }, [isDesktopCommentaryPanelOpen]);
+        setIsDesktopSidebarOpen(previous => !previous);
+    }, []);
+
+    const toggleCommentaryPanel = useCallback((forceOpen = false): void => {
+        if (!isDesktopViewport()) {
+            setIsCommentaryPanelOpen(previous => (forceOpen ? true : !previous));
+            return;
+        }
+
+        setIsDesktopCommentaryPanelOpen(previous => (forceOpen ? true : !previous));
+    }, []);
 
     const toggleRightPanelMode = useCallback(() => {
         setRightPanelMode(previous => (previous === 'commentary' ? 'deep-dive' : 'commentary'));
@@ -68,21 +83,33 @@ export const UIProvider = ({ children }: UIProviderProps) => {
         setIsCommentaryPanelOpen(false);
     }, []);
 
+    const value = useMemo<UIContextType>(() => ({
+        isSidebarOpen,
+        setIsSidebarOpen,
+        isDesktopSidebarOpen,
+        toggleSidebar,
+        isCommentaryPanelOpen,
+        setIsCommentaryPanelOpen,
+        isDesktopCommentaryPanelOpen,
+        toggleCommentaryPanel,
+        rightPanelMode,
+        setRightPanelMode,
+        toggleRightPanelMode,
+        closeAllDrawers
+    }), [
+        closeAllDrawers,
+        isCommentaryPanelOpen,
+        isDesktopCommentaryPanelOpen,
+        isDesktopSidebarOpen,
+        isSidebarOpen,
+        rightPanelMode,
+        toggleCommentaryPanel,
+        toggleRightPanelMode,
+        toggleSidebar
+    ]);
+
     return (
-        <UIContext.Provider value={{
-            isSidebarOpen,
-            setIsSidebarOpen,
-            isDesktopSidebarOpen,
-            toggleSidebar,
-            isCommentaryPanelOpen,
-            setIsCommentaryPanelOpen,
-            isDesktopCommentaryPanelOpen,
-            toggleCommentaryPanel,
-            rightPanelMode,
-            setRightPanelMode,
-            toggleRightPanelMode,
-            closeAllDrawers
-        }}>
+        <UIContext.Provider value={value}>
             {children}
         </UIContext.Provider>
     );

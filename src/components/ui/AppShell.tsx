@@ -24,21 +24,22 @@ export const AppShell = React.memo(({
         : undefined;
 
     return (
-        <div className="h-[100dvh] flex flex-col bg-gold-bg dark:bg-dark-bg transition-colors duration-500 relative selection:bg-gold-primary/20 selection:text-text-primary dark:selection:text-dark-text-primary overflow-hidden">
-            <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(255,255,255,0.65)_0%,_transparent_80%)] dark:bg-[radial-gradient(ellipse_at_top,_rgba(255,255,255,0.04)_0%,_transparent_80%)] z-0"></div>
+        <div className="relative flex h-[100dvh] flex-col overflow-hidden bg-[radial-gradient(circle_at_top,_rgba(226,208,177,0.34),_transparent_30%),linear-gradient(180deg,#fdfbf7_0%,#fbf7f0_100%)] text-text-primary transition-colors duration-500 selection:bg-gold-primary/20 selection:text-text-primary dark:bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.04),_transparent_26%),linear-gradient(180deg,#0a0a0a_0%,#111111_100%)] dark:text-dark-text-primary dark:selection:text-dark-text-primary">
+            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(115deg,rgba(255,255,255,0.36)_0%,transparent_22%,transparent_78%,rgba(255,255,255,0.18)_100%)] opacity-70 dark:bg-[linear-gradient(115deg,rgba(255,255,255,0.04)_0%,transparent_22%,transparent_78%,rgba(255,255,255,0.02)_100%)]" />
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-[radial-gradient(circle_at_top,_rgba(166,139,92,0.22),_transparent_70%)] blur-2xl dark:bg-[radial-gradient(circle_at_top,_rgba(197,174,135,0.08),_transparent_72%)]" />
 
-            <div className="relative z-10 flex flex-col flex-1 h-full overflow-hidden">
+            <div className="relative z-10 flex h-full min-h-0 flex-col">
                 {header}
                 <div
                     data-testid="app-shell-grid"
-                    className={`flex flex-1 relative overflow-hidden ${desktopGridColumns ? 'lg:grid lg:[grid-template-columns:var(--desktop-verse-columns)]' : ''}`}
+                    className={`relative flex min-h-0 flex-1 overflow-hidden ${desktopGridColumns ? 'lg:grid lg:[grid-template-columns:var(--desktop-verse-columns)]' : ''}`}
                     style={desktopGridStyle}
                 >
                     {sidebar}
                     <main
                         id="main-scroll-container"
                         data-testid="main-scroll-container"
-                        className={`flex-1 min-w-0 w-full lg:w-auto custom-scrollbar flex flex-col min-h-full ${isMobilePanelOpen ? 'overflow-hidden touch-none' : 'overflow-y-auto'} ${desktopGridColumns ? 'lg:col-start-2 lg:w-full' : ''}`}
+                        className={`flex min-h-0 w-full min-w-0 flex-1 flex-col custom-scrollbar ${isMobilePanelOpen ? 'overflow-hidden touch-none' : 'overflow-y-auto'} ${desktopGridColumns ? 'lg:col-start-2 lg:w-full' : ''}`}
                     >
                         {children}
                     </main>

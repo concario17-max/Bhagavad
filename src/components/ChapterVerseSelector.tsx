@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { matchPath, useLocation, useNavigate } from 'react-router-dom';
+
 import { fetchGitaData } from '../utils/dataFetcher';
 import { getChapterMeta } from '../utils/chapterMeta';
 import { getVerseRange } from '../utils/verse';
@@ -11,6 +12,7 @@ const ChapterVerseSelector = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const verseRouteMatch = matchPath(VERSE_ROUTE_PATTERN, location.pathname);
+    const chapterRouteMatch = matchPath('/chapter/:chapterNum', location.pathname);
 
     const [chapters, setChapters] = useState<GitaChapter[]>([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -46,12 +48,18 @@ const ChapterVerseSelector = () => {
 
     useEffect(() => {
         if (!verseRouteMatch?.params.chapterNum || !verseRouteMatch.params.verseNum) {
+            if (!chapterRouteMatch?.params.chapterNum) {
+                return;
+            }
+
+            setSelectedChapter(chapterRouteMatch.params.chapterNum);
+            setSelectedVerse('');
             return;
         }
 
         setSelectedChapter(verseRouteMatch.params.chapterNum);
         setSelectedVerse(verseRouteMatch.params.verseNum);
-    }, [verseRouteMatch?.params.chapterNum, verseRouteMatch?.params.verseNum]);
+    }, [chapterRouteMatch?.params.chapterNum, verseRouteMatch?.params.chapterNum, verseRouteMatch?.params.verseNum]);
 
     const selectedChapterData = useMemo(() => {
         if (!selectedChapter) {
@@ -93,6 +101,10 @@ const ChapterVerseSelector = () => {
     const handleChapterChange = (value: string) => {
         setSelectedChapter(value);
         setSelectedVerse('');
+
+        if (value) {
+            navigate(`/chapter/${value}`);
+        }
     };
 
     const handleVerseChange = (value: string) => {
@@ -107,7 +119,7 @@ const ChapterVerseSelector = () => {
 
     return (
         <div className="grid min-w-0 grid-cols-2 divide-x divide-gold-primary/12 dark:divide-dark-border/70">
-            <label className="flex min-w-0 flex-col gap-1.5 px-3 py-2.5 text-left sm:px-4">
+            <label className="flex min-w-0 flex-col gap-1 px-3 py-2.5 text-left sm:px-4">
                 <span className="text-[9px] font-black uppercase tracking-[0.24em] text-gold-primary/80 dark:text-gold-light/80">
                     Chapter
                 </span>
@@ -127,7 +139,7 @@ const ChapterVerseSelector = () => {
                 </select>
             </label>
 
-            <label className="flex min-w-0 flex-col gap-1.5 px-3 py-2.5 text-left sm:px-4">
+            <label className="flex min-w-0 flex-col gap-1 px-3 py-2.5 text-left sm:px-4">
                 <span className="text-[9px] font-black uppercase tracking-[0.24em] text-gold-primary/80 dark:text-gold-light/80">
                     Verse
                 </span>

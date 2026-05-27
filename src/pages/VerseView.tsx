@@ -1,21 +1,13 @@
 import { useEffect, useLayoutEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import VerseCommentary from '../components/VerseCommentary';
-import VerseDeepDivePanel from '../components/verse/VerseDeepDivePanel';
+
 import VerseMessageState from '../components/verse/VerseMessageState';
+import VersePrimaryCard from '../components/verse/VersePrimaryCard';
 import VerseTranslationsSection from '../components/verse/VerseTranslationsSection';
 import { ContentReader } from '../components/ui/ContentReader';
-import { useUI } from '../context/UIContext';
 import { useVerseData } from '../context/VerseDataContext';
-import { getDeepDiveTranslationDefinitions, getLeftTranslationDefinitions } from '../utils/content';
-import { withBasePath } from '../utils/paths';
-import { getNextVersePath, getPreviousVersePath } from '../utils/verse';
-
-type RightPanelMode = 'commentary' | 'deep-dive';
-
-const RIGHT_PANEL_STORAGE_PREFIX = 'gita:verse-right-panel-mode';
-
-const getRightPanelStorageKey = (chapterNum: string, verseRange: string) => `${RIGHT_PANEL_STORAGE_PREFIX}:${chapterNum}:${verseRange}`;
+import { getLeftTranslationDefinitions } from '../utils/content';
+import { scrollAppContainerToTop } from '../utils/paths';
 
 const VerseView = () => {
     const navigate = useNavigate();
@@ -31,7 +23,6 @@ const VerseView = () => {
         verseData,
         verseRange
     } = useVerseData();
-    const { rightPanelMode, setRightPanelMode } = useUI();
 
     useEffect(() => {
         if (!resolvedVerseNumber || resolvedVerseNumber === requestedVerseNumber) {
@@ -42,29 +33,25 @@ const VerseView = () => {
     }, [chapterNum, navigate, requestedVerseNumber, resolvedVerseNumber]);
 
     useLayoutEffect(() => {
-        if (typeof window === 'undefined' || !chapterNum || !verseRange) {
-            return;
-        }
-
-        const savedMode = window.localStorage.getItem(getRightPanelStorageKey(chapterNum, verseRange));
-        if (savedMode === 'commentary' || savedMode === 'deep-dive') {
-            setRightPanelMode(savedMode as RightPanelMode);
-            return;
-        }
-
-        setRightPanelMode('commentary');
-    }, [chapterNum, setRightPanelMode, verseRange]);
-
-    useEffect(() => {
-        if (typeof window === 'undefined' || !chapterNum || !verseRange) {
-            return;
-        }
-
-        window.localStorage.setItem(getRightPanelStorageKey(chapterNum, verseRange), rightPanelMode);
-    }, [chapterNum, rightPanelMode, verseRange]);
+        scrollAppContainerToTop();
+    }, [chapterNum, verseRange]);
 
     if (status === 'loading') {
-        return <div className="min-h-screen flex items-center justify-center bg-gold-bg dark:bg-dark-bg"><div className="w-8 h-8 border-4 border-gold-primary border-t-transparent rounded-full animate-spin"></div></div>;
+        return (
+            <ContentReader maxWidth="max-w-[1120px]">
+                <div className="flex min-h-[60vh] items-center justify-center">
+                    <div className="w-full max-w-2xl rounded-[34px] border border-gold-primary/14 bg-white/72 px-6 py-12 text-center shadow-[0_20px_80px_-52px_rgba(78,56,22,0.48)] backdrop-blur-xl dark:border-dark-border/70 dark:bg-dark-surface/72 sm:px-10">
+                        <div className="mx-auto h-12 w-12 animate-spin rounded-full border-4 border-gold-primary border-t-transparent" />
+                        <p className="mt-6 font-crimson text-3xl font-light tracking-[0.08em] text-text-primary dark:text-dark-text-primary">
+                            Loading verse
+                        </p>
+                        <p className="mt-4 text-[15px] leading-8 text-text-secondary dark:text-dark-text-secondary">
+                            Preparing the chapter and commentary panels.
+                        </p>
+                    </div>
+                </div>
+            </ContentReader>
+        );
     }
 
     if (status !== 'ready' || !allChapters || !currentChapter || !verseData) {
@@ -78,45 +65,22 @@ const VerseView = () => {
         );
     }
 
-    const previousVersePath = getPreviousVersePath(allChapters, chapterNum, verseData);
-    const nextVersePath = getNextVersePath(allChapters, chapterNum, verseData);
-    const audioFilename = verseData.audio?.split('/').pop();
-    const audioSrc = audioFilename ? withBasePath(`mp3/${audioFilename}`) : undefined;
     const leftTranslationSections = getLeftTranslationDefinitions(verseData);
-    const deepDiveTranslationSections = getDeepDiveTranslationDefinitions(verseData);
-    const isCommentaryMode = rightPanelMode === 'commentary';
 
     return (
-        <div className="mx-auto h-full min-h-0 w-full max-w-[1840px] px-3 py-6 sm:px-5 lg:px-6 lg:py-4 lg:overflow-hidden">
-            <div className="flex min-h-0 w-full flex-col gap-8 lg:grid lg:h-full lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:gap-6">
-                <div className="min-w-0 lg:min-h-0 lg:overflow-y-auto lg:pr-2">
-                    <VerseTranslationsSection sections={leftTranslationSections} />
-                </div>
+        <div className="mx-auto w-full max-w-[1120px] px-4 py-6 transition-colors duration-500 sm:px-6 lg:px-8 lg:py-6">
+            <div className="mb-5 space-y-1">
+                <p className="text-[10px] font-black uppercase tracking-[0.28em] text-gold-primary/70 dark:text-gold-light/70">
+                    Chapter {currentChapterNumber}
+                </p>
+                <h1 className="font-crimson text-2xl font-light tracking-[0.08em] text-text-primary dark:text-dark-text-primary sm:text-3xl">
+                    Verse {verseRange}
+                </h1>
+            </div>
 
-                <div className="min-w-0 lg:min-h-0 lg:overflow-y-auto lg:pl-2">
-                    {isCommentaryMode ? (
-                        <VerseCommentary />
-                    ) : (
-                        <VerseDeepDivePanel
-                            audioSrc={audioSrc}
-                            canGoNext={nextVersePath !== null}
-                            canGoPrevious={previousVersePath !== null}
-                            onNext={() => {
-                                if (nextVersePath) {
-                                    navigate(nextVersePath);
-                                }
-                            }}
-                            onPrevious={() => {
-                                if (previousVersePath) {
-                                    navigate(previousVersePath);
-                                }
-                            }}
-                            translationSections={deepDiveTranslationSections}
-                            verse={verseData}
-                            verseLabel={`${currentChapterNumber}.${verseRange}`}
-                        />
-                    )}
-                </div>
+            <div className="space-y-6">
+                <VersePrimaryCard verse={verseData} />
+                <VerseTranslationsSection sections={leftTranslationSections} />
             </div>
         </div>
     );

@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 export interface NavItemType {
@@ -26,44 +26,51 @@ interface SidebarMenuProps {
 }
 
 /**
- * 범용 아코디언 메뉴 시스템 (Zero Monolith)
- * - 특정 도메인(Gita)에 종속되지 않고 라우팅 배열만 받아서 처리
+ * Shared accordion navigation.
+ * - It only knows about routing data and renders generically.
  */
 export const SidebarMenu = React.memo(({ groups, onItemClick, groupTitle }: SidebarMenuProps) => {
+    const activeGroup = groups.find(group => group.isExpanded);
+
     return (
         <>
-            {/* Top Half: Groups */}
-            <div className="basis-[30%] overflow-y-auto border-b border-gold-border/40 dark:border-[#222] custom-scrollbar min-h-0 overscroll-contain">
+            <div className="basis-[31%] min-h-0 overflow-y-auto border-b border-gold-border/35 custom-scrollbar overscroll-contain dark:border-dark-border/60">
                 {groupTitle && (
-                    <div className="p-4 bg-transparent sticky top-0 z-10 backdrop-blur-sm hidden lg:block">
-                        <h2 className="text-xs font-bold text-text-primary/70 dark:text-dark-text-primary/70">
+                    <div className="sticky top-0 z-10 hidden border-b border-gold-border/20 bg-white/78 px-4 py-4 backdrop-blur-sm dark:border-dark-border/50 dark:bg-[#101010]/70 lg:block">
+                        <h2 className="text-xs font-bold uppercase tracking-[0.24em] text-text-primary/70 dark:text-dark-text-primary/70">
                             {groupTitle}
                         </h2>
                     </div>
                 )}
 
-                <div className="py-1 px-2 space-y-0.5">
-                    {groups.map((group) => (
+                <div className="space-y-1 px-2 py-2">
+                    {groups.map(group => (
                         <button
                             key={group.id}
+                            type="button"
                             onClick={group.onToggle}
-                            className={`w-full flex items-start justify-between gap-1.5 px-2 py-1.5 sm:px-1.5 sm:py-1 rounded-lg text-left transition-colors ${group.isExpanded
-                                    ? 'bg-white/60 dark:bg-dark-bg/60 shadow-sm border border-gold-primary/20 text-[#1C2B36] dark:text-gold-light'
-                                    : 'text-[#5B7282] dark:text-dark-text-secondary hover:bg-gold-surface/40 dark:hover:bg-dark-bg/40 border border-transparent'
-                                }`}
+                            className={`flex w-full items-start justify-between gap-2 rounded-[18px] border px-3 py-2.5 text-left transition-all duration-300 hover:-translate-y-px ${
+                                group.isExpanded
+                                    ? 'border-gold-primary/25 bg-white/88 text-text-primary shadow-[0_14px_28px_-22px_rgba(78,56,22,0.45)] dark:border-gold-light/20 dark:bg-dark-surface/88 dark:text-dark-text-primary'
+                                    : 'border-transparent text-text-secondary hover:border-gold-primary/15 hover:bg-gold-surface/35 hover:text-text-primary dark:text-dark-text-secondary dark:hover:border-dark-border/60 dark:hover:bg-dark-bg/40'
+                            }`}
                         >
-                            <div className="flex-1 pr-1 flex flex-col pt-0">
-                                <span className={`text-[14px] sm:text-[13px] leading-snug font-inter break-keep ${group.isExpanded ? 'font-bold text-[#1C2B36]' : 'font-bold'}`}>
+                            <div className="min-w-0 flex-1">
+                                <span className={`block break-keep text-[14px] font-bold leading-snug ${group.isExpanded ? 'text-text-primary dark:text-dark-text-primary' : ''}`}>
                                     {group.title}
                                 </span>
                                 {group.subtitle && (
-                                    <span className={`text-[12px] sm:text-[11.5px] font-inter break-keep mt-0 ${group.isExpanded ? 'opacity-50 text-[#1C2B36] font-medium' : 'opacity-60 font-medium'}`}>
+                                    <span className={`mt-1 block break-keep text-[12px] leading-snug ${group.isExpanded ? 'text-text-secondary dark:text-dark-text-secondary' : 'text-text-secondary/75 dark:text-dark-text-secondary/75'}`}>
                                         {group.subtitle}
                                     </span>
                                 )}
                             </div>
                             {group.badge && (
-                                <span className={`shrink-0 mt-0 text-[#A68B5C] px-1.5 py-0.5 rounded text-[11px] font-bold ${group.isExpanded ? 'opacity-100' : 'opacity-70'}`}>
+                                <span className={`shrink-0 rounded-full px-2 py-1 text-[11px] font-bold tracking-wide ${
+                                    group.isExpanded
+                                        ? 'bg-gold-primary text-white dark:bg-gold-light dark:text-[#1C2B36]'
+                                        : 'bg-gold-surface/70 text-gold-primary dark:bg-dark-bg/60 dark:text-gold-light'
+                                }`}>
                                     {group.badge}
                                 </span>
                             )}
@@ -72,35 +79,35 @@ export const SidebarMenu = React.memo(({ groups, onItemClick, groupTitle }: Side
                 </div>
             </div>
 
-            {/* Bottom Half: Items */}
-            <div className="basis-[70%] overflow-y-auto bg-transparent custom-scrollbar min-h-0 overscroll-contain">
-                <div className="py-1 px-2 space-y-0">
-                    {groups.find(g => g.isExpanded) ? (
-                        groups.find(g => g.isExpanded)?.items.map((item) => (
+            <div className="basis-[69%] min-h-0 overflow-y-auto custom-scrollbar overscroll-contain">
+                <div className="space-y-1 px-2 py-2">
+                    {activeGroup ? (
+                        activeGroup.items.map(item => (
                             <NavLink
                                 key={item.id}
                                 to={item.href}
                                 onClick={onItemClick}
                                 className={({ isActive }) =>
-                                    `flex items-start gap-2 px-3 py-2 sm:px-2 sm:py-1.5 rounded-lg text-sm transition-all ${isActive || item.isActive
-                                        ? 'bg-white/60 border border-gold-primary/30 text-text-primary font-medium shadow-sm dark:bg-dark-bg/60 dark:border-gold-primary/20 dark:text-gold-light'
-                                        : 'border border-transparent text-text-secondary dark:text-dark-text-secondary hover:text-text-primary hover:bg-gold-surface/30 dark:hover:bg-dark-bg/40'
+                                    `flex items-start gap-3 rounded-[18px] border px-3 py-2.5 text-sm transition-all duration-300 hover:-translate-y-px ${
+                                        isActive || item.isActive
+                                            ? 'border-gold-primary/25 bg-white/88 text-text-primary shadow-[0_14px_28px_-22px_rgba(78,56,22,0.45)] dark:border-gold-light/20 dark:bg-dark-surface/88 dark:text-dark-text-primary'
+                                            : 'border-transparent text-text-secondary hover:border-gold-primary/15 hover:bg-gold-surface/30 hover:text-text-primary dark:text-dark-text-secondary dark:hover:border-dark-border/60 dark:hover:bg-dark-bg/40'
                                     }`
                                 }
                             >
-                                <span className={`min-w-[45px] whitespace-nowrap font-bold text-xs sm:text-[13px] mt-[2px] ${item.isActive ? 'text-gold-primary' : 'text-text-secondary/60 dark:text-dark-text-secondary/60'}`}>
+                                <span className={`min-w-[3.5rem] shrink-0 whitespace-nowrap font-bold text-xs tracking-wide ${item.isActive ? 'text-gold-primary dark:text-gold-light' : 'text-text-secondary/75 dark:text-dark-text-secondary/75'}`}>
                                     {item.label}
                                 </span>
                                 {item.description && (
-                                    <span className="truncate opacity-90 text-[14px] sm:text-[13px] leading-relaxed font-inter">
+                                    <span className="truncate text-[13px] leading-relaxed text-inherit">
                                         {item.description}
                                     </span>
                                 )}
                             </NavLink>
                         ))
                     ) : (
-                        <div className="p-8 text-center text-text-secondary dark:text-dark-text-secondary text-sm">
-                            항목을 선택해주세요
+                        <div className="px-4 py-10 text-center text-sm text-text-secondary dark:text-dark-text-secondary">
+                            Select an item
                         </div>
                     )}
                 </div>

@@ -1,5 +1,6 @@
 import { BookImage, BookOpenText } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
+
 import { useVerseData } from '../context/VerseDataContext';
 import { parseCommentaryDocument } from '../utils/commentary';
 
@@ -95,49 +96,52 @@ const VerseCommentary = () => {
     const shouldShowInlineHeading = !isHiddenInlineHeadingVerse && parsedCommentary?.inlineHeading !== null;
 
     return (
-        <section className="rounded-[34px] border border-gold-primary/15 bg-white/72 p-4 shadow-[0_22px_80px_-48px_rgba(78,56,22,0.52)] backdrop-blur-xl dark:border-dark-border/70 dark:bg-dark-surface/72 sm:p-6">
-            <div className="mb-5 border-b border-gold-border/30 pb-3">
-                <div className="flex items-center justify-between gap-3">
+        <section className="rounded-[32px] border border-gold-primary/14 bg-white/72 p-4 shadow-[0_22px_80px_-48px_rgba(78,56,22,0.52)] backdrop-blur-xl dark:border-dark-border/70 dark:bg-dark-surface/72 sm:p-5 lg:p-6">
+            <div className="mb-5 flex items-start justify-between gap-3 border-b border-gold-border/30 pb-4">
+                <div className="space-y-2">
                     <div className="flex items-center gap-2">
                         <BookOpenText className="h-5 w-5 text-[#A68B5C] dark:text-gold-light" />
-                        <h2 className="text-sm font-bold tracking-wide text-[#1C2B36] dark:text-dark-text-primary">Commentary</h2>
+                        <h2 className="text-sm font-bold tracking-[0.18em] text-[#1C2B36] uppercase dark:text-dark-text-primary">
+                            Commentary
+                        </h2>
                     </div>
-                    <button
-                        type="button"
-                        onClick={handleToggleMode}
-                        disabled={!hasComicImage}
-                        aria-pressed={effectiveMode === 'comic'}
-                        title={toggleTitle}
-                        className="inline-flex items-center gap-2 rounded-full border border-gold-border/60 bg-white/80 px-3 py-1.5 text-xs font-semibold tracking-wide text-[#5A4630] transition hover:border-gold-primary/40 hover:text-gold-primary disabled:cursor-not-allowed disabled:opacity-40 dark:border-dark-border/70 dark:bg-dark-bg/50 dark:text-dark-text-secondary dark:hover:text-gold-light"
-                    >
-                        {effectiveMode === 'comic' ? (
-                            <BookImage className="h-4 w-4" aria-hidden="true" />
-                        ) : (
-                            <BookOpenText className="h-4 w-4" aria-hidden="true" />
-                        )}
-                        <span>{toggleLabel}</span>
-                    </button>
-                </div>
-                {chapterNum && verseRange && (
-                    <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-bold tracking-wider text-[#8FA0AD]">
-                        <span>
-                            {chapterNum}.{verseRange}
-                        </span>
-                        {shouldShowInlineHeading && parsedCommentary?.inlineHeading && (
-                            <span className="text-[11px] font-semibold tracking-normal text-text-secondary dark:text-dark-text-secondary">
-                                {parsedCommentary.inlineHeading}
+                    {chapterNum && verseRange && (
+                        <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-bold tracking-wider text-[#8FA0AD]">
+                            <span>
+                                {chapterNum}.{verseRange}
                             </span>
-                        )}
-                    </div>
-                )}
+                            {shouldShowInlineHeading && parsedCommentary?.inlineHeading && (
+                                <span className="text-[11px] font-semibold tracking-normal text-text-secondary dark:text-dark-text-secondary">
+                                    {parsedCommentary.inlineHeading}
+                                </span>
+                            )}
+                        </div>
+                    )}
+                </div>
+
+                <button
+                    type="button"
+                    onClick={handleToggleMode}
+                    disabled={!hasComicImage}
+                    aria-pressed={effectiveMode === 'comic'}
+                    title={toggleTitle}
+                    className="inline-flex items-center gap-2 rounded-full border border-gold-border/60 bg-white/82 px-3 py-1.5 text-xs font-semibold tracking-wide text-[#5A4630] transition hover:border-gold-primary/40 hover:text-gold-primary disabled:cursor-not-allowed disabled:opacity-40 dark:border-dark-border/70 dark:bg-dark-bg/50 dark:text-dark-text-secondary dark:hover:text-gold-light"
+                >
+                    {effectiveMode === 'comic' ? (
+                        <BookImage className="h-4 w-4" aria-hidden="true" />
+                    ) : (
+                        <BookOpenText className="h-4 w-4" aria-hidden="true" />
+                    )}
+                    <span>{toggleLabel}</span>
+                </button>
             </div>
 
             {status === 'error' ? (
-                <div className="rounded-2xl border border-dashed border-gold-primary/20 bg-white/40 px-5 py-8 text-center text-sm leading-relaxed text-text-secondary dark:border-dark-border/50 dark:bg-dark-bg/40 dark:text-dark-text-secondary">
+                <div className="rounded-[24px] border border-dashed border-gold-primary/20 bg-white/42 px-5 py-8 text-center text-sm leading-relaxed text-text-secondary dark:border-dark-border/50 dark:bg-dark-bg/40 dark:text-dark-text-secondary">
                     {errorMessage ?? 'Commentary is unavailable because the verse data could not be loaded.'}
                 </div>
             ) : shouldShowComic && comicImageSrc ? (
-                <div className="overflow-hidden rounded-2xl border border-gold-primary/10 bg-white/70 dark:border-dark-border/50 dark:bg-dark-bg/30">
+                <div className="overflow-hidden rounded-[24px] border border-gold-primary/10 bg-white/70 dark:border-dark-border/50 dark:bg-dark-bg/30">
                     <img
                         src={comicImageSrc}
                         alt={`${chapterNum}.${verseRange} comic page`}
@@ -164,13 +168,13 @@ const VerseCommentary = () => {
                             <ul key={`bullet-${index}`} className="space-y-2">
                                 {block.items.map((item, itemIndex) => (
                                     <li key={`bullet-item-${index}-${itemIndex}`} className="flex gap-2">
-                                        <span className="shrink-0 text-gold-primary dark:text-gold-light">·</span>
+                                        <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-gold-primary dark:bg-gold-light" />
                                         <span>{item}</span>
                                     </li>
                                 ))}
                             </ul>
                         ) : (
-                            <div key={`table-${index}`} className="overflow-x-auto rounded-xl border border-gold-primary/10">
+                            <div key={`table-${index}`} className="overflow-x-auto rounded-[20px] border border-gold-primary/10">
                                 <table className="min-w-full border-collapse text-left text-[13px]">
                                     <tbody>
                                         {block.rows.map((row, rowIndex) => (
@@ -189,10 +193,12 @@ const VerseCommentary = () => {
                     )}
                 </div>
             ) : (
-                <div className="rounded-2xl border border-dashed border-gold-primary/20 bg-white/40 px-5 py-8 text-center text-sm leading-relaxed text-text-secondary dark:border-dark-border/50 dark:bg-dark-bg/40 dark:text-dark-text-secondary">
-                    The current source data does not include readable commentary for this verse yet.
-                    <p className="mt-3 text-xs leading-6 text-text-secondary/80 dark:text-dark-text-secondary/80">
-                        This panel stays available so upgraded commentary sources can appear here without changing the reading layout.
+                <div className="rounded-[24px] border border-dashed border-gold-primary/20 bg-white/42 px-5 py-8 text-center text-sm leading-relaxed text-text-secondary dark:border-dark-border/50 dark:bg-dark-bg/40 dark:text-dark-text-secondary">
+                    <p className="text-base font-semibold tracking-wide text-text-primary dark:text-dark-text-primary">
+                        No readable commentary yet
+                    </p>
+                    <p className="mt-3">
+                        The reading layout stays in place, and this panel is ready for a displayable commentary source or the comic page for this verse.
                     </p>
                 </div>
             )}
