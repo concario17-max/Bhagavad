@@ -134,3 +134,21 @@ status: resolved
 - summary: PowerShell rejected `&&` as a command separator
 - details: the combined git command failed because this shell version does not accept `&&`; rerun the same steps with `;` separators.
 - status: resolved
+## 2026-05-27
+- time: 2026-05-27 13:05 KST
+- location: verification -> `npm run build`
+- summary: PowerShell execution policy blocked the initial build command
+- details: `npm run build` failed before Vite started because `npm.ps1` is blocked by the local execution policy; the build completed successfully when rerun with `npm.cmd run build`.
+- status: resolved
+## 2026-05-27
+- time: 2026-05-27 13:42 KST
+- location: verification -> `npm.cmd run test:e2e`
+- summary: e2e selectors were stale after the header refactor
+- details: the test suite still expected the old chapter/verse text and the old single `aria-pressed` toggle, so it timed out until the checks were updated to match the new chip header and mode buttons.
+- status: resolved
+## 2026-05-27
+- time: 2026-05-27 14:08 KST
+- location: verification -> `cmd /c npm run test:e2e`
+- summary: e2e smoke failed waiting for the chapter/verse breadcrumb
+- details: the run timed out on `text=Chapter 1, Verse 1`, which is no longer rendered by the current verse route shell; the header redesign removed the visible route label that the smoke test still expects.
+- status: open

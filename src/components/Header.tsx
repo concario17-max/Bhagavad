@@ -34,16 +34,16 @@ const Header = ({
     );
 
     const modeToggle = (
-        <div className="inline-flex items-stretch border-l border-gold-primary/12 dark:border-dark-border/70">
+        <div className="inline-flex w-full items-stretch overflow-hidden rounded-[22px] border border-gold-primary/12 bg-white/84 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] dark:border-dark-border/70 dark:bg-dark-surface/84 sm:w-auto">
             <button
                 type="button"
                 onClick={() => setRightPanelMode('commentary')}
                 aria-pressed={!isDeepDive}
                 title="Switch to commentary"
-                className={`inline-flex items-center justify-center px-3.5 py-2.5 text-[11px] font-bold uppercase tracking-[0.18em] transition-colors sm:px-4 ${
+                className={`inline-flex flex-1 items-center justify-center px-3.5 py-2.5 text-[11px] font-bold uppercase tracking-[0.18em] transition-colors sm:flex-none sm:px-4 ${
                     !isDeepDive
                         ? 'bg-gold-primary text-white dark:bg-gold-light dark:text-[#1C2B36]'
-                        : 'bg-white/80 text-text-secondary hover:text-gold-primary dark:bg-dark-bg/40 dark:text-dark-text-secondary dark:hover:text-gold-light'
+                        : 'bg-transparent text-text-secondary hover:text-gold-primary dark:text-dark-text-secondary dark:hover:text-gold-light'
                 }`}
             >
                 Commentary
@@ -53,10 +53,10 @@ const Header = ({
                 onClick={() => setRightPanelMode('deep-dive')}
                 aria-pressed={isDeepDive}
                 title="Switch to text"
-                className={`inline-flex items-center justify-center px-3.5 py-2.5 text-[11px] font-bold uppercase tracking-[0.18em] transition-colors sm:px-4 ${
+                className={`inline-flex flex-1 items-center justify-center px-3.5 py-2.5 text-[11px] font-bold uppercase tracking-[0.18em] transition-colors sm:flex-none sm:px-4 ${
                     isDeepDive
                         ? 'bg-gold-primary text-white dark:bg-gold-light dark:text-[#1C2B36]'
-                        : 'bg-white/80 text-text-secondary hover:text-gold-primary dark:bg-dark-bg/40 dark:text-dark-text-secondary dark:hover:text-gold-light'
+                        : 'bg-transparent text-text-secondary hover:text-gold-primary dark:text-dark-text-secondary dark:hover:text-gold-light'
                 }`}
             >
                 Text
@@ -65,17 +65,17 @@ const Header = ({
     );
 
     return (
-        <header className={`sticky top-0 z-50 w-full border-b border-gold-primary/10 bg-white/72 shadow-[0_10px_35px_-24px_rgba(0,0,0,0.45)] backdrop-blur-2xl transition-colors duration-500 dark:border-dark-border/60 dark:bg-[#070707]/72 ${className}`}>
-            <div className="mx-auto w-full max-w-7xl px-4 py-3 lg:px-6">
-                <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+        <header className={`sticky top-0 z-50 w-full border-b border-gold-primary/10 bg-white/76 shadow-[0_10px_35px_-24px_rgba(0,0,0,0.45)] backdrop-blur-2xl transition-colors duration-500 dark:border-dark-border/60 dark:bg-[#070707]/76 ${className}`}>
+            <div className="mx-auto w-full max-w-7xl px-3 py-2.5 sm:px-4 lg:px-6 lg:py-3">
+                <div className="flex flex-col gap-2.5 lg:flex-row lg:items-center lg:justify-between">
                     <div className="flex items-center justify-between gap-3 lg:min-w-0">
                         {brand}
                     </div>
 
-                    <div className="w-full lg:w-auto">
-                        <div className="overflow-hidden rounded-[28px] border border-gold-primary/12 bg-white/90 shadow-[0_20px_60px_-36px_rgba(78,56,22,0.42)] backdrop-blur-xl dark:border-dark-border/70 dark:bg-dark-surface/88">
-                            <div className="flex min-w-0 items-stretch">
-                                <div className="min-w-0 flex-1">
+                    <div className="w-full lg:min-w-0 lg:w-auto">
+                        <div className="overflow-hidden rounded-[26px] border border-gold-primary/12 bg-white/90 shadow-[0_20px_60px_-36px_rgba(78,56,22,0.42)] backdrop-blur-xl dark:border-dark-border/70 dark:bg-dark-surface/88">
+                            <div className="flex min-w-0 flex-col sm:flex-row sm:items-stretch">
+                                <div className="min-w-0 flex-1 border-b border-gold-primary/10 sm:border-b-0 sm:border-r dark:border-dark-border/70">
                                     <ChapterVerseSelector />
                                 </div>
                                 {modeToggle}

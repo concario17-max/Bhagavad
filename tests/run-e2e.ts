@@ -77,6 +77,16 @@ const goto = async (page: Page, url: string): Promise<void> => {
     await page.goto(url, { waitUntil: 'networkidle' });
 };
 
+const assertVerseControls = async (page: Page): Promise<void> => {
+    const chapterSelect = page.locator('select[aria-label="Select chapter"]');
+    const verseSelect = page.locator('select[aria-label="Select verse"]');
+
+    await chapterSelect.waitFor({ state: 'visible' });
+    await verseSelect.waitFor({ state: 'visible' });
+    await assert.equal(await chapterSelect.inputValue(), '1');
+    await assert.equal(await verseSelect.inputValue(), '1');
+};
+
 const runE2EChecks = async (): Promise<void> => {
     const server = await startStaticServer();
     const browser = await launchBrowser();
@@ -86,47 +96,26 @@ const runE2EChecks = async (): Promise<void> => {
         await goto(rootPage, `${server.baseUrl}/`);
         await rootPage.waitForURL(/\/#\/chapter\/1\/verse\/1$/);
         assert.match(rootPage.url(), /\/#\/chapter\/1\/verse\/1$/);
-        await rootPage.waitForSelector('text=Chapter 1, Verse 1');
-        await rootPage.waitForSelector('text=Primary Verse');
+        await assertVerseControls(rootPage);
         await rootPage.waitForSelector('text=Commentary');
         await rootPage.close();
 
         const desktopPage = await browser.newPage({ viewport: { width: 1600, height: 960 } });
         await goto(desktopPage, `${server.baseUrl}/#/chapter/1/verse/1`);
-        await desktopPage.waitForSelector('text=Chapter 1, Verse 1');
-        await desktopPage.waitForSelector('text=Primary Verse');
+        await assertVerseControls(desktopPage);
         await desktopPage.waitForSelector('text=Commentary');
-
-        const desktopToggle = desktopPage.locator('button[aria-pressed]');
-        await desktopToggle.waitFor({ state: 'visible' });
-        await assert.equal(await desktopToggle.isEnabled(), true);
-        const desktopInitialPressed = await desktopToggle.getAttribute('aria-pressed');
-        const desktopInitialLabel = (await desktopToggle.textContent())?.trim();
-        assert.equal(desktopInitialPressed, 'true');
-        assert.match(desktopInitialLabel ?? '', /Comic/);
-        await desktopToggle.click();
-        await desktopPage.waitForFunction(() => {
-            const button = document.querySelector<HTMLButtonElement>('button[aria-pressed]');
-            return button?.getAttribute('aria-pressed') === 'false' && (button.textContent ?? '').includes('Commentary');
-        });
-        assert.equal(await desktopToggle.getAttribute('aria-pressed'), 'false');
-        assert.match((await desktopToggle.textContent())?.trim() ?? '', /Commentary/);
+        await desktopPage.getByTitle('Switch to text').click();
+        await desktopPage.waitForSelector('text=Primary Verse');
         await desktopPage.close();
 
         const mobilePage = await browser.newPage({ viewport: { width: 390, height: 844 } });
         await goto(mobilePage, `${server.baseUrl}/#/chapter/1/verse/1`);
-        await mobilePage.waitForSelector('text=Chapter 1, Verse 1');
-        await mobilePage.waitForSelector('text=Primary Verse');
+        await assertVerseControls(mobilePage);
         await mobilePage.waitForSelector('text=Commentary');
 
-        const mobileToggle = mobilePage.locator('button[aria-pressed]');
-        if (await mobileToggle.count()) {
-            await mobileToggle.waitFor({ state: 'visible' });
-            await assert.equal(await mobileToggle.isEnabled(), true);
-        } else {
-            await mobilePage.waitForSelector('img[alt="1.1 comic page"]');
-            await assert.equal(await mobilePage.locator('img[alt="1.1 comic page"]').isVisible(), true);
-        }
+        const mobileToggle = mobilePage.getByTitle('Switch to text');
+        await mobileToggle.waitFor({ state: 'visible' });
+        await assert.equal(await mobileToggle.isEnabled(), true);
         await mobilePage.close();
     } finally {
         await browser.close();
