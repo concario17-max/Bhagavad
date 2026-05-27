@@ -75,6 +75,20 @@ summary: build rerun succeeded with `npm.cmd run build`
 details: The project built successfully after bypassing the PowerShell wrapper.
 status: resolved
 
+## 2026-05-27
+- time: 2026-05-27 11:33 KST
+- location: verification -> `npm run build`
+- summary: PowerShell execution policy blocked the initial build command
+- details: `npm run build` failed before Vite started because `npm.ps1` is blocked by the local PowerShell execution policy. The build will be rerun with `npm.cmd`.
+- status: open
+
+## 2026-05-27
+- time: 2026-05-27 11:36 KST
+- location: verification -> `cmd /c npm run build`
+- summary: build verification succeeded after PowerShell fallback
+- details: The production build completed successfully when rerun through `cmd /c npm run build`.
+- status: resolved
+
 time: 2026-05-21 16:28 KST
 location: verification -> `npm run build`
 summary: PowerShell execution policy blocked the initial build command for this toggle refactor
@@ -106,4 +120,17 @@ status: resolved
 - location: `npm.cmd run build`
 - summary: Build verification succeeded after PowerShell fallback
 - details: The Vite production build completed successfully when rerun through `npm.cmd`, confirming the new comic assets are included in the bundle.
+- status: resolved
+
+## 2026-05-27
+- time: 2026-05-27 11:40 KST
+- location: verification -> `npm run build`
+- summary: PowerShell execution policy blocked the initial build command
+- details: `npm run build` failed before Vite started because `npm.ps1` is blocked by the local PowerShell execution policy. The build will be rerun with `cmd /c npm run build`.
+- status: open
+
+- time: 2026-05-27 11:40 KST
+- location: verification -> `cmd /c npm run build`
+- summary: build verification succeeded after PowerShell fallback
+- details: The production build completed successfully when rerun through `cmd /c npm run build`.
 - status: resolved

@@ -1,24 +1,36 @@
 Current Task
-- task: rollback main branch to bb5664f
+- task: centered single-panel verse screen with header controls and mode swapping
 - phase: complete
-- scope: revert the yoga layout and ui commit, restoring the repository to the state at bb5664f while leaving unrelated untracked files untouched
+- scope: remove the right-side panel and bottom navigation strip, keep previous/next controls in the center header, and swap the center body between summary / translation / keywords
 
 Route
-- route: Route A
-- reason: this is a single-commit rollback to a known-good checkpoint, so one direct write lane was sufficient
+- route: Route B
+- reason: the change touches shared shell, verse view, and commentary behavior across multiple files, so it needed coordinated implementation and verification
 
 Writer Slot
 - main: active
 - writer: `main` planner
 
 Contract Freeze
-- freeze: revert commit `8c2210c` and restore tracked files to the `bb5664f` snapshot; leave unrelated untracked files untouched
+- freeze: keep the existing comic asset integration and any source data untouched while reshaping only the verse UI and related controls
 - write_sets:
-  - main: revert commit `8c2210c`
+  - worker_shared: `src/components/ui/AppShell.tsx`
+  - worker_shared: `src/components/ui/SidebarLayout.tsx`
+  - worker_shared: `src/components/ui/SidebarMenu.tsx`
+  - worker_shared: `src/components/ui/GlassCard.tsx`
+  - worker_shared: `src/components/ui/desktopVerseLayout.ts`
+  - worker_shared: `src/components/Header.tsx`
+  - worker_shared: `src/components/ChapterVerseSelector.tsx`
+  - worker_shared: `src/context/UIContext.tsx`
+  - worker_shared: `src/index.css`
+  - worker_feature: `src/pages/VerseView.tsx`
+  - worker_feature: `src/components/VerseCommentary.tsx`
+  - worker_feature: `src/components/VerseSidePanel.tsx`
+  - worker_feature: `src/App.tsx`
 
 Reviewer
-- reviewer: none
+- reviewer: main-review
 
 Last Update
-- time: 2026-05-27 10:58 KST
-- note: rollback completed in commit `3cdc2af`
+- time: 2026-05-27 11:02 KST
+- note: centered verse panel and header control flow are implemented and verified with build and test:compile
