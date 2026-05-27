@@ -69,7 +69,7 @@ const VerseView = () => {
 
     if (status !== 'ready' || !allChapters || !currentChapter || !verseData) {
         return (
-            <ContentReader maxWidth="max-w-[1120px]">
+            <ContentReader maxWidth="max-w-[52rem]">
                 <VerseMessageState
                     title={status === 'error' ? 'Reader Unavailable' : 'Verse Not Found'}
                     description={errorMessage ?? 'The requested verse could not be prepared for reading.'}
@@ -87,36 +87,34 @@ const VerseView = () => {
     const isCommentaryMode = rightPanelMode === 'commentary';
 
     return (
-        <div className="mx-auto h-full min-h-0 w-full max-w-[1840px] px-3 py-6 sm:px-5 lg:px-6 lg:py-4 lg:overflow-hidden">
-            <div className="flex min-h-0 w-full flex-col gap-8 lg:grid lg:h-full lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:gap-6">
-                <div className="min-w-0 lg:min-h-0 lg:overflow-y-auto lg:pr-2">
-                    <VerseTranslationsSection sections={leftTranslationSections} />
-                </div>
+        <div className="mx-auto flex h-full min-h-0 w-full max-w-[52rem] flex-col gap-6 px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-8">
+            <div className="w-full min-w-0">
+                <VerseTranslationsSection sections={leftTranslationSections} />
+            </div>
 
-                <div className="min-w-0 lg:min-h-0 lg:overflow-y-auto lg:pl-2">
-                    {isCommentaryMode ? (
-                        <VerseCommentary />
-                    ) : (
-                        <VerseDeepDivePanel
-                            audioSrc={audioSrc}
-                            canGoNext={nextVersePath !== null}
-                            canGoPrevious={previousVersePath !== null}
-                            onNext={() => {
-                                if (nextVersePath) {
-                                    navigate(nextVersePath);
-                                }
-                            }}
-                            onPrevious={() => {
-                                if (previousVersePath) {
-                                    navigate(previousVersePath);
-                                }
-                            }}
-                            translationSections={deepDiveTranslationSections}
-                            verse={verseData}
-                            verseLabel={`${currentChapterNumber}.${verseRange}`}
-                        />
-                    )}
-                </div>
+            <div className="w-full min-w-0">
+                {isCommentaryMode ? (
+                    <VerseCommentary />
+                ) : (
+                    <VerseDeepDivePanel
+                        audioSrc={audioSrc}
+                        canGoNext={nextVersePath !== null}
+                        canGoPrevious={previousVersePath !== null}
+                        onNext={() => {
+                            if (nextVersePath) {
+                                navigate(nextVersePath);
+                            }
+                        }}
+                        onPrevious={() => {
+                            if (previousVersePath) {
+                                navigate(previousVersePath);
+                            }
+                        }}
+                        translationSections={deepDiveTranslationSections}
+                        verse={verseData}
+                        verseLabel={`${currentChapterNumber}.${verseRange}`}
+                    />
+                )}
             </div>
         </div>
     );

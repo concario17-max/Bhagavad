@@ -107,3 +107,18 @@ status: resolved
 - summary: Build verification succeeded after PowerShell fallback
 - details: The Vite production build completed successfully when rerun through `npm.cmd`, confirming the new comic assets are included in the bundle.
 - status: resolved
+time: 2026-05-27 12:20 KST
+location: apply_patch
+summary: initial layout patch failed on an incorrect component path
+details: attempted to update src/components/verse/VerseCommentary.tsx, but the file lives at src/components/VerseCommentary.tsx; no code changes were applied in that attempt
+status: open
+time: 2026-05-27 12:25 KST
+location: apply_patch
+summary: incorrect path issue resolved
+details: retried the patch against the correct component path and completed the layout edits successfully
+status: resolved
+time: 2026-05-27 12:24 KST
+location: npm run build
+summary: PowerShell execution policy blocked npm.ps1
+details: running the build via npm in PowerShell failed before compilation because script execution is disabled; will retry through npm.cmd
+status: resolved

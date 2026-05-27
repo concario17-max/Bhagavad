@@ -95,7 +95,7 @@ const VerseCommentary = () => {
     const shouldShowInlineHeading = !isHiddenInlineHeadingVerse && parsedCommentary?.inlineHeading !== null;
 
     return (
-        <section className="rounded-[34px] border border-gold-primary/15 bg-white/72 p-4 shadow-[0_22px_80px_-48px_rgba(78,56,22,0.52)] backdrop-blur-xl dark:border-dark-border/70 dark:bg-dark-surface/72 sm:p-6">
+        <section className="w-full rounded-[34px] border border-gold-primary/15 bg-white/72 p-4 shadow-[0_22px_80px_-48px_rgba(78,56,22,0.52)] backdrop-blur-xl dark:border-dark-border/70 dark:bg-dark-surface/72 sm:p-6">
             <div className="mb-5 border-b border-gold-border/30 pb-3">
                 <div className="flex items-center justify-between gap-3">
                     <div className="flex items-center gap-2">
@@ -137,7 +137,7 @@ const VerseCommentary = () => {
                     {errorMessage ?? 'Commentary is unavailable because the verse data could not be loaded.'}
                 </div>
             ) : shouldShowComic && comicImageSrc ? (
-                <div className="overflow-hidden rounded-2xl border border-gold-primary/10 bg-white/70 dark:border-dark-border/50 dark:bg-dark-bg/30">
+                <div className="w-full overflow-hidden rounded-2xl border border-gold-primary/10 bg-white/70 dark:border-dark-border/50 dark:bg-dark-bg/30">
                     <img
                         src={comicImageSrc}
                         alt={`${chapterNum}.${verseRange} comic page`}
@@ -146,7 +146,7 @@ const VerseCommentary = () => {
                     />
                 </div>
             ) : hasDisplayableCommentary && parsedCommentary ? (
-                <div className="space-y-4 text-[14px] leading-relaxed text-text-primary dark:text-dark-text-primary">
+                <div className="w-full space-y-4 text-[14px] leading-relaxed text-text-primary dark:text-dark-text-primary">
                     {parsedCommentary.blocks.map((block, index) =>
                         block.type === 'paragraph' ? (
                             <p key={`paragraph-${index}`}>{block.text}</p>
@@ -155,13 +155,13 @@ const VerseCommentary = () => {
                                 {block.text}
                             </h3>
                         ) : block.type === 'ordered_list' ? (
-                            <ol key={`ordered-${index}`} className="list-decimal space-y-2 pl-5">
+                            <ol key={`ordered-${index}`} className="w-full list-decimal space-y-2 pl-5">
                                 {block.items.map((item, itemIndex) => (
                                     <li key={`ordered-item-${index}-${itemIndex}`}>{item}</li>
                                 ))}
                             </ol>
                         ) : block.type === 'bullet_list' ? (
-                            <ul key={`bullet-${index}`} className="space-y-2">
+                            <ul key={`bullet-${index}`} className="w-full space-y-2">
                                 {block.items.map((item, itemIndex) => (
                                     <li key={`bullet-item-${index}-${itemIndex}`} className="flex gap-2">
                                         <span className="shrink-0 text-gold-primary dark:text-gold-light">·</span>
@@ -170,7 +170,7 @@ const VerseCommentary = () => {
                                 ))}
                             </ul>
                         ) : (
-                            <div key={`table-${index}`} className="overflow-x-auto rounded-xl border border-gold-primary/10">
+                            <div key={`table-${index}`} className="w-full overflow-x-auto rounded-xl border border-gold-primary/10">
                                 <table className="min-w-full border-collapse text-left text-[13px]">
                                     <tbody>
                                         {block.rows.map((row, rowIndex) => (

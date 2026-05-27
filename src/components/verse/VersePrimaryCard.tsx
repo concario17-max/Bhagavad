@@ -7,7 +7,7 @@ interface VersePrimaryCardProps {
 
 const VersePrimaryCard = ({ verse }: VersePrimaryCardProps) => {
     return (
-        <section className="mb-6 overflow-hidden rounded-[34px] border border-gold-primary/15 bg-white/72 px-4 py-4 shadow-[0_22px_80px_-48px_rgba(78,56,22,0.52)] backdrop-blur-xl dark:border-dark-border/70 dark:bg-dark-surface/72 sm:px-6 sm:py-5">
+        <section className="w-full overflow-hidden rounded-[34px] border border-gold-primary/15 bg-white/72 px-4 py-4 shadow-[0_22px_80px_-48px_rgba(78,56,22,0.52)] backdrop-blur-xl dark:border-dark-border/70 dark:bg-dark-surface/72 sm:px-6 sm:py-5">
             <div className="w-full">
                 <div className="mb-3 flex justify-center">
                     <span className="rounded-full border border-gold-primary/15 bg-gold-surface/80 px-4 py-1.5 text-[10px] font-inter uppercase tracking-[0.32em] text-gold-muted dark:border-dark-border/70 dark:bg-dark-bg/70 dark:text-gold-light/80">

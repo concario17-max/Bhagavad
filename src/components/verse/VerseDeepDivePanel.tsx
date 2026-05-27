@@ -28,7 +28,7 @@ const VerseDeepDivePanel = ({
     verseLabel
 }: VerseDeepDivePanelProps) => {
     return (
-        <section className="rounded-[34px] border border-gold-primary/15 bg-white/72 p-4 shadow-[0_22px_80px_-48px_rgba(78,56,22,0.52)] backdrop-blur-xl dark:border-dark-border/70 dark:bg-dark-surface/72 sm:p-6">
+        <section className="w-full rounded-[34px] border border-gold-primary/15 bg-white/72 p-4 shadow-[0_22px_80px_-48px_rgba(78,56,22,0.52)] backdrop-blur-xl dark:border-dark-border/70 dark:bg-dark-surface/72 sm:p-6">
             <div className="mb-5 border-b border-gold-border/30 pb-3">
                 <div className="flex items-center gap-2">
                     <BookOpenText className="h-5 w-5 text-[#A68B5C] dark:text-gold-light" />
@@ -39,7 +39,7 @@ const VerseDeepDivePanel = ({
                 </p>
             </div>
 
-            <div className="space-y-0">
+            <div className="space-y-6">
                 <VersePrimaryCard verse={verse} />
                 <VerseTranslationsSection sections={translationSections} title="Deep Dive Translation" />
                 <VerseAudioPlayer audioSrc={audioSrc} />

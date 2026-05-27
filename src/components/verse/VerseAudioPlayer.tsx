@@ -52,7 +52,7 @@ const VerseAudioPlayer = ({ audioSrc }: VerseAudioPlayerProps) => {
     const progressPercent = duration ? (currentTime / duration) * 100 : 0;
 
     return (
-        <div className="mb-14 flex justify-center">
+        <div className="flex justify-center">
             <audio
                 ref={audioRef}
                 src={audioSrc}
