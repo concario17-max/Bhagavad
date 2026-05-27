@@ -1,24 +1,28 @@
 Current Task
-- task: rollback main branch to 4e55060
-- phase: complete
-- scope: revert the centered verse commentary controls commit and restore the repository to the state at 4e55060 while leaving unrelated untracked files untouched
+- task: remove unused chapter list and related modal screens
+- phase: implementation
+- scope: delete the dead ChapterList page and its compendium/lexicon modal helpers that are no longer wired into the app
 
 Route
 - route: Route A
-- reason: this is a single-commit rollback to a known-good checkpoint, so one direct write lane was sufficient
+- reason: this is a small dead-code cleanup that only removes unused UI files, so one direct write lane is enough
 
 Writer Slot
 - main: active
 - writer: `main` planner
 
 Contract Freeze
-- freeze: revert commit `33c4953` and restore tracked files to the `4e55060` snapshot; leave unrelated untracked files untouched
+- freeze: remove the unused chapter list page and its modal helpers without changing routed verse behavior or comic assets
 - write_sets:
-  - main: revert commit `33c4953`
+  - main: delete `src/pages/ChapterList.tsx`
+  - main: delete `src/components/CompendiumModal.tsx`
+  - main: delete `src/components/LexiconModal.tsx`
+  - main: delete `src/components/LexiconAlphabet.tsx`
+  - main: delete `src/components/LexiconItem.tsx`
 
 Reviewer
 - reviewer: none
 
 Last Update
-- time: 2026-05-27 12:01 KST
-- note: rollback completed in commit `3ef1636`
+- time: 2026-05-27 12:05 KST
+- note: user asked to remove the unused chapter list entry point and its related modal helpers
