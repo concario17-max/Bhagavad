@@ -13,9 +13,8 @@ export interface SidebarLayoutProps {
 }
 
 /**
- * Shared drawer / sidebar layout.
- * - Mobile uses an overlay drawer.
- * - Desktop uses a sticky panel.
+ * 범용 Drawer / Sidebar 레이아웃 (Zero Monolith)
+ * - 배경 블러 효과 및 좌/우측 오버레이 트랜지션 로직 캡슐화
  */
 export const SidebarLayout = React.memo(({
     isOpen,
@@ -28,15 +27,21 @@ export const SidebarLayout = React.memo(({
     desktopWidthClass = 'lg:w-80'
 }: SidebarLayoutProps) => {
     const isLeft = position === 'left';
-    const placementClass = isLeft ? 'left-0' : 'right-0';
+    const mobileTranslateClosed = isLeft ? '-translate-x-full' : 'translate-x-full';
     const borderClass = isLeft ? 'border-r' : 'border-l';
-    const closedTranslateClass = isLeft ? '-translate-x-full' : 'translate-x-full';
+    const placementClass = isLeft ? 'left-0' : 'right-0';
+    const mobileStateClass = isOpen
+        ? `${widthClass} translate-x-0 overflow-hidden shadow-2xl lg:shadow-none`
+        : `w-[90vw] ${mobileTranslateClosed}`;
+    const desktopStateClass = isDesktopOpen
+        ? `${desktopWidthClass} lg:translate-x-0 lg:opacity-100`
+        : 'overflow-hidden p-0 px-0 lg:w-0 lg:border-none lg:translate-x-0 lg:opacity-0';
 
     return (
         <>
             {isOpen && (
                 <div
-                    className="fixed inset-0 z-40 bg-black/42 backdrop-blur-sm lg:hidden"
+                    className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm lg:hidden transition-opacity duration-300 opacity-100 touch-none"
                     onClick={onClose}
                 />
             )}
@@ -46,40 +51,36 @@ export const SidebarLayout = React.memo(({
                 data-panel-position={position}
                 data-desktop-open={isDesktopOpen ? 'true' : 'false'}
                 data-mobile-open={isOpen ? 'true' : 'false'}
-                className={[
-                    'fixed inset-y-0 z-50 flex h-[100dvh] flex-col overflow-hidden border-gold-primary/12 bg-white/70 backdrop-blur-2xl transition-all duration-300 dark:border-dark-border/70 dark:bg-[#101010]/86',
-                    borderClass,
-                    placementClass,
-                    isOpen ? `${widthClass} translate-x-0 shadow-[0_24px_80px_-40px_rgba(0,0,0,0.45)] lg:shadow-none` : `w-[90vw] ${closedTranslateClass}`,
-                    isDesktopOpen ? `${desktopWidthClass} lg:translate-x-0 lg:opacity-100` : 'lg:w-0 lg:translate-x-0 lg:opacity-0 lg:border-none',
-                    'lg:sticky lg:top-[calc(var(--header-height,72px))] lg:h-[calc(100dvh-var(--header-height,72px))]'
-                ].join(' ')}
+                className={`fixed inset-y-0 ${placementClass} z-50 bg-white/46 dark:bg-[#101010]/82 backdrop-blur-xl ${borderClass} border-gold-primary/14 dark:border-dark-border/70 h-[100dvh] lg:h-[calc(100vh-72px)] lg:sticky lg:top-[72px] transform transition-all duration-300 flex flex-col font-inter overscroll-contain
+                ${mobileStateClass}
+                ${desktopStateClass}
+            `}
             >
                 {title && (
-                    <div className="flex shrink-0 items-center justify-between border-b border-gold-border/30 px-4 py-4 dark:border-dark-border/50 lg:hidden">
-                        <span className="w-full font-crimson text-lg font-bold text-text-primary dark:text-dark-text-primary">
-                            {title}
-                        </span>
+                    <div className="lg:hidden flex items-center justify-between p-4 border-b border-gold-border/30 dark:border-[#333] shrink-0">
+                        <span className="font-crimson font-bold text-lg text-text-primary dark:text-dark-text-primary w-full">{title}</span>
                         <button
                             type="button"
                             onClick={onClose}
                             aria-label={`Close ${title}`}
-                            className="rounded-full p-2 text-text-secondary transition-colors hover:bg-gold-surface hover:text-gold-primary dark:text-dark-text-secondary dark:hover:bg-dark-surface dark:hover:text-gold-light"
+                            className="p-2 -mr-2 rounded-full hover:bg-gold-surface dark:hover:bg-dark-surface text-text-secondary dark:text-dark-text-secondary transition-colors absolute right-4"
                         >
-                            <X className="h-5 w-5" />
+                            <X className="w-5 h-5" />
                         </button>
                     </div>
                 )}
 
                 {!title && (
-                    <button
-                        type="button"
-                        onClick={onClose}
-                        aria-label="Close panel"
-                        className="absolute right-4 top-4 rounded-full p-2 text-text-secondary transition-colors hover:bg-gold-surface hover:text-gold-primary dark:text-dark-text-secondary dark:hover:bg-dark-surface dark:hover:text-gold-light lg:hidden"
-                    >
-                        <X className="h-5 w-5" />
-                    </button>
+                    <div className="lg:hidden absolute top-4 right-4 z-50">
+                        <button
+                            type="button"
+                            onClick={onClose}
+                            aria-label="Close panel"
+                            className="p-2 rounded-full hover:bg-gold-surface dark:hover:bg-dark-surface text-text-secondary dark:text-dark-text-secondary transition-colors"
+                        >
+                            <X className="w-5 h-5" />
+                        </button>
+                    </div>
                 )}
 
                 {children}

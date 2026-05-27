@@ -9,11 +9,8 @@ const getStorage = (): Storage | null => {
 };
 
 export const STORAGE_KEYS = {
-    theme: 'gita-theme',
     desktopSidebar: 'gita-desktop-sidebar',
     desktopCommentary: 'gita-desktop-commentary',
-    mobileSidebar: 'gita-mobile-sidebar',
-    mobileCommentary: 'gita-mobile-commentary',
     showLexicon: 'gita-show-lexicon'
 } as const;
 
