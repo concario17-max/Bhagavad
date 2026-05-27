@@ -1,26 +1,24 @@
 Current Task
-- task: redesign the verse header controls to match the requested button-based layout
+- task: align the verse header width with the centered 52rem canvas
 - phase: implementation
-- scope: keep the existing data flow and navigation behavior, but restyle the header controls into the compact button/chip layout shown in the mockups
+- scope: keep the existing header controls and behavior, but constrain the header content wrapper to the same 52rem centered width as the verse canvas
 
 Route
-- route: Route B
-- reason: the change touches the sticky header and selector controls across multiple files, so it needs coordinated implementation and verification
+- route: Route A
+- reason: this is a single-file width alignment change in the header wrapper, with no behavior or data-flow impact
 
 Writer Slot
 - main: active
 - writer: `main` planner
 
 Contract Freeze
-- freeze: keep the existing data flow, navigation behavior, and commentary/deep-dive logic intact while adjusting only the header presentation and control grouping
+- freeze: keep the existing header controls and behavior intact while aligning the header wrapper width to the verse canvas
 - write_sets:
-  - worker_shared: `src/components/Header.tsx`
-  - worker_shared: `src/components/ChapterVerseSelector.tsx`
-  - worker_shared: `src/index.css`
+  - main: `src/components/Header.tsx`
 
 Reviewer
-- reviewer: Arendt
+- reviewer: pending
 
 Last Update
-- time: 2026-05-27 13:42 KST
-- note: compact header chips implemented; chapter change now routes immediately, and build plus e2e passed
+- time: 2026-05-27 13:48 KST
+- note: user asked to align the header width with the centered 52rem canvas
