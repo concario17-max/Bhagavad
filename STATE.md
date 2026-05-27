@@ -1,25 +1,24 @@
 Current Task
-- task: sync comics folders 16 through 17 into the repository
-- phase: implementation
-- scope: add the new `comics/16` and `comics/17` image assets so the existing comic glob picks them up without code changes
+- task: rollback main branch to bb5664f
+- phase: complete
+- scope: revert the yoga layout and ui commit, restoring the repository to the state at bb5664f while leaving unrelated untracked files untouched
 
 Route
-- route: Route B
-- reason: the change spans shared asset directories with multiple new files, so it needs coordinated verification and repo publication
+- route: Route A
+- reason: this is a single-commit rollback to a known-good checkpoint, so one direct write lane was sufficient
 
 Writer Slot
 - main: active
 - writer: `main` planner
 
 Contract Freeze
-- freeze: keep the current `import.meta.glob('../../comics/*/*.png')` integration unchanged and only add the new chapter asset folders to the tracked repository state
+- freeze: revert commit `8c2210c` and restore tracked files to the `bb5664f` snapshot; leave unrelated untracked files untouched
 - write_sets:
-  - worker_shared: `comics/16`
-  - worker_shared: `comics/17`
+  - main: revert commit `8c2210c`
 
 Reviewer
-- reviewer: reviewer-pending
+- reviewer: none
 
 Last Update
-- time: 2026-05-23 12:30 KST
-- note: comics 16 through 17 asset sync is the active task; existing glob already covers the integration path and prior build verification remains valid
+- time: 2026-05-27 10:58 KST
+- note: rollback completed in commit `3cdc2af`
