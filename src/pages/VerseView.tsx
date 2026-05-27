@@ -69,7 +69,7 @@ const VerseView = () => {
 
     if (status !== 'ready' || !allChapters || !currentChapter || !verseData) {
         return (
-            <ContentReader maxWidth="max-w-[52rem]">
+            <ContentReader maxWidth="max-w-[1406px]">
                 <VerseMessageState
                     title={status === 'error' ? 'Reader Unavailable' : 'Verse Not Found'}
                     description={errorMessage ?? 'The requested verse could not be prepared for reading.'}
@@ -87,7 +87,7 @@ const VerseView = () => {
     const isCommentaryMode = rightPanelMode === 'commentary';
 
     return (
-        <div className="mx-auto flex h-full min-h-0 w-full max-w-[52rem] flex-col gap-6 px-4 py-6 sm:px-6 sm:py-8 lg:grid lg:grid-cols-[minmax(0,0.94fr)_minmax(0,1.06fr)] lg:gap-6 lg:px-8 lg:py-8">
+        <div className="mx-auto flex h-full min-h-0 w-full max-w-[1406px] flex-col gap-6 px-4 py-6 sm:px-6 sm:py-8 lg:grid lg:grid-cols-[440px_966px] lg:gap-0 lg:px-0 lg:py-8">
             <div className="w-full min-w-0">
                 <VerseTranslationsSection sections={leftTranslationSections} />
             </div>

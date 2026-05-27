@@ -66,7 +66,7 @@ const Header = ({
 
     return (
         <header className={`sticky top-0 z-50 w-full border-b border-gold-primary/10 bg-white/76 shadow-[0_10px_35px_-24px_rgba(0,0,0,0.45)] backdrop-blur-2xl transition-colors duration-500 dark:border-dark-border/60 dark:bg-[#070707]/76 ${className}`}>
-            <div className="mx-auto w-full max-w-[52rem] px-4 py-2.5 sm:px-6 sm:py-3 lg:px-8">
+            <div className="mx-auto w-full max-w-[1406px] px-4 py-2.5 sm:px-6 sm:py-3 lg:px-0">
                 <div className="flex flex-col gap-2.5 lg:flex-row lg:items-center lg:justify-between">
                     <div className="flex items-center justify-between gap-3 lg:min-w-0">
                         {brand}

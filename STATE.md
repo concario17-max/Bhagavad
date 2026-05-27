@@ -1,24 +1,25 @@
 Current Task
-- task: align the verse header width with the centered 52rem canvas
+- task: align the desktop verse layout to a centered 1406px grid
 - phase: implementation
-- scope: keep the existing header controls and behavior, but constrain the header content wrapper to the same 52rem centered width as the verse canvas
+- scope: keep the sticky header and existing interactions intact, but set the desktop composition to a centered 440px / 966px grid with mobile remaining one column
 
 Route
-- route: Route A
-- reason: this is a single-file width alignment change in the header wrapper, with no behavior or data-flow impact
+- route: Route B
+- reason: the change touches the header and verse layout wrappers together, so it needs coordinated implementation and verification
 
 Writer Slot
 - main: active
 - writer: `main` planner
 
 Contract Freeze
-- freeze: keep the existing header controls and behavior intact while aligning the header wrapper width to the verse canvas
+- freeze: keep the existing header controls, data flow, toggle state, and date navigation intact while changing only the desktop layout widths and grid columns
 - write_sets:
-  - main: `src/components/Header.tsx`
+  - worker_shared: `src/components/Header.tsx`
+  - worker_shared: `src/pages/VerseView.tsx`
 
 Reviewer
-- reviewer: pending
+- reviewer: Dirac
 
 Last Update
-- time: 2026-05-27 13:48 KST
-- note: user asked to align the header width with the centered 52rem canvas
+- time: 2026-05-27 14:43 KST
+- note: desktop wrapper now uses a centered 1406px composition with a fixed 440px / 966px grid; build and e2e passed

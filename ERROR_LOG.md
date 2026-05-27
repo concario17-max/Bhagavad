@@ -152,3 +152,15 @@ status: resolved
 - summary: e2e smoke failed waiting for the chapter/verse breadcrumb
 - details: the run timed out on `text=Chapter 1, Verse 1`, which is no longer rendered by the current verse route shell; the header redesign removed the visible route label that the smoke test still expects.
 - status: open
+## 2026-05-27
+- time: 2026-05-27 14:36 KST
+- location: verification -> `npm run build`
+- summary: PowerShell execution policy blocked the initial build command
+- details: `npm run build` failed before compilation because `npm.ps1` is blocked by the local execution policy; reran successfully with `npm.cmd run build`.
+- status: resolved
+## 2026-05-27
+- time: 2026-05-27 14:43 KST
+- location: verification -> `npm.cmd run test:e2e`
+- summary: stale e2e expectations were updated for the new centered desktop layout
+- details: the earlier smoke failure on the old chapter/verse breadcrumb was cleared once the checks were updated to match the current header and 1406px layout; the suite now passes.
+- status: resolved
